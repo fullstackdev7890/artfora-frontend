@@ -1,6 +1,6 @@
 <template>
   <main class="home-page">
-    <main-container style="height: 9999px;">
+    <main-container>
       <div>
         <h2 style="text-align: center;">Page under construction!</h2>
       </div>

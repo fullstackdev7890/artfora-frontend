@@ -1,9 +1,11 @@
 <template>
   <div class="search-bar">
     <div class="icon-button">
-      <img class="search-icon" src="../../assets/images/search.png">
+      <search-icon class="search-icon" />
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import SearchIcon from '~/assets/svg/search.svg'
+</script>
