@@ -1,6 +1,8 @@
 <template>
-  <div class="container header-side-block">
-    searchbar
+  <div class="search-bar">
+    <div class="icon-button">
+      <img class="search-icon" src="../../assets/images/search.png">
+    </div>
   </div>
 </template>
 

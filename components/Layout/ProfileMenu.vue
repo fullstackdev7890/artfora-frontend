@@ -1,7 +1,7 @@
 <template>
-  <div class="nav-wrap header-side-block">
-    <div class="container">
-      dropdown menu
+  <div class="profile-menu">
+    <div class="icon-button">
+      <img src="../../assets/images/logo.jpg">
     </div>
   </div>
 </template>

@@ -3,13 +3,17 @@
     class="header"
     :class="{ 'header-hide': hideHeader }"
   >
-    <search-bar />
+    <div class="header-top">
+      <search-bar />
 
-    <div class="container header-title">
-      <h1>ARTfora</h1>
+      <div class="container header-title">
+        <h1>ARTfora</h1>
+      </div>
+
+      <profile-menu />
     </div>
 
-    <profile-menu />
+    <div class="header-bottom-divider"></div>
   </header>
 </template>
 
