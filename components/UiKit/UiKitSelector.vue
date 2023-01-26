@@ -1,0 +1,78 @@
+<template>
+  <div>
+    <div
+      :class="{
+        'ui-kit-selector-active': isExpanded,
+        'ui-kit-selector-sorting-mode': sortingMode
+      }"
+      @click="isExpanded = !isExpanded"
+      class="ui-kit-selector"
+    >
+      <label
+        :class="{ 'ui-kit-selector-title-filled': !!modelValue }"
+        class="ui-kit-selector-title"
+      >
+        {{ title }}
+      </label>
+
+      <label v-if="selectedValue" class="ui-kit-selector-value">
+        {{ selectedValue }}
+      </label>
+
+      <arrow-up-icon v-if="isExpanded" class="ui-kit-selector-arrow" />
+      <arrow-down-icon v-else class="ui-kit-selector-arrow" />
+
+      <ul
+        v-if="isExpanded"
+        class="ui-kit-selector-dropdown"
+      >
+        <li
+          v-for="option in options"
+          :key="option.key"
+          @click="onClick(option)"
+          class="ui-kit-selector-dropdown-item text text-middle"
+        >
+          {{ option.title }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref } from '@vue/reactivity'
+import { defineProps, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
+import { OptionItem } from '~/types/uiKit'
+import ArrowUpIcon from '~/assets/svg/arrow-up.svg'
+import ArrowDownIcon from '~/assets/svg/arrow-down.svg'
+
+interface Props {
+  modelValue: string | number | null
+  title: string
+  options: OptionItem[]
+  sortingMode?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  options: () => ([]),
+  sortingMode: false
+})
+
+const emit = defineEmits(['update:modelValue', 'changed'])
+const router = useRouter()
+
+const selectedOption = computed<OptionItem | undefined>(
+    () => props.options.find((option) => option.key === props.modelValue)
+)
+
+const selectedValue = computed<string>(() => selectedOption.value ? selectedOption.value.name : '')
+
+function onClick (option: OptionItem) {
+  emit('update:modelValue', option.key)
+
+  emit('changed', option.payload)
+}
+
+const isExpanded = ref(false)
+</script>
