@@ -11,10 +11,10 @@ services:
     volumes:
       - ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}:/app/
     networks:
-      - escort
+      - artfora
 
 networks:
-  escort:
+  artfora:
     external: true
 volumes:
  ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}:
