@@ -6,7 +6,7 @@
         <ul class="footer-list">
           <li class="footer-list-item text text-small">Terms & Conditions</li>
           <li class="footer-list-item text text-small">
-            Copyright ©2022 USSSA
+            Copyright ©2022 ARTfora
           </li>
           <li class="footer-list-item text text-small">Privacy Policy</li>
         </ul>

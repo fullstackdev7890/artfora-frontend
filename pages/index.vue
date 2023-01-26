@@ -1,8 +1,9 @@
 <template>
   <main class="home-page">
-    <main-container>
-      <h1 style="text-align: center;">ARTfora</h1>
-      <h2 style="text-align: center;">Page under construction!</h2>
+    <main-container style="height: 9999px;">
+      <div>
+        <h2 style="text-align: center;">Page under construction!</h2>
+      </div>
     </main-container>
   </main>
 </template>
