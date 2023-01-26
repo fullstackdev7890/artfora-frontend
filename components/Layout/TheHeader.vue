@@ -3,27 +3,22 @@
     class="header"
     :class="{ 'header-hide': hideHeader }"
   >
-    <div class="container">
-      searchbar
+    <search-bar />
+
+    <div class="container header-title">
+      <h1>ARTfora</h1>
     </div>
 
-    <div class="container">
-      <h1>A R T f o r a</h1>
-    </div>
-
-    <div class="nav-wrap">
-      <div class="container">
-        dropdown menu
-      </div>
-    </div>
+    <profile-menu />
   </header>
 </template>
 
 <script setup lang="ts">
+import SearchBar from '~/components/Layout/SearchBar.vue'
+import ProfileMenu from '~/components/Layout/ProfileMenu.vue'
 import { onMounted, onUnmounted } from 'vue'
 import { ref } from '@vue/reactivity'
 
-// let hideHeader = false
 let hideHeader = ref(false)
 let scrollPosition
 
