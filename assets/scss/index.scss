@@ -11,6 +11,10 @@
 @import 'ui-kit/table';
 @import "ui-kit/modal";
 @import 'etc';
+@import 'components/header';
+@import 'components/profile-menu';
+@import 'components/search-bar';
+@import 'components/icon-button';
 
 .search {
   &-query { margin-bottom: 1rem; padding-bottom: 0; }
