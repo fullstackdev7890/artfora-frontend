@@ -62,12 +62,20 @@ useHead({
 onMounted(() => {
   if (process.client && galleryViewType.value === JUSTIFIED_GALLERY_VIEW_TYPE) {
     sortImagesByColumns(testImages)
+
+    window.addEventListener('resize', () => sortImagesByColumns(testImages))
   }
 })
 
 function sortImagesByColumns (images) {
   let currentColumn = 1
-  let imagesCols = [[],[],[],[]]
+  let imagesCols: [[], []] | [[], [], [], []]
+
+  if (process.client && window.innerWidth <= 992) {
+    imagesCols = [[],[]]
+  } else {
+    imagesCols = [[], [], [], []]
+  }
 
   images.forEach((item) => {
     imagesCols[currentColumn - 1].push(item)
