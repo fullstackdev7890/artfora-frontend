@@ -8,7 +8,10 @@
         v-for="image in column"
         class="gallery-item"
       >
-        <div class="gallery-item-image-container">
+        <div
+            class="gallery-item-image-container"
+            :class="{'square': props.viewType === SQUARE_GALLERY_VIEW_TYPE}"
+        >
           <img :src="image.url">
         </div>
       </div>

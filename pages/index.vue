@@ -24,7 +24,7 @@ import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_
 const title = ref('')
 const description = ref('')
 let galleryImages = ref([])
-let galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
+let galleryViewType = ref(SQUARE_GALLERY_VIEW_TYPE)
 
 // test images
 const testImages = [
@@ -60,7 +60,7 @@ useHead({
 })
 
 onMounted(() => {
-  if (process.client && galleryViewType.value === JUSTIFIED_GALLERY_VIEW_TYPE) {
+  if (process.client) {
     sortImagesByColumns(testImages)
 
     window.addEventListener('resize', () => sortImagesByColumns(testImages))

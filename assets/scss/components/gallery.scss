@@ -23,3 +23,22 @@
     }
   }
 }
+
+.square {
+  height: 25vw; align-items: center; justify-content: center;
+    @media (max-width: 992px) {
+      height: 50vw;
+    }
+    @media (max-width: 576px) {
+      height: 100vw;
+    }
+  img {
+    width: 45vw; height: auto;
+    @media (max-width: 992px) {
+      width: 100vw;
+    }
+    @media (max-width: 576px) {
+      width: 150vw;
+    }
+  }
+}
