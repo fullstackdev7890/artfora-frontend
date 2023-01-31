@@ -15,6 +15,11 @@
               'details': props.viewType === DETAILS_GALLERY_VIEW_TYPE
             }"
         >
+          <div class="gallery-item-image-container-hover">
+            <h4>"{{ image.name }}"</h4>
+            <p>by {{ image.author }}</p>
+            <p>Uploaded by {{ image.author }}</p>
+          </div>
           <user-details
               :author="image.author"
               :author-tag="image.author_tag"

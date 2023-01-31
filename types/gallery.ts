@@ -4,6 +4,7 @@ export const DETAILS_GALLERY_VIEW_TYPE = 'details'
 
 export declare interface GalleryItem {
   url: string
+  name: string
   author: string
   author_tag: string
   author_avatar: string
