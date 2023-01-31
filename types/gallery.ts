@@ -6,6 +6,7 @@ export declare interface GalleryItem {
   url: string
   author: string
   author_tag: string
+  author_avatar: string
 }
 
 export declare interface GalleryColumn extends Array<GalleryItem> {

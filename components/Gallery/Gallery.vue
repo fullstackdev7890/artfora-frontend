@@ -10,8 +10,17 @@
       >
         <div
             class="gallery-item-image-container"
-            :class="{'square': props.viewType === SQUARE_GALLERY_VIEW_TYPE}"
+            :class="{
+              'square': props.viewType === SQUARE_GALLERY_VIEW_TYPE,
+              'details': props.viewType === DETAILS_GALLERY_VIEW_TYPE
+            }"
         >
+          <user-details
+              :author="image.author"
+              :author-tag="image.author_tag"
+              :author-avatar="image.author_avatar"
+              v-if="props.viewType === DETAILS_GALLERY_VIEW_TYPE"
+          />
           <img :src="image.url">
         </div>
       </div>
@@ -23,6 +32,7 @@
 import { defineProps, defineEmits } from 'vue'
 import { onMounted } from 'vue'
 import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, GalleryColumn } from '~/types/gallery'
+import UserDetails from '~/components/Gallery/userDetails.vue';
 
 interface Props {
   cols: GalleryColumn[],
