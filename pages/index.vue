@@ -3,11 +3,10 @@
     <main-container>
 <!--      These are test switches. In the future, everything will be done according to the layout through the gallery settings menu-->
       <div style="display: flex; flex-direction: row; justify-content: flex-start;">
-        <span style="text-decoration: underline; cursor: pointer; margin: 10px">Justified</span>
-        <span style="text-decoration: underline; cursor: pointer; margin: 10px">Square</span>
-        <span style="text-decoration: underline; cursor: pointer; margin: 10px">Details</span>
+        <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = JUSTIFIED_GALLERY_VIEW_TYPE">Justified</span>
+        <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = SQUARE_GALLERY_VIEW_TYPE">Square</span>
+        <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = DETAILS_GALLERY_VIEW_TYPE">Details</span>
       </div>
-
       <gallery :cols="galleryImages" :view-type="galleryViewType" />
     </main-container>
   </main>
@@ -16,15 +15,23 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 import Gallery from '~/components/Gallery/Gallery.vue'
-import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE } from '~/types/gallery'
+import {
+  JUSTIFIED_GALLERY_VIEW_TYPE,
+  SQUARE_GALLERY_VIEW_TYPE,
+  DETAILS_GALLERY_VIEW_TYPE,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  LAPTOP_WIDTH,
+  LARGE_WIDTH
+} from '~/types/gallery'
 
 const title = ref('')
 const description = ref('')
 let galleryImages = ref([])
-let galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
+let galleryViewType = ref(DETAILS_GALLERY_VIEW_TYPE)
 
 // test images
 const testImages = [
@@ -66,15 +73,24 @@ onMounted(() => {
     window.addEventListener('resize', () => sortImagesByColumns(testImages))
   }
 })
+onUnmounted(() => {
+  window.removeEventListener('resize', () => sortImagesByColumns(testImages))
+})
 
 function sortImagesByColumns (images) {
   let currentColumn = 1
-  let imagesCols: [[], []] | [[], [], [], []]
+  let imagesCols: [[]] | [[], []] | [[], [], []] | [[], [], [], []] | [[], [], [], [], []]
 
-  if (process.client && window.innerWidth <= 992) {
+  if (process.client && window.innerWidth <= MOBILE_WIDTH) {
+    imagesCols = [[]]
+  } else if (process.client && window.innerWidth >= MOBILE_WIDTH && window.innerWidth <= TABLET_WIDTH) {
     imagesCols = [[],[]]
-  } else {
+  } else if (process.client && window.innerWidth >= TABLET_WIDTH && window.innerWidth <= LAPTOP_WIDTH) {
+    imagesCols = [[], [], []]
+  } else if (window.innerWidth >= LAPTOP_WIDTH && window.innerWidth < LARGE_WIDTH){
     imagesCols = [[], [], [], []]
+  } else  if (window.innerWidth >= LARGE_WIDTH){
+    imagesCols = [[], [], [], [], []]
   }
 
   images.forEach((item) => {

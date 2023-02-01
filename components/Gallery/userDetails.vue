@@ -1,7 +1,7 @@
 <template>
-  <div class="details-user">
-    <img :src="authorAvatar">
-    <div class="details-user-name">
+  <div class="gallery-details-user">
+    <img :src="authorAvatar" :alt="author">
+    <div class="layout-details-user-name">
       <h3>{{ author }}</h3>
       <p>{{ authorTag }}</p>
     </div>
@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
 
 interface Props {
   author: string
@@ -18,8 +18,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  author: () => (''),
-  authorTag: () => (''),
-  authorAvatar: () => (''),
+  author: '',
+  authorTag: '',
+  authorAvatar: '',
 })
 </script>
