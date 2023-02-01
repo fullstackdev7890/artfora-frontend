@@ -31,7 +31,7 @@ import {
 const title = ref('')
 const description = ref('')
 let galleryImages = ref([])
-let galleryViewType = ref(DETAILS_GALLERY_VIEW_TYPE)
+let galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 
 // test images
 const testImages = [

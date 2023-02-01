@@ -1,7 +1,7 @@
 <template>
   <div class="gallery-details-user">
     <img :src="authorAvatar" :alt="author">
-    <div class="layout-details-user-name">
+    <div class="gallery-details-user-name">
       <h3>{{ author }}</h3>
       <p>{{ authorTag }}</p>
     </div>
