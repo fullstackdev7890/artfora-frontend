@@ -11,8 +11,8 @@
         <div
             class="gallery-item-image-container"
             :class="{
-              'gallery-square': props.viewType === SQUARE_GALLERY_VIEW_TYPE,
-              'gallery-details': props.viewType === DETAILS_GALLERY_VIEW_TYPE
+              'gallery-item-image-container-square': props.viewType === SQUARE_GALLERY_VIEW_TYPE,
+              'gallery-item-image-container-details': props.viewType === DETAILS_GALLERY_VIEW_TYPE
             }"
         >
           <div class="gallery-item-image-container-info">
