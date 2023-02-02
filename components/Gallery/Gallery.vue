@@ -16,7 +16,7 @@
             }"
         >
           <div class="gallery-item-image-container-info">
-            <h4>"{{ image.name }}"</h4>
+            <h4>"{{ image.title }}"</h4>
             <p>by {{ image.author }}</p>
             <p>Uploaded by {{ image.author }}</p>
           </div>
@@ -26,7 +26,7 @@
             :author-tag="image.author_tag"
             :author-avatar="image.author_avatar"
           />
-          <img :src="image.url" :alt="image.name">
+          <img :src="image.media.link" :alt="image.title">
         </div>
       </div>
     </div>
@@ -34,13 +34,13 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
-import { onMounted } from 'vue'
-import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, GalleryColumn } from '~/types/gallery'
+import { defineProps } from 'vue'
+import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE } from '~/types/gallery'
 import UserDetails from '~/components/Gallery/userDetails.vue'
+import { ProductItem } from '~/types';
 
 interface Props {
-  cols: GalleryColumn[],
+  cols: ProductItem[],
   viewType: string
 }
 
