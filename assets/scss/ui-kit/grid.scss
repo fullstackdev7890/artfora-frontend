@@ -21,7 +21,7 @@
   &-90 {width: 90%;}
   &-100 {width: 100%;}
 
-  @media(max-width: 1600px) {
+  @media(max-width: $large) {
     &-large-hidden {display: none;}
     &-large-10 {width: 10%;}
     &-large-15 {width: 15%;}
@@ -41,7 +41,7 @@
     &-large-100 {width: 100%;}
   }
 
-  @media(max-width: 1200px) {
+  @media(max-width: $laptop) {
     &-laptop-hidden {display: none;}
     &-laptop-10 {width: 10%;}
     &-laptop-15 {width: 15%;}

@@ -20,12 +20,14 @@
             <p>by {{ image.author }}</p>
             <p>Uploaded by {{ image.author }}</p>
           </div>
+
           <user-details
             v-if="props.viewType === DETAILS_GALLERY_VIEW_TYPE"
             :author="image.author"
             :author-tag="image.author_tag"
             :author-avatar="image.author_avatar"
           />
+
           <img :src="image.media.link" :alt="image.title">
         </div>
       </div>
@@ -35,9 +37,9 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE } from '~/types/gallery'
+import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE } from '~/types/products'
+import { ProductItem } from '~/types'
 import UserDetails from '~/components/Gallery/userDetails.vue'
-import { ProductItem } from '~/types';
 
 interface Props {
   cols: ProductItem[],

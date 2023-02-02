@@ -7,6 +7,7 @@
         <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = SQUARE_GALLERY_VIEW_TYPE">Square</span>
         <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = DETAILS_GALLERY_VIEW_TYPE">Details</span>
       </div>
+
       <gallery :cols="galleryImages" :view-type="galleryViewType" />
     </main-container>
   </main>
@@ -16,8 +17,8 @@
 import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { onMounted, onUnmounted } from 'vue'
-import MainContainer from '~/components/Layout/MainContainer.vue'
-import Gallery from '~/components/Gallery/Gallery.vue'
+import { useProductsStore } from '~/store/products'
+import { ProductItem } from '~/types'
 import {
   JUSTIFIED_GALLERY_VIEW_TYPE,
   SQUARE_GALLERY_VIEW_TYPE,
@@ -26,16 +27,17 @@ import {
   TABLET_WIDTH,
   LAPTOP_WIDTH,
   LARGE_WIDTH
-} from '~/types/gallery'
-import { useProductsStore } from '~/store/products'
+} from '~/types/products'
+import Gallery from '~/components/Gallery/Gallery.vue'
+import MainContainer from '~/components/Layout/MainContainer.vue'
+
+
 
 const title = ref('')
 const description = ref('')
-let galleryImages = ref([])
-let galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
-
+const galleryImages = ref([])
+const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 const products = useProductsStore()
-console.log(products.items)
 
 useHead({
   title: title,
@@ -53,36 +55,42 @@ onMounted(() => {
     window.addEventListener('resize', () => sortImagesByColumns(products.items))
   }
 })
+
 onUnmounted(() => {
   window.removeEventListener('resize', () => sortImagesByColumns(products.items))
 })
-
-function sortImagesByColumns (images) {
-  let currentColumn = 1
-  let imagesCols: [[]] | [[], []] | [[], [], []] | [[], [], [], []] | [[], [], [], [], []]
-
-  if (process.client && window.innerWidth <= MOBILE_WIDTH) {
-    imagesCols = [[]]
-  } else if (process.client && window.innerWidth >= MOBILE_WIDTH && window.innerWidth <= TABLET_WIDTH) {
-    imagesCols = [[],[]]
-  } else if (process.client && window.innerWidth >= TABLET_WIDTH && window.innerWidth <= LAPTOP_WIDTH) {
-    imagesCols = [[], [], []]
-  } else if (window.innerWidth >= LAPTOP_WIDTH && window.innerWidth < LARGE_WIDTH){
-    imagesCols = [[], [], [], []]
-  } else  if (window.innerWidth >= LARGE_WIDTH){
-    imagesCols = [[], [], [], [], []]
+function getColumnsCount() {
+  if (!process.client) {
+    return 1
   }
 
-  images.forEach((item) => {
-    imagesCols[currentColumn - 1].push(item)
-    currentColumn++
+  const columnsCounts = {
+    [MOBILE_WIDTH]: 2,
+    [TABLET_WIDTH]: 3,
+    [LAPTOP_WIDTH]: 4,
+    [LARGE_WIDTH]: 5
+  }
 
-    if (currentColumn > imagesCols.length) {
-      currentColumn = 1
-    }
-  })
-
-  galleryImages.value = imagesCols
+  return Object.entries(columnsCounts)
+      .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, 5)
 }
 
+function sortImagesByColumns (images: ProductItem[]) {
+  const columnsCount = getColumnsCount()
+
+  galleryImages.value = Array(columnsCount).fill().map(() => [])
+
+  let currentColumn = 0
+
+  images.forEach((item: ProductItem) => {
+
+    galleryImages.value[currentColumn].push(item)
+
+    currentColumn++
+
+    if (currentColumn >= galleryImages.value.length) {
+      currentColumn = 0
+    }
+  })
+}
 </script>
