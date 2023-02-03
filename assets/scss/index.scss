@@ -15,6 +15,7 @@
 @import 'components/profile-menu';
 @import 'components/search-bar';
 @import 'components/icon-button';
+@import 'components/gallery';
 
 .search {
   &-query { margin-bottom: 1rem; padding-bottom: 0; }
@@ -56,5 +57,14 @@
     height: 100%; width: auto; margin: 0 auto; display: block; max-width: 100%;
 
     &-container { cursor: pointer; height: 20rem; width: 100%; display: block;}
+  }
+}
+
+// These are test switches
+.switch {
+  display: flex; flex-direction: row; justify-content: flex-start;
+
+  &-item {
+    text-decoration: underline; cursor: pointer; margin: 10px
   }
 }
