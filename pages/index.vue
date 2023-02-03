@@ -58,6 +58,7 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', () => sortImagesByColumns(products.items))
 })
+
 function getColumnsCount() {
   if (!process.client) {
     return 1
