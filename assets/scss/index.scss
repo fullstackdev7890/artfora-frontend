@@ -59,3 +59,12 @@
     &-container { cursor: pointer; height: 20rem; width: 100%; display: block;}
   }
 }
+
+// These are test switches
+.switch {
+  display: flex; flex-direction: row; justify-content: flex-start;
+
+  &-item {
+    text-decoration: underline; cursor: pointer; margin: 10px
+  }
+}

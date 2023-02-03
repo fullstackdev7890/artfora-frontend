@@ -2,10 +2,10 @@
   <main class="home-page">
     <main-container>
 <!--      These are test switches. In the future, everything will be done according to the layout through the gallery settings menu-->
-      <div style="display: flex; flex-direction: row; justify-content: flex-start;">
-        <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = JUSTIFIED_GALLERY_VIEW_TYPE">Justified</span>
-        <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = SQUARE_GALLERY_VIEW_TYPE">Square</span>
-        <span style="text-decoration: underline; cursor: pointer; margin: 10px" @click="galleryViewType = DETAILS_GALLERY_VIEW_TYPE">Details</span>
+      <div class="switch">
+        <span class="switch-item" @click="galleryViewType = JUSTIFIED_GALLERY_VIEW_TYPE">Justified</span>
+        <span class="switch-item" @click="galleryViewType = SQUARE_GALLERY_VIEW_TYPE">Square</span>
+        <span class="switch-item" @click="galleryViewType = DETAILS_GALLERY_VIEW_TYPE">Details</span>
       </div>
 
       <gallery :cols="galleryImages" :view-type="galleryViewType" />
