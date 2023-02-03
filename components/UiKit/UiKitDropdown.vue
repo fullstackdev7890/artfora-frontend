@@ -8,12 +8,6 @@
       class="ui-kit-dropdown-title"
     >
       {{ title }}
-
-      <a
-        :class="{ 'fa-chevron-down': !isCollapsed, 'fa-chevron-up': isCollapsed }"
-        class="ui-kit-box-tools-link fa"
-        cy-name="collapse-button"
-      ></a>
     </div>
 
     <div v-show="isCollapsed" class="ui-kit-dropdown-content">
@@ -23,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity';
+import { computed } from 'vue'
 
 interface Props {
   title: string,
@@ -37,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['collapse', 'expand'])
 
-let isCollapsed = ref(props.collapsed)
+let isCollapsed = computed(() => props.collapsed)
 
 function toggleCollapsing() {
   isCollapsed.value = !isCollapsed.value
