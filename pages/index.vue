@@ -18,7 +18,7 @@ import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { onMounted, onUnmounted } from 'vue'
 import { useProductsStore } from '~/store/products'
-import { ProductItem } from '~/types'
+import { Product } from '~/types/products'
 import {
   JUSTIFIED_GALLERY_VIEW_TYPE,
   SQUARE_GALLERY_VIEW_TYPE,
@@ -30,7 +30,6 @@ import {
 } from '~/types/products'
 import Gallery from '~/components/Gallery/Gallery.vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
-
 
 
 const title = ref('')
@@ -75,14 +74,14 @@ function getColumnsCount() {
       .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, 5)
 }
 
-function sortImagesByColumns (images: ProductItem[]) {
+function sortImagesByColumns (images: Product[]) {
   const columnsCount = getColumnsCount()
 
   galleryImages.value = Array(columnsCount).fill().map(() => [])
 
   let currentColumn = 0
 
-  images.forEach((item: ProductItem) => {
+  images.forEach((item: Product) => {
 
     galleryImages.value[currentColumn].push(item)
 

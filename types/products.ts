@@ -1,3 +1,5 @@
+import {Entity, Media} from "~/types/index";
+
 export const JUSTIFIED_GALLERY_VIEW_TYPE = 'justified'
 export const SQUARE_GALLERY_VIEW_TYPE = 'square'
 export const DETAILS_GALLERY_VIEW_TYPE = 'details'
@@ -6,15 +8,29 @@ export const TABLET_WIDTH = 992
 export const LAPTOP_WIDTH = 1200
 export const LARGE_WIDTH = 1600
 
-
-export declare interface GalleryItem {
-  url: string
-  name: string
+export declare interface Product extends Entity {
+  price: number
+  user_id: number
+  category_id: number
+  title: string
   author: string
-  author_tag: string
-  author_avatar: string
+  slug: string
+  tags: string
+  description: string
+  is_ai_safe: boolean
+  visibility_level: number
+  width: number
+  height: number
+  weight: number
+  status: string
+  deleted_at: string | null
+  media: Media
+  user: {
+    username: string
+    tagname: string
+    media: Media
+  }
 }
-
-export declare interface GalleryColumn extends Array<GalleryItem> {
-  [index: number]: GalleryItem[]
+export interface ProductsState {
+  items: Product[]
 }
