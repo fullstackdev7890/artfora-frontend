@@ -1,15 +1,15 @@
 <template>
   <div
-    v-show="isCollapsed"
+    v-show="!isCollapsed"
     class="ui-kit-dropdown"
     ref="menuDropdownRef"
   >
-    <div
-      class="ui-kit-dropdown-title"
-    >
-      {{ title }}
-      <close @click="toggleCollapsing()" />
+    <div class="ui-kit-dropdown-title">
+      <label>{{ title }}</label>
+
+      <close-icon @click="close()" />
     </div>
+
     <div class="ui-kit-dropdown-content">
       <slot></slot>
     </div>
@@ -18,33 +18,35 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Close from '~/assets/svg/close.svg'
+import CloseIcon from '~/assets/svg/close.svg'
+
 interface Props {
-  title: string,
-  insideArea: any
+  title: string
 }
 
-const isCollapsed = ref(false)
+const isCollapsed = ref(true)
 const props = defineProps<Props>()
-const menuDropdownRef = ref(null)
+const menuDropdownRef = ref<InstanceType<typeof HTMLElement>>()
 
 const handleClickOutside = (event: any) => {
-  if (props.insideArea.contains(event.target)) {
+  if (menuDropdownRef.value!.contains(event.target)) {
     return
   }
-  toggleCollapsing()
+
+  close()
 }
 
-function toggleCollapsing() {
-  isCollapsed.value = !isCollapsed.value
+function open() {
+  isCollapsed.value = false
 
-  if (isCollapsed.value) {
-    document.addEventListener('click', handleClickOutside)
-  } else {
-    document.removeEventListener('click', handleClickOutside)
-  }
+  nextTick(() => document.addEventListener('click', handleClickOutside, { capture: true }))
 }
 
-defineExpose({ toggleCollapsing })
+function close() {
+  isCollapsed.value = true
 
+  nextTick(() => document.removeEventListener('click', handleClickOutside, { capture: true }))
+}
+
+defineExpose({ open, close })
 </script>
