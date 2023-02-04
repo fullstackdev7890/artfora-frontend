@@ -56,7 +56,7 @@ const refreshTokenInterceptor = (store: any) => {
     async (error) => {
       const originalRequest = error.config
 
-      if ([401, 403].includes(error.response.status) && !originalRequest._retry && originalRequest.url !== '/login') {
+      if ([401, 403].includes(error.response.status) && !originalRequest._retry && originalRequest.url !== '/') {
         originalRequest._retry = true
 
         const newToken = await store.refreshToken()
@@ -78,7 +78,7 @@ const redirectToLoginPage = (store: AuthState) => {
       if ([401, 403].includes(error.response.status)) {
         store.token = null
 
-        navigateTo('/login')
+        navigateTo('/')
       }
 
       return Promise.reject(error)

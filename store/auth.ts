@@ -17,6 +17,10 @@ export const useAuthStore = defineStore('auth', {
       return await axios.post('/login', data)
     },
 
+    async signUp(data: LoginData) {
+      return await axios.post('/login', data)
+    },
+
     async logout() {
       // @ts-ignore
       this.token = null
