@@ -1,45 +1,50 @@
 <template>
   <div
-    :cy-name="name"
+    v-show="isCollapsed"
     class="ui-kit-dropdown"
+    ref="menuDropdownRef"
   >
     <div
-      @click="toggleCollapsing()"
       class="ui-kit-dropdown-title"
     >
       {{ title }}
+      <close @click="toggleCollapsing()" />
     </div>
-
-    <div v-show="isCollapsed" class="ui-kit-dropdown-content">
+    <div class="ui-kit-dropdown-content">
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
+import { ref } from 'vue'
+import Close from '~/assets/svg/close.svg'
 interface Props {
   title: string,
-  name: string,
-  collapsed?: boolean,
+  insideArea: any
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  collapsed: false
-})
+const isCollapsed = ref(false)
+const props = defineProps<Props>()
+const menuDropdownRef = ref(null)
 
-const emit = defineEmits(['collapse', 'expand'])
-
-let isCollapsed = computed(() => props.collapsed)
+const handleClickOutside = (event: any) => {
+  if (props.insideArea.contains(event.target)) {
+    return
+  }
+  toggleCollapsing()
+}
 
 function toggleCollapsing() {
   isCollapsed.value = !isCollapsed.value
 
   if (isCollapsed.value) {
-    emit('collapse')
+    document.addEventListener('click', handleClickOutside)
   } else {
-    emit('expand')
+    document.removeEventListener('click', handleClickOutside)
   }
 }
+
+defineExpose({ toggleCollapsing })
+
 </script>
