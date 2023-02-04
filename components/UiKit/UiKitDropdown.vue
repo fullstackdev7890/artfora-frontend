@@ -7,7 +7,7 @@
     <div class="ui-kit-dropdown-title">
       <label>{{ title }}</label>
 
-      <close-icon @click="close()" />
+      <close-icon @click="close()" class="close-icon" />
     </div>
 
     <div class="ui-kit-dropdown-content">
