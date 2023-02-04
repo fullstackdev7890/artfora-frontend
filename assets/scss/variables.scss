@@ -1,11 +1,15 @@
 // Body
 $body-bg: #3a3a39;
+$dark-bg: #262525;
+$light-bg: #c1c1c0;
+
+$box-content-font-color: #949495;
 
 $footer-background-color: #F0F0F0;
 $footer-border-color: silver;
 $footer-height: 1.8rem;
 
-$header-background-color: #3a3a39;
+$header-background-color: $body-bg;
 $header-height: 3rem;
 $header-logout-font-color: #999;
 
@@ -61,6 +65,7 @@ $mock-container-height: 342px;
 
 $transition-delay: .3s;
 
+$small: 576px;
 $mobile: 768px;
 $tablet: 992px;
 $laptop: 1200px;

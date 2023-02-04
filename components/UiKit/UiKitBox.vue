@@ -16,7 +16,6 @@
             :class="{ 'fa-chevron-down': isCollapsed, 'fa-chevron-up': !isCollapsed }"
             @click="toggleCollapsing()"
             class="ui-kit-box-tools-link fa"
-            cy-name="collapse-button"
           ></a>
 
           <a
@@ -44,7 +43,6 @@
             v-if="showCloseButton"
             @click="close()"
             class="ui-kit-box-tools-link fa fa-times"
-            cy-name="close-button"
           ></a>
         </div>
       </div>
@@ -53,7 +51,7 @@
         <slot name="heading"></slot>
       </header>
 
-      <section v-show="!isCollapsed" class="ui-kit-box-content" cy-name="box-content">
+      <section v-show="!isCollapsed" class="ui-kit-box-content">
         <slot name="content"></slot>
       </section>
 
@@ -82,7 +80,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   showCloseButton: true,
-  showCollapseButton: true,
+  showCollapseButton: false,
   showOptionsButton: true,
   withFooter: false,
   withHeader: false,
