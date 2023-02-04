@@ -1,51 +1,52 @@
 <template>
   <div
-    :cy-name="name"
+    v-show="!isCollapsed"
     class="ui-kit-dropdown"
+    ref="menuDropdownRef"
   >
-    <div
-      @click="toggleCollapsing()"
-      class="ui-kit-dropdown-title"
-    >
-      {{ title }}
+    <div class="ui-kit-dropdown-title">
+      <label>{{ title }}</label>
 
-      <a
-        :class="{ 'fa-chevron-down': !isCollapsed, 'fa-chevron-up': isCollapsed }"
-        class="ui-kit-box-tools-link fa"
-        cy-name="collapse-button"
-      ></a>
+      <close-icon @click="close()" class="close-icon" />
     </div>
 
-    <div v-show="isCollapsed" class="ui-kit-dropdown-content">
+    <div class="ui-kit-dropdown-content">
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity';
+import { ref } from 'vue'
+import CloseIcon from '~/assets/svg/close.svg'
 
 interface Props {
-  title: string,
-  name: string,
-  collapsed?: boolean,
+  title: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  collapsed: false
-})
+const isCollapsed = ref(true)
+const props = defineProps<Props>()
+const menuDropdownRef = ref<InstanceType<typeof HTMLElement>>()
 
-const emit = defineEmits(['collapse', 'expand'])
-
-let isCollapsed = ref(props.collapsed)
-
-function toggleCollapsing() {
-  isCollapsed.value = !isCollapsed.value
-
-  if (isCollapsed.value) {
-    emit('collapse')
-  } else {
-    emit('expand')
+const handleClickOutside = (event: any) => {
+  if (menuDropdownRef.value!.contains(event.target)) {
+    return
   }
+
+  close()
 }
+
+function open() {
+  isCollapsed.value = false
+
+  nextTick(() => document.addEventListener('click', handleClickOutside, { capture: true }))
+}
+
+function close() {
+  isCollapsed.value = true
+
+  nextTick(() => document.removeEventListener('click', handleClickOutside, { capture: true }))
+}
+
+defineExpose({ open, close })
 </script>
