@@ -6,23 +6,23 @@
 
     <ui-kit-dropdown title="Menu" ref="menuDropdownRef">
       <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
-        <a href="#" class="ui-kit-dropdown-content-item-btn">My Settings</a>
+        <span class="ui-kit-dropdown-content-item-btn">My Settings</span>
       </div>
 
       <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
-        <a href="#" @click="openSignUpModal()" class="ui-kit-dropdown-content-item-btn">Login/Sign up</a>
+        <span @click="openSignUpModal()" class="ui-kit-dropdown-content-item-btn">Login/Sign up</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
-        <a href="#" class="ui-kit-dropdown-content-item-btn">Gallery settings</a>
+        <span class="ui-kit-dropdown-content-item-btn">Gallery settings</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
-        <a href="#" class="ui-kit-dropdown-content-item-btn">Contact us</a>
+        <span class="ui-kit-dropdown-content-item-btn">Contact us</span>
       </div>
 
       <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
-        <a href="#" class="ui-kit-dropdown-content-item-btn">Logout</a>
+        <span class="ui-kit-dropdown-content-item-btn">Logout</span>
       </div>
     </ui-kit-dropdown>
 
@@ -49,6 +49,7 @@ router.beforeEach((to, from, next) => {
 })
 
 function openSignUpModal() {
+  menuDropdownRef.value.close()
   signUpModalRef.value.open()
 }
 

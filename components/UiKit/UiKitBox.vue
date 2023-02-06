@@ -31,6 +31,7 @@
             @blur="isOptionsShown = !isOptionsShown"
             class="ui-kit-box-dropdown-toggle fa fa-wrench">
           </a>
+
           <ul v-if="isOptionsShown" class="ui-kit-box-dropdown-menu">
             <li v-for="option in options">
               <a @click="$emit(option.event)">
@@ -39,11 +40,11 @@
             </li>
           </ul>
 
-          <a
+          <close-icon
             v-if="showCloseButton"
             @click="close()"
-            class="ui-kit-box-tools-link fa fa-times"
-          ></a>
+            class="close-icon ui-kit-box-tools-link"
+          />
         </div>
       </div>
 
@@ -65,6 +66,7 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import { UiKitCustomButton, UiKitBoxOption } from '~/types/uiKit'
+import CloseIcon from '~/assets/svg/close.svg'
 
 interface Props {
   title?: string
