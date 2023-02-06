@@ -56,7 +56,7 @@ const refreshTokenInterceptor = (store: any) => {
     async (error) => {
       const originalRequest = error.config
 
-      if ([401, 403].includes(error.response.status) && !originalRequest._retry && originalRequest.url !== '/') {
+      if ([401, 403].includes(error.response.status) && !originalRequest._retry && originalRequest.url !== '/login') {
         originalRequest._retry = true
 
         const newToken = await store.refreshToken()

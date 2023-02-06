@@ -10,7 +10,7 @@
       </div>
 
       <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
-        <a href="#" class="ui-kit-dropdown-content-item-btn">Login/Sign up</a>
+        <a href="#" @click="openSignUpModal()" class="ui-kit-dropdown-content-item-btn">Login/Sign up</a>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
@@ -25,6 +25,8 @@
         <a href="#" class="ui-kit-dropdown-content-item-btn">Logout</a>
       </div>
     </ui-kit-dropdown>
+
+    <sign-up-modal ref="signUpModalRef" />
   </div>
 </template>
 
@@ -32,7 +34,25 @@
 import { ref } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
+import SignUpModal from '~/components/modals/SignUpModal.vue'
 
 const { isAuthorized } = useAuthStore()
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
+const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
+
+const router = useRouter()
+
+router.beforeEach((to, from, next) => {
+  closeSignUpModal()
+
+  next()
+})
+
+function openSignUpModal() {
+  signUpModalRef.value.open()
+}
+
+function closeSignUpModal() {
+  signUpModalRef.value.close()
+}
 </script>
