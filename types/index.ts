@@ -19,5 +19,6 @@ export interface User extends Entity {
   last_name: string
   role_id: number
   email: string
+  media: Media
 }
 
