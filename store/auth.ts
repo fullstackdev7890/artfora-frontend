@@ -12,6 +12,10 @@ export const useAuthStore = defineStore('auth', {
     token: null
   }),
 
+  getters: {
+    isAuthorized: (state) => state.token !== null
+  },
+
   actions: {
     async login(data: LoginData) {
       return await axios.post('/login', data)

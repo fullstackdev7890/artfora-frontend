@@ -1,17 +1,10 @@
 <template>
-  <header
-    class="header"
-    :class="{ 'header-hide': hideHeader }"
-  >
+  <header class="header">
     <div class="header-top">
       <search-bar />
 
       <div class="container header-title">
         <h1>ARTfora</h1>
-      </div>
-
-      <div>
-        <span class="switch-item" @click="openSignUpModal">SignUp</span>
       </div>
 
       <profile-menu />
@@ -31,9 +24,6 @@ import SearchBar from '~/components/Layout/SearchBar.vue'
 import ProfileMenu from '~/components/Layout/ProfileMenu.vue'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
 
-let hideHeader = ref(false)
-let scrollPosition
-
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 
 const router = useRouter()
@@ -44,32 +34,11 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-onMounted(() => {
-  if (process.client) {
-    scrollPosition = window.scrollY
-    window.addEventListener('scroll', handleScroll)
-    handleScroll()
-  }
-})
-
-onUnmounted(() => {
-  if (process.client) {
-    scrollPosition = window.scrollY
-    window.removeEventListener('scroll', handleScroll)
-  }
-})
-
 function openSignUpModal() {
   signUpModalRef.value.open()
 }
 
 function closeSignUpModal() {
   signUpModalRef.value.close()
-}
-
-function handleScroll () {
-  let currentScrollPosition = window.scrollY
-  hideHeader.value = currentScrollPosition > scrollPosition && currentScrollPosition > 100
-  scrollPosition = window.scrollY
 }
 </script>
