@@ -1,3 +1,31 @@
 @import '../variables';
 
-.search-bar { display: flex; justify-content: flex-start; align-items: center; }
+.search-bar {
+  display: flex; justify-content: flex-start; align-items: center; height: 40px; width: fit-content;
+  border: 2px solid $border-color; border-radius: 30px;
+
+  &-input {
+    width: 300px; background: $header-background-color;
+    margin-left: 10px; border: none; border-radius: 20px; color: $border-color;
+  }
+
+  &-icon {
+    width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; position: relative;
+
+    & .search-icon { width: 20px; height: 20px; fill: $border-color; }
+    &-expanded { border: 2px solid $border-color; border-right: none; }
+  }
+
+  &-expanded { animation: 1s expanded; }
+
+  @keyframes expanded {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 300px;
+    }
+  }
+
+}
