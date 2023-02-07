@@ -21,11 +21,12 @@
 
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { HEADER_HEIGHT } from '~/types'
 import SearchBar from '~/components/Layout/SearchBar.vue'
 import ProfileMenu from '~/components/Layout/ProfileMenu.vue'
 import Categories from '~/components/Layout/Categories.vue'
 
-const hideHeader = ref(false)
+const isShown = ref(false)
 const scrollPosition = ref(0)
 
 onMounted(() => {
@@ -45,7 +46,7 @@ onUnmounted(() => {
 
 function handleScroll () {
   let currentScrollPosition = window.scrollY
-  hideHeader.value = currentScrollPosition > scrollPosition.value && currentScrollPosition > 100
+  isShown.value = currentScrollPosition > scrollPosition.value && currentScrollPosition > HEADER_HEIGHT
   scrollPosition.value = window.scrollY
 }
 

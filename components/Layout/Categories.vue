@@ -1,5 +1,6 @@
 <template>
   <div class="categories">
+
     <div class="categories-body">
       <a
           href="#"
@@ -12,18 +13,18 @@
       </a>
     </div>
     <div class="categories-body">
-      <label
-          class="categories-body-item categories-body-item-children"
-          v-for="item in subCategories"
-          :class="{'categories-body-item-active': checkSubCategories.some((el) => el === item.title)}"
-          :for="item.title"
-      >
+        <label
+            class="categories-body-item categories-body-item-children"
+            v-for="item in subCategories"
+            :class="{'categories-body-item-active': checkSubCategories.some((el) => el === item.title)}"
+            :for="item.title"
+        >
         {{ item.title }}
         <input
-            type="checkbox"
+            v-model="checkSubCategories"
             :id="item.title"
             :value="item.title"
-            v-model="checkSubCategories"
+            type="checkbox"
         >
       </label>
     </div>

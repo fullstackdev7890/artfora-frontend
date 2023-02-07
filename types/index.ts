@@ -1,5 +1,7 @@
 export * from './state'
 
+export const HEADER_HEIGHT = 100
+
 export declare interface Entity {
   id: number
   created_at?: string | Date

@@ -1,11 +1,11 @@
 <template>
   <div class="profile-menu">
     <div class="new-product" v-if="isAuthorized">
-      <PlusIcon class="plus-icon"/>
+      <plus-icon class="plus-icon"/>
     </div>
     <div class="icon-button" @click="menuDropdownRef.open()">
       <img
-        :src="getUserAvatar ?? UserAvatar"
+        :src="userAvatar"
         alt="user_avatar"
       >
     </div>
@@ -35,14 +35,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import {useUserStore} from '~/store/user'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
-import UserAvatar from '~/assets/images/logo.jpg'
+import avatar from '~/assets/images/logo.jpg'
 
 const { isAuthorized } = useAuthStore()
 const { getUserAvatar } = useUserStore()
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
+const userAvatar = computed(() => getUserAvatar ?? avatar)
 </script>

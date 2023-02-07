@@ -2,14 +2,14 @@
   <div class="search-bar">
     <div class="search-bar-content" :class="{ 'search-bar-content-expanded': isExpanded }">
       <input
-          v-show="isExpanded"
-          class="search-bar-content-input"
-          type="text"
+        v-show="isExpanded"
+        class="search-bar-content-input"
+        type="text"
       />
         <div
-            class="search-bar-content-icon"
-            :class="{'search-bar-content-icon-expanded' : isExpanded}"
-            @click="toggleExpanded"
+          class="search-bar-content-icon"
+          :class="{'search-bar-content-icon-expanded' : isExpanded}"
+          @click="toggleExpanded"
         >
           <search-icon class="search-icon" />
         </div>
@@ -23,7 +23,5 @@ import SearchIcon from '~/assets/svg/search.svg'
 
 const isExpanded = ref(false)
 
-const toggleExpanded = () => {
-  isExpanded.value = !isExpanded.value
-}
+const toggleExpanded = () => isExpanded.value = !isExpanded.value
 </script>
