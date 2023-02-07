@@ -8,8 +8,9 @@ export interface LoginData {
 
 export interface SignUpData {
   email: string
-  tagName: string
-  userName: string
+  tagname: string
+  username: string
   password: string
-  repeatPassword: string
+  confirm: string
+  redirect_after_verification: string
 }

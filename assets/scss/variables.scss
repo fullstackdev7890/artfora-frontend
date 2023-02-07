@@ -43,7 +43,7 @@ $button-info-background-color: #1c84c6;
 $button-warning-font-color: #FFF;
 $button-warning-background-color: #f8ac59;
 
-$error-color: #990000;
+$error-color: #d66558;
 
 $sidebar-font-color: #a7b1c2;
 
@@ -71,7 +71,8 @@ $tablet: 992px;
 $laptop: 1200px;
 $large: 1600px;
 
-$input-border-color: rgba(0,0,0, 0.2);
+//$input-border-color: rgba(0,0,0, 0.2);
+$input-border-color: $light-bg;
 $selector-dropdown-shadow-color: #333;
 $selector-item-hover-color: #f9f9f9;
 

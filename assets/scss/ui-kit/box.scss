@@ -3,12 +3,7 @@
 $border-radius: 15px;
 
 .ui-kit-box {
-  background-color: $body-bg; border-radius: $border-radius; min-width: 350px; overflow: hidden;
-
-  @media (max-width: $small) {
-    min-width: 100%;
-    width: 100%;
-  }
+  background-color: $body-bg; border-radius: $border-radius; overflow: hidden;
 
   &-title {
     margin-bottom: 0; padding: 1rem 1rem 0.5rem; background-color: $dark-bg; min-height: 1.5rem;
@@ -36,7 +31,9 @@ $border-radius: 15px;
     padding: 15px 20px 20px 20px; transition: all $transition-delay; box-sizing: border-box;
     color: $box-content-font-color;
 
-    &-small-text { font-size: 14px; }
+    &-small-text { font-size: 14px; margin: 5px 0 20px; }
+
+    &-success-text { color: $error-color; }
 
     &-hidden { max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; }
   }

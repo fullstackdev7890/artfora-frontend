@@ -18,18 +18,18 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(data: LoginData) {
-      return await axios.post('/login', data)
+      return await axios.post('/auth/login', data)
     },
 
     async signUp(data: LoginData) {
-      return await axios.post('/login', data)
+      return await axios.post('/auth/register', data)
     },
 
     async logout() {
       // @ts-ignore
       this.token = null
 
-      navigateTo('/login')
+      navigateTo('/')
     },
 
     async refreshToken() {
