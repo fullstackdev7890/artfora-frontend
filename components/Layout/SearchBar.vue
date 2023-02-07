@@ -1,18 +1,19 @@
 <template>
   <div class="search-bar">
-    <input
-        v-show="isExpanded"
-        class="search-bar-input"
-        :class="{ 'search-bar-expanded': isExpanded }"
-        type="text"
-    />
-      <div
-          class="search-bar-icon"
-          :class="{'search-bar-icon-expanded' : isExpanded}"
-          @click="toggleExpanded"
-      >
-        <search-icon class="search-icon" />
-      </div>
+    <div class="search-bar-content" :class="{ 'search-bar-content-expanded': isExpanded }">
+      <input
+          v-show="isExpanded"
+          class="search-bar-content-input"
+          type="text"
+      />
+        <div
+            class="search-bar-content-icon"
+            :class="{'search-bar-content-icon-expanded' : isExpanded}"
+            @click="toggleExpanded"
+        >
+          <search-icon class="search-icon" />
+        </div>
+    </div>
   </div>
 </template>
 

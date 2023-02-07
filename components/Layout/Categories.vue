@@ -1,21 +1,21 @@
 <template>
   <div class="categories">
-    <div class="categories-parent">
+    <div class="categories-body">
       <a
           href="#"
-          class="categories-parent-item"
+          class="categories-body-item categories-body-item-parents"
           v-for="(category, index) in categories"
-          :class="{'categories-parent-item-active': activeCategory === index}"
+          :class="{'categories-body-item-active': activeCategory === index}"
           @click="choiceCategory(index)"
       >
         {{ category.title }}
       </a>
     </div>
-    <div class="categories-children">
+    <div class="categories-body">
       <label
-          class="categories-children-item"
+          class="categories-body-item categories-body-item-children"
           v-for="item in subCategories"
-          :class="{'categories-children-item-active': checkSubCategories.some((el) => el === item.title)}"
+          :class="{'categories-body-item-active': checkSubCategories.some((el) => el === item.title)}"
           :for="item.title"
       >
         {{ item.title }}
