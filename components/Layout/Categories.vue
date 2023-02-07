@@ -12,6 +12,7 @@
         {{ category.title }}
       </a>
     </div>
+
     <div class="categories-body">
         <label
             class="categories-body-item categories-body-item-children"
