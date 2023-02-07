@@ -128,11 +128,11 @@ const authStore = useAuthStore()
 const store = useStore()
 
 const auth: SignUpData = reactive({
-  email: 'ololo@gmail.com',
-  password: 'Ololo123',
-  confirm: 'Ololo123',
-  username: 'ololo',
-  tagname: '@ololo',
+  email: '',
+  password: '',
+  confirm: '',
+  username: '',
+  tagname: '',
   redirect_after_verification: '/'
 })
 
