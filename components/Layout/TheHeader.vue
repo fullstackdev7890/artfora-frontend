@@ -1,7 +1,7 @@
 <template>
   <header
     class="header"
-    :class="{ 'header-hide': hideHeader }"
+    :class="{ 'header-hide': isShown }"
   >
     <div class="header-top">
       <search-bar />

@@ -3,28 +3,29 @@
 
     <div class="categories-body">
       <a
-          href="#"
-          class="categories-body-item categories-body-item-parents"
-          v-for="(category, index) in categories"
-          :class="{'categories-body-item-active': activeCategory === index}"
-          @click="choiceCategory(index)"
+        class="categories-body-item categories-body-item-parents"
+        v-for="(category, index) in categories"
+        :class="{'categories-body-item-active': activeCategory === index}"
+        @click="choiceCategory(index)"
+        href="#"
       >
         {{ category.title }}
       </a>
     </div>
+
     <div class="categories-body">
-        <label
-            class="categories-body-item categories-body-item-children"
-            v-for="item in subCategories"
-            :class="{'categories-body-item-active': checkSubCategories.some((el) => el === item.title)}"
-            :for="item.title"
-        >
+      <label
+        class="categories-body-item categories-body-item-children"
+        v-for="item in subCategories"
+        :class="{'categories-body-item-active': checkSubCategories.some((el) => el === item.title)}"
+        :for="item.title"
+      >
         {{ item.title }}
         <input
-            v-model="checkSubCategories"
-            :id="item.title"
-            :value="item.title"
-            type="checkbox"
+          v-model="checkSubCategories"
+          :id="item.title"
+          :value="item.title"
+          type="checkbox"
         >
       </label>
     </div>

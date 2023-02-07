@@ -1,10 +1,13 @@
 <template>
   <div class="search-bar">
-    <div class="search-bar-content" :class="{ 'search-bar-content-expanded': isExpanded }">
+    <div
+      class="search-bar-content"
+      :class="{ 'search-bar-content-expanded': isExpanded }"
+    >
       <input
-        v-show="isExpanded"
         class="search-bar-content-input"
         type="text"
+        v-show="isExpanded"
       />
         <div
           class="search-bar-content-icon"
