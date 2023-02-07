@@ -14,3 +14,7 @@ export interface SignUpData {
   confirm: string
   redirect_after_verification: string
 }
+
+export interface VerifyData {
+  token: string
+}

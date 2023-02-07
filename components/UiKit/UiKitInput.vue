@@ -89,7 +89,7 @@ interface Props {
   errorMessages?: object,
   serverErrors?: object,
   attentionMessages?: object
-  disabled?: boolean
+  disabled?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {

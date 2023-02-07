@@ -22,7 +22,10 @@
       </div>
 
       <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
-        <span class="ui-kit-dropdown-content-item-btn">Logout</span>
+        <span
+          class="ui-kit-dropdown-content-item-btn"
+          @click="authStore.logout()"
+        >Logout</span>
       </div>
     </ui-kit-dropdown>
 
@@ -37,6 +40,7 @@ import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
 
 const { isAuthorized } = useAuthStore()
+const authStore = useAuthStore()
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 
