@@ -13,6 +13,8 @@
       <profile-menu />
     </div>
 
+    <categories />
+
     <div class="header-bottom-divider"></div>
   </header>
 </template>
@@ -21,6 +23,7 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import SearchBar from '~/components/Layout/SearchBar.vue'
 import ProfileMenu from '~/components/Layout/ProfileMenu.vue'
+import Categories from '~/components/Layout/Categories.vue'
 
 const hideHeader = ref(false)
 const scrollPosition = ref(0)
