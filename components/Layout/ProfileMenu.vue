@@ -1,18 +1,18 @@
 <template>
   <div class="profile-menu">
     <div
-      class="new-product"
       v-if="isAuthorized"
+      class="new-product"
     >
       <plus-icon class="plus-icon"/>
     </div>
     <div
-      class="icon-button"
       @click="menuDropdownRef.open()"
+      class="icon-button"
     >
       <img
-        alt="user_avatar"
         :src="userAvatar"
+        alt="user_avatar"
       >
     </div>
 

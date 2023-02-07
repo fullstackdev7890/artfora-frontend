@@ -3,11 +3,11 @@
 
     <div class="categories-body">
       <a
-        class="categories-body-item categories-body-item-parents"
         v-for="(category, index) in categories"
         :class="{'categories-body-item-active': activeCategory === index}"
         @click="choiceCategory(index)"
         href="#"
+        class="categories-body-item categories-body-item-parents"
       >
         {{ category.title }}
       </a>
@@ -15,15 +15,15 @@
 
     <div class="categories-body">
       <label
-        class="categories-body-item categories-body-item-children"
         v-for="item in subCategories"
         :class="{'categories-body-item-active': checkSubCategories.some((el) => el === item.title)}"
         :for="item.title"
+        class="categories-body-item categories-body-item-children"
       >
         {{ item.title }}
         <input
-          v-model="checkSubCategories"
           :id="item.title"
+          v-model="checkSubCategories"
           :value="item.title"
           type="checkbox"
         >
