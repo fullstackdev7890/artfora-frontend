@@ -1,5 +1,7 @@
 export * from './state'
 
+export const HEADER_HEIGHT = 100
+
 export declare interface Entity {
   id: number
   created_at?: string | Date
@@ -19,5 +21,6 @@ export interface User extends Entity {
   last_name: string
   role_id: number
   email: string
+  media: Media
 }
 

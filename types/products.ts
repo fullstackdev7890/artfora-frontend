@@ -1,4 +1,4 @@
-import {Entity, Media} from "~/types/index";
+import { Entity, Media } from '~/types/index'
 
 export const JUSTIFIED_GALLERY_VIEW_TYPE = 'justified'
 export const SQUARE_GALLERY_VIEW_TYPE = 'square'
@@ -30,7 +30,4 @@ export declare interface Product extends Entity {
     tagname: string
     media: Media
   }
-}
-export interface ProductsState {
-  items: Product[]
 }

@@ -1,7 +1,19 @@
 <template>
   <div class="profile-menu">
-    <div class="icon-button" @click="menuDropdownRef.open()">
-      <img src="~/assets/images/logo.jpg" alt="user_avatar">
+    <div
+      v-if="isAuthorized"
+      class="new-product"
+    >
+      <plus-icon class="plus-icon"/>
+    </div>
+    <div
+      @click="menuDropdownRef.open()"
+      class="icon-button"
+    >
+      <img
+        :src="userAvatar"
+        alt="user_avatar"
+      >
     </div>
 
     <ui-kit-dropdown title="Menu" ref="menuDropdownRef">
@@ -29,10 +41,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useAuthStore } from '~/store/auth'
+import {useUserStore} from '~/store/user'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
+import PlusIcon from '~/assets/svg/plus.svg'
+import avatar from '~/assets/images/logo.jpg'
 
 const { isAuthorized } = useAuthStore()
+const { getUserAvatar } = useUserStore()
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
+const userAvatar = computed(() => getUserAvatar ?? avatar)
 </script>
