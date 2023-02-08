@@ -42,9 +42,9 @@
       <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">
         <span
           v-for="(message, key) in attentionMessages"
+          v-html="message"
           :key="key"
           class="form-attention"
-          v-html="message"
         ></span>
         <br>
       </span>
@@ -53,17 +53,17 @@
         <span
           v-for="(message, key) in errorMessages"
           v-show="errors[key].$invalid"
+          v-html="message"
           :key="key"
           class="form-error error"
-          v-html="message"
         ></span>
 
         <span
           v-for="(message, key) in serverErrors[props.name]"
           v-show="serverErrors && serverErrors[props.name]"
+          v-html="message"
           :key="key"
           class="form-error error"
-          v-html="message"
         ></span>
       </span>
     </fieldset>

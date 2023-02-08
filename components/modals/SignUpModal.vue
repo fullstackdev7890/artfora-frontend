@@ -91,18 +91,18 @@
       <template v-slot:buttons>
         <button
           v-if="!success"
+          :disabled="store.pendingRequestsCount"
           class="button full-width"
           type="submit"
-          :disabled="store.pendingRequestsCount"
         >
           Send verification email
         </button>
 
         <button
           v-else
-          class="button full-width"
           :disabled="store.pendingRequestsCount"
           @click="close"
+          class="button full-width"
         >
           Close
         </button>

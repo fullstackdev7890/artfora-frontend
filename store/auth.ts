@@ -1,9 +1,9 @@
 import type { AuthState } from '~/types/state'
 // @ts-ignore
 import { defineStore } from 'pinia'
-import { LoginData, VerifyData } from "~/types/auth"
+import { LoginData, VerifyData } from '~/types/auth'
 import axios from 'axios'
-import { navigateTo } from "#imports"
+import { navigateTo } from '#imports'
 
 export const useAuthStore = defineStore('auth', {
   persist: true,
