@@ -1,9 +1,9 @@
 import type { AuthState } from '~/types/state'
 // @ts-ignore
 import { defineStore } from 'pinia'
-import { LoginData } from "~/types/auth"
+import { LoginData, VerifyData } from '~/types/auth'
 import axios from 'axios'
-import {navigateTo} from "#imports"
+import { navigateTo } from '#imports'
 
 export const useAuthStore = defineStore('auth', {
   persist: true,
@@ -18,14 +18,26 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(data: LoginData) {
-      return await axios.post('/login', data)
+      return await axios.post('/auth/login', data)
+    },
+
+    async signUp(data: LoginData) {
+      return await axios.post('/auth/register', data)
+    },
+
+    async verifyEmail(data: VerifyData) {
+      return await axios.post('/auth/register/email/verify', data)
     },
 
     async logout() {
       // @ts-ignore
       this.token = null
 
-      navigateTo('/login')
+      // temporary solution
+      window.location.href = '/'
+
+      // make it work right
+      // navigateTo('/')
     },
 
     async refreshToken() {

@@ -78,7 +78,7 @@ const redirectToLoginPage = (store: AuthState) => {
       if ([401, 403].includes(error.response.status)) {
         store.token = null
 
-        navigateTo('/login')
+        navigateTo('/')
       }
 
       return Promise.reject(error)

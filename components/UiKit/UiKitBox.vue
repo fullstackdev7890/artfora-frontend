@@ -16,7 +16,6 @@
             :class="{ 'fa-chevron-down': isCollapsed, 'fa-chevron-up': !isCollapsed }"
             @click="toggleCollapsing()"
             class="ui-kit-box-tools-link fa"
-            cy-name="collapse-button"
           ></a>
 
           <a
@@ -32,6 +31,7 @@
             @blur="isOptionsShown = !isOptionsShown"
             class="ui-kit-box-dropdown-toggle fa fa-wrench">
           </a>
+
           <ul v-if="isOptionsShown" class="ui-kit-box-dropdown-menu">
             <li v-for="option in options">
               <a @click="$emit(option.event)">
@@ -40,12 +40,11 @@
             </li>
           </ul>
 
-          <a
+          <close-icon
             v-if="showCloseButton"
             @click="close()"
-            class="ui-kit-box-tools-link fa fa-times"
-            cy-name="close-button"
-          ></a>
+            class="close-icon ui-kit-box-tools-link"
+          />
         </div>
       </div>
 
@@ -53,7 +52,7 @@
         <slot name="heading"></slot>
       </header>
 
-      <section v-show="!isCollapsed" class="ui-kit-box-content" cy-name="box-content">
+      <section v-show="!isCollapsed" class="ui-kit-box-content">
         <slot name="content"></slot>
       </section>
 
@@ -67,6 +66,7 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import { UiKitCustomButton, UiKitBoxOption } from '~/types/uiKit'
+import CloseIcon from '~/assets/svg/close.svg'
 
 interface Props {
   title?: string
@@ -82,7 +82,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   showCloseButton: true,
-  showCollapseButton: true,
+  showCollapseButton: false,
   showOptionsButton: true,
   withFooter: false,
   withHeader: false,

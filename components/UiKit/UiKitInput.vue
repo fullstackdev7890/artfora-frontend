@@ -10,7 +10,7 @@
         :type="type"
         :model-value="modelValue"
         :class="{ 'form-control-filled': modelValue }"
-        :cy-name="name"
+        :disabled="props.disabled"
         autocomplete="off"
         class="form-control"
         @update:modelValue="onChanged"
@@ -25,7 +25,7 @@
         :type="type"
         :value="modelValue"
         :class="{ 'form-control-filled': modelValue || type === 'date' }"
-        :cy-name="name"
+        :disabled="props.disabled"
         autocomplete="off"
         class="form-control"
         @input="onChanged"
@@ -39,13 +39,31 @@
         {{ placeholder }}
       </label>
 
-      <span v-if="errors.$error" class="form-errors-list">
+      <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">
+        <span
+          v-for="(message, key) in attentionMessages"
+          v-html="message"
+          :key="key"
+          class="form-attention"
+        ></span>
+        <br>
+      </span>
+
+      <span v-if="errors.$error || serverErrors[props.name]" class="form-errors-list">
         <span
           v-for="(message, key) in errorMessages"
           v-show="errors[key].$invalid"
+          v-html="message"
           :key="key"
           class="form-error error"
+        ></span>
+
+        <span
+          v-for="(message, key) in serverErrors[props.name]"
+          v-show="serverErrors && serverErrors[props.name]"
           v-html="message"
+          :key="key"
+          class="form-error error"
         ></span>
       </span>
     </fieldset>
@@ -68,7 +86,10 @@ interface Props {
   step?: number,
   timeout?: number,
   errors?: object,
-  errorMessages?: object
+  errorMessages?: object,
+  serverErrors?: object,
+  attentionMessages?: object
+  disabled?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,7 +98,8 @@ const props = withDefaults(defineProps<Props>(), {
   step: 1,
   timeout: 0,
   errors: () => ({ $error: false }),
-  errorMessages: () => ({})
+  errorMessages: () => ({}),
+  serverErrors: () => ({})
 })
 
 const emit = defineEmits(['update:modelValue'])

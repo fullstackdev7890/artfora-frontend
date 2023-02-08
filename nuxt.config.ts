@@ -24,7 +24,6 @@ export default defineNuxtConfig({
     '@/assets/scss/index.scss'
   ],
   modules: [
-    // ...
     '@pinia/nuxt',
   ],
 

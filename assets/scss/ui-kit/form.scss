@@ -1,13 +1,15 @@
 @import "../variables";
 
 .form {
-  &-group { margin-bottom: 1.5rem; position: relative; }
+  &-group { margin-bottom: 1rem; position: relative; }
 
   &-control {
-    background: transparent; border: 0; border-bottom: $input-border-color 1px solid; padding: 1rem 0 .5rem; width: 100%;
-    box-sizing: border-box; font-size: 1rem;
+    background: transparent; border: $input-border-color 1px solid; padding: .8rem .8rem .5rem .8rem; width: 100%;
+    box-sizing: border-box; font-size: 1rem; color: $light-bg; border-radius: 10px;
 
-    &-filled ~ .form-label { transform: translate(0, -1rem) scale(0.8); }
+    &-filled ~ .form-label { transform: translate(0, -.6rem) scale(0.6); }
+
+    &:disabled { opacity: 0.8; cursor: not-allowed; }
   }
 
   &-checkbox { padding-top: 20px;
@@ -15,12 +17,13 @@
   }
 
   &-label {
-    position: absolute; top: 1rem; left: 0; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0;
-    transition: all $transition-delay;
+    position: absolute; top: .85rem; left: .8rem; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0;
+    transition: all $transition-delay; font-style: italic;
   }
 
-  &-errors-list { position: absolute; top: 45px; width: 100%; left: 0; }
-  &-error { color: $error-color; margin-top: .5rem; font-size: .9rem }
+  &-errors-list, &-attentions-list { width: 100%; }
+  &-attention { font-style: italic; }
+  &-error, &-attention { color: $error-color; margin-top: .3rem; font-size: .8rem; }
 
   &-arrow { position: absolute; right: .5rem; top: 1.5rem; cursor: pointer; }
 
