@@ -7,8 +7,8 @@
 
     <ui-kit-box
       :title="title"
-      :with-header="true"
-      :with-footer="true"
+      :with-header="withHeader"
+      :with-footer="withFooter"
       @close="isShown = false"
       class="ui-kit-modal-content"
     >
@@ -28,11 +28,15 @@ import { ref } from 'vue';
 
 interface Props {
   title?: string,
-  closeByClickOutside?: boolean
+  closeByClickOutside?: boolean,
+  withFooter?: boolean,
+  withHeader?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  closeByClickOutside: false
+  closeByClickOutside: false,
+  withFooter: true,
+  withHeader: true
 })
 const isShown = ref(false)
 
