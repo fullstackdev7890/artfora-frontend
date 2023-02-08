@@ -1,10 +1,8 @@
-import {
-  Setting
-} from '~/types/index'
-import {
-  Paginated,
-  SearchFilters
-} from '~/types/search'
+import { Setting } from '~/types/index'
+import { Paginated, SearchFilters } from '~/types/search'
+import { Product } from '~/types/products'
+import { Category } from '~/types/categories'
+
 
 export interface RootState {
   title: string,
@@ -23,4 +21,10 @@ export interface SimpleEntityState<T, R> {
 
 export interface SettingsState {
   items: Paginated<Setting>
+}
+export interface ProductsState {
+  items: Product[]
+}
+export interface CategoriesState {
+  items: Category[]
 }
