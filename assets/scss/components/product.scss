@@ -21,6 +21,18 @@
         height: auto; width: 100%;
       }
     }
+
+    &-next {
+      position: absolute; right: 10px; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; background: black;
+      display: flex; justify-content: center; align-items: center;
+      & .next-icon { fill: $border-color; }
+    }
+
+    &-prev {
+      position: absolute; left: 10px; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; background: black;
+      display: flex; justify-content: center; align-items: center;
+      & .prev-icon { fill: $border-color; transform: rotate(180deg); }
+    }
   }
 
   &-btn {
@@ -38,5 +50,6 @@
       & .hide-icon { fill: white; }
     }
     &-close { display: flex; align-items: center; justify-content: center; fill: white; }
+
   }
 }

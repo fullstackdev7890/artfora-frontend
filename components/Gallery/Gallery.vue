@@ -29,7 +29,7 @@
             :author-avatar="image.user.media.link"
           />
 
-          <img :src="image.media.link" :alt="image.title">
+          <img :src="image.media[0].link" :alt="image.title">
         </div>
       </nuxt-link>
     </div>

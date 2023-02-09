@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <the-header />
+    <the-header v-show="$route.name !== 'products-id'" />
 
     <slot/>
   </div>
