@@ -35,6 +35,7 @@ import CloseIcon from '~/assets/svg/close.svg'
 import ArrowLeft from '~/assets/svg/arrow-left.svg'
 import ProductSidebar from '~/components/product/productSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
+import {lineBreakG} from "acorn";
 
 const route = useRoute()
 const router = useRouter()
@@ -50,15 +51,14 @@ const toggleSidebar = () => isShown.value = !isShown.value
 const toBack = () => router.push('/')
 
 const toNextImage = () => {
-  if (currentImage.value + 1 < product.value.media.length) {
-    currentImage.value = currentImage.value + 1
-  } else currentImage.value = 0
+  if (++currentImage.value >= product.value.media.length) {
+    currentImage.value = 0
+  }
 }
 
 const toPrevImage = () => {
-  console.log(currentImage.value - 1, currentImage.value - 1 > 0)
-  if (currentImage.value > 0) {
-    currentImage.value = currentImage.value - 1
-  } else currentImage.value = product.value.media.length - 1
+  if (--currentImage.value < 0) {
+    currentImage.value = product.value.media.length - 1
+  }
 }
 </script>
