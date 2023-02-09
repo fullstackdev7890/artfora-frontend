@@ -31,7 +31,6 @@ import {
 import Gallery from '~/components/Gallery/Gallery.vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 
-
 const title = ref('')
 const description = ref('')
 const galleryImages = ref([])

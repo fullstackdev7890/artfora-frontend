@@ -9,7 +9,7 @@
 @import 'ui-kit/pagination';
 @import 'ui-kit/sidebar';
 @import 'ui-kit/table';
-@import "ui-kit/modal";
+@import 'ui-kit/modal';
 @import 'etc';
 @import 'components/header';
 @import 'components/profile-menu';
@@ -17,6 +17,7 @@
 @import 'components/icon-button';
 @import 'components/gallery';
 @import 'components/categories';
+@import 'components/link';
 
 .search {
   &-query { margin-bottom: 1rem; padding-bottom: 0; }

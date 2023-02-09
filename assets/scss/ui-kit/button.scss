@@ -1,7 +1,9 @@
 @import '../variables';
 
 .button {
-  border-radius: 3px; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; text-decoration: none;
+  border-radius: 10px; padding: 0.5rem 1rem; font-size: 1.5rem; cursor: pointer; text-decoration: none;
+  text-transform: uppercase; font-family: Prozak, sans-serif; letter-spacing: 4px; color: $body-bg;
+  transition: opacity 0.3s;
 
   &-default {
     color: $button-default-font-color; background-color: $button-default-background-color;
@@ -17,4 +19,10 @@
   &-warning { color: $button-warning-font-color; background-color: $button-warning-background-color; }
 
   &-full-width { width: 100%; }
+
+  &:hover { opacity: 0.7; }
+
+  &:active { opacity: 0.5; }
+
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
 }

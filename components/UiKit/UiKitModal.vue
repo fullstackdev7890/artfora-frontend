@@ -1,14 +1,14 @@
 <template>
   <div
     v-if="isShown"
-    cy-name="modal"
     class="ui-kit-modal"
   >
-    <div class="ui-kit-modal-background" @click="close()"></div>
+    <div class="ui-kit-modal-background" @click="closeByClickOutsideAction()"></div>
 
     <ui-kit-box
       :title="title"
-      :with-footer="true"
+      :with-header="withHeader"
+      :with-footer="withFooter"
       @close="isShown = false"
       class="ui-kit-modal-content"
     >
@@ -27,10 +27,17 @@
 import { ref } from 'vue';
 
 interface Props {
-  title?: string
+  title?: string,
+  closeByClickOutside?: boolean,
+  withFooter?: boolean,
+  withHeader?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  closeByClickOutside: false,
+  withFooter: true,
+  withHeader: true
+})
 const isShown = ref(false)
 
 function open() {
@@ -39,6 +46,12 @@ function open() {
 
 function close() {
   isShown.value = false
+}
+
+function closeByClickOutsideAction() {
+  if (props.closeByClickOutside) {
+    close()
+  }
 }
 
 defineExpose({ open, close })

@@ -5,3 +5,16 @@ export interface LoginData {
   email: string
   password: string
 }
+
+export interface SignUpData {
+  email: string
+  tagname: string
+  username: string
+  password: string
+  confirm: string
+  redirect_after_verification: string
+}
+
+export interface VerifyData {
+  token: string
+}
