@@ -24,7 +24,7 @@ export declare interface Product extends Entity {
   weight: number
   status: string
   deleted_at: string | null
-  media: Media
+  media: Media[]
   user: {
     username: string
     tagname: string

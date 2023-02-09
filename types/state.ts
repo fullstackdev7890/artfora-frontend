@@ -23,7 +23,8 @@ export interface SettingsState {
   items: Paginated<Setting>
 }
 export interface ProductsState {
-  items: Product[]
+  items: Product[],
+  current: Product
 }
 export interface CategoriesState {
   items: Category[]

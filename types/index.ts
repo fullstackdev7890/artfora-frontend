@@ -19,6 +19,7 @@ export declare interface Media extends Entity {
 export interface User extends Entity {
   first_name: string
   last_name: string
+  background_image: string | null,
   role_id: number
   email: string
   media: Media

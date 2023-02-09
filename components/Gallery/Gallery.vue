@@ -4,8 +4,9 @@
       v-for="column in cols"
       class="col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100"
     >
-      <div
+      <nuxt-link
         v-for="image in column"
+        :to="`/products/${image.id}`"
         class="gallery-item"
       >
         <div
@@ -28,9 +29,9 @@
             :author-avatar="image.user.media.link"
           />
 
-          <img :src="image.media.link" :alt="image.title">
+          <img :src="image.media[0].link" :alt="image.title">
         </div>
-      </div>
+      </nuxt-link>
     </div>
   </div>
 </template>
