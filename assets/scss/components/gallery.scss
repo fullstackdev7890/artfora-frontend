@@ -5,7 +5,7 @@
   padding: 0.5rem 0.25rem;
 
   &-item {
-    padding: 0.25rem;
+    padding: 0.25rem; display: block; text-decoration: none; color: $border-color;
 
     &-image-container {
       border: 1px solid $border-color; border-radius: 10px; overflow: hidden; display: flex; position: relative;
@@ -15,13 +15,13 @@
       &-info {
         position: absolute; top: 0; left: 0; bottom: 0; right: 0; display: none; margin: auto;
         width: 100%; height: fit-content; background: $body-bg; text-align: center; font-family: 'Prozak';
-        letter-spacing: 1px; padding: 25px 0;
+        letter-spacing: 1px; padding: 25px 0; opacity: 0;
 
         h4 { font-size: 21px; margin: 0 0 20px; }
         p { margin: 0; }
       }
 
-      &:hover &-info { display: block; }
+      &:hover &-info { display: block; opacity: 1}
 
       &-square {
         height: 20vw; align-items: center; justify-content: center;
