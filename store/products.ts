@@ -26,6 +26,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'www.yotube.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -51,6 +53,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -76,6 +79,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -101,6 +105,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -125,6 +130,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -149,6 +155,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -173,6 +180,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -197,6 +205,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -221,6 +230,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -245,6 +255,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -269,6 +280,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -293,6 +305,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -317,6 +330,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -341,6 +355,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -365,6 +380,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -389,6 +405,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -413,6 +430,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -446,6 +464,7 @@ export const useProductsStore = defineStore('products', {
                   }
                 ],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -470,6 +489,7 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -492,6 +512,7 @@ export const useProductsStore = defineStore('products', {
         name: ''
       },
       user: {
+        id: 1,
         username: '',
         tagname: '',
         background_image: '',

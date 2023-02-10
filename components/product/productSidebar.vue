@@ -13,7 +13,7 @@
           <p>{{ props.imageInfo.user.tagname }}</p>
         </div>
         <div class="product-sidebar-user-share">
-          <share-icon class="share-icon" />
+          <share-icon class="share-icon" @click="linksModal.open()" />
         </div>
       </div>
 
@@ -45,8 +45,14 @@
         <p>{{ props.imageInfo.description }}</p>
       </div>
 
-      <button class="product-sidebar-btn">CONTACT</button>
-      <button class="product-sidebar-btn">COMMISSION OPEN</button>
+      <button class="product-sidebar-btn" @click="contactModal.open()">CONTACT</button>
+      <button class="product-sidebar-btn" @click="commissionWorkModal.open()">COMMISSION OPEN</button>
+
+      <links-modal ref="linksModal" />
+
+      <commission-work-modal ref="commissionWorkModal" :user-id="props.imageInfo.user.id" />
+
+      <contact-modal ref="contactModal"/>
     </div>
   </transition>
 </template>
@@ -54,6 +60,9 @@
 <script setup lang="ts">
 import { Product } from '~/types/products'
 import ShareIcon from '~/assets/svg/share.svg'
+import LinksModal from '~/components/modals/LinksModal.vue'
+import CommissionWorkModal from '~/components/modals/CommissionWorkModal.vue'
+import ContactModal from '~/components/modals/ContactModal.vue'
 
 interface Props {
   imageInfo: Product
@@ -70,6 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
     name: ''
   },
   user: {
+    id: 1,
     username: '',
     tagname: '',
     background_image: '',
@@ -82,4 +92,8 @@ const props = withDefaults(defineProps<Props>(), {
     }
   }
 })
+
+const linksModal = ref<InstanceType<typeof LinksModal>>(null)
+const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
+const contactModal = ref<InstanceType<typeof ContactModal>>(null)
 </script>

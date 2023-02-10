@@ -26,6 +26,7 @@ export declare interface Product extends Entity {
   deleted_at: string | null
   media: Media[]
   user: {
+    id: number
     username: string
     tagname: string
     media: Media

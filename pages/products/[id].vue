@@ -24,6 +24,7 @@
       </div>
     </div>
     <product-sidebar v-show="isShown" :image-info="product" />
+
   </div>
 </template>
 
@@ -35,7 +36,6 @@ import CloseIcon from '~/assets/svg/close.svg'
 import ArrowLeft from '~/assets/svg/arrow-left.svg'
 import ProductSidebar from '~/components/product/productSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
-import {lineBreakG} from "acorn";
 
 const route = useRoute()
 const router = useRouter()
@@ -43,6 +43,7 @@ const products = useProductsStore()
 const product = computed(() => products.item)
 const isShown = ref(false)
 const currentImage = ref(0)
+
 
 useAsyncData('products', async () => await products.fetch(route.params.id as string))
 

@@ -22,6 +22,7 @@ export interface User extends Entity {
   background_image: string | null,
   role_id: number
   email: string
+  external_link: string | null
   media: Media
 }
 
