@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import axios from "axios";
-import {CommissionWork} from "~/types/commissionWork";
+import { CommissionWork } from '~/types/commissionWork'
+import axios from 'axios'
 
 
 export const useCommissionWorkState = defineStore('commission-work', {
   actions: {
     async send(userId: number, data: CommissionWork) {
-      await axios.post(`/users/${userId}/commission`, data)
+      return await axios.post(`/users/${userId}/commission`, data)
     }
   }
 })

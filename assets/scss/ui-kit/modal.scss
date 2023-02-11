@@ -17,6 +17,8 @@
     }
   }
 
+  .contact-modal-submit { display: flex; flex-direction: column; gap: 15px; }
+
   &-content { z-index: 101; min-width: 350px;
     @media (max-width: $small) {
       min-width: 100%;

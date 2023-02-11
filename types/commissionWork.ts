@@ -1,5 +1,5 @@
 export declare interface CommissionWork {
   name:	string
-  email:	string
+  email: string
   text:	string
 }

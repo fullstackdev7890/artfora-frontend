@@ -1,14 +1,18 @@
 <template>
   <div class="product-container">
     <div class="product-container-btn">
+
       <button class="product-container-btn-info" @click="toggleSidebar">
         <span v-show="!isShown">i</span>
         <arrow-left v-show="isShown" class="hide-icon" />
       </button>
+
       <button class="product-container-btn-close" @click="toBack()" >
         <close-icon/>
       </button>
+
     </div>
+
     <div class="product-container-images">
       <img
         v-for="(image, index) in product.media"
@@ -16,13 +20,17 @@
         :src="image.link"
         alt="image"
       >
+
       <div class="product-container-images-next" v-show="product.media.length > 1" @click="toNextImage()">
         <next-icon class="next-icon" />
       </div>
+
       <div class="product-container-images-prev" v-show="product.media.length > 1" @click="toPrevImage()">
         <next-icon class="prev-icon"/>
       </div>
+
     </div>
+
     <product-sidebar v-show="isShown" :image-info="product" />
 
   </div>
@@ -43,7 +51,6 @@ const products = useProductsStore()
 const product = computed(() => products.item)
 const isShown = ref(false)
 const currentImage = ref(0)
-
 
 useAsyncData('products', async () => await products.fetch(route.params.id as string))
 

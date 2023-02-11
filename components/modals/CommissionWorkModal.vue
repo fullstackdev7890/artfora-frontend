@@ -1,30 +1,32 @@
 <template>
   <ui-kit-modal :title="'Commission work'" :with-footer="false" ref="commissionWork" class="">
    <template v-slot:content>
-    <ui-kit-input
-      v-model="commissionWorkData.name"
-      :errors="FormValidate.commissionWorkData.name"
-      :error-messages="{ required: 'Please enter username.' }"
-      type="text"
-      placeholder="YOUR NAME"
-    />
-    <ui-kit-input
-      v-model="commissionWorkData.email"
-      :errors="FormValidate.commissionWorkData.email"
-      :error-messages="{ required: 'Please enter email.', email: 'Please enter valid email address.' }"
-      type="mail"
-      placeholder="YOUR EMAIL ADDRESS"
-    />
-    <ui-kit-text-area
-      v-model="commissionWorkData.text"
-      :errors="FormValidate.commissionWorkData.text"
-      :error-messages="{ required: 'Please enter text.'}"
-      placeholder="YOUR MESSAGE"
-    />
+     <form @submit.prevent="sendForm">
+       <ui-kit-input
+         v-model="commissionWorkData.name"
+         :errors="v$.commissionWorkData.name"
+         :error-messages="{ required: 'Please enter username.' }"
+         type="text"
+         placeholder="YOUR NAME"
+       />
+       <ui-kit-input
+         v-model="commissionWorkData.email"
+         :errors="v$.commissionWorkData.email"
+         :error-messages="{ required: 'Please enter email.', email: 'Please enter valid email address.' }"
+         type="mail"
+         placeholder="YOUR EMAIL ADDRESS"
+       />
+       <ui-kit-text-area
+         v-model="commissionWorkData.text"
+         :errors="v$.commissionWorkData.text"
+         :error-messages="{ required: 'Please enter text.'}"
+         placeholder="YOUR MESSAGE"
+       />
 
-     <div class="ui-kit-modal-content-buttons">
-       <button class="button full-width" @click="sendForm()">SEND MESSAGE</button>
-     </div>
+       <div class="ui-kit-modal-content-buttons">
+         <button class="button full-width" @click="sendForm()">SEND MESSAGE</button>
+       </div>
+     </form>
    </template>
   </ui-kit-modal>
 </template>
@@ -49,7 +51,7 @@ const commissionWorkData = reactive({
 
 const commissionFormStore = useCommissionWorkState()
 
-const FormValidate = useVuelidate({
+const v$ = useVuelidate({
   commissionWorkData: {
     name: { required },
     email: { required, email },
@@ -58,14 +60,15 @@ const FormValidate = useVuelidate({
 }, { commissionWorkData })
 
 const sendForm = () => {
-  FormValidate.value.$touch()
+  v$.value.$touch()
 
-  if (FormValidate.value.$error) {
+  if (v$.value.$error) {
     return
   }
 
+  commissionFormStore.send(props.userId, commissionWorkData)
 
-  commissionFormStore.send(props.userId, commissionWorkData).then(() => close())
+  close()
 }
 
 function open() {

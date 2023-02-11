@@ -48,7 +48,7 @@
       <button class="product-sidebar-btn" @click="contactModal.open()">CONTACT</button>
       <button class="product-sidebar-btn" @click="commissionWorkModal.open()">COMMISSION OPEN</button>
 
-      <links-modal ref="linksModal" />
+      <links-modal ref="linksModal" :links="props.imageInfo.user.external_link" />
 
       <commission-work-modal ref="commissionWorkModal" :user-id="props.imageInfo.user.id" />
 
