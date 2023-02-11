@@ -6,6 +6,11 @@ export interface LoginData {
   password: string
 }
 
+export interface TFAData {
+  code: string,
+  email: string | null
+}
+
 export interface SignUpData {
   email: string
   tagname: string

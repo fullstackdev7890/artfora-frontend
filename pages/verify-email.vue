@@ -41,15 +41,7 @@ onMounted(() => {
 
 async function startVerifyEmail() {
   try {
-    const response = await authStore.verifyEmail(verifyData)
-
-    authStore.token = response.data.token
-
-    // temporary solution
-    window.location.href = redirect as string
-
-    // make it work right
-    // return await navigateTo(redirect as string)
+    await authStore.verifyEmail(verifyData, redirect as string)
   } catch (e) {
     alert('Something went wrong! Please try again later.')
 

@@ -6,7 +6,7 @@
     class="auth-modal"
   >
     <template v-slot:content>
-      <form v-if="!success" @submit.prevent="logIn">
+      <form @submit.prevent="logIn">
         <p class="ui-kit-box-content-small-text">
           Don't have an account?
           <span
@@ -36,13 +36,18 @@
         />
 
         <span v-if="error" class="form-errors-list">
-          <span
-            class="form-error error"
-            v-html="error"
-          ></span>
+          <span class="form-error error">
+            Either your email address or your password seems to be wrong. Try again or
+            <span class="link">
+              reset password here!
+            </span>
+          </span>
         </span>
 
-        <p class="ui-kit-box-content-small-text align-right">
+        <p
+          v-if="!error"
+          class="ui-kit-box-content-small-text align-right"
+        >
           Forgot your password?
           <span class="link">Reset here!</span>
         </p>
@@ -62,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from '@vue/reactivity'
+import { ref } from '@vue/reactivity'
 import { required, email } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
@@ -74,14 +79,14 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
-const emit = defineEmits(['openSignUpModal'])
+const emit = defineEmits(['openSignUpModal', 'openTFAModal'])
 
 const auth: LoginData = reactive({
   login: '',
   password: ''
 })
 
-let error = ref('')
+let error = ref(false)
 let serverErrors = ref({})
 let success = ref(false)
 
@@ -99,16 +104,18 @@ async function logIn() {
     return
   }
 
-  error.value = ''
+  error.value = false
   serverErrors.value = {}
 
   try {
     await authStore.login(auth)
 
     success.value = true
+
+    openTFAModal()
   } catch (e) {
     if (e.response && !e.response.data.errors) {
-      error.value = 'Something went wrong! Please try again later.'
+      error.value = true
 
       return
     }
@@ -120,6 +127,11 @@ async function logIn() {
 function openSignUpModal() {
   close()
   emit('openSignUpModal')
+}
+
+function openTFAModal() {
+  close()
+  emit('openTFAModal')
 }
 
 function open() {

@@ -1,7 +1,7 @@
 <template>
   <div class="profile-menu">
     <div
-      v-if="isAuthorized"
+      v-if="userIsAuthorized"
       class="new-product"
     >
       <plus-icon class="plus-icon"/>
@@ -17,11 +17,11 @@
     </div>
 
     <ui-kit-dropdown title="Menu" ref="menuDropdownRef">
-      <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
+      <div v-if="userIsAuthorized" class="ui-kit-dropdown-content-item">
         <span class="ui-kit-dropdown-content-item-btn">My Settings</span>
       </div>
 
-      <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
+      <div v-if="!userIsAuthorized" class="ui-kit-dropdown-content-item">
         <span @click="openSignUpModal()" class="ui-kit-dropdown-content-item-btn">Login/Sign up</span>
       </div>
 
@@ -33,10 +33,10 @@
         <span class="ui-kit-dropdown-content-item-btn">Contact us</span>
       </div>
 
-      <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
+      <div v-if="userIsAuthorized" class="ui-kit-dropdown-content-item">
         <span
           class="ui-kit-dropdown-content-item-btn"
-          @click="authStore.logout()"
+          @click="logout"
         >Logout</span>
       </div>
     </ui-kit-dropdown>
@@ -49,39 +49,70 @@
     <log-in-modal
       ref="logInModalRef"
       @open-sign-up-modal="openSignUpModal"
+      @open-t-f-a-modal="openTFAModal"
     />
+
+    <t-f-a-modal ref="TFAModalRef" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useAuthStore } from '~/store/auth'
-import {useUserStore} from '~/store/user'
+import { useUserStore } from '~/store/user'
+import { storeToRefs } from 'pinia'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 import avatar from '~/assets/images/logo.jpg'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
+import TFAModal from '~/components/modals/TFAModal.vue'
 
-const { isAuthorized } = useAuthStore()
-const { getUserAvatar } = useUserStore()
+const authStore = useAuthStore()
+const userStore = useUserStore()
+const { isAuthorized, isAwaitingTokenConfirmation } = storeToRefs(authStore)
+const { getUserAvatar } = storeToRefs(userStore)
+
+const userAvatar = computed(() => getUserAvatar.value ?? avatar)
+const userIsAuthorized = computed(() => isAuthorized.value)
+
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
-const userAvatar = computed(() => getUserAvatar ?? avatar)
-const authStore = useAuthStore()
+const TFAModalRef = ref<InstanceType<typeof TFAModal>>(null)
 
 const router = useRouter()
 
 router.beforeEach((to, from, next) => {
   closeSignUpModal()
   closeLogInModal()
+  closeTFAModal()
 
   next()
 })
 
+function logout() {
+  authStore.logout()
+  menuDropdownRef.value.close()
+}
+
+function openTFAModal() {
+  menuDropdownRef.value.close()
+  TFAModalRef.value.open()
+}
+
+function closeTFAModal() {
+  TFAModalRef.value.close()
+}
+
 function openLogInModal() {
   menuDropdownRef.value.close()
+
+  if (isAwaitingTokenConfirmation.value) {
+    openTFAModal()
+    return
+  }
+
   logInModalRef.value.open()
 }
 
@@ -91,6 +122,12 @@ function closeLogInModal() {
 
 function openSignUpModal() {
   menuDropdownRef.value.close()
+
+  if (isAwaitingTokenConfirmation.value) {
+    openTFAModal()
+    return
+  }
+
   signUpModalRef.value.open()
 }
 
