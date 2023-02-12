@@ -7,7 +7,6 @@
 
     <template v-slot:content>
       <form v-if="!success" @submit.prevent="sendForm">
-
         <ui-kit-input
           v-model="contactFormData.name"
           :errors="v$.contactFormData.name"
