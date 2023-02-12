@@ -7,7 +7,6 @@
   >
     <template v-slot:content>
       <div class="ui-kit-modal-content">
-
         <div class="links-modal-item" v-if="permanentLinks.instagram">
           <instagram-icon class="social-icon" />
           <a :href="permanentLinks.instagram" class="ui-kit-modal-content-links" target="_blank">
