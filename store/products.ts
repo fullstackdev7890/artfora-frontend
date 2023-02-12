@@ -26,6 +26,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com,https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test, https://codepen.io/pen/?editors=0012,https://bandcamp.com/,https://nuxtjs.org/docs/features/nuxt-components/',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -51,6 +53,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com,https://www.twitch.com,https://www.patreon.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -76,6 +80,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -101,6 +107,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -125,6 +133,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -149,6 +159,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -173,6 +185,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -197,6 +211,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -221,6 +237,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -245,6 +263,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -269,6 +289,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -293,6 +315,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -317,6 +341,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -341,6 +367,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -365,6 +393,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -389,6 +419,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -413,6 +445,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -446,6 +480,8 @@ export const useProductsStore = defineStore('products', {
                   }
                 ],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -470,6 +506,8 @@ export const useProductsStore = defineStore('products', {
                     name: ''
                 }],
                 user: {
+                    external_link: 'https://www.youtube.com/,https://chat.openai.com,https://twitch.com',
+                    id: 1,
                     username: 'test_author',
                     tagname: '@test_author',
                     background_image: 'https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png',
@@ -492,6 +530,8 @@ export const useProductsStore = defineStore('products', {
         name: ''
       },
       user: {
+        external_link: null,
+        id: 1,
         username: '',
         tagname: '',
         background_image: '',
