@@ -26,3 +26,9 @@ export interface User extends Entity {
   media: Media
 }
 
+export interface Setting extends Entity {
+  name: string
+  value: object
+  is_public: boolean
+}
+

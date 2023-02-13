@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-    :title=" success ? 'Message sent' : 'Contact'"
+    :title="success ? 'Message sent' : 'Contact'"
     :with-footer="false"
     ref="contactForm"
   >

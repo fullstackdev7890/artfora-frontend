@@ -1,5 +1,9 @@
 <template>
-  <ui-kit-modal :title="'Commission work'" :with-footer="false" ref="commissionWork" class="">
+  <ui-kit-modal
+    title="Commission work"
+    :with-footer="false"
+    ref="commissionWork"
+  >
    <template v-slot:content>
      <form @submit.prevent="sendForm">
        <ui-kit-input

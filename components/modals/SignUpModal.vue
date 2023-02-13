@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-    :title="'Sign Up'"
+    title="Sign Up"
     :with-footer="false"
     ref="signUpModal"
     class="auth-modal"
@@ -8,7 +8,11 @@
     <template v-slot:content>
       <form v-if="!success" @submit.prevent="signUp">
         <p class="ui-kit-box-content-small-text">
-          Already have an account? <span class="link">Login here!</span>
+          Already have an account?
+          <span
+            class="link"
+            @click="openLogInModal"
+          >Login here!</span>
         </p>
 
         <ui-kit-input
@@ -79,7 +83,6 @@
 
         <div class="ui-kit-modal-content-buttons">
           <button
-            v-if="!success"
             :disabled="store.pendingRequestsCount"
             class="button full-width"
             type="submit"
@@ -125,6 +128,7 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const signUpModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
+const emit = defineEmits(['openLogInModal'])
 
 const auth: SignUpData = reactive({
   email: '',
@@ -191,6 +195,11 @@ async function signUp() {
 
     serverErrors.value = e.response.data.errors
   }
+}
+
+function openLogInModal() {
+  close()
+  emit('openLogInModal')
 }
 
 function open() {

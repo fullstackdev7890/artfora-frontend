@@ -2,8 +2,13 @@ export const ADMIN_ROLE = 1
 export const USER_ROLE = 1
 
 export interface LoginData {
-  email: string
+  login: string
   password: string
+}
+
+export interface TwoFactorAuthData {
+  code: string,
+  email: string | null
 }
 
 export interface SignUpData {
