@@ -1,7 +1,7 @@
 <template>
   <ui-kit-modal
-    title="Safe login"
     :with-footer="false"
+    title="Safe login"
     ref="TwoFactorAuthModal"
     class="auth-modal"
   >

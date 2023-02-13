@@ -1,7 +1,7 @@
 <template>
   <ui-kit-modal
-    title="Login"
     :with-footer="false"
+    title="Login"
     ref="logInModal"
     class="auth-modal"
   >
