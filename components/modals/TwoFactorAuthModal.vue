@@ -1,12 +1,12 @@
 <template>
   <ui-kit-modal
-    :title="'Safe login'"
+    title="Safe login"
     :with-footer="false"
-    ref="TFAModal"
+    ref="TwoFactorAuthModal"
     class="auth-modal"
   >
     <template v-slot:content>
-      <form @submit.prevent="confirmTFA">
+      <form @submit.prevent="confirmTwoFactorAuth">
         <p class="ui-kit-box-content-small-text">
           Please type in the 2 factor authentication code which we have sent you by email:
         </p>
@@ -63,16 +63,16 @@ import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
 import { storeToRefs } from 'pinia'
-import type { TFAData } from '~/types/auth'
+import type { TwoFactorAuthData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 
-const TFAModal = ref<InstanceType<typeof UiKitModal>>(null)
+const TwoFactorAuthModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
-const { emailForTFA } = storeToRefs(authStore)
+const { emailForTwoFactorAuth } = storeToRefs(authStore)
 
-const auth: TFAData = reactive({
+const auth: TwoFactorAuthData = reactive({
   code: '',
   email: null
 })
@@ -89,8 +89,8 @@ const v$ = useVuelidate({
   }
 }, { auth })
 
-async function confirmTFA() {
-  auth.email = emailForTFA.value
+async function confirmTwoFactorAuth() {
+  auth.email = emailForTwoFactorAuth.value
 
   v$.value.$touch()
 
@@ -103,7 +103,7 @@ async function confirmTFA() {
   successResend.value = false
 
   try {
-    await authStore.checkEmailTFA(auth)
+    await authStore.checkEmailTwoFactorAuth(auth)
 
     success.value = true
     auth.code = ''
@@ -132,7 +132,7 @@ async function resendEmailCode() {
   successResend.value = false
 
   try {
-    await authStore.resendEmailTFACode(auth)
+    await authStore.resendEmailTwoFactorAuthCode(auth)
 
     successResend.value = true
   } catch (e) {
@@ -147,11 +147,11 @@ async function resendEmailCode() {
 }
 
 function open() {
-  TFAModal.value?.open()
+  TwoFactorAuthModal.value?.open()
 }
 
 function close() {
-  TFAModal.value?.close()
+  TwoFactorAuthModal.value?.close()
 }
 
 defineExpose({ open, close })

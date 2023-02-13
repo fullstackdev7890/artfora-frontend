@@ -10,7 +10,7 @@ export interface RootState {
 
 export interface AuthState {
   token: string | null,
-  emailForTFA: string | null
+  emailForTwoFactorAuth: string | null
 }
 
 export interface SimpleEntityState<T, R> {

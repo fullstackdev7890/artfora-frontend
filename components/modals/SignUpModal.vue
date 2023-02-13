@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-    :title="'Sign Up'"
+    title="Sign Up"
     :with-footer="false"
     ref="signUpModal"
     class="auth-modal"

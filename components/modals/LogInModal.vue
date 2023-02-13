@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-    :title="'Login'"
+    title="Login"
     :with-footer="false"
     ref="logInModal"
     class="auth-modal"
@@ -79,7 +79,7 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
-const emit = defineEmits(['openSignUpModal', 'openTFAModal'])
+const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal'])
 
 const auth: LoginData = reactive({
   login: '',
@@ -112,7 +112,7 @@ async function logIn() {
 
     success.value = true
 
-    openTFAModal()
+    openTwoFactorAuthModal()
   } catch (e) {
     if (e.response && !e.response.data.errors) {
       error.value = true
@@ -129,9 +129,9 @@ function openSignUpModal() {
   emit('openSignUpModal')
 }
 
-function openTFAModal() {
+function openTwoFactorAuthModal() {
   close()
-  emit('openTFAModal')
+  emit('openTwoFactorAuthModal')
 }
 
 function open() {

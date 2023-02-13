@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-    :title="'Links'"
+    title="Links"
     :with-footer="false"
     ref="linksModal"
     class="links-modal"

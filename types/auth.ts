@@ -6,7 +6,7 @@ export interface LoginData {
   password: string
 }
 
-export interface TFAData {
+export interface TwoFactorAuthData {
   code: string,
   email: string | null
 }

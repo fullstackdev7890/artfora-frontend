@@ -49,10 +49,10 @@
     <log-in-modal
       ref="logInModalRef"
       @open-sign-up-modal="openSignUpModal"
-      @open-t-f-a-modal="openTFAModal"
+      @open-two-factor-auth-modal="openTwoFactorAuthModal"
     />
 
-    <t-f-a-modal ref="TFAModalRef" />
+    <two-factor-auth-modal ref="TwoFactorAuthModalRef" />
   </div>
 </template>
 
@@ -66,7 +66,8 @@ import PlusIcon from '~/assets/svg/plus.svg'
 import avatar from '~/assets/images/logo.jpg'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
-import TFAModal from '~/components/modals/TFAModal.vue'
+import TFAModal from '~/components/modals/TwoFactorAuthModal.vue'
+import TwoFactorAuthModal from "~/components/modals/TwoFactorAuthModal.vue";
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
@@ -78,7 +79,7 @@ const userAvatar = computed(() => getUserAvatar.value ?? avatar)
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
-const TFAModalRef = ref<InstanceType<typeof TFAModal>>(null)
+const TwoFactorAuthModalRef = ref<InstanceType<typeof TFAModal>>(null)
 
 const router = useRouter()
 
@@ -95,20 +96,20 @@ function logout() {
   menuDropdownRef.value.close()
 }
 
-function openTFAModal() {
+function openTwoFactorAuthModal() {
   menuDropdownRef.value.close()
-  TFAModalRef.value.open()
+  TwoFactorAuthModalRef.value.open()
 }
 
 function closeTFAModal() {
-  TFAModalRef.value.close()
+  TwoFactorAuthModalRef.value.close()
 }
 
 function openLogInModal() {
   menuDropdownRef.value.close()
 
   if (isAwaitingTokenConfirmation.value) {
-    openTFAModal()
+    openTwoFactorAuthModal()
     return
   }
 
@@ -123,7 +124,7 @@ function openSignUpModal() {
   menuDropdownRef.value.close()
 
   if (isAwaitingTokenConfirmation.value) {
-    openTFAModal()
+    openTwoFactorAuthModal()
     return
   }
 

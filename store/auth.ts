@@ -1,7 +1,7 @@
 import type { AuthState } from '~/types/state'
 // @ts-ignore
 import { defineStore } from 'pinia'
-import {LoginData, SignUpData, TFAData, VerifyData} from '~/types/auth'
+import {LoginData, SignUpData, TwoFactorAuthData, VerifyData} from '~/types/auth'
 import axios from 'axios'
 import { navigateTo } from '#imports'
 
@@ -10,31 +10,31 @@ export const useAuthStore = defineStore('auth', {
 
   state: (): AuthState => ({
     token: null,
-    emailForTFA: null
+    emailForTwoFactorAuth: null
   }),
 
   getters: {
     isAuthorized: (state) => state.token !== null,
-    isAwaitingTokenConfirmation: (state) => state.emailForTFA !== null
+    isAwaitingTokenConfirmation: (state) => state.emailForTwoFactorAuth !== null
   },
 
   actions: {
     async login(data: LoginData) {
       await axios.post('/auth/login', data)
 
-      return this.emailForTFA = data.login
+      return this.emailForTwoFactorAuth = data.login
     },
 
-    async checkEmailTFA(data: TFAData) {
+    async checkEmailTwoFactorAuth(data: TwoFactorAuthData) {
       const response = await axios.post('/auth/2fa/email/check', data)
 
-      this.emailForTFA = null
+      this.emailForTwoFactorAuth = null
       this.token = response.data.token
 
       navigateTo('/')
     },
 
-    async resendEmailTFACode(data: TFAData) {
+    async resendEmailTwoFactorAuthCode(data: TwoFactorAuthData) {
       await axios.post('/auth/2fa/email/resend', data)
     },
 
