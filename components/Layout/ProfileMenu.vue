@@ -1,7 +1,7 @@
 <template>
   <div class="profile-menu">
     <div
-      v-if="userIsAuthorized"
+      v-if="isAuthorized"
       class="new-product"
     >
       <plus-icon class="plus-icon"/>
@@ -17,11 +17,11 @@
     </div>
 
     <ui-kit-dropdown title="Menu" ref="menuDropdownRef">
-      <div v-if="userIsAuthorized" class="ui-kit-dropdown-content-item">
+      <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
         <span class="ui-kit-dropdown-content-item-btn">My Settings</span>
       </div>
 
-      <div v-if="!userIsAuthorized" class="ui-kit-dropdown-content-item">
+      <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
         <span @click="openSignUpModal()" class="ui-kit-dropdown-content-item-btn">Login/Sign up</span>
       </div>
 
@@ -33,7 +33,7 @@
         <span class="ui-kit-dropdown-content-item-btn">Contact us</span>
       </div>
 
-      <div v-if="userIsAuthorized" class="ui-kit-dropdown-content-item">
+      <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
         <span
           class="ui-kit-dropdown-content-item-btn"
           @click="logout"
@@ -74,7 +74,6 @@ const { isAuthorized, isAwaitingTokenConfirmation } = storeToRefs(authStore)
 const { getUserAvatar } = storeToRefs(userStore)
 
 const userAvatar = computed(() => getUserAvatar.value ?? avatar)
-const userIsAuthorized = computed(() => isAuthorized.value)
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)

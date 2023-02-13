@@ -74,7 +74,7 @@ const { emailForTFA } = storeToRefs(authStore)
 
 const auth: TFAData = reactive({
   code: '',
-  email: emailForTFA.value
+  email: null
 })
 
 let error = ref(false)
@@ -90,6 +90,8 @@ const v$ = useVuelidate({
 }, { auth })
 
 async function confirmTFA() {
+  auth.email = emailForTFA.value
+
   v$.value.$touch()
 
   if (v$.value.$error) {
