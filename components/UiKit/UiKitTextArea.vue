@@ -15,7 +15,7 @@
         :placeholder="placeholder"
         :cy-name="name"
         autocomplete="off"
-        class="form-control"
+        class="form-control form-control-textarea"
         @input="onChanged"
       />
 

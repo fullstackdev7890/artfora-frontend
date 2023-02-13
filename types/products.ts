@@ -1,4 +1,4 @@
-import { Entity, Media } from '~/types/index'
+import { Entity, Media, User } from '~/types/index'
 
 export const JUSTIFIED_GALLERY_VIEW_TYPE = 'justified'
 export const SQUARE_GALLERY_VIEW_TYPE = 'square'
@@ -25,9 +25,5 @@ export declare interface Product extends Entity {
   status: string
   deleted_at: string | null
   media: Media[]
-  user: {
-    username: string
-    tagname: string
-    media: Media
-  }
+  user: User
 }
