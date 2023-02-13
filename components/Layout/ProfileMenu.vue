@@ -67,7 +67,7 @@ import avatar from '~/assets/images/logo.jpg'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
 import TFAModal from '~/components/modals/TwoFactorAuthModal.vue'
-import TwoFactorAuthModal from "~/components/modals/TwoFactorAuthModal.vue";
+import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
