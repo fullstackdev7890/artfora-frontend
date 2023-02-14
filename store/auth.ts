@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
-    isAuthorized: (state) => true,
+    isAuthorized: (state) => state.token !== null,
     isAwaitingTokenConfirmation: (state) => state.emailForTwoFactorAuth !== null
   },
 
