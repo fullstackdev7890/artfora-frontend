@@ -3,14 +3,14 @@ import { Paginated, SearchFilters } from '~/types/search'
 import { Product } from '~/types/products'
 import { Category } from '~/types/categories'
 
-
 export interface RootState {
   title: string,
   pendingRequestsCount: number
 }
 
 export interface AuthState {
-  token: string | null
+  token: string | null,
+  emailForTwoFactorAuth: string | null
 }
 
 export interface SimpleEntityState<T, R> {

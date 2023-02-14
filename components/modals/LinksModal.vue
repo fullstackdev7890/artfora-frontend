@@ -1,7 +1,7 @@
 <template>
   <ui-kit-modal
-    :title="'Links'"
     :with-footer="false"
+    title="Links"
     ref="linksModal"
     class="links-modal"
   >
