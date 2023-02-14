@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { CategoriesState } from '~/types'
+import {OptionItem} from "~/types/uiKit";
 
 export const useCategoriesStore = defineStore('categories', {
   state: (): CategoriesState => ({
@@ -57,6 +58,12 @@ export const useCategoriesStore = defineStore('categories', {
   }),
 
   getters: {
-    categories: (state) => state.items
+    categories: (state) => state.items,
+    categoriesSelector: (state) => {
+      const selectors = state.items.map(category => {
+        return { title: category.title, key: category.id }
+      })
+      return selectors
+    }
   }
 })
