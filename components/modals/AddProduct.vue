@@ -22,19 +22,19 @@
           >
         </label>
         <div class="add-product-upload-images">
-          <div
-            v-if="files.length !== 0"
-            v-for="(image, index) in files"
-            :key="image.size"
-            class="add-product-upload-images-item"
-          >
-            <minus-icon class="minus-icon" @click="removeFile(index)" />
-            <img :src="URL.createObjectURL(image)" alt="upload-image">
-          </div>
+          <vue-draggable-next :list="files" class="add-product-upload-images-draggable">
+            <div
+              v-if="files.length !== 0"
+              v-for="(image, index) in files"
+              :key="image.size"
+              class="add-product-upload-images-item"
+            >
+              <minus-icon class="minus-icon" @click="removeFile(index)" />
+              <img :src="URL.createObjectURL(image)" alt="upload-image">
+            </div>
+          </vue-draggable-next>
         </div>
       </div>
-
-      <ui-kit-media-upload-panel/>
 
       <div class="add-product-categories">
         <ui-kit-selector
@@ -71,6 +71,7 @@
       </ui-kit-check-box>
 
       <ui-kit-input
+        v-if="!aiSafe"
         v-model="tags"
         placeholder="ADD TAGS, SEPARATE BY COMMA"
       />
@@ -105,6 +106,7 @@ import { computed, ref } from 'vue'
 import { URL } from 'core-js'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
+import { VueDraggableNext } from 'vue-draggable-next'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 
