@@ -96,6 +96,9 @@
       title="Can contain pornographic or other explicit material"
       />
 
+      <div class="ui-kit-modal-content-buttons">
+        <button class="button full-width">SEND FOR APPROVAL</button>
+      </div>
     </div>
   </template>
   </ui-kit-modal>

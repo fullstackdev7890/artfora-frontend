@@ -19,7 +19,7 @@
 
   .contact-modal-submit { display: flex; flex-direction: column; gap: 15px; }
 
-  &-content { z-index: 101; min-width: 350px;
+  &-content { z-index: 101; min-width: 350px; max-height: 100vh; overflow: scroll;
     @media (max-width: $small) {
       min-width: 100%;
       width: 100%;
