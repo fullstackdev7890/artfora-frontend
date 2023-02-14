@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useAuthStore } from '~/store/auth'
-import {useUserStore} from '~/store/user'
+import { useUserStore } from '~/store/user'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 import avatar from '~/assets/images/logo.jpg'
