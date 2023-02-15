@@ -42,8 +42,6 @@
       </div>
     </ui-kit-dropdown>
 
-    <sign-up-modal ref="signUpModalRef" />
-
     <add-product ref="addProductModal" />
 
     <sign-up-modal

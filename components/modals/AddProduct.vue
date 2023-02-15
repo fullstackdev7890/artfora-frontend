@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-  :title="'Add Product'"
+  title="Add Product"
   :with-footer="false"
   ref="addProductModal"
   >
