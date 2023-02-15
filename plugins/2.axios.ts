@@ -42,8 +42,7 @@ const refreshTokenInterceptor = (store: any) => {
   axios.interceptors.request.use(async (config) => {
       config.headers = {
         'Authorization': `Bearer ${store.token}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Accept': 'application/json'
       }
       return config
     },

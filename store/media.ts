@@ -20,6 +20,9 @@ export const useMediaStore = defineStore({
       request.data.append('file', blob, fileName)
 
       return axios.request(request)
+    },
+    delete(id: number) {
+      return axios.delete(`/media/${id}`)
     }
   }
 })

@@ -14,7 +14,7 @@
           SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
           <input
             id="uploadImage"
-            @change="addFile()"
+            @change="addFiles($event)"
             accept="image/bmp, image/png, image/jpeg"
             type="file"
             ref="file"
@@ -26,11 +26,11 @@
             <div
               v-if="files.length !== 0"
               v-for="(image, index) in files"
-              :key="image.size"
+              :key="image.id"
               class="add-product-upload-images-item"
             >
               <minus-icon class="minus-icon" @click="removeFile(index)" />
-              <img :src="URL.createObjectURL(image)" alt="upload-image" :data-id="index">
+              <img :src="getImageUrl(image)" alt="upload-image">
             </div>
           </vue-draggable-next>
         </div>
@@ -110,9 +110,11 @@ import { URL } from 'core-js'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { VueDraggableNext } from 'vue-draggable-next'
+import { useMediaStore } from '~/store/media'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
-import {useMediaStore} from "~/store/media";
+import useMedia from '~/composable/media'
+
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -131,12 +133,19 @@ const ForAllUsers = ref(false)
 const nudityForEducation = ref(false)
 const EroticMaterial = ref(false)
 const ExplicitMaterial = ref(false)
+const { getImageUrl } = useMedia()
 
-const addFile = () => {
-  if (files.value.length === 0) {
-    files.value = Array.from(file.value.files)
-  } else {
-    files.value.push(...Array.from(file.value.files))
+const addFiles = async (event: any) => {
+  const media = event.target.files || event.dataTransfer.files
+
+  if (!media.length) {
+    return
+  }
+
+  for (const item of media) {
+    const response = await mediaStore.upload(item, item.name)
+    console.log(response.data)
+    files.value.push(response.data)
   }
 }
 
@@ -145,6 +154,7 @@ const removeChoiceSub = () => {
 }
 
 const removeFile = (index: number) => {
+  mediaStore.delete(files.value.find((image, idx) => idx === index).id)
   files.value.splice(index, 1)
 }
 
@@ -158,8 +168,7 @@ const  uploadProduct = async () => {
       context.drawImage(image, 0, 0)
       await canvas.toBlob((Blob: Blob | null) => {
         mediaStore.upload(Blob, el.name)
-        console.log(Blob)
-      })
+      }, el.type)
     })
 }
 
