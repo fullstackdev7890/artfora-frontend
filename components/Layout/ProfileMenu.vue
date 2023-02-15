@@ -73,7 +73,6 @@ import SignUpModal from '~/components/modals/SignUpModal.vue'
 import AddProduct from '~/components/modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
-import TFAModal from '~/components/modals/TwoFactorAuthModal.vue'
 import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
 
 const authStore = useAuthStore()
@@ -86,14 +85,14 @@ const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const userAvatar = computed(() => getUserAvatar ?? avatar)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
-const TwoFactorAuthModalRef = ref<InstanceType<typeof TFAModal>>(null)
+const TwoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 
 const router = useRouter()
 
 router.beforeEach((to, from, next) => {
   closeSignUpModal()
   closeLogInModal()
-  closeTFAModal()
+  closeTwoFactorAuthModal()
 
   next()
 })
@@ -108,7 +107,7 @@ function openTwoFactorAuthModal() {
   TwoFactorAuthModalRef.value.open()
 }
 
-function closeTFAModal() {
+function closeTwoFactorAuthModal() {
   TwoFactorAuthModalRef.value.close()
 }
 
