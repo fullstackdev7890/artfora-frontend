@@ -550,6 +550,9 @@ export const useProductsStore = defineStore('products', {
     fetch(id: string) {
       // @ts-ignore
       this.item = this.items.find(el => el.id == id as unknown as number)
+    },
+    upload() {
+
     }
   }
 })

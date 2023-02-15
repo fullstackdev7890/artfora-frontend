@@ -30,7 +30,7 @@
               class="add-product-upload-images-item"
             >
               <minus-icon class="minus-icon" @click="removeFile(index)" />
-              <img :src="URL.createObjectURL(image)" alt="upload-image">
+              <img :src="URL.createObjectURL(image)" alt="upload-image" :data-id="index">
             </div>
           </vue-draggable-next>
         </div>
@@ -97,7 +97,7 @@
       />
 
       <div class="ui-kit-modal-content-buttons">
-        <button class="button full-width">SEND FOR APPROVAL</button>
+        <button class="button full-width" @click="uploadProduct()">SEND FOR APPROVAL</button>
       </div>
     </div>
   </template>
@@ -112,12 +112,14 @@ import { storeToRefs } from 'pinia'
 import { VueDraggableNext } from 'vue-draggable-next'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
+import {useMediaStore} from "~/store/media";
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
 const files = ref([])
-const store = useCategoriesStore()
-const { categories, categoriesSelector } = storeToRefs(store)
+const CategoriesStore = useCategoriesStore()
+const mediaStore = useMediaStore()
+const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
 const ChoiceCategory = ref(null)
 const currentSubCategories = computed(() => ChoiceCategory.value ? categories.value[ChoiceCategory.value - 1].children : [])
 const choiceSubCategories = ref([])
@@ -144,6 +146,21 @@ const removeChoiceSub = () => {
 
 const removeFile = (index: number) => {
   files.value.splice(index, 1)
+}
+
+const  uploadProduct = async () => {
+    files.value.map(async (el, index) => {
+      const image = document.querySelector(`img[data-id="${index}"]`)
+      let canvas = document.createElement('canvas')
+      canvas.width = image.clientWidth
+      canvas.height = image.clientHeight
+      let context = canvas.getContext('2d')
+      context.drawImage(image, 0, 0)
+      await canvas.toBlob((Blob: Blob | null) => {
+        mediaStore.upload(Blob, el.name)
+        console.log(Blob)
+      })
+    })
 }
 
 function open() {

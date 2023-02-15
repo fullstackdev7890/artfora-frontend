@@ -81,7 +81,7 @@ const { getUserAvatar } = storeToRefs(userStore)
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
-const userAvatar = computed(() => getUserAvatar ?? avatar)
+const userAvatar = computed(() => getUserAvatar.value ?? avatar)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
 const TwoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 
@@ -91,6 +91,7 @@ router.beforeEach((to, from, next) => {
   closeSignUpModal()
   closeLogInModal()
   closeTwoFactorAuthModal()
+  closeADdProductModal()
 
   next()
 })
@@ -107,6 +108,10 @@ function openTwoFactorAuthModal() {
 
 function closeTwoFactorAuthModal() {
   TwoFactorAuthModalRef.value.close()
+}
+
+function closeADdProductModal() {
+  addProductModal.value.close()
 }
 
 function openLogInModal() {
