@@ -10,6 +10,8 @@
 @import 'ui-kit/sidebar';
 @import 'ui-kit/table';
 @import 'ui-kit/modal';
+@import 'ui-kit/selector';
+@import 'ui-kit/checkbox';
 @import 'etc';
 @import 'components/header';
 @import 'components/profile-menu';
@@ -20,6 +22,7 @@
 @import 'components/link';
 @import 'components/product';
 @import 'components/product-sidebar';
+@import 'components/add-product-modal';
 
 .search {
   &-query { margin-bottom: 1rem; padding-bottom: 0; }

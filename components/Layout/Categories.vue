@@ -45,5 +45,4 @@ const choiceCategory = (index: number) => {
   activeCategory.value = index
   checkSubCategories.value = []
 }
-
 </script>

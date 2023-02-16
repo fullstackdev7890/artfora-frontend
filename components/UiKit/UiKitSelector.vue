@@ -9,7 +9,7 @@
       class="ui-kit-selector"
     >
       <label
-        :class="{ 'ui-kit-selector-title-filled': !!modelValue }"
+        :class="{ 'ui-kit-selector-title-filled': modelValue }"
         class="ui-kit-selector-title"
       >
         {{ title }}
@@ -19,8 +19,10 @@
         {{ selectedValue }}
       </label>
 
-      <arrow-up-icon v-if="isExpanded" class="ui-kit-selector-arrow" />
-      <arrow-down-icon v-else class="ui-kit-selector-arrow" />
+      <next-icon
+        :class="{'ui-kit-selector-arrow-open': isExpanded}"
+        class="ui-kit-selector-arrow"
+      />
 
       <ul
         v-if="isExpanded"
@@ -30,7 +32,7 @@
           v-for="option in options"
           :key="option.key"
           @click="onClick(option)"
-          class="ui-kit-selector-dropdown-item text text-middle"
+          class="ui-kit-selector-dropdown-item"
         >
           {{ option.title }}
         </li>
@@ -44,6 +46,7 @@ import { computed, ref } from '@vue/reactivity'
 import { defineProps, defineEmits } from 'vue'
 import { useRouter } from 'vue-router'
 import { OptionItem } from '~/types/uiKit'
+import NextIcon from '~/assets/svg/next.svg'
 import ArrowUpIcon from '~/assets/svg/arrow-up.svg'
 import ArrowDownIcon from '~/assets/svg/arrow-down.svg'
 
@@ -66,9 +69,9 @@ const selectedOption = computed<OptionItem | undefined>(
     () => props.options.find((option) => option.key === props.modelValue)
 )
 
-const selectedValue = computed<string>(() => selectedOption.value ? selectedOption.value.name : '')
+const selectedValue = computed<string>(() => selectedOption.value ? selectedOption.value.title : '')
 
-function onClick (option: OptionItem) {
+function  onClick (option: OptionItem) {
   emit('update:modelValue', option.key)
 
   emit('changed', option.payload)

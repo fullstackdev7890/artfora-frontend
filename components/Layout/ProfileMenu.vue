@@ -2,6 +2,7 @@
   <div class="profile-menu">
     <div
       v-if="isAuthorized"
+      @click="addProductModal.open()"
       class="new-product"
     >
       <plus-icon class="plus-icon"/>
@@ -41,6 +42,8 @@
       </div>
     </ui-kit-dropdown>
 
+    <add-product ref="addProductModal" />
+
     <sign-up-modal
       ref="signUpModalRef"
       @open-log-in-modal="openLogInModal"
@@ -65,8 +68,9 @@ import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 import avatar from '~/assets/images/logo.jpg'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
+import AddProduct from '~/components/modals/AddProduct.vue'
+import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
-import TFAModal from '~/components/modals/TwoFactorAuthModal.vue'
 import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
 
 const authStore = useAuthStore()
@@ -74,19 +78,20 @@ const userStore = useUserStore()
 const { isAuthorized, isAwaitingTokenConfirmation } = storeToRefs(authStore)
 const { getUserAvatar } = storeToRefs(userStore)
 
-const userAvatar = computed(() => getUserAvatar.value ?? avatar)
-
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
+const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
+const userAvatar = computed(() => getUserAvatar.value ?? avatar)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
-const TwoFactorAuthModalRef = ref<InstanceType<typeof TFAModal>>(null)
+const TwoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 
 const router = useRouter()
 
 router.beforeEach((to, from, next) => {
   closeSignUpModal()
   closeLogInModal()
-  closeTFAModal()
+  closeTwoFactorAuthModal()
+  closeAddProductModal()
 
   next()
 })
@@ -101,8 +106,12 @@ function openTwoFactorAuthModal() {
   TwoFactorAuthModalRef.value.open()
 }
 
-function closeTFAModal() {
+function closeTwoFactorAuthModal() {
   TwoFactorAuthModalRef.value.close()
+}
+
+function closeAddProductModal() {
+  addProductModal.value.close()
 }
 
 function openLogInModal() {

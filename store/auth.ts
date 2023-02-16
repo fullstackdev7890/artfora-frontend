@@ -1,5 +1,4 @@
 import type { AuthState } from '~/types/state'
-// @ts-ignore
 import { defineStore } from 'pinia'
 import {LoginData, SignUpData, TwoFactorAuthData, VerifyData} from '~/types/auth'
 import axios from 'axios'
