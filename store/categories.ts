@@ -59,17 +59,18 @@ export const useCategoriesStore = defineStore('categories', {
               updated_at: "2016-10-20T11:05:00.000000Z"
             }
         ]
-            }
-
+      }
     ]
   }),
 
   getters: {
     categories: (state) => state.items,
+
     categoriesSelector: (state) => {
       const selectors = state.items.map(category => {
         return { title: category.title, key: category.id }
       })
+
       return selectors
     }
   }

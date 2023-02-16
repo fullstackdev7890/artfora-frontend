@@ -38,15 +38,15 @@
 
       <div class="add-product-categories">
         <ui-kit-selector
-          v-model="ChoiceCategory"
+          v-model="selectedCategory"
           @changed="removeChoiceSub()"
           :options="[...categoriesSelector]"
           :title="'CATEGORY'"
         />
-        <div v-show="ChoiceCategory" class="add-product-categories-sub">
+        <div v-show="selectedCategory" class="add-product-categories-sub">
           <ui-kit-check-box
             v-for="sub in currentSubCategories"
-            v-model="choiceSubCategories"
+            v-model="selectedSubCategories"
             :name="'subCategory' + sub.id"
             :value="sub.id"
             :title="sub.title"
@@ -132,9 +132,9 @@ const mediaStore = useMediaStore()
 const productStore = useProductsStore()
 const { getImageUrl } = useMedia()
 const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
-const ChoiceCategory = ref(null)
-const currentSubCategories = computed(() => ChoiceCategory.value ? categories.value[ChoiceCategory.value - 1].children : [])
-const choiceSubCategories = ref([])
+const selectedCategory = ref(null)
+const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
+const selectedSubCategories = ref([])
 const creditOwner = ref('')
 const description = ref('')
 const aiSafe = ref(false)
@@ -150,13 +150,12 @@ const addFiles = async (event: any) => {
 
   for (const item of media) {
     const response = await mediaStore.upload(item, item.name)
-    console.log(response.data)
     files.value.push(response.data)
   }
 }
 
 const removeChoiceSub = () => {
-  choiceSubCategories.value = []
+  selectedSubCategories.value = []
 }
 
 const removeFile = (index: number) => {
@@ -164,18 +163,21 @@ const removeFile = (index: number) => {
 }
 
 const uploadProduct = async () => {
+
   let product = {
     price: null,
-    category_id: choiceSubCategories.value,
+    category_id: selectedSubCategories.value,
     author: creditOwner.value,
     title: '',
     description: description.value,
     tags: tags.value,
     visibility_level: visibility.value,
   }
+
   if (files.value.length > 0) {
     product.media = [...files.value].map((item) => item.id)
   }
+
   if (aiSafe.value) {
     product.is_ai_safe = aiSafe.value
     product.tags = ''
