@@ -91,7 +91,7 @@ router.beforeEach((to, from, next) => {
   closeSignUpModal()
   closeLogInModal()
   closeTwoFactorAuthModal()
-  closeADdProductModal()
+  closeAddProductModal()
 
   next()
 })
@@ -110,7 +110,7 @@ function closeTwoFactorAuthModal() {
   TwoFactorAuthModalRef.value.close()
 }
 
-function closeADdProductModal() {
+function closeAddProductModal() {
   addProductModal.value.close()
 }
 

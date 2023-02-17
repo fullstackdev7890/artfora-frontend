@@ -8,8 +8,8 @@
           :id="name"
           :name="name"
           :value="value"
+          :type="type"
           ref="checkbox"
-          type="checkbox"
           v-model="model"
         >
         <div class="input-checkbox-box"></div>
@@ -26,10 +26,13 @@ interface Props {
   modelValue: boolean,
   name: string,
   title: string,
-  value: number
+  value: number,
+  type?: 'checkbox' | 'radio'
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  type: 'checkbox'
+})
 const emit = defineEmits(['update:modelValue'])
 
 const model = computed({

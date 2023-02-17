@@ -38,15 +38,15 @@
 
       <div class="add-product-categories">
         <ui-kit-selector
-          v-model="ChoiceCategory"
+          v-model="selectedCategory"
           @changed="removeChoiceSub()"
           :options="[...categoriesSelector]"
           :title="'CATEGORY'"
         />
-        <div v-show="ChoiceCategory" class="add-product-categories-sub">
+        <div v-show="selectedCategory" class="add-product-categories-sub">
           <ui-kit-check-box
             v-for="sub in currentSubCategories"
-            v-model="choiceSubCategories"
+            v-model="selectedSubCategories"
             :name="'subCategory' + sub.id"
             :value="sub.id"
             :title="sub.title"
@@ -77,23 +77,31 @@
       />
 
       <ui-kit-check-box
-        v-model="ForAllUsers"
+        v-model="visibility"
+        :value="COMMON_VISIBILITY_LEVEL"
         title="For all users, does not contain explicit material"
+        type="radio"
       />
 
       <ui-kit-check-box
-        v-model="nudityForEducation"
+        v-model="visibility"
+        :value="NUDITY_VISIBILITY_LEVEL"
         title="Can contain nudity but only for educational use"
+        type="radio"
       />
 
       <ui-kit-check-box
-        v-model="EroticMaterial"
+        v-model="visibility"
+        :value="EROTIC_VISIBILITY_LEVEL"
         title="Can contain nudity and erotic material"
+        type="radio"
       />
 
       <ui-kit-check-box
-        v-model="ExplicitMaterial"
-      title="Can contain pornographic or other explicit material"
+        v-model="visibility"
+        :value="PORNO_VISIBILITY_LEVEL"
+        title="Can contain pornographic or other explicit material"
+        type="radio"
       />
 
       <div class="ui-kit-modal-content-buttons">
@@ -105,35 +113,33 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { URL } from 'core-js'
+import {computed, ref} from 'vue'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { VueDraggableNext } from 'vue-draggable-next'
 import { useMediaStore } from '~/store/media'
+import { COMMON_VISIBILITY_LEVEL, EROTIC_VISIBILITY_LEVEL, NUDITY_VISIBILITY_LEVEL, PORNO_VISIBILITY_LEVEL } from '~/types/constants'
+import { useProductsStore } from '~/store/products'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
-
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
 const files = ref([])
 const CategoriesStore = useCategoriesStore()
 const mediaStore = useMediaStore()
+const productStore = useProductsStore()
+const { getImageUrl } = useMedia()
 const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
-const ChoiceCategory = ref(null)
-const currentSubCategories = computed(() => ChoiceCategory.value ? categories.value[ChoiceCategory.value - 1].children : [])
-const choiceSubCategories = ref([])
+const selectedCategory = ref(null)
+const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
+const selectedSubCategories = ref([])
 const creditOwner = ref('')
 const description = ref('')
 const aiSafe = ref(false)
 const tags = ref('')
-const ForAllUsers = ref(false)
-const nudityForEducation = ref(false)
-const EroticMaterial = ref(false)
-const ExplicitMaterial = ref(false)
-const { getImageUrl } = useMedia()
+const visibility = ref(null)
 
 const addFiles = async (event: any) => {
   const media = event.target.files || event.dataTransfer.files
@@ -144,32 +150,40 @@ const addFiles = async (event: any) => {
 
   for (const item of media) {
     const response = await mediaStore.upload(item, item.name)
-    console.log(response.data)
     files.value.push(response.data)
   }
 }
 
 const removeChoiceSub = () => {
-  choiceSubCategories.value = []
+  selectedSubCategories.value = []
 }
 
 const removeFile = (index: number) => {
-  mediaStore.delete(files.value.find((image, idx) => idx === index).id)
   files.value.splice(index, 1)
 }
 
-const  uploadProduct = async () => {
-    files.value.map(async (el, index) => {
-      const image = document.querySelector(`img[data-id="${index}"]`)
-      let canvas = document.createElement('canvas')
-      canvas.width = image.clientWidth
-      canvas.height = image.clientHeight
-      let context = canvas.getContext('2d')
-      context.drawImage(image, 0, 0)
-      await canvas.toBlob((Blob: Blob | null) => {
-        mediaStore.upload(Blob, el.name)
-      }, el.type)
-    })
+const uploadProduct = async () => {
+
+  let product = {
+    price: null,
+    category_id: selectedSubCategories.value,
+    author: creditOwner.value,
+    title: '',
+    description: description.value,
+    tags: tags.value,
+    visibility_level: visibility.value,
+  }
+
+  if (files.value.length > 0) {
+    product.media = [...files.value].map((item) => item.id)
+  }
+
+  if (aiSafe.value) {
+    product.is_ai_safe = aiSafe.value
+    product.tags = ''
+  }
+
+  productStore.create(product).then(close)
 }
 
 function open() {

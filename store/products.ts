@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ProductsState } from '~/types/state'
+import axios from 'axios'
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
@@ -551,8 +552,8 @@ export const useProductsStore = defineStore('products', {
       // @ts-ignore
       this.item = this.items.find(el => el.id == id as unknown as number)
     },
-    upload() {
-
+    create(item) {
+        return axios.request('/products', item)
     }
   }
 })
