@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onBeforeMount } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
@@ -72,6 +72,7 @@ import AddProduct from '~/components/modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
+import { useAsyncData } from '#app'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
@@ -143,4 +144,12 @@ function openSignUpModal() {
 function closeSignUpModal() {
   signUpModalRef.value.close()
 }
+
+onBeforeMount(() => {
+  if (isAuthorized.value) {
+    useAsyncData('fetch-profile',async () => {
+      await userStore.fetch()
+    })
+  }
+})
 </script>

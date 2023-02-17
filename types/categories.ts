@@ -8,5 +8,5 @@ export declare interface SubCategory extends Entity {
 
 export declare interface Category extends SubCategory {
     parent: null
-    children: SubCategory[]
+    children: SubCategory[] | []
 }

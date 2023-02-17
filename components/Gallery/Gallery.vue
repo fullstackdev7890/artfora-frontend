@@ -29,7 +29,7 @@
             :author-avatar="image.user.media.link"
           />
 
-          <img :src="image.media[0].link" :alt="image.title">
+          <img :src="getImageUrl(image.media[0])" :alt="image.title">
         </div>
       </nuxt-link>
     </div>
@@ -40,6 +40,7 @@
 import { defineProps } from 'vue'
 import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
 import UserDetails from '~/components/Gallery/userDetails.vue'
+import useMedia from '~/composable/media'
 
 interface Props {
   cols: Product[],
@@ -49,4 +50,5 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   cols: () => ([]),
 })
+const { getImageUrl } = useMedia()
 </script>

@@ -50,9 +50,15 @@
             :name="'subCategory' + sub.id"
             :value="sub.id"
             :title="sub.title"
+            type="radio"
           />
         </div>
       </div>
+
+      <ui-kit-input
+        v-model="title"
+        placeholder="TITLE"
+      />
 
       <ui-kit-input
         v-model="creditOwner"
@@ -61,7 +67,7 @@
 
       <ui-kit-text-area
         v-model="description"
-        placeholder="DESCRIPTION(OPTIONAL)"
+        placeholder="DESCRIPTION"
       />
 
       <ui-kit-check-box
@@ -134,8 +140,9 @@ const { getImageUrl } = useMedia()
 const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
 const selectedCategory = ref(null)
 const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
-const selectedSubCategories = ref([])
+const selectedSubCategories = ref(null)
 const creditOwner = ref('')
+const title = ref('')
 const description = ref('')
 const aiSafe = ref(false)
 const tags = ref('')
@@ -165,10 +172,10 @@ const removeFile = (index: number) => {
 const uploadProduct = async () => {
 
   let product = {
-    price: null,
+    price: 0,
     category_id: selectedSubCategories.value,
     author: creditOwner.value,
-    title: '',
+    title: creditOwner.value,
     description: description.value,
     tags: tags.value,
     visibility_level: visibility.value,
@@ -180,7 +187,7 @@ const uploadProduct = async () => {
 
   if (aiSafe.value) {
     product.is_ai_safe = aiSafe.value
-    product.tags = ''
+    product.tags = 'aiSafe'
   }
 
   productStore.create(product).then(close)
