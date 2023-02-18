@@ -22,11 +22,21 @@
             <p>Uploaded by {{ image.user.tagname }}</p>
           </div>
 
+          <div
+            v-if="image.status === STATUS_PENDING && role_id === 1"
+            class="gallery-item-image-container-info gallery-item-image-container-admin"
+          >
+            <h4>PENDING</h4>
+            <p>"{{ image.title }}"</p>
+            <a href="#" class="link">see details</a>
+            <button class="full-width button" @click.prevent="approveImage(image.id)">APPROVE</button>
+          </div>
+
           <user-details
             v-if="props.viewType === DETAILS_GALLERY_VIEW_TYPE"
             :author="image.author"
             :author-tag="image.user.tagname"
-            :author-avatar="image.user.media.link"
+            :author-avatar="image.user.avatar_image"
           />
 
           <img :src="getImageUrl(image.media[0])" :alt="image.title">
@@ -37,8 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import {computed, defineProps} from 'vue'
 import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
+import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
+import { useUserStore } from '~/store/user'
+import { storeToRefs } from 'pinia'
+import { useProductsStore } from '~/store/products'
 import UserDetails from '~/components/Gallery/userDetails.vue'
 import useMedia from '~/composable/media'
 
@@ -51,4 +65,14 @@ const props = withDefaults(defineProps<Props>(), {
   cols: () => ([]),
 })
 const { getImageUrl } = useMedia()
+const userStore = useUserStore()
+const productsStore = useProductsStore()
+const { role_id } = storeToRefs(userStore)
+
+const approveImage = async (id) => {
+  await productsStore.update(id, { status: STATUS_APPROVED })
+
+  await productsStore.fetchAll({ status: STATUS_PENDING })
+}
+
 </script>

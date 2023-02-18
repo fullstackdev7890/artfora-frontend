@@ -16,9 +16,10 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, watch} from 'vue'
 import { useProductsStore } from '~/store/products'
 import { Product } from '~/types/products'
+import { storeToRefs } from 'pinia'
 import {
   JUSTIFIED_GALLERY_VIEW_TYPE,
   SQUARE_GALLERY_VIEW_TYPE,
@@ -36,6 +37,7 @@ const description = ref('')
 const galleryImages = ref([])
 const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 const products = useProductsStore()
+const { items } = storeToRefs(products)
 
 useHead({
   title: title,
@@ -46,16 +48,20 @@ useHead({
   ]
 })
 
+watch(items, (newItems) => {
+  sortImagesByColumns(newItems)
+})
+
 onMounted(() => {
   if (process.client) {
-    sortImagesByColumns(products.items)
+    sortImagesByColumns(items.value)
 
-    window.addEventListener('resize', () => sortImagesByColumns(products.items))
+    window.addEventListener('resize', () => sortImagesByColumns(items.value))
   }
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', () => sortImagesByColumns(products.items))
+  window.removeEventListener('resize', () => sortImagesByColumns(items.value))
 })
 
 function getColumnsCount() {

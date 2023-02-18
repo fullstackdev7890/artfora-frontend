@@ -24,8 +24,8 @@ export const useCategoriesStore = defineStore('categories', {
   },
 
   actions: {
-    fetch() {
-      axios.get('/categories', { params: { with: ['children'], all: 1 } })
+    async fetch() {
+      await axios.get('/categories', { params: { with: ['children'], all: 1 } })
         .then((response) => {
           this.items = response.data.data
         })

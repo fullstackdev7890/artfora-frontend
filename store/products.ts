@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 import { ProductsState } from '~/types/state'
 import axios from 'axios'
-import {SymbolKind} from "vscode-languageserver-types";
-import Object = SymbolKind.Object;
+import {STATUS_APPROVED} from "~/types/constants";
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
@@ -41,21 +40,34 @@ export const useProductsStore = defineStore('products', {
 
   actions: {
      async fetchAll(filters = {}) {
-       const filter = Object.assign({}, this.filters, filters)
       const response = await axios.get('/products', {
-          params: filter
+          params: Object.assign({}, this.filters, filters)
       })
 
       this.items = response.data.data
     },
 
-    fetch(id: string) {
+    async fetch(id: string) {
       // @ts-ignore
-      this.item = this.items.find(el => el.id == id as unknown as number)
+      const response = await axios.get(`/products/${id}`, { params: this.filters })
+
+      this.current = response.data
     },
 
     create(item) {
       return axios.post('/products', item)
+    },
+
+    update(id: number, filters: {}) {
+       return axios.put(`/products/${id}`, { ...filters })
+    },
+
+    async filterSubCategories(subCategories, parentCategory: number) {
+      await this.fetchAll({ category_id: parentCategory, status: STATUS_APPROVED })
+
+        if (subCategories.length > 0) {
+          this.items = this.items.filter(el => subCategories.includes(el.category_id))
+        }
     }
   }
 })

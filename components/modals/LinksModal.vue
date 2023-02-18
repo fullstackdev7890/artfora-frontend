@@ -69,8 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "@vue/reactivity";
-import {reactive, onBeforeMount, computed} from 'vue'
+import { reactive, onBeforeMount, computed, ref } from 'vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import BrowserIcon from '~/assets/svg/social/browser.svg'
 import InstagramIcon from '~/assets/svg/social/instagram.svg'
@@ -81,7 +80,7 @@ import TwitchIcon from '~/assets/svg/social/twitch.svg'
 import PatreonIcon from '~/assets/svg/social/patreon.svg'
 
 interface Props {
-  links: string
+  links: string | null
 }
 
 const props = defineProps<Props>()
@@ -99,10 +98,13 @@ const links = computed(() => props.links)
 const otherLinks = ref([])
 
 onBeforeMount(() => {
-  siteSort()
+  if (links.value) {
+    siteSort()
+  }
 })
 
 const siteSort = () => {
+
   links.value.split(',').forEach(link => {
     let found = false
     sites.value.forEach(site => {
@@ -113,6 +115,7 @@ const siteSort = () => {
         found = true
       }
     })
+
     if (!found) {
       otherLinks.value.push(link)
     }

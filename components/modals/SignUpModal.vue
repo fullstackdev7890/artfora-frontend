@@ -124,10 +124,12 @@ import { useStore } from '~/store'
 import type { SignUpData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
+import {storeToRefs} from "pinia";
 
 const signUpModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
-const store = useStore()
+const globalStore = useStore()
+const store = storeToRefs(globalStore)
 const emit = defineEmits(['openLogInModal'])
 
 const auth: SignUpData = reactive({
