@@ -54,11 +54,11 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import { useCategoriesStore } from '~/store/categories'
-import { storeToRefs } from "pinia"
-import { useAsyncData } from "#app"
-import {useUserStore} from "~/store/user";
-import {useProductsStore} from "~/store/products";
-import {STATUS_APPROVED, STATUS_PENDING} from "~/types/constants";
+import { storeToRefs } from 'pinia'
+import { useAsyncData } from '#app'
+import { useUserStore } from '~/store/user'
+import { useProductsStore } from '~/store/products'
+import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 
 const categoriesStore = useCategoriesStore()
 const userStore = useUserStore()

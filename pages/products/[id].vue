@@ -40,11 +40,11 @@
 import { useAsyncData, useRoute, useRouter } from '#app'
 import { useProductsStore } from '~/store/products'
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import CloseIcon from '~/assets/svg/close.svg'
 import ArrowLeft from '~/assets/svg/arrow-left.svg'
 import ProductSidebar from '~/components/product/productSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
-import { storeToRefs } from 'pinia'
 import useMedia from '~/composable/media'
 
 const route = useRoute()

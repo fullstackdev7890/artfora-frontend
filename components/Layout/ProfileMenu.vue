@@ -64,6 +64,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
+import { useAsyncData } from '#app'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 import avatar from '~/assets/images/logo.jpg'
@@ -72,7 +73,6 @@ import AddProduct from '~/components/modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
-import { useAsyncData } from '#app'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()

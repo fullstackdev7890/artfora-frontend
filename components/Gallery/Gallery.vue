@@ -47,8 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, defineProps} from 'vue'
-import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
+import { defineProps} from 'vue'
+import { SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
 import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'

@@ -118,13 +118,13 @@ import { ref, computed } from '@vue/reactivity'
 import {
   required, email, sameAs, minLength
 } from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
+import { storeToRefs } from 'pinia'
+import useVuelidate from '@vuelidate/core'
 import type { SignUpData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
-import {storeToRefs} from "pinia";
 
 const signUpModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
