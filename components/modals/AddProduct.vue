@@ -175,7 +175,7 @@ const uploadProduct = async () => {
     price: 0,
     category_id: selectedSubCategories.value,
     author: creditOwner.value,
-    title: creditOwner.value,
+    title: title.value,
     description: description.value,
     tags: tags.value,
     visibility_level: visibility.value,

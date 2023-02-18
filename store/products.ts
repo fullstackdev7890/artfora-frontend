@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { ProductsState } from '~/types/state'
+import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import axios from 'axios'
-import {STATUS_APPROVED} from "~/types/constants";
+import {Promise} from "q";
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
@@ -68,6 +69,13 @@ export const useProductsStore = defineStore('products', {
         if (subCategories.length > 0) {
           this.items = this.items.filter(el => subCategories.includes(el.category_id))
         }
+    },
+    async pendingCount(){
+      const response = await axios.get('/products', {
+        params: Object.assign({}, this.filters, { status: STATUS_PENDING })
+      })
+
+      return response.data.data.length
     }
   }
 })

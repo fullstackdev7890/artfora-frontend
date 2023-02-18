@@ -18,7 +18,7 @@
         href="#"
         class="categories-body-item categories-body-item-parents"
       >
-        Pending (2)
+        Pending ({{ pendingCount }})
       </a>
       <a
         v-for="(category) in categories"
@@ -64,14 +64,19 @@ const categoriesStore = useCategoriesStore()
 const userStore = useUserStore()
 const productStore = useProductsStore()
 const { categories } = storeToRefs(categoriesStore)
-const { getUserRole } = storeToRefs(userStore)
+const { getUserRole, getUserId } = storeToRefs(userStore)
 const activeCategory = ref(1)
 const subCategories = computed(() => categories.value.find(el => el.id === activeCategory.value)?.children ?? null)
 const checkSubCategories = ref([])
+const pendingCount = ref(0)
 
 const choiceCategory = (index: number) => {
   activeCategory.value = index
   checkSubCategories.value = []
+
+  if (index === -2) {
+    productStore.fetchAll({ user_id: getUserId.value })
+  }
 
   if (index === -1) {
     productStore.fetchAll({ status: STATUS_PENDING })
@@ -87,8 +92,10 @@ const choiceCategory = (index: number) => {
   }
 
 }
-onMounted(() => {
-  productStore.fetchAll({ status: STATUS_APPROVED })
+onMounted(async () => {
+  await productStore.fetchAll({ status: STATUS_APPROVED })
+
+  pendingCount.value = await productStore.pendingCount()
 })
 
 const choiceSubCategories = () => {
