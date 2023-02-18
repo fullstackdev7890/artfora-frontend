@@ -34,6 +34,10 @@
             </div>
           </vue-draggable-next>
         </div>
+        <span
+          v-show="fileError"
+          class="form-error error"
+        >{{ fileError }}</span>
       </div>
 
       <div class="add-product-categories">
@@ -56,59 +60,77 @@
       </div>
 
       <ui-kit-input
-        v-model="title"
+        v-model="product.title"
         placeholder="TITLE"
+        :errors="v$.product.title"
+        :error-messages="{ required: 'Title is required'}"
+        :server-errors="serverErrors"
       />
 
       <ui-kit-input
-        v-model="creditOwner"
+        v-model="product.author"
         placeholder="CREDIT ARTIST/OWNER"
+        :errors="v$.product.author"
+        :error-messages="{ required: 'Author is required'}"
+        :server-errors="serverErrors"
       />
 
       <ui-kit-text-area
-        v-model="description"
+        v-model="product.description"
         placeholder="DESCRIPTION"
+        :errors="v$.product.description"
+        :error-messages="{ required: 'Description is required'}"
+        :server-errors="serverErrors"
       />
 
       <ui-kit-check-box
-        v-model="aiSafe"
+        v-model="product.is_ai_safe"
       >
         AI safe (the best we can do) <a href="#" class="link">read more</a>
       </ui-kit-check-box>
 
       <ui-kit-input
-        v-if="!aiSafe"
-        v-model="tags"
+        v-if="!product.is_ai_safe"
+        v-model="product.tags"
         placeholder="ADD TAGS, SEPARATE BY COMMA"
       />
 
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="COMMON_VISIBILITY_LEVEL"
-        title="For all users, does not contain explicit material"
-        type="radio"
-      />
+      <div>
+        <ui-kit-check-box
+          v-model="product.visibility_level"
+          :value="COMMON_VISIBILITY_LEVEL"
+          title="For all users, does not contain explicit material"
+          type="radio"
+        />
 
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="NUDITY_VISIBILITY_LEVEL"
-        title="Can contain nudity but only for educational use"
-        type="radio"
-      />
+        <ui-kit-check-box
+          v-model="product.visibility_level"
+          :value="NUDITY_VISIBILITY_LEVEL"
+          title="Can contain nudity but only for educational use"
+          type="radio"
+        />
 
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="EROTIC_VISIBILITY_LEVEL"
-        title="Can contain nudity and erotic material"
-        type="radio"
-      />
+        <ui-kit-check-box
+          v-model="product.visibility_level"
+          :value="EROTIC_VISIBILITY_LEVEL"
+          title="Can contain nudity and erotic material"
+          type="radio"
+        />
 
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="PORNO_VISIBILITY_LEVEL"
-        title="Can contain pornographic or other explicit material"
-        type="radio"
-      />
+        <ui-kit-check-box
+          v-model="product.visibility_level"
+          :value="PORNO_VISIBILITY_LEVEL"
+          title="Can contain pornographic or other explicit material"
+          type="radio"
+        />
+        <span
+          v-for="(message, key) in { required: 'visibility is required'}"
+          v-show="v$.product.visibility_level[key].$invalid"
+          v-html="message"
+          :key="key"
+          class="form-error error"
+        ></span>
+      </div>
 
       <div class="ui-kit-modal-content-buttons">
         <button class="button full-width" @click="uploadProduct()">SEND FOR APPROVAL</button>
@@ -119,7 +141,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { VueDraggableNext } from 'vue-draggable-next'
@@ -129,6 +151,8 @@ import { useProductsStore } from '~/store/products'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
+import useVuelidate from "@vuelidate/core";
+import {email, required} from "@vuelidate/validators";
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -141,12 +165,35 @@ const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
 const selectedCategory = ref(null)
 const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
 const selectedSubCategories = ref(null)
-const creditOwner = ref('')
-const title = ref('')
-const description = ref('')
-const aiSafe = ref(false)
-const tags = ref('')
-const visibility = ref(null)
+const selectCategory = computed(() => typeof selectedSubCategories.value !== 'number' ? selectedCategory.value : selectedSubCategories.value)
+const fileError = ref('')
+let error = ref('')
+let serverErrors = ref({})
+
+const product = reactive({
+  price: 0,
+  category_id: selectCategory,
+  media: [],
+  author: '',
+  title: '',
+  description: '',
+  tags: '',
+  visibility_level: null,
+  is_ai_safe: false
+})
+
+const v$ = useVuelidate({
+  product: {
+    price: { required },
+    category_id: { required },
+    author: { required },
+    title: { required },
+    description: { required },
+    tags: { required },
+    visibility_level: { required },
+    is_ai_safe: {}
+  }
+}, { product })
 
 const addFiles = async (event: any) => {
   const media = event.target.files || event.dataTransfer.files
@@ -171,26 +218,38 @@ const removeFile = (index: number) => {
 
 const uploadProduct = async () => {
 
-  let product = {
-    price: 0,
-    category_id: selectedSubCategories.value,
-    author: creditOwner.value,
-    title: title.value,
-    description: description.value,
-    tags: tags.value,
-    visibility_level: visibility.value,
-  }
-
   if (files.value.length > 0) {
     product.media = [...files.value].map((item) => item.id)
+  } else {
+    fileError.value = 'media is required'
   }
 
-  if (aiSafe.value) {
-    product.is_ai_safe = aiSafe.value
+  if (product.is_ai_safe) {
     product.tags = 'aiSafe'
   }
 
-  productStore.create(product).then(close)
+  v$.value.$touch()
+
+  if (v$.value.$error) {
+    return
+  }
+
+  error.value = ''
+  serverErrors.value = {}
+  fileError.value = ''
+
+  try {
+    await productStore.create(product).then(close)
+
+  } catch (e) {
+    if (e.response && !e.response.data.errors) {
+      error.value = 'Something went wrong! Please try again later.'
+
+      return
+    }
+  }
+
+    serverErrors.value = e.response.data.errors
 }
 
 function open() {

@@ -15,7 +15,7 @@ export const useCategoriesStore = defineStore('categories', {
     categories: (state) => state.items.filter((item) => !item.parent_id),
 
     categoriesSelector: (state) => {
-      const selectors = state.items.map(category => {
+      const selectors = state.categories.map(category => {
         return { title: category.title, key: category.id }
       })
 
