@@ -9,7 +9,7 @@
       :title="title"
       :with-header="withHeader"
       :with-footer="withFooter"
-      @close="isShown = false"
+      @close="close()"
       class="ui-kit-modal-content"
     >
       <template v-slot:content>
@@ -41,10 +41,14 @@ const props = withDefaults(defineProps<Props>(), {
 const isShown = ref(false)
 
 function open() {
+  // @ts-ignore
+  document.querySelector('body').style.overflow = 'hidden'
   isShown.value = true
 }
 
 function close() {
+  // @ts-ignore
+  document.querySelector('body').style.overflow = 'auto'
   isShown.value = false
 }
 
