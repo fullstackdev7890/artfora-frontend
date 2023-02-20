@@ -30,6 +30,7 @@
             <p>"{{ image.title }}"</p>
             <a href="#" class="link">see details</a>
             <button class="full-width button" @click.prevent="approveImage(image.id)">APPROVE</button>
+            <button class="full-width button" @click.prevent="declinedImage(image.id)">DECLINED</button>
           </div>
 
           <user-details
@@ -49,7 +50,7 @@
 <script setup lang="ts">
 import { defineProps} from 'vue'
 import { SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
-import { ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
+import {ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED} from '~/types/constants'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '~/store/products'
@@ -71,6 +72,11 @@ const { getUserRole } = storeToRefs(userStore)
 
 const approveImage = async (id) => {
   await productsStore.update(id, { status: STATUS_APPROVED })
+
+  await productsStore.fetchAll({ status: STATUS_PENDING })
+}
+const declinedImage = async (id) => {
+  await productsStore.update(id, { status: STATUS_REJECTED })
 
   await productsStore.fetchAll({ status: STATUS_PENDING })
 }
