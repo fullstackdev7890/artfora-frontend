@@ -5,137 +5,139 @@
   ref="addProductModal"
   >
   <template v-slot:content>
-    <div class="add-product">
+    <form @submit.prevent="uploadProduct()">
+      <div class="add-product">
 
-      <div class="add-product-upload">
-        <label for="uploadImage" class="add-product-upload-add">
-          DROP IMAGE(S) HERE <br>
-          OR CLICK TO BROWSE <br>
-          SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
-          <input
-            id="uploadImage"
-            @change="addFiles($event)"
-            accept="image/bmp, image/png, image/jpeg"
-            type="file"
-            ref="file"
-            multiple
-          >
-        </label>
-        <div class="add-product-upload-images">
-          <vue-draggable-next :list="files" @change="sortFiles()" class="add-product-upload-images-draggable">
-            <div
-              v-if="files.length !== 0"
-              v-for="(image, index) in files"
-              :key="image.id"
-              class="add-product-upload-images-item"
+        <div class="add-product-upload">
+          <label for="uploadImage" class="add-product-upload-add">
+            DROP IMAGE(S) HERE <br>
+            OR CLICK TO BROWSE <br>
+            SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
+            <input
+              id="uploadImage"
+              @change="addFiles($event)"
+              accept="image/bmp, image/png, image/jpeg"
+              type="file"
+              ref="file"
+              multiple
             >
-              <minus-icon class="minus-icon" @click="removeFile(index)" />
-              <img :src="getImageUrl(image)" alt="upload-image">
-            </div>
-          </vue-draggable-next>
+          </label>
+          <div class="add-product-upload-images">
+            <vue-draggable-next :list="files" @change="sortFiles()" class="add-product-upload-images-draggable">
+              <div
+                v-if="files.length !== 0"
+                v-for="(image, index) in files"
+                :key="image.id"
+                class="add-product-upload-images-item"
+              >
+                <minus-icon class="minus-icon" @click="removeFile(index)" />
+                <img :src="getImageUrl(image)" alt="upload-image">
+              </div>
+            </vue-draggable-next>
+          </div>
+          <span
+            v-show="fileError"
+            class="form-error error"
+          >{{ fileError }}</span>
         </div>
-        <span
-          v-show="fileError"
-          class="form-error error"
-        >{{ fileError }}</span>
-      </div>
 
-      <div class="add-product-categories">
-        <ui-kit-selector
-          v-model="selectedCategory"
-          @changed="removeChoiceSub()"
-          :options="[...categoriesSelector]"
-          :title="'CATEGORY'"
+        <div class="add-product-categories">
+          <ui-kit-selector
+            v-model="selectedCategory"
+            @changed="removeChoiceSub()"
+            :options="[...categoriesSelector]"
+            :title="'CATEGORY'"
+          />
+          <div v-show="selectedCategory" class="add-product-categories-sub">
+            <ui-kit-check-box
+              v-for="sub in currentSubCategories"
+              v-model="selectedSubCategories"
+              :name="'subCategory' + sub.id"
+              :value="sub.id"
+              :title="sub.title"
+              type="radio"
+            />
+          </div>
+        </div>
+
+        <ui-kit-input
+          v-model="product.title"
+          :errors="v$.product.title"
+          :error-messages="{ required: 'Title is required'}"
+          :server-errors="serverErrors"
+          placeholder="TITLE"
         />
-        <div v-show="selectedCategory" class="add-product-categories-sub">
+
+        <ui-kit-input
+          v-model="product.author"
+          :errors="v$.product.author"
+          :error-messages="{ required: 'Author is required'}"
+          :server-errors="serverErrors"
+          placeholder="CREDIT ARTIST/OWNER"
+        />
+
+        <ui-kit-text-area
+          v-model="product.description"
+          :errors="v$.product.description"
+          :error-messages="{ required: 'Description is required'}"
+          :server-errors="serverErrors"
+          placeholder="DESCRIPTION"
+        />
+
+        <ui-kit-check-box
+          v-model="product.is_ai_safe"
+        >
+          AI safe (the best we can do) <a href="#" class="link">read more</a>
+        </ui-kit-check-box>
+
+        <ui-kit-input
+          v-if="!product.is_ai_safe"
+          v-model="product.tags"
+          placeholder="ADD TAGS, SEPARATE BY COMMA"
+        />
+
+        <div>
           <ui-kit-check-box
-            v-for="sub in currentSubCategories"
-            v-model="selectedSubCategories"
-            :name="'subCategory' + sub.id"
-            :value="sub.id"
-            :title="sub.title"
+            v-model="product.visibility_level"
+            :value="COMMON_VISIBILITY_LEVEL"
+            title="For all users, does not contain explicit material"
             type="radio"
           />
+
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="NUDITY_VISIBILITY_LEVEL"
+            title="Can contain nudity but only for educational use"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="EROTIC_VISIBILITY_LEVEL"
+            title="Can contain nudity and erotic material"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="PORNO_VISIBILITY_LEVEL"
+            title="Can contain pornographic or other explicit material"
+            type="radio"
+          />
+          <span
+            v-for="(message, key) in { required: 'visibility is required'}"
+            v-show="v$.product.visibility_level[key].$invalid"
+            v-html="message"
+            :key="key"
+            class="form-error error"
+          ></span>
+        </div>
+
+        <div class="ui-kit-modal-content-buttons">
+          <button class="button full-width" type="submit">SEND FOR APPROVAL</button>
         </div>
       </div>
-
-      <ui-kit-input
-        v-model="product.title"
-        :errors="v$.product.title"
-        :error-messages="{ required: 'Title is required'}"
-        :server-errors="serverErrors"
-        placeholder="TITLE"
-      />
-
-      <ui-kit-input
-        v-model="product.author"
-        :errors="v$.product.author"
-        :error-messages="{ required: 'Author is required'}"
-        :server-errors="serverErrors"
-        placeholder="CREDIT ARTIST/OWNER"
-      />
-
-      <ui-kit-text-area
-        v-model="product.description"
-        :errors="v$.product.description"
-        :error-messages="{ required: 'Description is required'}"
-        :server-errors="serverErrors"
-        placeholder="DESCRIPTION"
-      />
-
-      <ui-kit-check-box
-        v-model="product.is_ai_safe"
-      >
-        AI safe (the best we can do) <a href="#" class="link">read more</a>
-      </ui-kit-check-box>
-
-      <ui-kit-input
-        v-if="!product.is_ai_safe"
-        v-model="product.tags"
-        placeholder="ADD TAGS, SEPARATE BY COMMA"
-      />
-
-      <div>
-        <ui-kit-check-box
-          v-model="product.visibility_level"
-          :value="COMMON_VISIBILITY_LEVEL"
-          title="For all users, does not contain explicit material"
-          type="radio"
-        />
-
-        <ui-kit-check-box
-          v-model="product.visibility_level"
-          :value="NUDITY_VISIBILITY_LEVEL"
-          title="Can contain nudity but only for educational use"
-          type="radio"
-        />
-
-        <ui-kit-check-box
-          v-model="product.visibility_level"
-          :value="EROTIC_VISIBILITY_LEVEL"
-          title="Can contain nudity and erotic material"
-          type="radio"
-        />
-
-        <ui-kit-check-box
-          v-model="product.visibility_level"
-          :value="PORNO_VISIBILITY_LEVEL"
-          title="Can contain pornographic or other explicit material"
-          type="radio"
-        />
-        <span
-          v-for="(message, key) in { required: 'visibility is required'}"
-          v-show="v$.product.visibility_level[key].$invalid"
-          v-html="message"
-          :key="key"
-          class="form-error error"
-        ></span>
-      </div>
-
-      <div class="ui-kit-modal-content-buttons">
-        <button class="button full-width" @click="uploadProduct()">SEND FOR APPROVAL</button>
-      </div>
-    </div>
+    </form>
   </template>
   </ui-kit-modal>
 </template>
