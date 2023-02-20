@@ -5,115 +5,145 @@
   ref="addProductModal"
   >
   <template v-slot:content>
-    <div class="add-product">
+    <form @submit.prevent="uploadProduct()">
+      <div class="add-product">
 
-      <div class="add-product-upload">
-        <label for="uploadImage" class="add-product-upload-add">
-          DROP IMAGE(S) HERE <br>
-          OR CLICK TO BROWSE <br>
-          SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
-          <input
-            id="uploadImage"
-            @change="addFiles($event)"
-            accept="image/bmp, image/png, image/jpeg"
-            type="file"
-            ref="file"
-            multiple
-          >
-        </label>
-        <div class="add-product-upload-images">
-          <vue-draggable-next :list="files" class="add-product-upload-images-draggable">
-            <div
-              v-if="files.length !== 0"
-              v-for="(image, index) in files"
-              :key="image.id"
-              class="add-product-upload-images-item"
+        <div class="add-product-upload">
+          <label for="uploadImage" class="add-product-upload-add">
+            DROP IMAGE(S) HERE <br>
+            OR CLICK TO BROWSE <br>
+            SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
+            <input
+              id="uploadImage"
+              @change="addFiles($event)"
+              accept="image/bmp, image/png, image/jpeg"
+              type="file"
+              ref="file"
+              multiple
             >
-              <minus-icon class="minus-icon" @click="removeFile(index)" />
-              <img :src="getImageUrl(image)" alt="upload-image">
-            </div>
-          </vue-draggable-next>
+          </label>
+          <div class="add-product-upload-images">
+            <vue-draggable-next :list="files" @change="sortFiles()" class="add-product-upload-images-draggable">
+              <div
+                v-if="files.length !== 0"
+                v-for="(image, index) in files"
+                :key="image.id"
+                class="add-product-upload-images-item"
+              >
+                <minus-icon class="minus-icon" @click="removeFile(index)" />
+                <img :src="getImageUrl(image)" alt="upload-image">
+              </div>
+            </vue-draggable-next>
+          </div>
+          <span
+            v-show="fileError"
+            class="form-error error"
+          >{{ fileError }}</span>
         </div>
-      </div>
 
-      <div class="add-product-categories">
-        <ui-kit-selector
-          v-model="selectedCategory"
-          @changed="removeChoiceSub()"
-          :options="[...categoriesSelector]"
-          :title="'CATEGORY'"
-        />
-        <div v-show="selectedCategory" class="add-product-categories-sub">
-          <ui-kit-check-box
-            v-for="sub in currentSubCategories"
-            v-model="selectedSubCategories"
-            :name="'subCategory' + sub.id"
-            :value="sub.id"
-            :title="sub.title"
+        <div class="add-product-categories">
+          <ui-kit-selector
+            v-model="selectedCategory"
+            @changed="removeChoiceSub()"
+            :options="[...categoriesSelector]"
+            :title="'CATEGORY'"
           />
+          <div v-show="selectedCategory" class="add-product-categories-sub">
+            <ui-kit-check-box
+              v-for="sub in currentSubCategories"
+              v-model="selectedSubCategories"
+              :name="'subCategory' + sub.id"
+              :value="sub.id"
+              :title="sub.title"
+              type="radio"
+            />
+          </div>
+        </div>
+
+        <ui-kit-input
+          v-model="product.title"
+          :errors="v$.product.title"
+          :error-messages="{ required: 'Title is required'}"
+          :server-errors="serverErrors"
+          placeholder="TITLE"
+        />
+
+        <ui-kit-input
+          v-model="product.author"
+          :errors="v$.product.author"
+          :error-messages="{ required: 'Author is required'}"
+          :server-errors="serverErrors"
+          placeholder="CREDIT ARTIST/OWNER"
+        />
+
+        <ui-kit-text-area
+          v-model="product.description"
+          :errors="v$.product.description"
+          :error-messages="{ required: 'Description is required'}"
+          :server-errors="serverErrors"
+          placeholder="DESCRIPTION"
+        />
+
+        <ui-kit-check-box
+          v-model="product.is_ai_safe"
+        >
+          AI safe (the best we can do) <a href="#" class="link">read more</a>
+        </ui-kit-check-box>
+
+        <ui-kit-input
+          v-if="!product.is_ai_safe"
+          v-model="product.tags"
+          placeholder="ADD TAGS, SEPARATE BY COMMA"
+        />
+
+        <div>
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="COMMON_VISIBILITY_LEVEL"
+            title="For all users, does not contain explicit material"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="NUDITY_VISIBILITY_LEVEL"
+            title="Can contain nudity but only for educational use"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="EROTIC_VISIBILITY_LEVEL"
+            title="Can contain nudity and erotic material"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="product.visibility_level"
+            :value="PORNO_VISIBILITY_LEVEL"
+            title="Can contain pornographic or other explicit material"
+            type="radio"
+          />
+          <span
+            v-for="(message, key) in { required: 'visibility is required'}"
+            v-show="v$.product.visibility_level[key].$invalid"
+            v-html="message"
+            :key="key"
+            class="form-error error"
+          ></span>
+        </div>
+
+        <div class="ui-kit-modal-content-buttons">
+          <button class="button full-width" type="submit">SEND FOR APPROVAL</button>
         </div>
       </div>
-
-      <ui-kit-input
-        v-model="creditOwner"
-        placeholder="CREDIT ARTIST/OWNER"
-      />
-
-      <ui-kit-text-area
-        v-model="description"
-        placeholder="DESCRIPTION(OPTIONAL)"
-      />
-
-      <ui-kit-check-box
-        v-model="aiSafe"
-      >
-        AI safe (the best we can do) <a href="#" class="link">read more</a>
-      </ui-kit-check-box>
-
-      <ui-kit-input
-        v-if="!aiSafe"
-        v-model="tags"
-        placeholder="ADD TAGS, SEPARATE BY COMMA"
-      />
-
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="COMMON_VISIBILITY_LEVEL"
-        title="For all users, does not contain explicit material"
-        type="radio"
-      />
-
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="NUDITY_VISIBILITY_LEVEL"
-        title="Can contain nudity but only for educational use"
-        type="radio"
-      />
-
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="EROTIC_VISIBILITY_LEVEL"
-        title="Can contain nudity and erotic material"
-        type="radio"
-      />
-
-      <ui-kit-check-box
-        v-model="visibility"
-        :value="PORNO_VISIBILITY_LEVEL"
-        title="Can contain pornographic or other explicit material"
-        type="radio"
-      />
-
-      <div class="ui-kit-modal-content-buttons">
-        <button class="button full-width" @click="uploadProduct()">SEND FOR APPROVAL</button>
-      </div>
-    </div>
+    </form>
   </template>
   </ui-kit-modal>
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { VueDraggableNext } from 'vue-draggable-next'
@@ -123,6 +153,8 @@ import { useProductsStore } from '~/store/products'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
+import useVuelidate from "@vuelidate/core";
+import {email, required} from "@vuelidate/validators";
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -134,14 +166,38 @@ const { getImageUrl } = useMedia()
 const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
 const selectedCategory = ref(null)
 const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
-const selectedSubCategories = ref([])
-const creditOwner = ref('')
-const description = ref('')
-const aiSafe = ref(false)
-const tags = ref('')
-const visibility = ref(null)
+const selectedSubCategories = ref(null)
+const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
+const fileError = ref('')
+const error = ref('')
+const serverErrors = ref({})
 
-const addFiles = async (event: any) => {
+const product = reactive({
+  price: 0,
+  category_id: selectCategory,
+  media: [],
+  author: '',
+  title: '',
+  description: '',
+  tags: '',
+  visibility_level: null,
+  is_ai_safe: false
+})
+
+const v$ = useVuelidate({
+  product: {
+    price: { required },
+    category_id: { required },
+    author: { required },
+    title: { required },
+    description: { required },
+    tags: { required },
+    visibility_level: { required },
+    is_ai_safe: {}
+  }
+}, { product })
+
+async function addFiles(event: any) {
   const media = event.target.files || event.dataTransfer.files
 
   if (!media.length) {
@@ -151,39 +207,57 @@ const addFiles = async (event: any) => {
   for (const item of media) {
     const response = await mediaStore.upload(item, item.name)
     files.value.push(response.data)
+    product.media.push(response.data.id)
   }
 }
 
-const removeChoiceSub = () => {
-  selectedSubCategories.value = []
-}
-
-const removeFile = (index: number) => {
+function removeFile(index: number) {
   files.value.splice(index, 1)
+  product.media.splice(index, 1)
 }
 
-const uploadProduct = async () => {
+function sortFiles() {
+  product.media = [...files.value]
+}
 
-  let product = {
-    price: null,
-    category_id: selectedSubCategories.value,
-    author: creditOwner.value,
-    title: '',
-    description: description.value,
-    tags: tags.value,
-    visibility_level: visibility.value,
+function removeChoiceSub() {
+  selectedSubCategories.value = null
+}
+
+async function uploadProduct() {
+
+  if (product.media.length > 0) {
+    fileError.value = 'media is required'
+    return
   }
 
-  if (files.value.length > 0) {
-    product.media = [...files.value].map((item) => item.id)
+  // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
+  if (product.is_ai_safe) {
+    product.tags = 'aiSafe'
   }
 
-  if (aiSafe.value) {
-    product.is_ai_safe = aiSafe.value
-    product.tags = ''
+  v$.value.$touch()
+
+  if (v$.value.$error) {
+    return
   }
 
-  productStore.create(product).then(close)
+  error.value = ''
+  serverErrors.value = {}
+  fileError.value = ''
+
+  try {
+    await productStore.create(product).then(close)
+
+  } catch (e) {
+    if (e.response && !e.response.data.errors) {
+      error.value = 'Something went wrong! Please try again later.'
+
+      return
+    }
+  }
+
+    serverErrors.value = e.response.data.errors
 }
 
 function open() {

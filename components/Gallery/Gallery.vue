@@ -22,14 +22,25 @@
             <p>Uploaded by {{ image.user.tagname }}</p>
           </div>
 
+          <div
+            v-if="image.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
+            class="gallery-item-image-container-info gallery-item-image-container-admin"
+          >
+            <h4>PENDING</h4>
+            <p>"{{ image.title }}"</p>
+            <a href="#" class="link">see details</a>
+            <button class="full-width button" @click.prevent="approveImage(image.id)">APPROVE</button>
+            <button class="full-width button" @click.prevent="declinedImage(image.id)">DECLINED</button>
+          </div>
+
           <user-details
             v-if="props.viewType === DETAILS_GALLERY_VIEW_TYPE"
             :author="image.author"
             :author-tag="image.user.tagname"
-            :author-avatar="image.user.media.link"
+            :author-avatar="image.user.avatar_image"
           />
 
-          <img :src="image.media[0].link" :alt="image.title">
+          <img :src="getImageUrl(image.media[0])" :alt="image.title">
         </div>
       </nuxt-link>
     </div>
@@ -37,9 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import { JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
+import { defineProps} from 'vue'
+import { SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
+import {ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED} from '~/types/constants'
+import { useUserStore } from '~/store/user'
+import { storeToRefs } from 'pinia'
+import { useProductsStore } from '~/store/products'
 import UserDetails from '~/components/Gallery/userDetails.vue'
+import useMedia from '~/composable/media'
 
 interface Props {
   cols: Product[],
@@ -49,4 +65,20 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   cols: () => ([]),
 })
+const { getImageUrl } = useMedia()
+const userStore = useUserStore()
+const productsStore = useProductsStore()
+const { getUserRole } = storeToRefs(userStore)
+
+async function approveImage(id) {
+  await productsStore.update(id, { status: STATUS_APPROVED })
+
+  await productsStore.fetchAll({ status: STATUS_PENDING })
+}
+async function declinedImage(id) {
+  await productsStore.update(id, { status: STATUS_REJECTED })
+
+  await productsStore.fetchAll({ status: STATUS_PENDING })
+}
+
 </script>

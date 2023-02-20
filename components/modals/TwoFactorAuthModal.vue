@@ -66,10 +66,12 @@ import { storeToRefs } from 'pinia'
 import type { TwoFactorAuthData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
+import {useUserStore} from "~/store/user";
 
 const TwoFactorAuthModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
+const userStore = useUserStore()
 const { emailForTwoFactorAuth } = storeToRefs(authStore)
 
 const auth: TwoFactorAuthData = reactive({
@@ -104,6 +106,8 @@ async function confirmTwoFactorAuth() {
 
   try {
     await authStore.checkEmailTwoFactorAuth(auth)
+
+    await userStore.fetch()
 
     success.value = true
     auth.code = ''

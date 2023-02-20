@@ -26,6 +26,8 @@ export interface ProductsState {
   items: Product[],
   current: Product
 }
-export interface CategoriesState {
-  items: Category[]
+export interface CategoriesState <R> {
+  items: Category[],
+  // item: Category,
+  filters?: R
 }

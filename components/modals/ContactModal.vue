@@ -88,7 +88,7 @@ const v$ = useVuelidate({
   }
 }, { contactFormData })
 
-const sendForm = () => {
+function sendForm() {
   v$.value.$touch()
 
   if (v$.value.$error) {
