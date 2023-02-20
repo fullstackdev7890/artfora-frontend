@@ -1,5 +1,6 @@
 import { Media } from '~/types'
 import { useRuntimeConfig } from '#app'
+import avatar from 'assets/images/logo.jpg'
 
 export default function () {
   const config = useRuntimeConfig()
@@ -12,10 +13,11 @@ export default function () {
     return config.public.API_BASE_URL + '/storage/' + media.link
   }
   const getUserAvatar = (link: string): string => {
-    return config.public.API_BASE_URL + '/storage/' + link
+    if (link) {
+      return config.public.API_BASE_URL + '/storage/' + link
+    }
+    return avatar
   }
-  const isImage = (media: Media): boolean => ['jpg', 'jpeg', 'png', 'webp', 'bmp'].some((format) => media.link.includes(format))
-  const isVideo = (media: Media): boolean => ['mp4', 'mov', 'ogg'].some((format) => media.link.includes(format))
 
-  return { getImageUrl, getUserAvatar, isImage, isVideo }
+  return { getImageUrl, getUserAvatar }
 }

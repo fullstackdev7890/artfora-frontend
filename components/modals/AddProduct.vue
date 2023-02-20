@@ -22,7 +22,7 @@
           >
         </label>
         <div class="add-product-upload-images">
-          <vue-draggable-next :list="files" class="add-product-upload-images-draggable">
+          <vue-draggable-next :list="files" @change="sortFiles()" class="add-product-upload-images-draggable">
             <div
               v-if="files.length !== 0"
               v-for="(image, index) in files"
@@ -61,26 +61,26 @@
 
       <ui-kit-input
         v-model="product.title"
-        placeholder="TITLE"
         :errors="v$.product.title"
         :error-messages="{ required: 'Title is required'}"
         :server-errors="serverErrors"
+        placeholder="TITLE"
       />
 
       <ui-kit-input
         v-model="product.author"
-        placeholder="CREDIT ARTIST/OWNER"
         :errors="v$.product.author"
         :error-messages="{ required: 'Author is required'}"
         :server-errors="serverErrors"
+        placeholder="CREDIT ARTIST/OWNER"
       />
 
       <ui-kit-text-area
         v-model="product.description"
-        placeholder="DESCRIPTION"
         :errors="v$.product.description"
         :error-messages="{ required: 'Description is required'}"
         :server-errors="serverErrors"
+        placeholder="DESCRIPTION"
       />
 
       <ui-kit-check-box
@@ -165,7 +165,7 @@ const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
 const selectedCategory = ref(null)
 const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
 const selectedSubCategories = ref(null)
-const selectCategory = computed(() => typeof selectedSubCategories.value !== 'number' ? selectedCategory.value : selectedSubCategories.value)
+const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
 const fileError = ref('')
 let error = ref('')
 let serverErrors = ref({})
@@ -205,25 +205,31 @@ const addFiles = async (event: any) => {
   for (const item of media) {
     const response = await mediaStore.upload(item, item.name)
     files.value.push(response.data)
+    product.media.push(response.data.id)
   }
-}
-
-const removeChoiceSub = () => {
-  selectedSubCategories.value = []
 }
 
 const removeFile = (index: number) => {
   files.value.splice(index, 1)
+  product.media.splice(index, 1)
 }
 
-const uploadProduct = async () => {
+const sortFiles = () => {
+  product.media = [...files.value]
+}
 
-  if (files.value.length > 0) {
-    product.media = [...files.value].map((item) => item.id)
-  } else {
+const removeChoiceSub = () => {
+  selectedSubCategories.value = null
+}
+
+async function uploadProduct() {
+
+  if (product.media.length > 0) {
     fileError.value = 'media is required'
+    return
   }
 
+  // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
   if (product.is_ai_safe) {
     product.tags = 'aiSafe'
   }

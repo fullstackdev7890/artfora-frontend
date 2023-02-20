@@ -23,7 +23,7 @@
           </div>
 
           <div
-            v-if="image.status === STATUS_PENDING && role_id === 1"
+            v-if="image.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
             class="gallery-item-image-container-info gallery-item-image-container-admin"
           >
             <h4>PENDING</h4>
@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import { defineProps} from 'vue'
 import { SQUARE_GALLERY_VIEW_TYPE, DETAILS_GALLERY_VIEW_TYPE, Product } from '~/types/products'
-import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
+import { ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '~/store/products'
@@ -67,7 +67,7 @@ const props = withDefaults(defineProps<Props>(), {
 const { getImageUrl } = useMedia()
 const userStore = useUserStore()
 const productsStore = useProductsStore()
-const { role_id } = storeToRefs(userStore)
+const { getUserRole } = storeToRefs(userStore)
 
 const approveImage = async (id) => {
   await productsStore.update(id, { status: STATUS_APPROVED })

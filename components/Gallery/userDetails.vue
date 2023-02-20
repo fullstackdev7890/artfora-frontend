@@ -1,6 +1,6 @@
 <template>
   <div class="gallery-item-image-container-details-user">
-  <img :src="userAvatar" :alt="author">
+  <img :src="getUserAvatar($props.authorAvatar)" :alt="author">
   <div class="gallery-item-image-container-details-user-name">
     <h3>{{ author }}</h3>
     <p>{{ authorTag }}</p>
@@ -9,8 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from 'vue'
-import avatar from 'assets/images/logo.jpg'
+import { defineProps } from 'vue'
 import useMedia from '~/composable/media'
 
 interface Props {
@@ -25,5 +24,4 @@ const props = withDefaults(defineProps<Props>(), {
   authorAvatar: '',
 })
 const { getUserAvatar } = useMedia()
-const userAvatar = computed(() => props.authorAvatar ? getUserAvatar(props.imageInfo.authorAvatar) : avatar)
 </script>

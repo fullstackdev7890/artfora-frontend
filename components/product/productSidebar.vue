@@ -7,7 +7,7 @@
       </div>
 
       <div class="product-sidebar-user">
-        <img class="product-sidebar-user-avatar" :src="userAvatar" alt="user-avatar">
+        <img class="product-sidebar-user-avatar" :src="getUserAvatar($props.imageInfo.user.avatar_image)" alt="user-avatar">
         <div class="product-sidebar-user-name">
           <h4>{{ props.imageInfo.user.username }}</h4>
           <p>{{ props.imageInfo.user.tagname }}</p>
@@ -58,14 +58,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { Product } from '~/types/products'
 import ShareIcon from '~/assets/svg/share.svg'
 import LinksModal from '~/components/modals/LinksModal.vue'
 import CommissionWorkModal from '~/components/modals/CommissionWorkModal.vue'
 import ContactModal from '~/components/modals/ContactModal.vue'
 import useMedia from '~/composable/media'
-import avatar from 'assets/images/logo.jpg'
 
 interface Props {
   imageInfo: Product
@@ -100,5 +98,4 @@ const linksModal = ref<InstanceType<typeof LinksModal>>(null)
 const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
 const contactModal = ref<InstanceType<typeof ContactModal>>(null)
 const { getUserAvatar } = useMedia()
-const userAvatar = computed(() => props.imageInfo.user.avatar_image ? getUserAvatar(props.imageInfo.user.avatar_image) : avatar)
 </script>

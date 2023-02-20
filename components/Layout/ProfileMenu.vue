@@ -12,7 +12,7 @@
       class="icon-button"
     >
       <img
-        :src="userAvatar"
+        :src="getUserAvatar(userAvatar)"
         alt="user_avatar"
       >
     </div>
@@ -60,14 +60,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
 import { useAsyncData } from '#app'
+import useMedia from '~/composable/media'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
-import avatar from '~/assets/images/logo.jpg'
 import SignUpModal from '~/components/modals/SignUpModal.vue'
 import AddProduct from '~/components/modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
@@ -77,12 +77,13 @@ import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
 const authStore = useAuthStore()
 const userStore = useUserStore()
 const { isAuthorized, isAwaitingTokenConfirmation } = storeToRefs(authStore)
-const { getUserAvatar } = storeToRefs(userStore)
+const { userAvatar } = storeToRefs(userStore)
+const { getUserAvatar } = useMedia()
+
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
-const userAvatar = computed(() => getUserAvatar.value ?? avatar)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
 const TwoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 
