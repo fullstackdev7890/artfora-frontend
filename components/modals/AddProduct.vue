@@ -169,8 +169,8 @@ const currentSubCategories = computed(() => selectedCategory.value ? categories.
 const selectedSubCategories = ref(null)
 const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
 const fileError = ref('')
-let error = ref('')
-let serverErrors = ref({})
+const error = ref('')
+const serverErrors = ref({})
 
 const product = reactive({
   price: 0,
@@ -197,7 +197,7 @@ const v$ = useVuelidate({
   }
 }, { product })
 
-const addFiles = async (event: any) => {
+async function addFiles(event: any) {
   const media = event.target.files || event.dataTransfer.files
 
   if (!media.length) {
@@ -211,16 +211,16 @@ const addFiles = async (event: any) => {
   }
 }
 
-const removeFile = (index: number) => {
+function removeFile(index: number) {
   files.value.splice(index, 1)
   product.media.splice(index, 1)
 }
 
-const sortFiles = () => {
+function sortFiles() {
   product.media = [...files.value]
 }
 
-const removeChoiceSub = () => {
+function removeChoiceSub() {
   selectedSubCategories.value = null
 }
 

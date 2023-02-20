@@ -59,17 +59,21 @@ await useAsyncData('get-product', async () => {
   await products.fetch(route.params.id as string)
 })
 
-const toggleSidebar = () => isShown.value = !isShown.value
+function toggleSidebar() {
+  isShown.value = !isShown.value
+}
 
-const toBack = () => router.push('/')
+function toBack() {
+  router.push('/')
+}
 
-const toNextImage = () => {
+function toNextImage() {
   if (++currentImage.value >= current.value.media.length) {
     currentImage.value = 0
   }
 }
 
-const toPrevImage = () => {
+function toPrevImage() {
   if (--currentImage.value < 0) {
     currentImage.value = current.value.media.length - 1
   }

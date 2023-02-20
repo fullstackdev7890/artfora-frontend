@@ -70,12 +70,12 @@ const userStore = useUserStore()
 const productsStore = useProductsStore()
 const { getUserRole } = storeToRefs(userStore)
 
-const approveImage = async (id) => {
+async function approveImage(id) {
   await productsStore.update(id, { status: STATUS_APPROVED })
 
   await productsStore.fetchAll({ status: STATUS_PENDING })
 }
-const declinedImage = async (id) => {
+async function declinedImage(id) {
   await productsStore.update(id, { status: STATUS_REJECTED })
 
   await productsStore.fetchAll({ status: STATUS_PENDING })

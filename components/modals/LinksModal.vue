@@ -103,7 +103,7 @@ onBeforeMount(() => {
   }
 })
 
-const siteSort = () => {
+function siteSort() {
 
   links.value.split(',').forEach(link => {
     let found = false

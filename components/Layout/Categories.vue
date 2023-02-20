@@ -69,17 +69,17 @@ const subCategories = computed(() => categories.value.find(el => el.id === activ
 const selectSubCategories = ref([])
 const pendingCount = ref(0)
 const roleCategory = ref(null)
-const selectUserImagesCategory = () => {
+function selectUserImagesCategory() {
   productStore.fetchAll({ user_id: getUserId.value })
   activeCategory.value = null
   roleCategory.value = ROLE_USER
 }
-const selectAdminCategory = () => {
+function selectAdminCategory() {
   productStore.fetchAll({ status: STATUS_PENDING })
   activeCategory.value = null
   roleCategory.value = ROLE_ADMIN
 }
-const selectCategory = (index: number) => {
+function selectCategory(index: number) {
   roleCategory.value = null
   activeCategory.value = index
   selectSubCategories.value = []
@@ -101,7 +101,7 @@ onMounted(async () => {
   pendingCount.value = await productStore.pendingCount()
 })
 
-const selectSubCategory = () => {
+function selectSubCategory() {
   productStore.filterSubCategories(selectSubCategories.value, activeCategory.value)
 }
 

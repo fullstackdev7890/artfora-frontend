@@ -63,7 +63,7 @@ const v$ = useVuelidate({
   }
 }, { commissionWorkData })
 
-const sendForm = () => {
+function sendForm() {
   v$.value.$touch()
 
   if (v$.value.$error) {
