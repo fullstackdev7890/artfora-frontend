@@ -43,7 +43,7 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import CloseIcon from '~/assets/svg/close.svg'
 import ArrowLeft from '~/assets/svg/arrow-left.svg'
-import ProductSidebar from '~/components/product/productSidebar.vue'
+import ProductSidebar from '~/components/Products/ProductSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
 import useMedia from '~/composable/media'
 

@@ -60,9 +60,9 @@
 <script setup lang="ts">
 import { Product } from '~/types/products'
 import ShareIcon from '~/assets/svg/share.svg'
-import LinksModal from '~/components/modals/LinksModal.vue'
-import CommissionWorkModal from '~/components/modals/CommissionWorkModal.vue'
-import ContactModal from '~/components/modals/ContactModal.vue'
+import LinksModal from '~/components/Modals/LinksModal.vue'
+import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
+import ContactModal from '~/components/Modals/ContactModal.vue'
 import useMedia from '~/composable/media'
 
 interface Props {

@@ -68,11 +68,11 @@ import { useAsyncData } from '#app'
 import useMedia from '~/composable/media'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
-import SignUpModal from '~/components/modals/SignUpModal.vue'
-import AddProduct from '~/components/modals/AddProduct.vue'
+import SignUpModal from '~/components/Modals/SignUpModal.vue'
+import AddProduct from '~/components/Modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
-import LogInModal from '~/components/modals/LogInModal.vue'
-import TwoFactorAuthModal from '~/components/modals/TwoFactorAuthModal.vue'
+import LogInModal from '~/components/Modals/LogInModal.vue'
+import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
