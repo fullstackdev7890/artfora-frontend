@@ -54,7 +54,7 @@ import {ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED} from '~/ty
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '~/store/products'
-import UserDetails from '~/components/Gallery/userDetails.vue'
+import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 
 interface Props {
