@@ -20,7 +20,7 @@
           :errors="v$.auth.username"
           :error-messages="{ required: 'Please enter username. ' }"
           :server-errors="serverErrors"
-          :disabled="store.pendingRequestsCount"
+          :disabled="globalStore.pendingRequestsCount"
           placeholder="USERNAME"
           name="username"
         />
@@ -34,7 +34,7 @@
           }"
           :server-errors="serverErrors"
           :attention-messages="{ notChanged: 'Can not be changed later. ' }"
-          :disabled="store.pendingRequestsCount"
+          :disabled="globalStore.pendingRequestsCount"
           placeholder="@TAGNAME"
           name="tagname"
         />
@@ -44,7 +44,7 @@
           :errors="v$.auth.email"
           :error-messages="{ required: 'Please enter email. ', email: 'Please enter valid email address. ' }"
           :server-errors="serverErrors"
-          :disabled="store.pendingRequestsCount"
+          :disabled="globalStore.pendingRequestsCount"
           placeholder="EMAIL ADDRESS"
           name="email"
         />
@@ -59,9 +59,10 @@
             containsNumber: 'Minimum 1 number. '
           }"
           :server-errors="serverErrors"
-          :disabled="store.pendingRequestsCount"
+          :disabled="globalStore.pendingRequestsCount"
           placeholder="PASSWORD"
           name="password"
+          type="password"
         />
 
         <ui-kit-input
@@ -69,9 +70,10 @@
           :errors="v$.auth.confirm"
           :error-messages="{ required: 'Please repeat password. ', sameAs: 'Does not match the entered password. ' }"
           :server-errors="serverErrors"
-          :disabled="store.pendingRequestsCount"
+          :disabled="globalStore.pendingRequestsCount"
           placeholder="REPEAT PASSWORD"
           name="confirm"
+          type="password"
         />
 
         <span v-if="error" class="form-errors-list">
@@ -83,7 +85,7 @@
 
         <div class="ui-kit-modal-content-buttons">
           <button
-            :disabled="store.pendingRequestsCount"
+            :disabled="globalStore.pendingRequestsCount"
             class="button full-width"
             type="submit"
           >
@@ -101,7 +103,7 @@
 
         <div class="ui-kit-modal-content-buttons">
           <button
-            :disabled="store.pendingRequestsCount"
+            :disabled="globalStore.pendingRequestsCount"
             @click="close"
             class="button full-width"
           >
@@ -115,12 +117,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from '@vue/reactivity'
-import {
-  required, email, sameAs, minLength
-} from '@vuelidate/validators'
+import { required, email, sameAs, minLength } from '@vuelidate/validators'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
-import { storeToRefs } from 'pinia'
 import useVuelidate from '@vuelidate/core'
 import type { SignUpData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
@@ -129,7 +128,6 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const signUpModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const globalStore = useStore()
-const store = storeToRefs(globalStore)
 const emit = defineEmits(['openLogInModal'])
 
 const auth: SignUpData = reactive({

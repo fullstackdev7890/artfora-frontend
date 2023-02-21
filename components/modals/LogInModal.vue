@@ -33,6 +33,7 @@
           :disabled="store.pendingRequestsCount"
           placeholder="PASSWORD"
           name="password"
+          type="password"
         />
 
         <span v-if="error" class="form-errors-list">
