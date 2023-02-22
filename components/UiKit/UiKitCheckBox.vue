@@ -6,13 +6,13 @@
       >
         <input
           :id="name"
+          v-model="model"
           :name="name"
           :value="value"
           :type="type"
           ref="checkbox"
-          v-model="model"
         >
-        <div class="input-checkbox-box"></div>
+        <div v-show="showCheckbox" class="input-checkbox-box"></div>
         {{ title }}
         <slot></slot>
       </label>
@@ -26,12 +26,14 @@ interface Props {
   modelValue: boolean,
   name: string,
   title: string,
-  value: number,
+  value: number | string,
   type?: 'checkbox' | 'radio'
+  showCheckbox: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'checkbox'
+  type: 'checkbox',
+  showCheckbox: true
 })
 const emit = defineEmits(['update:modelValue'])
 

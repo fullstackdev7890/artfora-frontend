@@ -1,30 +1,43 @@
 <template>
-  <div class="gallery-settings-switch">
+  <div class="switch-checkbox">
 
     <label
       v-for="option in options"
-      :class="{ 'gallery-settings-switch-label-active': option.key }"
-      :for="option.title"
-      class="gallery-settings-switch-label"
+      :class="{ 'switch-checkbox-active': option.key === selectedOption }"
+      :for="option.key"
+      class="switch-checkbox-label"
     >
       <input
-        @change="$emit('change', option.key)"
+        :id="option.key"
+        v-model="selectedOption"
         :value="option.key"
         class="hidden"
         type="radio"
-        id="switch-latest"
       />
       {{ option.title }}
     </label>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { OptionItem } from '~/types/uiKit'
+import {computed} from "vue";
 
 interface props {
-  options: OptionItem[]
+  options: OptionItem[],
+  modelValue: OptionItem
 }
 const props = defineProps<props>()
+const emit = defineEmits(['update:modelValue'])
+
+const selectedOption = computed({
+  get() {
+    return props.modelValue
+  },
+  set(newValue) {
+    emit('update:modelValue', newValue)
+  }
+})
 
 </script>

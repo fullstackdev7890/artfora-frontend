@@ -5,42 +5,49 @@
 
         <div class="gallery-settings-item">
           <h2 class="gallery-settings-item-title">SORT BY: </h2>
+
           <ui-kit-switch v-model="selectedSort" :options="optionsSort" />
         </div>
 
         <div class="gallery-settings-middle-divider"></div>
 
         <div class="gallery-settings-item">
-          <label for="justify" class="gallery-settings-item-view">
-            <input
-              id="justify"
-              v-model="GalleryViewType"
-              :value="JUSTIFIED_GALLERY_VIEW_TYPE"
-              type="radio"
-              class="hidden"
-            >
-            <JustifiedGalleryIcon :class="{ 'gallery-settings-item-view-active': GalleryViewType === JUSTIFIED_GALLERY_VIEW_TYPE }" />
-          </label>
-          <label for="square" class="gallery-settings-item-view">
-            <input
-              id="square"
-              v-model="GalleryViewType"
-              :value="SQUARE_GALLERY_VIEW_TYPE"
-              type="radio"
-              class="hidden"
-            >
-            <SquareGalleryIcon :class="{ 'gallery-settings-item-view-active': GalleryViewType === SQUARE_GALLERY_VIEW_TYPE }" />
-          </label>
-          <label for="details" class="gallery-settings-item-view">
-            <input
-              id="details"
-              v-model="GalleryViewType"
-              :value="DETAILS_GALLERY_VIEW_TYPE"
-              type="radio"
-              class="hidden"
-            >
-            <DetailsGalleryIcon :class="{ 'gallery-settings-item-view-active': GalleryViewType === DETAILS_GALLERY_VIEW_TYPE }" />
-          </label>
+
+          <ui-kit-check-box
+            v-model="GalleryViewType"
+            :value="JUSTIFIED_GALLERY_VIEW_TYPE"
+            :show-checkbox="false"
+            type="radio"
+          >
+            <JustifiedGalleryIcon
+              :class="{ 'gallery-settings-item-view-active': GalleryViewType === JUSTIFIED_GALLERY_VIEW_TYPE }"
+              class="gallery-settings-item-view"
+            />
+          </ui-kit-check-box>
+
+          <ui-kit-check-box
+            v-model="GalleryViewType"
+            :value="SQUARE_GALLERY_VIEW_TYPE"
+            :show-checkbox="false"
+            type="radio"
+          >
+            <SquareGalleryIcon
+              :class="{ 'gallery-settings-item-view-active': GalleryViewType === SQUARE_GALLERY_VIEW_TYPE }"
+              class="gallery-settings-item-view"
+            />
+          </ui-kit-check-box>
+
+          <ui-kit-check-box
+            v-model="GalleryViewType"
+            :value="DETAILS_GALLERY_VIEW_TYPE"
+            :show-checkbox="false"
+            type="radio"
+          >
+            <DetailsGalleryIcon
+              :class="{ 'gallery-settings-item-view-active': GalleryViewType === DETAILS_GALLERY_VIEW_TYPE }"
+              class="gallery-settings-item-view"
+            />
+          </ui-kit-check-box>
         </div>
       </div>
     </template>
