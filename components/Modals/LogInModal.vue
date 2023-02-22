@@ -39,7 +39,10 @@
         <span v-if="error" class="form-errors-list">
           <span class="form-error error">
             Either your email address or your password seems to be wrong. Try again or
-            <span class="link">
+            <span
+              class="link"
+              @click="openResetPasswordModal"
+            >
               reset password here!
             </span>
           </span>
@@ -50,7 +53,10 @@
           class="ui-kit-box-content-small-text align-right"
         >
           Forgot your password?
-          <span class="link">Reset here!</span>
+          <span
+            class="link"
+            @click="openResetPasswordModal"
+          >Reset here!</span>
         </p>
 
         <div class="ui-kit-modal-content-buttons">
@@ -80,7 +86,7 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
-const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal'])
+const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
 
 const auth: LoginData = reactive({
   login: '',
@@ -128,6 +134,11 @@ async function logIn() {
 function openSignUpModal() {
   close()
   emit('openSignUpModal')
+}
+
+function openResetPasswordModal() {
+  close()
+  emit('openResetPasswordModal')
 }
 
 function openTwoFactorAuthModal() {

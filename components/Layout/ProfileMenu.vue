@@ -53,9 +53,15 @@
       ref="logInModalRef"
       @open-sign-up-modal="openSignUpModal"
       @open-two-factor-auth-modal="openTwoFactorAuthModal"
+      @open-reset-password-modal="openResetPasswordModal"
     />
 
-    <two-factor-auth-modal ref="TwoFactorAuthModalRef" />
+    <two-factor-auth-modal ref="twoFactorAuthModalRef" />
+
+    <reset-password-modal
+      ref="resetPasswordModalRef"
+      @open-sign-up-modal="openSignUpModal"
+    />
   </div>
 </template>
 
@@ -73,6 +79,7 @@ import AddProduct from '~/components/Modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
+import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
@@ -85,7 +92,8 @@ const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
-const TwoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
+const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
+const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
 
 const router = useRouter()
 
@@ -94,6 +102,7 @@ router.beforeEach((to, from, next) => {
   closeLogInModal()
   closeTwoFactorAuthModal()
   closeAddProductModal()
+  closeResetPasswordModal()
 
   next()
 })
@@ -105,11 +114,20 @@ function logout() {
 
 function openTwoFactorAuthModal() {
   menuDropdownRef.value.close()
-  TwoFactorAuthModalRef.value.open()
+  twoFactorAuthModalRef.value.open()
 }
 
 function closeTwoFactorAuthModal() {
-  TwoFactorAuthModalRef.value.close()
+  twoFactorAuthModalRef.value.close()
+}
+
+function openResetPasswordModal() {
+  menuDropdownRef.value.close()
+  resetPasswordModalRef.value.open()
+}
+
+function closeResetPasswordModal() {
+  resetPasswordModalRef.value.close()
 }
 
 function closeAddProductModal() {

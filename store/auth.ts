@@ -1,6 +1,6 @@
 import type { AuthState } from '~/types/state'
 import { defineStore } from 'pinia'
-import {LoginData, SignUpData, TwoFactorAuthData, VerifyData} from '~/types/auth'
+import { LoginData, SignUpData, TwoFactorAuthData, VerifyData, ResetPasswordData } from '~/types/auth'
 import axios from 'axios'
 import { navigateTo } from '#imports'
 
@@ -22,6 +22,10 @@ export const useAuthStore = defineStore('auth', {
       await axios.post('/auth/login', data)
 
       return this.emailForTwoFactorAuth = data.login
+    },
+
+    async resetPassword(data: ResetPasswordData) {
+      await axios.post('/auth/forgot-password', data)
     },
 
     async checkEmailTwoFactorAuth(data: TwoFactorAuthData) {
