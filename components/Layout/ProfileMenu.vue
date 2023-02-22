@@ -27,7 +27,7 @@
       </div>
 
       <div class="ui-kit-dropdown-content-item">
-        <span class="ui-kit-dropdown-content-item-btn">Gallery settings</span>
+        <span @click="GallerySettingsModalRef.open()" class="ui-kit-dropdown-content-item-btn">Gallery settings</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
@@ -56,6 +56,8 @@
     />
 
     <two-factor-auth-modal ref="TwoFactorAuthModalRef" />
+
+    <gallery-settings-modal ref="GallerySettingsModalRef" />
   </div>
 </template>
 
@@ -73,6 +75,7 @@ import AddProduct from '~/components/Modals/AddProduct.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
+import GallerySettingsModal from '~/components/Modals/GallerySettingsModal.vue'
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
@@ -86,6 +89,7 @@ const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
 const TwoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
+const GallerySettingsModalRef = ref<InstanceType<typeof GallerySettingsModal>>(null)
 
 const router = useRouter()
 
@@ -94,6 +98,7 @@ router.beforeEach((to, from, next) => {
   closeLogInModal()
   closeTwoFactorAuthModal()
   closeAddProductModal()
+  closeGallerySettingsModal()
 
   next()
 })
@@ -114,6 +119,10 @@ function closeTwoFactorAuthModal() {
 
 function closeAddProductModal() {
   addProductModal.value.close()
+}
+
+function closeGallerySettingsModal() {
+  GallerySettingsModalRef.value.close()
 }
 
 function openLogInModal() {
