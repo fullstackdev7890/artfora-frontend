@@ -156,7 +156,6 @@ function open() {
 
 function close() {
   enterNewPasswordModal.value?.close()
-  // navigateTo('/')
 }
 
 defineExpose({ open, close })
