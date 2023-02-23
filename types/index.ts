@@ -9,6 +9,7 @@ export declare interface Entity {
 }
 
 export declare interface Media extends Entity {
+  id: number
   deleted_at: string | null
   link: string
   is_public?: boolean
@@ -17,9 +18,9 @@ export declare interface Media extends Entity {
 }
 
 export interface User extends Entity {
-  first_name: string
-  last_name: string
-  background_image: string | null,
+  username: string
+  tagname: string
+  background_image: string | null
   role_id: number
   email: string
   external_link: string | null

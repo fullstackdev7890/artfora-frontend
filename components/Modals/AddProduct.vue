@@ -45,7 +45,7 @@
           <ui-kit-selector
             v-model="selectedCategory"
             @changed="removeChoiceSub()"
-            :options="[...categoriesSelector]"
+            :options="categoriesSelectorItems"
             :title="'CATEGORY'"
           />
           <div v-show="selectedCategory" class="add-product-categories-sub">
@@ -163,14 +163,19 @@ const CategoriesStore = useCategoriesStore()
 const mediaStore = useMediaStore()
 const productStore = useProductsStore()
 const { getImageUrl } = useMedia()
-const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
+const { items } = storeToRefs(CategoriesStore)
 const selectedCategory = ref(null)
-const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
+const currentSubCategories = computed(() => selectedCategory.value ? items.value[selectedCategory.value - 1].children : [])
 const selectedSubCategories = ref(null)
 const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
 const fileError = ref('')
 const error = ref('')
 const serverErrors = ref({})
+const categoriesSelectorItems = computed(() => items.value.map((category) => ({
+  title: category.title,
+  key: category.id,
+  payload: category
+})))
 
 const product = reactive({
   price: 0,
@@ -226,7 +231,7 @@ function removeChoiceSub() {
 
 async function uploadProduct() {
 
-  if (product.media.length > 0) {
+  if (product.media.length < 1) {
     fileError.value = 'media is required'
     return
   }

@@ -2,33 +2,38 @@
   <div class="categories">
 
     <div class="categories-body">
-      <a
-        v-if="getUserRole === ROLE_USER"
-        @click.prevent="selectUserImagesCategory()"
-        :class="{'categories-body-item-active': roleCategory === ROLE_USER}"
-        href="#"
+      <nuxt-link
+        v-if="user.role_id === ROLE_USER"
+        :class="{'categories-body-item-active': $route.path === '/gallery/my-images' }"
+        to="/gallery/my-images"
         class="categories-body-item categories-body-item-parents"
       >
         My images
-      </a>
-      <a
-        v-if="getUserRole === ROLE_ADMIN"
-        @click.prevent="selectAdminCategory()"
-        :class="{'categories-body-item-active': roleCategory === ROLE_ADMIN}"
-        href="#"
+      </nuxt-link>
+      <nuxt-link
+        v-if="user.role_id === ROLE_ADMIN"
+        :class="{'categories-body-item-active': $route.path === '/gallery/pending'}"
+        to="/gallery/pending"
         class="categories-body-item categories-body-item-parents"
       >
-        Pending ({{ pendingCount }})
-      </a>
-      <a
-        v-for="(category) in categories"
-        :class="{'categories-body-item-active': activeCategory === category.id}"
-        @click.prevent="selectCategory(category.id)"
-        href="#"
+        Pending ({{  }})
+      </nuxt-link>
+      <nuxt-link
+        :class="{'categories-body-item-active': $route.path === '/'}"
+        class="categories-body-item categories-body-item-parents"
+        to="/"
+      >
+        All
+      </nuxt-link>
+      <nuxt-link
+        v-for="(category) in items"
+        @click="clearSubCategories"
+        :to="`/gallery/${category.id}`"
+        :class="{'categories-body-item-active': $route.path === `/gallery/${category.id}`}"
         class="categories-body-item categories-body-item-parents"
       >
         {{ category.title }}
-      </a>
+      </nuxt-link>
     </div>
 
     <div class="categories-body" v-if="subCategories">
@@ -51,7 +56,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { useAsyncData } from '#app'
@@ -60,49 +65,18 @@ import { useProductsStore } from '~/store/products'
 import { STATUS_APPROVED, STATUS_PENDING, ROLE_ADMIN, ROLE_USER } from '~/types/constants'
 
 const categoriesStore = useCategoriesStore()
-const userStore = useUserStore()
-const productStore = useProductsStore()
-const { categories } = storeToRefs(categoriesStore)
-const { getUserRole, getUserId } = storeToRefs(userStore)
-const activeCategory = ref(1)
-const subCategories = computed(() => categories.value.find(el => el.id === activeCategory.value)?.children ?? null)
+const user = useUserStore()
+const products = useProductsStore()
+const { items } = storeToRefs(categoriesStore)
+const route = useRoute()
 const selectSubCategories = ref([])
-const pendingCount = ref(0)
-const roleCategory = ref(null)
-function selectUserImagesCategory() {
-  productStore.fetchAll({ user_id: getUserId.value })
-  activeCategory.value = null
-  roleCategory.value = ROLE_USER
-}
-function selectAdminCategory() {
-  productStore.fetchAll({ status: STATUS_PENDING })
-  activeCategory.value = null
-  roleCategory.value = ROLE_ADMIN
-}
-function selectCategory(index: number) {
-  roleCategory.value = null
-  activeCategory.value = index
+const subCategories = computed(() => items.value.find(category => category.id === Number(route.params.id))?.children ?? null)
+function clearSubCategories() {
   selectSubCategories.value = []
-
-  if (index === 1) {
-    productStore.fetchAll({ status: STATUS_APPROVED })
-    return
-  }
-
-  if (index > 1) {
-    const category_id = selectSubCategories.value.length > 0 ? selectSubCategories.value.join(',') : activeCategory.value
-    productStore.fetchAll({ category_id, status: STATUS_APPROVED })
-  }
-
 }
-onMounted(async () => {
-  await productStore.fetchAll({ status: STATUS_APPROVED })
-
-  pendingCount.value = await productStore.pendingCount()
-})
-
 function selectSubCategory() {
-  productStore.filterSubCategories(selectSubCategories.value, activeCategory.value)
+  products.updateFilter({ categories: selectSubCategories.value })
+  products.fetchAll()
 }
 
 await useAsyncData('categories', async () => {

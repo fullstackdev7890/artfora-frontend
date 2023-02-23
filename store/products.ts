@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { ProductsState } from '~/types/state'
 import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import axios from 'axios'
-import {Promise} from "q";
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
@@ -35,17 +34,20 @@ export const useProductsStore = defineStore('products', {
     },
     filters: {
       all: 1,
-      with: ['User', 'media']
+      with: ['user', 'media'],
+      desc: 1
     }
   }),
 
   actions: {
-     async fetchAll(filters = {}) {
-      const response = await axios.get('/products', {
-          params: Object.assign({}, this.filters, filters)
-      })
+     async fetchAll() {
+      const response = await axios.get('/products', { params: this.filters })
 
       this.items = response.data.data
+    },
+
+    updateFilter(filter: {}) {
+       this.filters = Object.assign({}, this.filters, filter)
     },
 
     async fetch(id: string) {

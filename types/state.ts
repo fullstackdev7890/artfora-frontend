@@ -26,8 +26,10 @@ export interface ProductsState {
   items: Product[],
   current: Product
 }
-export interface CategoriesState <R> {
+export interface CategoriesState {
   items: Category[],
-  // item: Category,
-  filters?: R
+  filters: {
+    with: string[]
+    only_parents: number
+  }
 }

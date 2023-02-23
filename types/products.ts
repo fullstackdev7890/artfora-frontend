@@ -9,6 +9,7 @@ export const LAPTOP_WIDTH = 1200
 export const LARGE_WIDTH = 1600
 
 export declare interface Product extends Entity {
+  id: number
   price: number
   user_id: number
   category_id: number

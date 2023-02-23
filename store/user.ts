@@ -17,8 +17,6 @@ export const useUserStore = defineStore('user', {
     userAvatar: (state) => state.media.link,
 
     getUserRole: (state) => state.role_id,
-
-    getUserId: (state) => state.id
   },
   actions: {
     async fetch() {

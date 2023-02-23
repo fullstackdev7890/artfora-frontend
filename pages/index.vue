@@ -1,43 +1,32 @@
 <template>
   <main class="home-page">
     <main-container>
-<!--      These are test switches. In the future, everything will be done according to the layout through the gallery settings menu-->
-      <div class="switch">
-        <span class="switch-item" @click="galleryViewType = JUSTIFIED_GALLERY_VIEW_TYPE">Justified</span>
-        <span class="switch-item" @click="galleryViewType = SQUARE_GALLERY_VIEW_TYPE">Square</span>
-        <span class="switch-item" @click="galleryViewType = DETAILS_GALLERY_VIEW_TYPE">Details</span>
-      </div>
-
-      <gallery :cols="galleryImages" :view-type="galleryViewType" />
+      <gallery :items="items" />
     </main-container>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
-import { onMounted, onUnmounted, watch} from 'vue'
 import { useProductsStore } from '~/store/products'
-import { Product } from '~/types/products'
 import { storeToRefs } from 'pinia'
-import {
-  JUSTIFIED_GALLERY_VIEW_TYPE,
-  SQUARE_GALLERY_VIEW_TYPE,
-  DETAILS_GALLERY_VIEW_TYPE,
-  MOBILE_WIDTH,
-  TABLET_WIDTH,
-  LAPTOP_WIDTH,
-  LARGE_WIDTH
-} from '~/types/products'
-import Gallery from '~/components/Gallery/Gallery.vue'
+import { ref } from '@vue/reactivity'
+import { useAsyncData } from '#app'
+import { STATUS_APPROVED } from '~/types/constants'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 
 const title = ref('')
 const description = ref('')
-const galleryImages = ref([])
-const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 const products = useProductsStore()
 const { items } = storeToRefs(products)
+
+await useAsyncData('products',async () => {
+
+  products.updateFilter({ categories: null, status: STATUS_APPROVED, user_id: null })
+
+  await products.fetchAll()
+
+})
 
 useHead({
   title: title,
@@ -48,54 +37,4 @@ useHead({
   ]
 })
 
-watch(items, (newItems) => {
-  sortImagesByColumns(newItems)
-})
-
-onMounted(() => {
-  if (process.client) {
-    sortImagesByColumns(items.value)
-
-    window.addEventListener('resize', () => sortImagesByColumns(items.value))
-  }
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', () => sortImagesByColumns(items.value))
-})
-
-function getColumnsCount() {
-  if (!process.client) {
-    return 1
-  }
-
-  const columnsCounts = {
-    [MOBILE_WIDTH]: 2,
-    [TABLET_WIDTH]: 3,
-    [LAPTOP_WIDTH]: 4,
-    [LARGE_WIDTH]: 5
-  }
-
-  return Object.entries(columnsCounts)
-      .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, 5)
-}
-
-function sortImagesByColumns (images: Product[]) {
-  const columnsCount = getColumnsCount()
-
-  galleryImages.value = Array(columnsCount).fill().map(() => [])
-
-  let currentColumn = 0
-
-  images.forEach((item: Product) => {
-
-    galleryImages.value[currentColumn].push(item)
-
-    currentColumn++
-
-    if (currentColumn >= galleryImages.value.length) {
-      currentColumn = 0
-    }
-  })
-}
 </script>
