@@ -1,6 +1,7 @@
 <template>
   <ui-kit-modal
     :with-footer="false"
+    :close-btn-as-home-link="true"
     title="New password"
     ref="enterNewPasswordModal"
     class="auth-modal"
@@ -71,8 +72,8 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from '@vue/reactivity'
-import {required, email, minLength, sameAs} from '@vuelidate/validators'
+import { computed, ref } from '@vue/reactivity'
+import { required, minLength, sameAs } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
 import { useRoute } from 'vue-router'
@@ -155,6 +156,7 @@ function open() {
 
 function close() {
   enterNewPasswordModal.value?.close()
+  // navigateTo('/')
 }
 
 defineExpose({ open, close })

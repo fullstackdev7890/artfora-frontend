@@ -7,7 +7,7 @@ import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { onMounted } from 'vue'
 import { useAuthStore } from '~/store/auth'
-import { navigateTo } from "#imports"
+import { navigateTo } from '#imports'
 import { useRoute } from 'vue-router'
 import { CheckResetPasswordTokenData } from '~/types/auth'
 

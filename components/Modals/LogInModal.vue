@@ -1,6 +1,7 @@
 <template>
   <ui-kit-modal
     :with-footer="false"
+    :close-btn-as-home-link="route.name === 'enter-new-password'"
     title="Login"
     ref="logInModal"
     class="auth-modal"
@@ -76,6 +77,7 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import { required, email } from '@vuelidate/validators'
+import { useRoute } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
@@ -86,6 +88,7 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
+const route = useRoute()
 const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
 
 const auth: LoginData = reactive({

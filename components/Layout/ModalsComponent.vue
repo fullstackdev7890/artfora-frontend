@@ -43,7 +43,6 @@ import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
 import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
 import EnterNewPasswordModal from '~/components/Modals/EnterNewPasswordModal.vue'
 import ContactUsModal from '~/components/Modals/ContactModal.vue'
-import {value} from "dom7";
 
 const authStore = useAuthStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
