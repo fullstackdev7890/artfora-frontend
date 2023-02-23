@@ -1,24 +1,24 @@
 <template>
   <ui-kit-modal
     :with-footer="false"
+    :title="modalTitle"
     :close-btn-as-home-link="route.name === 'enter-new-password'"
-    title="Login"
-    ref="logInModal"
+    ref="resetPasswordModal"
     class="auth-modal"
   >
     <template v-slot:content>
-      <form @submit.prevent="logIn">
-        <p class="ui-kit-box-content-small-text">
-          Don't have an account?
-          <span
-            class="link"
-            @click="openSignUpModal"
-          >Sign up here!</span>
-        </p>
+      <p class="ui-kit-box-content-small-text">
+        Don't have an account?
+        <span
+          class="link"
+          @click="openSignUpModal"
+        >Sign up here!</span>
+      </p>
 
+      <form v-if="!success" @submit.prevent="resetPassword">
         <ui-kit-input
-          v-model="auth.login"
-          :errors="v$.auth.login"
+          v-model="resetData.login"
+          :errors="v$.resetData.login"
           :error-messages="{ required: 'Please enter email. ', email: 'Please enter valid email address. ' }"
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
@@ -26,39 +26,11 @@
           name="login"
         />
 
-        <ui-kit-input
-          v-model="auth.password"
-          :errors="v$.auth.password"
-          :error-messages="{ required: 'Please enter password. ' }"
-          :server-errors="serverErrors"
-          :disabled="store.pendingRequestsCount"
-          placeholder="PASSWORD"
-          name="password"
-          type="password"
-        />
-
         <span v-if="error" class="form-errors-list">
           <span class="form-error error">
-            Either your email address or your password seems to be wrong. Try again or
-            <span
-              class="link"
-              @click="openResetPasswordModal"
-            >
-              reset password here!
-            </span>
+            Either your email address seems to be wrong. Please enter valid email address.
           </span>
         </span>
-
-        <p
-          v-if="!error"
-          class="ui-kit-box-content-small-text align-right"
-        >
-          Forgot your password?
-          <span
-            class="link"
-            @click="openResetPasswordModal"
-          >Reset here!</span>
-        </p>
 
         <div class="ui-kit-modal-content-buttons">
           <button
@@ -66,10 +38,27 @@
             class="button full-width"
             type="submit"
           >
-            Login
+            Reset password
           </button>
         </div>
       </form>
+
+      <div v-else>
+        <p class="ui-kit-box-content-small-text">
+          <span class="ui-kit-box-content-success-text">
+            We have sent you an email with a link where you can reset your password.
+          </span>
+        </p>
+
+        <div class="ui-kit-modal-content-buttons">
+          <button
+            class="button full-width"
+            @click="close"
+          >
+            Close
+          </button>
+        </div>
+      </div>
     </template>
   </ui-kit-modal>
 </template>
@@ -81,33 +70,31 @@ import { useRoute } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
-import type { LoginData } from '~/types/auth'
+import type { ResetPasswordData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 
-const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
+const resetPasswordModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
 const route = useRoute()
-const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
+const emit = defineEmits(['openSignUpModal'])
 
-const auth: LoginData = reactive({
+const resetData: ResetPasswordData = reactive({
   login: '',
-  password: ''
 })
 
+let modalTitle = ref('Reset password')
 let error = ref(false)
 let serverErrors = ref({})
 let success = ref(false)
 
 const v$ = useVuelidate({
-  auth: {
-    login: { required, email },
-    password: { required },
+  resetData: {
+    login: { required, email }
   }
-}, { auth })
-
-async function logIn() {
+}, { resetData })
+async function resetPassword() {
   v$.value.$touch()
 
   if (v$.value.$error) {
@@ -118,11 +105,10 @@ async function logIn() {
   serverErrors.value = {}
 
   try {
-    await authStore.login(auth)
+    await authStore.resetPassword(resetData)
 
+    modalTitle.value = 'Request sent'
     success.value = true
-
-    openTwoFactorAuthModal()
   } catch (e) {
     if (e.response && !e.response.data.errors) {
       error.value = true
@@ -133,28 +119,22 @@ async function logIn() {
     serverErrors.value = e.response.data.errors
   }
 }
-
 function openSignUpModal() {
   close()
   emit('openSignUpModal')
 }
-
-function openResetPasswordModal() {
-  close()
-  emit('openResetPasswordModal')
-}
-
-function openTwoFactorAuthModal() {
-  close()
-  emit('openTwoFactorAuthModal')
-}
-
 function open() {
-  logInModal.value?.open()
+  modalTitle.value = 'Reset password'
+  error.value = false
+  serverErrors.value = {}
+  success.value = false
+  resetData.login = ''
+
+  resetPasswordModal.value?.open()
 }
 
 function close() {
-  logInModal.value?.close()
+  resetPasswordModal.value?.close()
 }
 
 defineExpose({ open, close })

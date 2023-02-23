@@ -1,9 +1,11 @@
 import { defineNuxtPlugin, useRuntimeConfig } from '#app'
-import { AuthState, RootState} from '~/types'
+import { AuthState } from '~/types'
 import { navigateTo } from '#imports'
-import axios from 'axios'
+import axios, {AxiosRequestConfig} from 'axios'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
+// @ts-ignore
+import { isJwtExpired } from 'jwt-check-expiration'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
@@ -38,42 +40,32 @@ const addLoaderInterceptors = (store: any) => {
   })
 }
 
+let refreshTokenPromise: Promise<any> | null = null;
+
 const refreshTokenInterceptor = (store: any) => {
   axios.interceptors.request.use(async (config) => {
+      const token = await getToken(config, store)
+
       config.headers = {
-        'Authorization': `Bearer ${store.token}`,
-        'Accept': 'application/json'
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
       }
+
       return config
     },
     error => {
       Promise.reject(error)
     })
-
-  axios.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-      const originalRequest = error.config
-
-      if ([401, 403].includes(error.response.status) && !originalRequest._retry && originalRequest.url !== '/login') {
-        originalRequest._retry = true
-
-        const newToken = await store.refreshToken()
-
-        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
-
-        return axios(originalRequest)
-      }
-
-      return Promise.reject(error)
-    })
-
 }
 
 const redirectToLoginPage = (store: AuthState) => {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
+      if (!error.response) {
+        return Promise.reject(error)
+      }
+
       if ([401, 403].includes(error.response.status)) {
         store.token = null
 
@@ -82,4 +74,30 @@ const redirectToLoginPage = (store: AuthState) => {
 
       return Promise.reject(error)
     })
+}
+
+const getToken = async (config: AxiosRequestConfig, store: any): Promise<string | null> => {
+  let token = store.token
+
+  if (!token || !config) {
+    return null
+  }
+
+  if (!isJwtExpired(token) || isRefreshTokenRequest(config)) {
+    return token
+  }
+
+  if (!refreshTokenPromise) {
+    refreshTokenPromise = store.refreshToken()
+  }
+
+  return await refreshTokenPromise
+}
+
+const isRefreshTokenRequest = (config: AxiosRequestConfig) => {
+  if (!config) {
+    return false
+  }
+
+  return config.url?.includes('refresh')
 }
