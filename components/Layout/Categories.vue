@@ -4,7 +4,6 @@
     <div class="categories-body">
       <nuxt-link
         v-if="user.role_id === ROLE_USER"
-        :class="{'categories-body-item-active': $route.path === '/gallery/my-images' }"
         to="/gallery/my-images"
         class="categories-body-item categories-body-item-parents"
       >
@@ -12,14 +11,12 @@
       </nuxt-link>
       <nuxt-link
         v-if="user.role_id === ROLE_ADMIN"
-        :class="{'categories-body-item-active': $route.path === '/gallery/pending'}"
         to="/gallery/pending"
         class="categories-body-item categories-body-item-parents"
       >
         Pending ({{  }})
       </nuxt-link>
       <nuxt-link
-        :class="{'categories-body-item-active': $route.path === '/'}"
         class="categories-body-item categories-body-item-parents"
         to="/"
       >
@@ -29,7 +26,6 @@
         v-for="(category) in items"
         @click="clearSubCategories"
         :to="`/gallery/${category.id}`"
-        :class="{'categories-body-item-active': $route.path === `/gallery/${category.id}`}"
         class="categories-body-item categories-body-item-parents"
       >
         {{ category.title }}
