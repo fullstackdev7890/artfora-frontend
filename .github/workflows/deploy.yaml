@@ -16,13 +16,15 @@ jobs:
       - name: Git       
         working-directory: ${{env.PATH_PROD}}
         run: |
-          git checkout -f
+          git checkout -f development
           git pull --rebase deploy development
       
-      - name: Install Dependencies       
+      - name: Install dependencies and build
         working-directory: ${{env.PATH_PROD}}
-        run: docker exec artfora-frontend npm i --legacy-peer-deps
-        
-      - name: Building frontend
+        run: docker-compose up
+      
+      - name: Run on server new verison
         working-directory: ${{env.PATH_PROD}}
-        run: docker exec artfora-frontend npm run build
+        run: |
+          cp -RfT ./.output/public ./dist
+          cp -RfT ./.output/public ./dist-current

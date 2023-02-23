@@ -8,5 +8,6 @@ node_modules
 .vscode
 .idea
 dist
+dist-current
 sw.*
 /docker-compose.override.yml
