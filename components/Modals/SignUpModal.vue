@@ -1,7 +1,8 @@
 <template>
   <ui-kit-modal
-    title="Sign Up"
     :with-footer="false"
+    :close-btn-as-home-link="route.name === 'enter-new-password'"
+    title="Sign Up"
     ref="signUpModal"
     class="auth-modal"
   >
@@ -120,6 +121,7 @@ import { ref, computed } from '@vue/reactivity'
 import { required, email, sameAs, minLength } from '@vuelidate/validators'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
+import { useRoute } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import type { SignUpData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
@@ -128,6 +130,7 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 const signUpModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const globalStore = useStore()
+const route = useRoute()
 const emit = defineEmits(['openLogInModal'])
 
 const auth: SignUpData = reactive({

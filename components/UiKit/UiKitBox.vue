@@ -41,10 +41,20 @@
           </ul>
 
           <close-icon
-            v-if="showCloseButton"
+            v-if="showCloseButton && !closeBtnAsHomeLink"
             @click="close()"
             class="close-icon ui-kit-box-tools-link"
           />
+
+          <NuxtLink
+            v-if="showCloseButton && closeBtnAsHomeLink"
+            :to="'/'"
+          >
+            <close-icon
+              @click="close()"
+              class="close-icon ui-kit-box-tools-link"
+            />
+          </NuxtLink>
         </div>
       </div>
 
@@ -76,6 +86,7 @@ interface Props {
   withFooter?: boolean
   withHeader?: boolean
   collapsed?: boolean
+  closeBtnAsHomeLink?: boolean
   customButtons?: UiKitCustomButton[]
   options?: UiKitBoxOption[]
 }
@@ -87,6 +98,7 @@ const props = withDefaults(defineProps<Props>(), {
   withFooter: false,
   withHeader: false,
   collapsed: false,
+  closeBtnAsHomeLink: false,
   customButtons: () => ([]),
   options: () => ([])
 })
