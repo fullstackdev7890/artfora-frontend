@@ -2,6 +2,7 @@
   <div class="categories">
 
     <div class="categories-body">
+
       <nuxt-link
         v-if="user.role_id === ROLE_USER"
         to="/gallery/my-images"
@@ -9,6 +10,7 @@
       >
         My images
       </nuxt-link>
+
       <nuxt-link
         v-if="user.role_id === ROLE_ADMIN"
         to="/gallery/pending"
@@ -16,12 +18,15 @@
       >
         Pending ({{  }})
       </nuxt-link>
+
       <nuxt-link
+        @click="clearSubCategories()"
         class="categories-body-item categories-body-item-parents"
         to="/"
       >
         All
       </nuxt-link>
+
       <nuxt-link
         v-for="(category) in items"
         @click="clearSubCategories"
@@ -30,48 +35,106 @@
       >
         {{ category.title }}
       </nuxt-link>
+
     </div>
 
     <div class="categories-body" v-if="subCategories">
       <label
         v-for="item in subCategories"
-        :class="{'categories-body-item-active': selectSubCategories.some((el) => el === item.id)}"
+        :class="{'categories-body-item-active': selectedSubCategories.some((el) => el === item.id)}"
         :for="item.title"
         class="categories-body-item categories-body-item-children"
       >
         {{ item.title }}
         <input
           :id="item.title"
-          v-model="selectSubCategories"
+          v-model="selectedSubCategories"
           @change="selectSubCategory(item.id)"
           :value="item.id"
           type="checkbox"
         >
       </label>
     </div>
+
+    <div class="categories-body" v-if="$route.path === '/gallery/my-images'">
+
+      <label
+        :class="{'categories-body-item-active': !selectedStatus}"
+        for="all"
+        class="categories-body-item categories-body-item-children"
+      >
+        All
+        <input
+          id="all"
+          v-model="selectedStatus"
+          @change="selectAllStatuses()"
+          type="radio"
+        >
+      </label>
+
+      <label
+        v-for="status in statuses"
+        :class="{'categories-body-item-active': selectedStatus === status}"
+        :for="status"
+        class="categories-body-item categories-body-item-children"
+      >
+        {{ status }}
+        <input
+          :id="status"
+          v-model="selectedStatus"
+          @change="selectStatus()"
+          :value="status"
+          type="radio"
+        >
+      </label>
+
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref } from '@vue/reactivity'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { useAsyncData } from '#app'
 import { useUserStore } from '~/store/user'
 import { useProductsStore } from '~/store/products'
-import { STATUS_APPROVED, STATUS_PENDING, ROLE_ADMIN, ROLE_USER } from '~/types/constants'
+import { ROLE_ADMIN, ROLE_USER, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from '~/types/constants'
+import { Category } from '~/types/categories'
 
 const categoriesStore = useCategoriesStore()
 const user = useUserStore()
 const products = useProductsStore()
 const { items } = storeToRefs(categoriesStore)
 const route = useRoute()
-const selectSubCategories = ref([])
-const subCategories = computed(() => items.value.find(category => category.id === Number(route.params.id))?.children ?? null)
+const selectedSubCategories = ref([])
+const subCategories = computed(() => items.value.find((category: Category) => category.id === Number(route.params.id))?.children ?? null)
+const statuses = ref([ STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED ])
+const selectedStatus = ref('')
 function clearSubCategories() {
-  selectSubCategories.value = []
+  selectedStatus.value = ''
+  selectedSubCategories.value = []
 }
 function selectSubCategory() {
-  products.updateFilter({ categories: selectSubCategories.value })
+
+  if (selectedSubCategories.value.length === 0) {
+    products.updateFilter({ categories: [route.params.id] })
+    products.fetchAll()
+
+    return
+  }
+
+  products.updateFilter({ categories: selectedSubCategories.value })
+  products.fetchAll()
+}
+
+function selectAllStatuses() {
+  selectedStatus.value = ''
+  products.updateFilter({ status: null })
+  products.fetchAll()
+}
+
+function selectStatus() {
+  products.updateFilter({ status: selectedStatus.value })
   products.fetchAll()
 }
 
