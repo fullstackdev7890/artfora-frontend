@@ -119,7 +119,7 @@ function getColumnsCount() {
   }
 
   return Object.entries(columnsCounts)
-    .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, 5)
+    .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, 1)
 }
 
 function sortImagesByColumns (images: Product[]) {
