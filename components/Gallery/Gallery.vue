@@ -47,6 +47,8 @@ import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from "~/components/Gallery/ProductInfo.vue";
 import {useProductsStore} from "~/store/products";
+import {storeToRefs} from "pinia";
+import {Paginated} from "~/types/search";
 
 const { getImageUrl } = useMedia()
 const galleryImages = ref([])
@@ -66,6 +68,24 @@ watch(() => props.items, (newItems) => {
   sortImagesByColumns(newItems.data)
 })
 
+function loadNextPage(data: Paginated<Product>) {
+
+  if (data.current_page === data.last_page) {
+    return
+  }
+
+  let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight
+
+  if (bottomOfWindow) {
+    const nextPage = data.current_page + 1
+    products.updateFilter({ page: nextPage })
+    products.fetchNextPage()
+  }
+}
+function scrollListener() {
+  loadNextPage(props.items)
+}
+
 onMounted(async () => {
   if (process.client) {
     sortImagesByColumns(props.items.data)
@@ -73,37 +93,15 @@ onMounted(async () => {
     window.addEventListener('resize', () => sortImagesByColumns(props.items.data))
 
     console.log('Монтаж')
-    window.addEventListener('scroll', () => loadNextPage())
+    window.addEventListener('scroll', scrollListener)
   }
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', () => sortImagesByColumns(props.items.data))
 
-  window.removeEventListener('scroll', () => loadNextPage())
+  window.removeEventListener('scroll', scrollListener)
 })
-
-router.beforeEach((to, from, next) => {
-  window.removeEventListener('scroll', () => loadNextPage())
-  console.log('Демонтаж')
-
-  next()
-})
-
-function loadNextPage() {
-  console.log(props.items.current_page, props.items.last_page, '=========')
-  if (props.items.current_page === props.items.last_page) {
-    return
-  }
-
-  let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight
-
-  if (bottomOfWindow) {
-    products.updateFilter({ page: props.items.current_page + 1 })
-    products.fetchNextPage()
-  }
-
-}
 
 function getColumnsCount() {
   if (!process.client) {

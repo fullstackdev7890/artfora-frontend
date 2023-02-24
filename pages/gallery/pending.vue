@@ -14,6 +14,7 @@ import { ref } from '@vue/reactivity'
 import { useAsyncData } from '#app'
 import { STATUS_PENDING } from '~/types/constants'
 import { onMounted, onUnmounted } from 'vue'
+import MainContainer from "~/components/Layout/MainContainer.vue";
 
 const title = ref('')
 const description = ref('')

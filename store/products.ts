@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import { ProductStatus, ProductsState } from '~/types/products'
+import {ProductStatus, ProductsState, Product} from '~/types/products'
 import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import axios from 'axios'
+import {Paginated} from "~/types/search";
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
@@ -78,7 +79,6 @@ export const useProductsStore = defineStore('products', {
     },
 
     async fetch(id: string) {
-      // @ts-ignore
       const response = await axios.get(`/products/${id}`, { params: this.filters })
 
       this.current = response.data
