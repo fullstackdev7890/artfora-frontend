@@ -7,6 +7,7 @@ import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { onMounted } from 'vue'
 import { useAuthStore } from '~/store/auth'
+import { useUserStore } from '~/store/user'
 import { navigateTo } from '#imports'
 import { useRoute } from 'vue-router'
 import { VerifyData } from '~/types/auth'
@@ -14,6 +15,7 @@ import { VerifyData } from '~/types/auth'
 const title = ref('')
 const description = ref('')
 const authStore = useAuthStore()
+const userStore = useUserStore()
 const route = useRoute()
 
 const verifyData: VerifyData = reactive({
@@ -41,7 +43,10 @@ onMounted(() => {
 
 async function startVerifyEmail() {
   try {
-    await authStore.verifyEmail(verifyData, redirect as string)
+    await authStore.verifyEmail(verifyData)
+    await userStore.fetch()
+
+    navigateTo(redirect as string)
   } catch (e) {
     alert('Something went wrong! Please try again later.')
 

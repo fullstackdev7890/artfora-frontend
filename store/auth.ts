@@ -49,12 +49,10 @@ export const useAuthStore = defineStore('auth', {
       return await axios.post('/auth/register', data)
     },
 
-    async verifyEmail(data: VerifyData, redirect: string) {
+    async verifyEmail(data: VerifyData) {
       const response = await axios.post('/auth/register/email/verify', data)
 
       this.token = response.data.token
-
-      return navigateTo(redirect as string)
     },
 
     async resetPassword(data: ResetPasswordData) {

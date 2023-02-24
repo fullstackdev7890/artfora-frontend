@@ -177,12 +177,17 @@ const productStore = useProductsStore()
 const { getImageUrl } = useMedia()
 const { items } = storeToRefs(categoriesStore)
 const selectedCategory = ref(null)
-const currentSubCategories = computed(() => selectedCategory.value ? items.value[selectedCategory.value - 1].children : [])
+
+const currentSubCategories = computed(() => {
+  return selectedCategory.value ? items.value.find((item) => item.id === selectedCategory.value).children : []
+})
+
 const selectedSubCategories = ref(null)
 const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
 const fileError = ref('')
 const error = ref('')
 const serverErrors = ref({})
+
 const categoriesSelectorItems = computed(() => items.value.map((category) => ({
   title: category.title,
   key: category.id,
