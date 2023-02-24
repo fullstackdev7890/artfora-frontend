@@ -15,23 +15,23 @@
 
     <div class="product-container-images">
       <img
-        v-for="(image, index) in current.media"
+        v-for="(image, index) in item.media"
         v-show="index === currentImage"
         :src="getImageUrl(image)"
         alt="image"
       >
 
-      <div class="product-container-images-next" v-show="current.media.length > 1" @click="toNextImage()">
+      <div class="product-container-images-next" v-show="item.media.length > 1" @click="toNextImage()">
         <next-icon class="next-icon" />
       </div>
 
-      <div class="product-container-images-prev" v-show="current.media.length > 1" @click="toPrevImage()">
+      <div class="product-container-images-prev" v-show="item.media.length > 1" @click="toPrevImage()">
         <next-icon class="prev-icon"/>
       </div>
 
     </div>
 
-    <product-sidebar v-show="isShown" :image-info="current" />
+    <product-sidebar v-show="isShown" :image-info="item" />
 
   </div>
 </template>
@@ -50,7 +50,7 @@ import useMedia from '~/composable/media'
 const route = useRoute()
 const router = useRouter()
 const products = useProductsStore()
-const { current } = storeToRefs(products)
+const { item } = storeToRefs(products)
 const isShown = ref(false)
 const currentImage = ref(0)
 const { getImageUrl } = useMedia()
@@ -68,14 +68,14 @@ function toBack() {
 }
 
 function toNextImage() {
-  if (++currentImage.value >= current.value.media.length) {
+  if (++currentImage.value >= item.value.media.length) {
     currentImage.value = 0
   }
 }
 
 function toPrevImage() {
   if (--currentImage.value < 0) {
-    currentImage.value = current.value.media.length - 1
+    currentImage.value = item.value.media.length - 1
   }
 }
 </script>
