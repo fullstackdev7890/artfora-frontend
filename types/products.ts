@@ -42,5 +42,6 @@ export declare interface SearchProductsFilters extends SearchFilters {
 export interface ProductsState {
   items: Paginated<Product>
   item: Product
-  filters: SearchProductsFilters
+  filters: SearchProductsFilters,
+  loadingNextPage: boolean
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery">
+  <div class="gallery" ref="galleryComponentRef">
     <div
       v-for="column in galleryImages"
       class="col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100"
@@ -45,12 +45,12 @@ import { Product } from '~/types/products'
 import { ref } from '@vue/reactivity'
 import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
-import ProductInfo from "~/components/Gallery/ProductInfo.vue";
-import {useProductsStore} from "~/store/products";
-import {storeToRefs} from "pinia";
-import {Paginated} from "~/types/search";
+import ProductInfo from '~/components/Gallery/ProductInfo.vue'
+import { useProductsStore} from '~/store/products'
+import { Paginated } from '~/types/search'
 
 const { getImageUrl } = useMedia()
+const galleryComponentRef = ref(null)
 const galleryImages = ref([])
 const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 const products = useProductsStore()
@@ -74,9 +74,9 @@ function loadNextPage(data: Paginated<Product>) {
     return
   }
 
-  let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight
+  let element = galleryComponentRef.value
 
-  if (bottomOfWindow) {
+  if ((element.getBoundingClientRect().bottom < window.innerHeight) && !products.loadingNextPage) {
     const nextPage = data.current_page + 1
     products.updateFilter({ page: nextPage })
     products.fetchNextPage()
@@ -86,19 +86,22 @@ function scrollListener() {
   loadNextPage(props.items)
 }
 
+function sortImagesListener() {
+  sortImagesByColumns(props.items.data)
+}
+
 onMounted(async () => {
   if (process.client) {
     sortImagesByColumns(props.items.data)
 
-    window.addEventListener('resize', () => sortImagesByColumns(props.items.data))
+    window.addEventListener('resize', sortImagesListener)
 
-    console.log('Монтаж')
     window.addEventListener('scroll', scrollListener)
   }
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', () => sortImagesByColumns(props.items.data))
+  window.removeEventListener('resize', sortImagesListener)
 
   window.removeEventListener('scroll', scrollListener)
 })
