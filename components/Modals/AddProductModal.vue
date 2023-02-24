@@ -84,14 +84,12 @@
           placeholder="DESCRIPTION"
         />
 
-        <ui-kit-check-box
-          v-model="product.is_ai_safe"
-        >
-          AI safe (the best we can do) <a href="#" class="link">read more</a>
+        <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
+          AI safe (the best we can do) <span class="link">read more</span>
         </ui-kit-check-box>
 
         <ui-kit-input
-          v-if="!product.is_ai_safe"
+          :disabled="product.is_ai_safe"
           v-model="product.tags"
           placeholder="ADD TAGS, SEPARATE BY COMMA"
         />

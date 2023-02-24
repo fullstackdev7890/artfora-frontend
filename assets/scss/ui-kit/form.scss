@@ -9,7 +9,7 @@
 
     &-filled ~ .form-label { transform: translate(0, -.6rem) scale(0.6); }
 
-    &-textarea { min-height: 100px }
+    &-textarea { min-height: 100px; outline: none !important; }
 
     &:disabled { opacity: 0.8; cursor: not-allowed; }
   }
