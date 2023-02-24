@@ -7,9 +7,9 @@ import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { onMounted } from 'vue'
 import { useAuthStore } from '~/store/auth'
-import { navigateTo } from "#imports"
+import { navigateTo } from '#imports'
 import { useRoute } from 'vue-router'
-import { VerifyData } from "~/types/auth";
+import { VerifyData } from '~/types/auth'
 
 const title = ref('')
 const description = ref('')

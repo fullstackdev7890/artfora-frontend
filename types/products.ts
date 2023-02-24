@@ -34,10 +34,14 @@ export declare interface Product extends Entity {
   media: Media[]
   user: User
 }
-export declare interface SearchProductsFilters extends SearchFilters {
+export declare interface SearchProductsFilters {
   categories?: number[]
   user_id?: number | null
   status?: ProductStatus | null
+  page?: number
+  per_page?: number
+  with?: string[]
+  desc?: number
 }
 export interface ProductsState {
   items: Paginated<Product>

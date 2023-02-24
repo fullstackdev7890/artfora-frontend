@@ -22,11 +22,9 @@ const products = useProductsStore()
 const { items } = storeToRefs(products)
 
 await useAsyncData('products',async () => {
-
   products.updateFilter({ categories: null, status: STATUS_PENDING, user_id: null, order_by: 'created_at', page: 1 })
 
   await products.fetchAll()
-
 })
 
 useHead({

@@ -62,6 +62,8 @@ export const useProductsStore = defineStore('products', {
 
   actions: {
      async fetchAll() {
+       this.$state.filters.page = 1
+
       const response = await axios.get('/products', { params: this.$state.filters })
 
       this.$state.items = response.data
@@ -79,29 +81,30 @@ export const useProductsStore = defineStore('products', {
       this.$state.loadingNextPage = false
     },
 
-    updateFilter(filter) {
+    updateFilter(filter: any) {
        this.filters = Object.assign({}, this.filters, filter)
     },
 
     async fetch(id: string) {
       const response = await axios.get(`/products/${id}`, { params: this.$state.filters })
 
-      this.current = response.data
+      this.$state.item = response.data
     },
 
-    create(item) {
+    create(item: any) {
       return axios.post('/products', item)
     },
 
     update(id: number, filters: {}) {
        return axios.put(`/products/${id}`, { ...filters })
     },
-    async pendingCount(){
+
+    async pendingCount() {
       const response = await axios.get('/products', {
         params: Object.assign({}, this.$state.filters, { status: STATUS_PENDING })
       })
 
-      return response.data.data.length
+      return response.data.data.total
     }
   }
 })

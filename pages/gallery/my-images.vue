@@ -23,18 +23,15 @@ const { id } = storeToRefs(user)
 const { items } = storeToRefs(products)
 
 watch(id, (newUserId) => {
-
   products.updateFilter({ categories: null, status: null, user_id: newUserId, order_by: 'created_at' })
 
   products.fetchAll()
 })
 
 await useAsyncData('products',async () => {
-
   products.updateFilter({ categories: null, status: null, user_id: id, order_by: 'created_at' })
 
   await products.fetchAll()
-
 })
 
 useHead({
