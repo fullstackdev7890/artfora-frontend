@@ -10,10 +10,14 @@
     }
   }
 
-  .links-modal-item {
-    display: flex; justify-content: left; align-items: center; gap: 8px; margin: 15px 0; font-size: 16px;
-    & .social-icon {
-      width: 20px;
+  .links-modal {
+    &-message { font-family: AtkinsonHyperlegible, sans-serif; }
+
+    &-item {
+      display: flex; justify-content: left; align-items: center; gap: 8px; margin: 15px 0; font-size: 16px;
+      & .social-icon {
+        width: 20px;
+      }
     }
   }
 

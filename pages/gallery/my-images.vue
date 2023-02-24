@@ -12,16 +12,24 @@ import { useProductsStore } from '~/store/products'
 import { storeToRefs } from 'pinia'
 import { ref } from '@vue/reactivity'
 import { useAsyncData } from '#app'
-import { STATUS_APPROVED } from '~/types/constants'
+import { useUserStore } from '~/store/user'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 
 const title = ref('')
 const description = ref('')
 const products = useProductsStore()
+const user = useUserStore()
+const { id } = storeToRefs(user)
 const { items } = storeToRefs(products)
 
+watch(id, (newUserId) => {
+  products.updateFilter({ categories: null, status: null, user_id: newUserId, order_by: 'created_at' })
+
+  products.fetchAll()
+})
+
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: null, status: STATUS_APPROVED, user_id: null })
+  products.updateFilter({ categories: null, status: null, user_id: id, order_by: 'created_at' })
 
   await products.fetchAll()
 })

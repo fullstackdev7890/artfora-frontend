@@ -3,11 +3,19 @@
     <div class="product-sidebar">
 
       <div class="product-sidebar-background">
-        <img :src="props.imageInfo.user.background_image ?? ''" alt="background-image">
+        <img
+          v-if="props.imageInfo.user.background_image"
+          :src="props.imageInfo.user.background_image"
+          alt="background-image"
+        >
       </div>
 
       <div class="product-sidebar-user">
-        <img class="product-sidebar-user-avatar" :src="getUserAvatar($props.imageInfo.user.avatar_image)" alt="user-avatar">
+        <img
+          :src="getUserAvatar($props.imageInfo.user.avatar_image)"
+          class="product-sidebar-user-avatar"
+          alt="user-avatar"
+        >
         <div class="product-sidebar-user-name">
           <h4>{{ props.imageInfo.user.username }}</h4>
           <p>{{ props.imageInfo.user.tagname }}</p>
@@ -45,8 +53,10 @@
         <p>{{ props.imageInfo.description }}</p>
       </div>
 
-      <button class="product-sidebar-btn" @click="contactModal.open()">CONTACT</button>
-      <button class="product-sidebar-btn" @click="commissionWorkModal.open()">COMMISSION OPEN</button>
+      <div class="product-sidebar-bottom-buttons-wrapper">
+        <button class="button full-width" @click="contactModal.open()">CONTACT</button>
+        <button class="button full-width" @click="commissionWorkModal.open()">COMMISSION OPEN</button>
+      </div>
 
       <links-modal ref="linksModal" :links="props.imageInfo.user.external_link" />
 

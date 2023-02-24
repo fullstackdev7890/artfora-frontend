@@ -1,5 +1,3 @@
-import {ArticleType} from "~/types/index";
-
 export declare interface Paginated<T> {
   data: T[]
   total: number

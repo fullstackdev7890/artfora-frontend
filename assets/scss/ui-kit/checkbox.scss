@@ -8,6 +8,12 @@
 
       &:after { display: block; }
     }
+
+    &[type='radio'] + .input-checkbox-box {
+      &:after { width: 9px; height: 9px; content: ''; position: absolute; left: 1px; bottom: 1px;
+        background-color: #fff; border-radius: 3px; transform: none; border: none;
+      }
+    }
   }
 
   &-box { width: 15px; height: 15px; border: 2px solid transparent; border-radius: 5px;

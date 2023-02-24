@@ -7,21 +7,30 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { useProductsStore } from '~/store/products'
 import { storeToRefs } from 'pinia'
-import { ref } from '@vue/reactivity'
 import { useAsyncData } from '#app'
-import { STATUS_APPROVED } from '~/types/constants'
+import { onMounted } from 'vue'
+import { navigateTo } from '#imports'
+import Gallery from '~/components/Gallery/Gallery.vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 
 const title = ref('')
 const description = ref('')
 const products = useProductsStore()
 const { items } = storeToRefs(products)
+const route = useRoute()
+
+onMounted(async () => {
+  if (!route.params.id) {
+    navigateTo('/')
+  }
+})
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: null, status: STATUS_APPROVED, user_id: null })
+  products.updateFilter({ categories: [route.params.id], status: null, user_id: null, page: 1 })
 
   await products.fetchAll()
 })
