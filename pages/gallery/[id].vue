@@ -12,6 +12,7 @@ import { useHead } from '@vueuse/head'
 import { useProductsStore } from '~/store/products'
 import { storeToRefs } from 'pinia'
 import { useAsyncData } from '#app'
+import { onMounted, onUnmounted } from 'vue'
 import Gallery from '~/components/Gallery/Gallery.vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 
@@ -23,7 +24,7 @@ const route = useRoute()
 
 await useAsyncData('products',async () => {
 
-  products.updateFilter({ categories: [route.params.id], status: null, user_id: null })
+  products.updateFilter({ categories: [route.params.id], status: null, user_id: null, page: 1 })
 
   await products.fetchAll()
 

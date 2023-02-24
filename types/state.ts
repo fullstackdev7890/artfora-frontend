@@ -22,10 +22,6 @@ export interface SimpleEntityState<T, R> {
 export interface SettingsState {
   items: Paginated<Setting>
 }
-export interface ProductsState {
-  items: Product[],
-  current: Product
-}
 export interface CategoriesState {
   items: Category[],
   filters: {

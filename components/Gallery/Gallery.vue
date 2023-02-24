@@ -38,7 +38,7 @@ import {
   SQUARE_GALLERY_VIEW_TYPE,
   DETAILS_GALLERY_VIEW_TYPE,
   MOBILE_WIDTH,
-  TABLET_WIDTH, LAPTOP_WIDTH, LARGE_WIDTH, JUSTIFIED_GALLERY_VIEW_TYPE
+  TABLET_WIDTH, LAPTOP_WIDTH, LARGE_WIDTH, JUSTIFIED_GALLERY_VIEW_TYPE, ProductsState
 } from '~/types/products'
 import { onMounted, onUnmounted, watch } from 'vue'
 import { Product } from '~/types/products'
@@ -46,34 +46,64 @@ import { ref } from '@vue/reactivity'
 import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from "~/components/Gallery/ProductInfo.vue";
+import {useProductsStore} from "~/store/products";
 
 const { getImageUrl } = useMedia()
 const galleryImages = ref([])
 const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
+const products = useProductsStore()
+const router = useRouter()
 
 interface Props {
-  items: Product[]
+  items: ProductsState
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  items: () => []
+  items: () => {}
 })
 
 watch(() => props.items, (newItems) => {
-  sortImagesByColumns(newItems)
+  sortImagesByColumns(newItems.data)
 })
 
 onMounted(async () => {
   if (process.client) {
-    sortImagesByColumns(props.items)
+    sortImagesByColumns(props.items.data)
 
-    window.addEventListener('resize', () => sortImagesByColumns(props.items))
+    window.addEventListener('resize', () => sortImagesByColumns(props.items.data))
+
+    console.log('Монтаж')
+    window.addEventListener('scroll', () => loadNextPage())
   }
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', () => sortImagesByColumns(props.items))
+  window.removeEventListener('resize', () => sortImagesByColumns(props.items.data))
+
+  window.removeEventListener('scroll', () => loadNextPage())
 })
+
+router.beforeEach((to, from, next) => {
+  window.removeEventListener('scroll', () => loadNextPage())
+  console.log('Демонтаж')
+
+  next()
+})
+
+function loadNextPage() {
+  console.log(props.items.current_page, props.items.last_page, '=========')
+  if (props.items.current_page === props.items.last_page) {
+    return
+  }
+
+  let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight >= document.documentElement.offsetHeight
+
+  if (bottomOfWindow) {
+    products.updateFilter({ page: props.items.current_page + 1 })
+    products.fetchNextPage()
+  }
+
+}
 
 function getColumnsCount() {
   if (!process.client) {

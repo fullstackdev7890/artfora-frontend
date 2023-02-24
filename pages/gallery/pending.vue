@@ -13,6 +13,7 @@ import { storeToRefs } from 'pinia'
 import { ref } from '@vue/reactivity'
 import { useAsyncData } from '#app'
 import { STATUS_PENDING } from '~/types/constants'
+import { onMounted, onUnmounted } from 'vue'
 
 const title = ref('')
 const description = ref('')
@@ -21,7 +22,7 @@ const { items } = storeToRefs(products)
 
 await useAsyncData('products',async () => {
 
-  products.updateFilter({ categories: null, status: STATUS_PENDING, user_id: null, order_by: 'created_at' })
+  products.updateFilter({ categories: null, status: STATUS_PENDING, user_id: null, order_by: 'created_at', page: 1 })
 
   await products.fetchAll()
 
