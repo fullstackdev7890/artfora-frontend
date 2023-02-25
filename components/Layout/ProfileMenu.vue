@@ -19,7 +19,10 @@
 
     <ui-kit-dropdown title="Menu" ref="menuDropdownRef">
       <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
-        <span class="ui-kit-dropdown-content-item-btn">My Settings</span>
+        <span
+          @click="openSetUpAccountModal"
+          class="ui-kit-dropdown-content-item-btn"
+        >My Settings</span>
       </div>
 
       <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
@@ -75,6 +78,10 @@ function logout() {
   menuDropdownRef.value.close()
 }
 
+function openSetUpAccountModal() {
+  menuDropdownRef.value.close()
+  emit('openSetUpAccountModal')
+}
 function openSignUpModal() {
   menuDropdownRef.value.close()
   emit('openSignUpModal')
