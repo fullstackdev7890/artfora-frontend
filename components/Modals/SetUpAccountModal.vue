@@ -1,23 +1,213 @@
 <template>
   <ui-kit-modal :with-header="false" ref="setUpAccountModal">
-    <template v-slot:content>
-      <header>
+
+    <template v-slot:customHeader>
+      <header class="account-settings-header">
+
         <close-icon
           @click="close()"
-          class="close-icon ui-kit-box-tools-link"
+          class="close-icon ui-kit-box-tools-link account-settings-header-close"
         />
+
+        <label
+          for="uploadBackground"
+          class="account-settings-header-upload-background flex-center"
+        >
+          <span v-if="!backgroundImage">
+            DROP YOUR HEADER AND PROFILE IMAGE <br>
+          IN THE RESPECTIVE FIELDS <br>
+          OR CLICK TO BROWSE <br>
+          (AT LEAST 1200 X 1200 PIXELS ) <br>
+          </span>
+          <img :src="getImageUrl(backgroundImage)" alt="background Image" v-if="backgroundImage">
+          <input
+            id="uploadBackground"
+            @change="addFile"
+            accept="image/bmp, image/png, image/jpeg"
+            type="file"
+            ref="file"
+          >
+        </label>
+
+        <label for="uploadAvatar" class="account-settings-header-upload-avatar">
+          <img :src="getImageUrl(avatar)" alt="avatar Image" v-if="avatar">
+          <input
+            id="uploadAvatar"
+            @change="addFile"
+            accept="image/bmp, image/png, image/jpeg"
+            type="file"
+            ref="file"
+          >
+        </label>
+
       </header>
+    </template>
+
+    <template v-slot:content>
+      <form @submit.prevent="uploadProduct" class="account-settings-form">
+
+        <ui-kit-input
+          v-model="user.username"
+          placeholder="USERNAME"
+        />
+
+        <ui-kit-input
+          v-model="user.email"
+          placeholder="EMAIL ADDRESS"
+        />
+
+        <ui-kit-text-area
+          v-model="user.description"
+          placeholder="USER DESCRIPTION"
+        />
+
+        <ui-kit-selector
+          v-model="user.country"
+          @click="selectCountry"
+          :options="countries"
+          :title="'Country'"
+          :disabled="store.pendingRequestsCount"
+        />
+
+        <ui-kit-input
+          v-model="user.external_links"
+          placeholder="EXTERNAL LINKS"
+        />
+
+        <div>
+          <ui-kit-check-box
+            v-model="user.product_visibility_level"
+            :value="COMMON_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            title="For all users, does not contain explicit material"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="user.product_visibility_level"
+            :value="NUDITY_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            title="Can contain nudity but only for educational use"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="user.product_visibility_level"
+            :value="EROTIC_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            title="Can contain nudity and erotic material"
+            type="radio"
+          />
+
+          <ui-kit-check-box
+            v-model="user.product_visibility_level"
+            :value="PORNO_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            title="Can contain pornographic or other explicit material"
+            type="radio"
+          />
+        </div>
+
+        <span v-if="error" class="form-error error">
+            {{ error }}
+        </span>
+
+        <div class="ui-kit-modal-content-buttons">
+          <button class="button full-width" type="submit">UPDATE SETTINGS</button>
+        </div>
+      </form>
     </template>
   </ui-kit-modal>
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
+import {computed, ref} from '@vue/reactivity'
+import {
+  COMMON_VISIBILITY_LEVEL,
+  EROTIC_VISIBILITY_LEVEL,
+  NUDITY_VISIBILITY_LEVEL,
+  PORNO_VISIBILITY_LEVEL
+} from '~/types/constants'
+import { useStore } from '~/store'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import CloseIcon from '~/assets/svg/close.svg'
+import UiKitInput from '~/components/UiKit/UiKitInput.vue'
+import { useUserStore } from '~/store/user'
+import { storeToRefs } from 'pinia'
+import { useMediaStore } from '~/store/media'
+import { Media } from '~/types'
+import useMedia from '~/composable/media'
+import axios from 'axios'
+import UiKitSelector from '~/components/UiKit/UiKitSelector.vue'
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>(null)
+const store = useStore()
+const userStore = useUserStore()
+const currentProfile = storeToRefs(userStore)
+const mediaStore = useMediaStore()
+const { getImageUrl } = useMedia()
+const countries = ref([{ title: currentProfile.country, key: currentProfile.country }])
+const backgroundImage = ref<Media | null>(null)
+const avatar = ref<Media | null>(null)
+const error = ref('')
+const user = reactive({
+  username: currentProfile.username,
+  email: currentProfile.email,
+  description: currentProfile.description,
+  external_links: currentProfile.external_link,
+  product_visibility_level: currentProfile.product_visibility_level,
+  background_image_id: currentProfile.background_image_id,
+  avatar_image_id: currentProfile.avatar_image_id,
+  country: currentProfile.country
+})
 
+async function addFile(event: any) {
+  const media = event.target.files || event.dataTransfer.files
+
+  if (!media.length) {
+    return
+  }
+
+  const response = await mediaStore.upload(media[0], media[0].name)
+
+  if (event.target.id === 'uploadBackground') {
+    backgroundImage.value = response.data
+    user.background_image_id = response.data.id
+
+    return
+  }
+  if (event.target.id === 'uploadAvatar') {
+    avatar.value = response.data
+    user.avatar_image_id = response.data.id
+
+    return
+  }
+
+}
+
+async function selectCountry() {
+
+  if (countries.value.length <= 1) {
+    const response = await axios.get('https://restcountries.com/v2/all')
+    response.data.forEach((country: object, index: number) => countries.value.push({ title: country.name, key: country.name  }))
+    console.log(response.data)
+  }
+}
+
+async function uploadProduct() {
+
+  try {
+
+    await userStore.updateProfile(user).then(close)
+
+  } catch (e: any) {
+    if (e.response && !e.response.data.errors) {
+      error.value = 'Something went wrong! Please try again later.'
+
+      return
+    }
+  }
+}
 
 function open() {
   setUpAccountModal.value?.open()

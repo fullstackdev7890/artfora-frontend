@@ -18,13 +18,26 @@ export declare interface Media extends Entity {
 }
 
 export interface User extends Entity {
+  id: number
   username: string
   tagname: string
-  background_image: string | null
-  role_id: number
   email: string
+  password?: string
+  phone: string
+  description: string
+  country: string
+  background_image_id?: number | null
+  avatar_image_id?: number | null
+  product_visibility_level: number | null
+  role_id: number
   external_link: string | null
-  media: Media
+  email_verified_at?: string | null
+  deleted_at?: string | null
+  media?: Media
+}
+
+export interface UsersState {
+  currentUser: User
 }
 
 export interface Setting extends Entity {
