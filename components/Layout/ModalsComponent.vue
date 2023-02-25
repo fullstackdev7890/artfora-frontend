@@ -21,6 +21,11 @@
       @open-sign-up-modal="openSignUpModal"
     />
 
+    <gallery-settings-modal
+      ref="gallerySettingsModalRef"
+      @open-gallery-settings-modal="openGallerySettingsModal"
+    />
+
     <enter-new-password-modal
       ref="enterNewPasswordModalRef"
       @open-log-in-modal="openLogInModal"
@@ -43,6 +48,7 @@ import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
 import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
 import EnterNewPasswordModal from '~/components/Modals/EnterNewPasswordModal.vue'
 import ContactUsModal from '~/components/Modals/ContactModal.vue'
+import GallerySettingsModal from '~/components/Modals/GallerySettingsModal.vue'
 
 const authStore = useAuthStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
@@ -54,6 +60,7 @@ const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
 const enterNewPasswordModalRef = ref<InstanceType<typeof EnterNewPasswordModal>>(null)
 const contactUsModalRef = ref<InstanceType<typeof ContactUsModal>>(null)
+const gallerySettingsModalRef = ref<InstanceType<typeof GallerySettingsModal>>(null)
 
 const router = useRouter()
 const route = useRoute()
@@ -72,6 +79,7 @@ router.beforeEach((to, from, next) => {
   resetPasswordModalRef.value.close()
   enterNewPasswordModalRef.value.close()
   contactUsModalRef.value.close()
+  gallerySettingsModalRef.value.close()
 
   next()
 })
@@ -94,6 +102,10 @@ function openSignUpModal() {
   signUpModalRef.value.open()
 }
 
+function openGallerySettingsModal() {
+  gallerySettingsModalRef.value.open()
+}
+
 function openAddProductModal() {
   addProductModalRef.value.open()
 }
@@ -102,5 +114,5 @@ function openContactUsModal() {
   contactUsModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal })
+defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal, openGallerySettingsModal })
 </script>

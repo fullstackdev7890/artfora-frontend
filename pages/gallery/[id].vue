@@ -16,12 +16,15 @@ import { onMounted } from 'vue'
 import { navigateTo } from '#imports'
 import Gallery from '~/components/Gallery/Gallery.vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
+import { useSettingsGalleryStore } from '~/store/gallerySettings'
 
 const title = ref('')
 const description = ref('')
 const products = useProductsStore()
 const { items } = storeToRefs(products)
 const route = useRoute()
+const gallerySettings = useSettingsGalleryStore()
+const { order_by } = storeToRefs(gallerySettings)
 
 onMounted(async () => {
   if (!route.params.id) {
@@ -30,7 +33,7 @@ onMounted(async () => {
 })
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: [route.params.id], status: null, user_id: null, page: 1 })
+  products.updateFilter({ categories: [route.params.id], status: null, user_id: null, page: 1, order_by })
 
   await products.fetchAll()
 })

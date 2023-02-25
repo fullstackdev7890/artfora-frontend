@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { CategoriesState } from '~/types'
 import axios from 'axios'
-import {Category} from "~/types/categories";
 
 export const useCategoriesStore = defineStore('categories', {
   state: (): CategoriesState => ({

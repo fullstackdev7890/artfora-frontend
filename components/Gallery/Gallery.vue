@@ -43,17 +43,21 @@ import {
 import { onMounted, onUnmounted, watch } from 'vue'
 import { Product } from '~/types/products'
 import { ref } from '@vue/reactivity'
+import { useProductsStore} from '~/store/products'
+import { Paginated } from '~/types/search'
+import { useSettingsGalleryStore } from '~/store/gallerySettings'
 import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
-import { useProductsStore} from '~/store/products'
-import { Paginated } from '~/types/search'
+import {storeToRefs} from "pinia";
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
 const galleryImages = ref([])
-const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 const products = useProductsStore()
+const gallerySettings = useSettingsGalleryStore()
+const { viewType } = storeToRefs(gallerySettings)
+const galleryViewType = ref(viewType)
 const router = useRouter()
 
 interface Props {

@@ -52,7 +52,7 @@ export const useProductsStore = defineStore('products', {
       }
     },
     filters: {
-      per_page: 10,
+      per_page: 20,
       page: 1,
       with: ['user', 'media'],
       desc: 1

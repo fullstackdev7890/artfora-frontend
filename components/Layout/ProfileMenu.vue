@@ -30,7 +30,7 @@
       </div>
 
       <div class="ui-kit-dropdown-content-item">
-        <span class="ui-kit-dropdown-content-item-btn">Gallery settings</span>
+        <span @click="openSettingsGallery" class="ui-kit-dropdown-content-item-btn">Gallery settings</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
@@ -47,6 +47,7 @@
         >Logout</span>
       </div>
     </ui-kit-dropdown>
+
   </div>
 </template>
 
@@ -60,7 +61,7 @@ import useMedia from '~/composable/media'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 
-const emit = defineEmits(['openAddProductModal', 'openSignUpModal','openContactUsModal'])
+const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal'])
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 
@@ -70,9 +71,15 @@ const { isAuthorized } = storeToRefs(authStore)
 const { userAvatar } = storeToRefs(userStore)
 const { getUserAvatar } = useMedia()
 
+
 function logout() {
   authStore.logout()
   menuDropdownRef.value.close()
+}
+
+function openSettingsGallery() {
+  menuDropdownRef.value.close()
+  emit('openGallerySettingsModal')
 }
 
 function openSignUpModal() {
