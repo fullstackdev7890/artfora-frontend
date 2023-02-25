@@ -21,11 +21,11 @@
         alt="image"
       >
 
-      <div class="product-container-images-next" v-show="item.media.length > 1" @click="toNextImage()">
+      <div class="product-container-images-next" v-show="currentImage + 1 < item.media.length" @click="toNextImage()">
         <next-icon class="next-icon" />
       </div>
 
-      <div class="product-container-images-prev" v-show="item.media.length > 1" @click="toPrevImage()">
+      <div class="product-container-images-prev" v-show="currentImage - 1 >= 0" @click="toPrevImage()">
         <next-icon class="prev-icon"/>
       </div>
 
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAsyncData, useRoute, useRouter } from '#app'
+import {navigateTo, useAsyncData, useRoute, useRouter} from '#app'
 import { useProductsStore } from '~/store/products'
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -64,18 +64,14 @@ function toggleSidebar() {
 }
 
 function toBack() {
-  router.push('/')
+  router.go(-1)
 }
 
 function toNextImage() {
-  if (++currentImage.value >= item.value.media.length) {
-    currentImage.value = 0
-  }
+  currentImage.value = currentImage.value + 1
 }
 
 function toPrevImage() {
-  if (--currentImage.value < 0) {
-    currentImage.value = item.value.media.length - 1
-  }
+  currentImage.value = currentImage.value - 1
 }
 </script>
