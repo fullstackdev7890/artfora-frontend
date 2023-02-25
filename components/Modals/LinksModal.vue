@@ -6,7 +6,10 @@
     class="links-modal"
   >
     <template v-slot:content>
-      <div class="ui-kit-modal-content">
+      <div
+        v-if="permanentLinks.length"
+        class="ui-kit-modal-content"
+      >
         <div class="links-modal-item" v-if="permanentLinks.instagram">
           <instagram-icon class="social-icon" />
           <a :href="permanentLinks.instagram" class="ui-kit-modal-content-links" target="_blank">
@@ -59,6 +62,10 @@
             {{ link }}
           </a>
         </div>
+      </div>
+
+      <div class="links-modal-message">
+        Unfortunately the author did not provide any links.
       </div>
 
       <div class="ui-kit-modal-content-buttons">

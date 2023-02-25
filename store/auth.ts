@@ -1,6 +1,14 @@
 import type { AuthState } from '~/types/state'
 import { defineStore } from 'pinia'
-import {LoginData, SignUpData, TwoFactorAuthData, VerifyData} from '~/types/auth'
+import {
+  LoginData,
+  SignUpData,
+  TwoFactorAuthData,
+  VerifyData,
+  ResetPasswordData,
+  CheckResetPasswordTokenData,
+  RestorePasswordData
+} from '~/types/auth'
 import axios from 'axios'
 import { navigateTo } from '#imports'
 
@@ -41,12 +49,22 @@ export const useAuthStore = defineStore('auth', {
       return await axios.post('/auth/register', data)
     },
 
-    async verifyEmail(data: VerifyData, redirect: string) {
+    async verifyEmail(data: VerifyData) {
       const response = await axios.post('/auth/register/email/verify', data)
 
       this.token = response.data.token
+    },
 
-      return navigateTo(redirect as string)
+    async resetPassword(data: ResetPasswordData) {
+      await axios.post('/auth/forgot-password', data)
+    },
+
+    async checkResetPasswordToken(data: CheckResetPasswordTokenData) {
+      await axios.post('/auth/restore-password/check', data)
+    },
+
+    async restorePassword(data: RestorePasswordData) {
+      await axios.post('/auth/restore-password', data)
     },
 
     async logout() {

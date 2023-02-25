@@ -1,61 +1,97 @@
 import { defineStore } from 'pinia'
-import { ProductsState } from '~/types/state'
+import {ProductStatus, ProductsState, Product} from '~/types/products'
 import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import axios from 'axios'
-import {Promise} from "q";
+import {Paginated} from "~/types/search";
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
-    items: [],
-    current: {
+    items: {
+      total: 0,
+      current_page: 1,
+      last_page: 1,
+      data: []
+    },
+    item: {
       id: 1,
       title: '',
       author: '',
-      media: {
-        id: 1,
-        deleted_at: null,
-        created_at: '',
-        link: '',
-        name: ''
-      },
+      price: 0,
+      user_id: 0,
+      category_id: 0,
+      slug: '',
+      tags: '',
+      description: '',
+      is_ai_safe: false,
+      width: 0,
+      height: 0,
+      weight: 0,
+      status: ProductStatus.Approved,
+      deleted_at: null,
+      media: [],
       user: {
-        external_link: null,
-        id: 1,
+        id: 0,
         username: '',
         tagname: '',
-        background_image: '',
-        media: {
-            id: 1,
-            deleted_at: null,
-            created_at: '',
-            link: '',
-            name: ''
-        }
+        email: '',
+        phone: '',
+        description: '',
+        country: '',
+        role_id: 0,
+        external_link: null,
+        background_image: {
+          id: 1,
+          deleted_at: null,
+          created_at: '',
+          link: '',
+          name: ''
+        },
+        data: {},
+        "2fa_type": 'email',
+        media: []
       }
     },
     filters: {
-      all: 1,
-      with: ['User', 'media']
-    }
+      per_page: 10,
+      page: 1,
+      with: ['user', 'media'],
+      desc: 1
+    },
+    loadingNextPage: false
   }),
 
   actions: {
-     async fetchAll(filters = {}) {
-      const response = await axios.get('/products', {
-          params: Object.assign({}, this.filters, filters)
-      })
+     async fetchAll() {
+       this.$state.filters.page = 1
 
-      this.items = response.data.data
+      const response = await axios.get('/products', { params: this.$state.filters })
+
+      this.$state.items = response.data
+    },
+
+    async fetchNextPage() {
+      this.$state.loadingNextPage = true
+
+      const response = await axios.get('/products', { params: this.filters })
+
+      const prevProducts = [...this.$state.items.data]
+      this.$state.items = response.data
+      this.$state.items.data = [...prevProducts, ...this.$state.items.data]
+
+      this.$state.loadingNextPage = false
+    },
+
+    updateFilter(filter: any) {
+       this.filters = Object.assign({}, this.filters, filter)
     },
 
     async fetch(id: string) {
-      // @ts-ignore
-      const response = await axios.get(`/products/${id}`, { params: this.filters })
+      const response = await axios.get(`/products/${id}`, { params: this.$state.filters })
 
-      this.current = response.data
+      this.$state.item = response.data
     },
 
-    create(item) {
+    create(item: any) {
       return axios.post('/products', item)
     },
 
@@ -63,19 +99,12 @@ export const useProductsStore = defineStore('products', {
        return axios.put(`/products/${id}`, { ...filters })
     },
 
-    async filterSubCategories(subCategories, parentCategory: number) {
-      await this.fetchAll({ category_id: parentCategory, status: STATUS_APPROVED })
-
-        if (subCategories.length > 0) {
-          this.items = this.items.filter(el => subCategories.includes(el.category_id))
-        }
-    },
-    async pendingCount(){
+    async pendingCount() {
       const response = await axios.get('/products', {
-        params: Object.assign({}, this.filters, { status: STATUS_PENDING })
+        params: Object.assign({}, this.$state.filters, { status: STATUS_PENDING })
       })
 
-      return response.data.data.length
+      return response.data.data.total
     }
   }
 })

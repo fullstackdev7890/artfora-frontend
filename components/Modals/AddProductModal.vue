@@ -45,8 +45,9 @@
           <ui-kit-selector
             v-model="selectedCategory"
             @changed="removeChoiceSub()"
-            :options="[...categoriesSelector]"
+            :options="categoriesSelectorItems"
             :title="'CATEGORY'"
+            :disabled="store.pendingRequestsCount"
           />
           <div v-show="selectedCategory" class="add-product-categories-sub">
             <ui-kit-check-box
@@ -65,6 +66,7 @@
           :errors="v$.product.title"
           :error-messages="{ required: 'Title is required'}"
           :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
           placeholder="TITLE"
         />
 
@@ -73,6 +75,7 @@
           :errors="v$.product.author"
           :error-messages="{ required: 'Author is required'}"
           :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
           placeholder="CREDIT ARTIST/OWNER"
         />
 
@@ -81,17 +84,16 @@
           :errors="v$.product.description"
           :error-messages="{ required: 'Description is required'}"
           :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
           placeholder="DESCRIPTION"
         />
 
-        <ui-kit-check-box
-          v-model="product.is_ai_safe"
-        >
-          AI safe (the best we can do) <a href="#" class="link">read more</a>
+        <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
+          AI safe (the best we can do) <span class="link">read more</span>
         </ui-kit-check-box>
 
         <ui-kit-input
-          v-if="!product.is_ai_safe"
+          :disabled="product.is_ai_safe"
           v-model="product.tags"
           placeholder="ADD TAGS, SEPARATE BY COMMA"
         />
@@ -100,6 +102,7 @@
           <ui-kit-check-box
             v-model="product.visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
             title="For all users, does not contain explicit material"
             type="radio"
           />
@@ -107,6 +110,7 @@
           <ui-kit-check-box
             v-model="product.visibility_level"
             :value="NUDITY_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
             title="Can contain nudity but only for educational use"
             type="radio"
           />
@@ -114,6 +118,7 @@
           <ui-kit-check-box
             v-model="product.visibility_level"
             :value="EROTIC_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
             title="Can contain nudity and erotic material"
             type="radio"
           />
@@ -121,11 +126,12 @@
           <ui-kit-check-box
             v-model="product.visibility_level"
             :value="PORNO_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
             title="Can contain pornographic or other explicit material"
             type="radio"
           />
           <span
-            v-for="(message, key) in { required: 'visibility is required'}"
+            v-for="(message, key) in { required: 'Visibility is required. '}"
             v-show="v$.product.visibility_level[key].$invalid"
             v-html="message"
             :key="key"
@@ -134,7 +140,11 @@
         </div>
 
         <div class="ui-kit-modal-content-buttons">
-          <button class="button full-width" type="submit">SEND FOR APPROVAL</button>
+          <button
+            :disabled="store.pendingRequestsCount"
+            class="button full-width"
+            type="submit"
+          >SEND FOR APPROVAL</button>
         </div>
       </div>
     </form>
@@ -147,30 +157,42 @@ import { computed, ref, reactive } from 'vue'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { VueDraggableNext } from 'vue-draggable-next'
+import { useStore } from '~/store'
 import { useMediaStore } from '~/store/media'
-import { COMMON_VISIBILITY_LEVEL, EROTIC_VISIBILITY_LEVEL, NUDITY_VISIBILITY_LEVEL, PORNO_VISIBILITY_LEVEL } from '~/types/constants'
 import { useProductsStore } from '~/store/products'
+import { COMMON_VISIBILITY_LEVEL, EROTIC_VISIBILITY_LEVEL, NUDITY_VISIBILITY_LEVEL, PORNO_VISIBILITY_LEVEL } from '~/types/constants'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
-import useVuelidate from "@vuelidate/core";
-import {email, required} from "@vuelidate/validators";
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
 const files = ref([])
-const CategoriesStore = useCategoriesStore()
+const store = useStore()
+const categoriesStore = useCategoriesStore()
 const mediaStore = useMediaStore()
 const productStore = useProductsStore()
 const { getImageUrl } = useMedia()
-const { categories, categoriesSelector } = storeToRefs(CategoriesStore)
+const { items } = storeToRefs(categoriesStore)
 const selectedCategory = ref(null)
-const currentSubCategories = computed(() => selectedCategory.value ? categories.value[selectedCategory.value - 1].children : [])
+
+const currentSubCategories = computed(() => {
+  return selectedCategory.value ? items.value.find((item) => item.id === selectedCategory.value).children : []
+})
+
 const selectedSubCategories = ref(null)
 const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
 const fileError = ref('')
 const error = ref('')
 const serverErrors = ref({})
+
+const categoriesSelectorItems = computed(() => items.value.map((category) => ({
+  title: category.title,
+  key: category.id,
+  payload: category
+})))
 
 const product = reactive({
   price: 0,
@@ -226,8 +248,8 @@ function removeChoiceSub() {
 
 async function uploadProduct() {
 
-  if (product.media.length > 0) {
-    fileError.value = 'media is required'
+  if (product.media.length < 1) {
+    fileError.value = 'Media is required. '
     return
   }
 

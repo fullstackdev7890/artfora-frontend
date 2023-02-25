@@ -22,12 +22,10 @@ export interface SimpleEntityState<T, R> {
 export interface SettingsState {
   items: Paginated<Setting>
 }
-export interface ProductsState {
-  items: Product[],
-  current: Product
-}
-export interface CategoriesState <R> {
+export interface CategoriesState {
   items: Category[],
-  // item: Category,
-  filters?: R
+  filters: {
+    with: string[]
+    only_parents: number
+  }
 }

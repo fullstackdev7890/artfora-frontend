@@ -11,6 +11,20 @@ export interface TwoFactorAuthData {
   email: string | null
 }
 
+export interface ResetPasswordData {
+  login: string
+}
+
+export interface RestorePasswordData {
+  password: string
+  confirm: string
+  token: string
+}
+
+export interface CheckResetPasswordTokenData {
+  token: string
+}
+
 export interface SignUpData {
   email: string
   tagname: string

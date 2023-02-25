@@ -7,22 +7,18 @@ import { ref } from '@vue/reactivity'
 import { useHead } from '@vueuse/head'
 import { onMounted } from 'vue'
 import { useAuthStore } from '~/store/auth'
-import { useUserStore } from '~/store/user'
 import { navigateTo } from '#imports'
 import { useRoute } from 'vue-router'
-import { VerifyData } from '~/types/auth'
+import { CheckResetPasswordTokenData } from '~/types/auth'
 
 const title = ref('')
 const description = ref('')
 const authStore = useAuthStore()
-const userStore = useUserStore()
 const route = useRoute()
 
-const verifyData: VerifyData = reactive({
+const checkResetPasswordTokenData: CheckResetPasswordTokenData = reactive({
   token: route.query.token as string || ''
 })
-
-const redirect = route.query.redirect || '/'
 
 useHead({
   title: title,
@@ -35,18 +31,15 @@ useHead({
 
 onMounted(() => {
   if (process.client && route.query.token) {
-    startVerifyEmail()
+    startVerifyToken()
   } else {
     navigateTo('/')
   }
 })
 
-async function startVerifyEmail() {
+async function startVerifyToken() {
   try {
-    await authStore.verifyEmail(verifyData)
-    await userStore.fetch()
-
-    navigateTo(redirect as string)
+    await authStore.checkResetPasswordToken(checkResetPasswordTokenData)
   } catch (e) {
     alert('Something went wrong! Please try again later.')
 

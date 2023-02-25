@@ -9,6 +9,7 @@
       :title="title"
       :with-header="withHeader"
       :with-footer="withFooter"
+      :close-btn-as-home-link="closeBtnAsHomeLink"
       @close="close()"
       class="ui-kit-modal-content"
     >
@@ -31,12 +32,14 @@ interface Props {
   closeByClickOutside?: boolean,
   withFooter?: boolean,
   withHeader?: boolean
+  closeBtnAsHomeLink?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   closeByClickOutside: false,
   withFooter: true,
-  withHeader: true
+  withHeader: true,
+  closeBtnAsHomeLink: false
 })
 const isShown = ref(false)
 

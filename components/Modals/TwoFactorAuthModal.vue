@@ -1,6 +1,7 @@
 <template>
   <ui-kit-modal
     :with-footer="false"
+    :close-btn-as-home-link="route.name === 'enter-new-password'"
     title="Safe login"
     ref="TwoFactorAuthModal"
     class="auth-modal"
@@ -63,6 +64,7 @@ import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
 import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router'
 import type { TwoFactorAuthData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
@@ -72,6 +74,7 @@ const TwoFactorAuthModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
 const userStore = useUserStore()
+const route = useRoute()
 const { emailForTwoFactorAuth } = storeToRefs(authStore)
 
 const auth: TwoFactorAuthData = reactive({

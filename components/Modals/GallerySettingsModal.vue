@@ -62,6 +62,7 @@ import { DETAILS_GALLERY_VIEW_TYPE, JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_
 import { SORT_LATEST, SORT_RANDOM } from '~/types/gallerySettings'
 import { ref } from '@vue/reactivity'
 import { useSettingsGalleryStore } from '~/store/gallerySettings'
+import { useProductsStore } from '~/store/products'
 import { OptionItem } from '~/types/uiKit'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import JustifiedGalleryIcon from '~/assets/svg/justified-gallery.svg'
@@ -69,6 +70,7 @@ import SquareGalleryIcon from '~/assets/svg/square-gallery.svg'
 import DetailsGalleryIcon from '~/assets/svg/details-gallery.svg'
 
 const gallerySettingsStore = useSettingsGalleryStore()
+const products = useProductsStore()
 const gallerySettings = ref<InstanceType<typeof UiKitModal>>(null)
 const selectedSort = ref(gallerySettingsStore.order_by)
 const GalleryViewType = ref(gallerySettingsStore.viewType)
@@ -79,6 +81,12 @@ const optionsSort: OptionItem[] = [
 
 async function updateSettings() {
   gallerySettingsStore.setData(GalleryViewType.value, selectedSort.value)
+
+  products.updateFilter({ order_by: selectedSort.value })
+
+  await products.fetchAll()
+
+  close()
 }
 
 function open() {

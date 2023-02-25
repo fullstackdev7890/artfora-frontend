@@ -31,6 +31,11 @@ export default defineNuxtConfig({
     plugins: [
       svgLoader({})
     ]
+  },
+  router: {
+    options: {
+      linkActiveClass: 'categories-body-item-active'
+    }
   }
 })
 
