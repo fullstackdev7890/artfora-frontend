@@ -47,11 +47,11 @@ import { useProductsStore} from '~/store/products'
 import { Paginated } from '~/types/search'
 import { useSettingsGalleryStore } from '~/store/gallerySettings'
 import { storeToRefs } from 'pinia'
+import { ImageTemplate } from '~/types/constants'
 import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
 import randomWords from 'random-words'
-import {ImageTemplate} from "~/types/constants";
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
