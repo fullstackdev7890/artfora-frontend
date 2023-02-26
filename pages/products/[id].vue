@@ -17,7 +17,7 @@
       <img
         v-for="(image, index) in item.media"
         v-show="index === currentImage"
-        :src="getImageUrl(image)"
+        :src="getImageUrl(image, ImageTemplate.FullSize)"
         :alt="tags"
       >
 
@@ -41,6 +41,7 @@ import {navigateTo, useAsyncData, useRoute, useRouter} from '#app'
 import { useProductsStore } from '~/store/products'
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { ImageTemplate } from '~/types/constants'
 import CloseIcon from '~/assets/svg/close.svg'
 import ArrowLeft from '~/assets/svg/arrow-left.svg'
 import ProductSidebar from '~/components/Products/ProductSidebar.vue'
