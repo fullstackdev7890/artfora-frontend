@@ -14,6 +14,7 @@ import { ref } from '@vue/reactivity'
 import { useAsyncData } from '#app'
 import { useUserStore } from '~/store/user'
 import MainContainer from '~/components/Layout/MainContainer.vue'
+import {SORT_LATEST} from "~/types/gallerySettings";
 
 const title = ref('')
 const description = ref('')
@@ -23,13 +24,13 @@ const { id } = storeToRefs(user)
 const { items } = storeToRefs(products)
 
 watch(id, (newUserId) => {
-  products.updateFilter({ categories: null, status: null, user_id: newUserId, order_by: 'created_at' })
+  products.updateFilter({ categories: null, status: null, user_id: newUserId, order_by: SORT_LATEST })
 
   products.fetchAll()
 })
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: null, status: null, user_id: id, order_by: 'created_at' })
+  products.updateFilter({ categories: null, status: null, user_id: id, order_by: SORT_LATEST })
 
   await products.fetchAll()
 })

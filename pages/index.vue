@@ -13,15 +13,18 @@ import { storeToRefs } from 'pinia'
 import { ref } from '@vue/reactivity'
 import { useAsyncData } from '#app'
 import { STATUS_APPROVED } from '~/types/constants'
+import { useSettingsGalleryStore } from '~/store/gallerySettings'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 
 const title = ref('')
 const description = ref('')
 const products = useProductsStore()
 const { items } = storeToRefs(products)
+const gallerySettings = useSettingsGalleryStore()
+const { order_by } = storeToRefs(gallerySettings)
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: null, status: STATUS_APPROVED, user_id: null })
+  products.updateFilter({ categories: null, status: STATUS_APPROVED, user_id: null, order_by })
 
   await products.fetchAll()
 })

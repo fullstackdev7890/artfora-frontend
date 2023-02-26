@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { CategoriesState } from '~/types'
-import axios from 'axios'
-import {Category} from "~/types/categories";
+import axios, {AxiosResponse} from 'axios'
+import { Paginated } from '~/types/search'
+import { Category } from '~/types/categories'
 
 export const useCategoriesStore = defineStore('categories', {
   state: (): CategoriesState => ({
@@ -14,10 +15,9 @@ export const useCategoriesStore = defineStore('categories', {
 
   actions: {
     async fetch() {
-      await axios.get('/categories', { params: this.filters })
-        .then((response) => {
-          this.items = response.data.data
-        })
+      const response: AxiosResponse<Paginated<Category>> = await axios.get('/categories', { params: this.filters })
+
+      this.items = response.data.data
     }
   },
 })

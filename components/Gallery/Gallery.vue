@@ -26,7 +26,7 @@
             :author-avatar="image.user.avatar_image"
           />
 
-          <img :src="getImageUrl(image.media[0])" :alt="image.title">
+          <img :src="getImageUrl(image.media[0], ImageTemplate.Thumbnail)" :alt="getTags(image)">
         </div>
       </nuxt-link>
     </div>
@@ -43,17 +43,23 @@ import {
 import { onMounted, onUnmounted, watch } from 'vue'
 import { Product } from '~/types/products'
 import { ref } from '@vue/reactivity'
+import { useProductsStore} from '~/store/products'
+import { Paginated } from '~/types/search'
+import { useSettingsGalleryStore } from '~/store/gallerySettings'
+import { storeToRefs } from 'pinia'
+import { ImageTemplate } from '~/types/constants'
 import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
-import { useProductsStore} from '~/store/products'
-import { Paginated } from '~/types/search'
+import randomWords from 'random-words'
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
 const galleryImages = ref([])
-const galleryViewType = ref(JUSTIFIED_GALLERY_VIEW_TYPE)
 const products = useProductsStore()
+const gallerySettings = useSettingsGalleryStore()
+const { viewType } = storeToRefs(gallerySettings)
+const galleryViewType = ref(viewType)
 const router = useRouter()
 
 interface Props {
@@ -140,5 +146,7 @@ function sortImagesByColumns (images: Product[]) {
     }
   })
 }
+
+const getTags = (product: Product) => product.is_ai_safe ? randomWords(10).join(', ') : product.tags
 
 </script>

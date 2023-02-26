@@ -87,11 +87,7 @@ const getToken = async (config: AxiosRequestConfig, store: any): Promise<string 
     return token
   }
 
-  if (!refreshTokenPromise) {
-    refreshTokenPromise = store.refreshToken()
-  }
-
-  return await refreshTokenPromise
+  return null
 }
 
 const isRefreshTokenRequest = (config: AxiosRequestConfig) => {
