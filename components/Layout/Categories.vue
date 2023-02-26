@@ -138,8 +138,6 @@ function selectStatus() {
   products.fetchAll()
 }
 
-await useAsyncData('categories', async () => {
-  await categoriesStore.fetch()
-})
+await useAsyncData('categories', async () => await categoriesStore.fetch())
 
 </script>

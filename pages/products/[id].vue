@@ -17,7 +17,7 @@
       <img
         v-for="(image, index) in item.media"
         v-show="index === currentImage"
-        :src="getImageUrl(image)"
+        :src="getImageUrl(image, ImageTemplate.FullSize)"
         :alt="tags"
       >
 
@@ -47,6 +47,7 @@ import ProductSidebar from '~/components/Products/ProductSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
 import useMedia from '~/composable/media'
 import randomWords from 'random-words'
+import {ImageTemplate} from "~/types/constants";
 
 const route = useRoute()
 const router = useRouter()

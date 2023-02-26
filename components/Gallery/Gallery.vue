@@ -26,7 +26,7 @@
             :author-avatar="image.user.avatar_image"
           />
 
-          <img :src="getImageUrl(image.media[0])" :alt="getTags(image)">
+          <img :src="getImageUrl(image.media[0], ImageTemplate.Thumbnail)" :alt="getTags(image)">
         </div>
       </nuxt-link>
     </div>
@@ -51,6 +51,7 @@ import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
 import randomWords from 'random-words'
+import {ImageTemplate} from "~/types/constants";
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
