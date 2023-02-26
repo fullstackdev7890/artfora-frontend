@@ -17,10 +17,6 @@ export const useCategoriesStore = defineStore('categories', {
     async fetch() {
       const response: AxiosResponse<Paginated<Category>> = await axios.get('/categories', { params: this.filters })
 
-      console.log({categories: response.data})
-
-      debugger
-
       this.items = response.data.data
     }
   },
