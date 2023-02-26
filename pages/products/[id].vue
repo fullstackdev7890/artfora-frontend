@@ -18,7 +18,7 @@
         v-for="(image, index) in item.media"
         v-show="index === currentImage"
         :src="getImageUrl(image)"
-        alt="image"
+        :alt="tags"
       >
 
       <div class="product-container-images-next" v-show="currentImage + 1 < item.media.length" @click="toNextImage()">
@@ -46,6 +46,7 @@ import ArrowLeft from '~/assets/svg/arrow-left.svg'
 import ProductSidebar from '~/components/Products/ProductSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
 import useMedia from '~/composable/media'
+import randomWords from 'random-words'
 
 const route = useRoute()
 const router = useRouter()
@@ -74,4 +75,6 @@ function toNextImage() {
 function toPrevImage() {
   currentImage.value = currentImage.value - 1
 }
+
+const tags = computed(() => item.value.is_ai_safe ? randomWords(10).join(', ') : item.value.tags)
 </script>

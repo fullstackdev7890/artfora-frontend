@@ -26,7 +26,7 @@
             :author-avatar="image.user.avatar_image"
           />
 
-          <img :src="getImageUrl(image.media[0])" :alt="image.title">
+          <img :src="getImageUrl(image.media[0])" :alt="getTags(image)">
         </div>
       </nuxt-link>
     </div>
@@ -46,10 +46,11 @@ import { ref } from '@vue/reactivity'
 import { useProductsStore} from '~/store/products'
 import { Paginated } from '~/types/search'
 import { useSettingsGalleryStore } from '~/store/gallerySettings'
+import { storeToRefs } from 'pinia'
 import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
-import {storeToRefs} from "pinia";
+import randomWords from 'random-words'
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
@@ -144,5 +145,7 @@ function sortImagesByColumns (images: Product[]) {
     }
   })
 }
+
+const getTags = (product: Product) => product.is_ai_safe ? randomWords(10).join(', ') : product.tags
 
 </script>
