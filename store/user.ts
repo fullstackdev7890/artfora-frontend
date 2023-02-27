@@ -19,6 +19,12 @@ export const useUserStore = defineStore('user', {
     email_verified_at: null,
     deleted_at: null,
     product_visibility_level: null,
+    background_image: null,
+    avatar_image: {
+      id: 0,
+      link: '',
+      deleted_at: null
+    },
     media: {
       id: 0,
       link: '',
@@ -27,7 +33,7 @@ export const useUserStore = defineStore('user', {
   }),
 
   getters: {
-    userAvatar: (state) => state.media.link,
+    userAvatar: (state) => state.avatar_image,
 
     getUserRole: (state) => state.role_id,
   },

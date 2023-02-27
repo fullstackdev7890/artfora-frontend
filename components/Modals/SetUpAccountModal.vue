@@ -70,7 +70,7 @@
         />
 
         <ui-kit-input
-          v-model="user.external_links"
+          v-model="user.external_link"
           placeholder="EXTERNAL LINKS"
         />
 
@@ -112,6 +112,16 @@
             {{ error }}
         </span>
 
+        <div class="account-settings-divider"></div>
+
+        <p class="ui-kit-box-content-small-text">
+          <span class="ui-kit-box-content-success-text">
+            If you want to change your password, please <br>
+            logout <a href="#" class="link" @click.prevent="logout">here</a> and use the "Reset password" function <br>
+            on the "Login" page.
+          </span>
+        </p>
+
         <div class="ui-kit-modal-content-buttons">
           <button class="button full-width" type="submit">UPDATE SETTINGS</button>
         </div>
@@ -135,7 +145,7 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
 import { useMediaStore } from '~/store/media'
-import { Media } from '~/types'
+import { useAuthStore } from '~/store/auth'
 import useMedia from '~/composable/media'
 import axios from 'axios'
 import UiKitSelector from '~/components/UiKit/UiKitSelector.vue'
@@ -143,18 +153,19 @@ import UiKitSelector from '~/components/UiKit/UiKitSelector.vue'
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>(null)
 const store = useStore()
 const userStore = useUserStore()
+const authStore = useAuthStore()
 const currentProfile = storeToRefs(userStore)
 const mediaStore = useMediaStore()
 const { getImageUrl } = useMedia()
 const countries = ref([{ title: currentProfile.country, key: currentProfile.country }])
-const backgroundImage = ref<Media | null>(null)
-const avatar = ref<Media | null>(null)
+const backgroundImage = ref(currentProfile.background_image)
+const avatar = ref(currentProfile.avatar_image)
 const error = ref('')
 const user = reactive({
   username: currentProfile.username,
   email: currentProfile.email,
   description: currentProfile.description,
-  external_links: currentProfile.external_link,
+  external_link: currentProfile.external_link,
   product_visibility_level: currentProfile.product_visibility_level,
   background_image_id: currentProfile.background_image_id,
   avatar_image_id: currentProfile.avatar_image_id,
@@ -176,6 +187,7 @@ async function addFile(event: any) {
 
     return
   }
+
   if (event.target.id === 'uploadAvatar') {
     avatar.value = response.data
     user.avatar_image_id = response.data.id
@@ -189,9 +201,9 @@ async function selectCountry() {
 
   if (countries.value.length <= 1) {
     const response = await axios.get('https://restcountries.com/v2/all')
-    response.data.forEach((country: object, index: number) => countries.value.push({ title: country.name, key: country.name  }))
-    console.log(response.data)
+    response.data.forEach((country: object) => countries.value.push({ title: country.name, key: country.name  }))
   }
+
 }
 
 async function uploadProduct() {
@@ -207,6 +219,11 @@ async function uploadProduct() {
       return
     }
   }
+}
+
+function logout() {
+  authStore.logout()
+  close()
 }
 
 function open() {

@@ -11,17 +11,18 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import useMedia from '~/composable/media'
+import { Media } from '~/types'
 
 interface Props {
   author: string
   authorTag: string
-  authorAvatar: string | null
+  authorAvatar: Media
 }
 
 const props = withDefaults(defineProps<Props>(), {
   author: '',
   authorTag: '',
-  authorAvatar: '',
+  authorAvatar: () => ({ id: 0,  link: null, deleted_at: null }),
 })
 const { getUserAvatar } = useMedia()
 </script>

@@ -8,6 +8,7 @@ export const useCategoriesStore = defineStore('categories', {
   state: (): CategoriesState => ({
     items: [],
     filters: {
+      all: 1,
       with: ['children'],
       only_parents: 1
     }
