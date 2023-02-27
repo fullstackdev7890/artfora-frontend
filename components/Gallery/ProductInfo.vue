@@ -8,11 +8,13 @@
     <a href="#" class="link">see details</a>
 
     <button
+      :disabled="store.pendingRequestsCount"
       class="button button-small"
       @click.prevent="moderateProduct(product.id, STATUS_APPROVED)"
     >APPROVE</button>
 
     <button
+      :disabled="store.pendingRequestsCount"
       class="button button-small"
       @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
     >DECLINE</button>
@@ -33,6 +35,7 @@ import { Product } from '~/types/products'
 import { ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from '~/types/constants'
 import { useUserStore } from '~/store/user'
 import { useProductsStore } from '~/store/products'
+import { useStore } from '~/store'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 
@@ -40,6 +43,7 @@ interface Props {
   product: Product
 }
 const props = defineProps<Props>()
+const store = useStore()
 const userStore = useUserStore()
 const productsStore = useProductsStore()
 const { getUserRole } = storeToRefs(userStore)

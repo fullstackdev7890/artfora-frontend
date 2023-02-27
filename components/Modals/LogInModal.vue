@@ -150,6 +150,9 @@ function openTwoFactorAuthModal() {
 }
 
 function open() {
+  auth.login = ''
+  auth.password = ''
+
   logInModal.value?.open()
 }
 
