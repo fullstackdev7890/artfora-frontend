@@ -52,11 +52,4 @@ async function moderateProduct(id: number, status: string) {
 
   await productsStore.getPendingCount()
 }
-// async function declineImage(id: number) {
-//   await productsStore.update(id, { status: STATUS_REJECTED })
-//
-//   await productsStore.fetchAll()
-//
-//   await productsStore.getPendingCount()
-// }
 </script>
