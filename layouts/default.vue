@@ -6,6 +6,7 @@
       @open-add-product-modal="modalsComponentRef.openAddProductModal()"
       @open-contact-us-modal="modalsComponentRef.openContactUsModal()"
       @open-gallery-settings-modal="modalsComponentRef.openGallerySettingsModal()"
+      @open-set-up-account-modal="modalsComponentRef.openSetUpAccountModal()"
     />
 
     <slot/>

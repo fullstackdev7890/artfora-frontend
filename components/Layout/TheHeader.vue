@@ -15,6 +15,7 @@
         @open-add-product-modal="emit('openAddProductModal')"
         @open-contact-us-modal="emit('openContactUsModal')"
         @open-gallery-settings-modal="emit('openGallerySettingsModal')"
+        @open-set-up-account-modal="emit('openSetUpAccountModal')"
       />
     </div>
 
@@ -31,7 +32,7 @@ import SearchBar from '~/components/Layout/SearchBar.vue'
 import ProfileMenu from '~/components/Layout/ProfileMenu.vue'
 import Categories from '~/components/Layout/Categories.vue'
 
-const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal'])
+const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openSetUpAccountModal'])
 
 const isShown = ref(false)
 const scrollPosition = ref(0)

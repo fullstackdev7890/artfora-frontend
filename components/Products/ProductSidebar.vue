@@ -4,21 +4,21 @@
 
       <div class="product-sidebar-background">
         <img
-          v-if="props.imageInfo.user.background_image"
-          :src="props.imageInfo.user.background_image"
+          v-if="props.product.user.background_image"
+          :src="getImageUrl(props.product.user.background_image)"
           alt="background-image"
         >
       </div>
 
       <div class="product-sidebar-user">
         <img
-          :src="getUserAvatar($props.imageInfo.user.avatar_image)"
+          :src="getUserAvatar($props.product.user.avatar_image)"
           class="product-sidebar-user-avatar"
           alt="user-avatar"
         >
         <div class="product-sidebar-user-name">
-          <h4>{{ props.imageInfo.user.username }}</h4>
-          <p>{{ props.imageInfo.user.tagname }}</p>
+          <h4>{{ props.product.user.username }}</h4>
+          <p>{{ props.product.user.tagname }}</p>
         </div>
         <div class="product-sidebar-user-share">
           <share-icon class="share-icon" @click="linksModal.open()" />
@@ -28,29 +28,29 @@
       <div class="product-sidebar-info">
         <div class="product-sidebar-info-item">
           <h5>Title:</h5>
-          <span>{{ props.imageInfo.title }}</span>
+          <span>{{ props.product.title }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Artist:</h5>
-          <span>{{ props.imageInfo.author }}</span>
+          <span>{{ props.product.author }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Price:</h5>
-          <span>€{{ props.imageInfo.price }}</span>
+          <span>€{{ props.product.price }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size:</h5>
-          <span>{{ props.imageInfo.width }}/{{ props.imageInfo.height }} cm</span>
+          <span>{{ props.product.width }}/{{ props.product.height }} cm</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Weight:</h5>
-          <span>{{ props.imageInfo.weight }}kg</span>
+          <span>{{ props.product.weight }}kg</span>
         </div>
       </div>
 
       <div class="product-sidebar-description">
         Description:
-        <p>{{ props.imageInfo.description }}</p>
+        <p>{{ props.product.description }}</p>
       </div>
 
       <div class="product-sidebar-bottom-buttons-wrapper">
@@ -58,9 +58,9 @@
         <button class="button full-width" @click="commissionWorkModal.open()">COMMISSION OPEN</button>
       </div>
 
-      <links-modal ref="linksModal" :links="props.imageInfo.user.external_link" />
+      <links-modal ref="linksModal" :links="props.product.user.external_link" />
 
-      <commission-work-modal ref="commissionWorkModal" :user-id="props.imageInfo.user.id" />
+      <commission-work-modal ref="commissionWorkModal" :user-id="props.product.user.id" />
 
       <contact-modal ref="contactModal"/>
     </div>
@@ -76,36 +76,39 @@ import ContactModal from '~/components/Modals/ContactModal.vue'
 import useMedia from '~/composable/media'
 
 interface Props {
-  imageInfo: Product
+  product: Product
 }
 const props = withDefaults(defineProps<Props>(), {
-  id: 1,
-  title: '',
-  author: '',
-  media: {
+  product: {
     id: 1,
-    deleted_at: null,
-    created_at: '',
-    link: '',
-    name: ''
-  },
-  user: {
-    id: 1,
-    username: '',
-    tagname: '',
-    background_image: '',
+    title: '',
+    author: '',
     media: {
       id: 1,
       deleted_at: null,
       created_at: '',
       link: '',
       name: ''
+    },
+    user: {
+      id: 1,
+      username: '',
+      tagname: '',
+      background_image: '',
+      media: {
+        id: 1,
+        deleted_at: null,
+        created_at: '',
+        link: '',
+        name: ''
+      }
     }
   }
+
 })
 
 const linksModal = ref<InstanceType<typeof LinksModal>>(null)
 const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
 const contactModal = ref<InstanceType<typeof ContactModal>>(null)
-const { getUserAvatar } = useMedia()
+const { getUserAvatar, getImageUrl } = useMedia()
 </script>

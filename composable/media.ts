@@ -13,9 +13,9 @@ export default function () {
     return config.public.API_BASE_URL + '/storage/' + media.link
   }
 
-  const getUserAvatar = (link: string): string => {
-    if (link) {
-      return config.public.API_BASE_URL + '/storage/' + link
+  const getUserAvatar = (media: Media): string => {
+    if (media?.link) {
+      return config.public.API_BASE_URL + '/storage/' + media.link
     }
     return avatar
   }

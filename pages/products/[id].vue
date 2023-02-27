@@ -31,13 +31,13 @@
 
     </div>
 
-    <product-sidebar v-show="isShown" :image-info="item" />
+    <product-sidebar v-show="isShown" :product="item" />
 
   </div>
 </template>
 
 <script setup lang="ts">
-import {navigateTo, useAsyncData, useRoute, useRouter} from '#app'
+import { useAsyncData, useRoute, useRouter} from '#app'
 import { useProductsStore } from '~/store/products'
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'

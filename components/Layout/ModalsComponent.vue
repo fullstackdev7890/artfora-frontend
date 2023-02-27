@@ -2,6 +2,8 @@
   <div>
     <add-product ref="addProductModalRef" />
 
+    <set-up-account-modal ref="setUpAccountModalRef" />
+
     <sign-up-modal
       ref="signUpModalRef"
       @open-log-in-modal="openLogInModal"
@@ -49,6 +51,7 @@ import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
 import EnterNewPasswordModal from '~/components/Modals/EnterNewPasswordModal.vue'
 import ContactUsModal from '~/components/Modals/ContactModal.vue'
 import GallerySettingsModal from '~/components/Modals/GallerySettingsModal.vue'
+import SetUpAccountModal from '~/components/Modals/SetUpAccountModal.vue'
 
 const authStore = useAuthStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
@@ -61,6 +64,7 @@ const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
 const enterNewPasswordModalRef = ref<InstanceType<typeof EnterNewPasswordModal>>(null)
 const contactUsModalRef = ref<InstanceType<typeof ContactUsModal>>(null)
 const gallerySettingsModalRef = ref<InstanceType<typeof GallerySettingsModal>>(null)
+const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null)
 
 const router = useRouter()
 const route = useRoute()
@@ -80,6 +84,7 @@ router.beforeEach((to, from, next) => {
   enterNewPasswordModalRef.value.close()
   contactUsModalRef.value.close()
   gallerySettingsModalRef.value.close()
+  setUpAccountModalRef.value.close()
 
   next()
 })
@@ -91,6 +96,10 @@ function openLogInModal() {
   }
 
   logInModalRef.value.open()
+}
+
+function openSetUpAccountModal() {
+  setUpAccountModalRef.value.open()
 }
 
 function openSignUpModal() {
@@ -114,5 +123,5 @@ function openContactUsModal() {
   contactUsModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal, openGallerySettingsModal })
+defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
 </script>

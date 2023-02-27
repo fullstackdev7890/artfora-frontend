@@ -58,6 +58,10 @@
         </div>
       </div>
 
+      <div>
+        <slot name="customHeader" v-if="!withHeader"></slot>
+      </div>
+
       <header v-show="!isCollapsed" class="ui-kit-box-heading">
         <slot name="heading"></slot>
       </header>

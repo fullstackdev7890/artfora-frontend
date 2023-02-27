@@ -25,6 +25,7 @@ export interface SettingsState {
 export interface CategoriesState {
   items: Category[],
   filters: {
+    all: number
     with: string[]
     only_parents: number
   }

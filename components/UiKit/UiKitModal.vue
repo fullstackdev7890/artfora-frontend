@@ -13,6 +13,11 @@
       @close="close()"
       class="ui-kit-modal-content"
     >
+
+      <template v-slot:customHeader>
+        <slot name="customHeader"></slot>
+      </template>
+
       <template v-slot:content>
         <slot name="content"/>
       </template>
