@@ -17,6 +17,7 @@ import { navigateTo } from '#imports'
 import Gallery from '~/components/Gallery/Gallery.vue'
 import MainContainer from '~/components/Layout/MainContainer.vue'
 import { useSettingsGalleryStore } from '~/store/gallerySettings'
+import { STATUS_APPROVED } from '~/types/constants'
 
 const title = ref('')
 const description = ref('')
@@ -33,7 +34,7 @@ onMounted(async () => {
 })
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: [route.params.id], status: null, user_id: null, page: 1, order_by })
+  products.updateFilter({ categories: [route.params.id], status: STATUS_APPROVED, user_id: null, page: 1, order_by })
 
   await products.fetchAll()
 })

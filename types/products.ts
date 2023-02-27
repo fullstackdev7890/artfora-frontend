@@ -47,5 +47,6 @@ export interface ProductsState {
   items: Paginated<Product>
   item: Product
   filters: SearchProductsFilters,
-  loadingNextPage: boolean
+  loadingNextPage: boolean,
+  pendingCount: number
 }

@@ -62,20 +62,24 @@ import { ref } from '@vue/reactivity'
 import { required, email } from '@vuelidate/validators'
 import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
+import { useProductsStore } from '~/store/products'
 import { useStore } from '~/store'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
+import { useUserStore } from '~/store/user'
+import { ROLE_ADMIN } from '~/types/constants'
 import type { TwoFactorAuthData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
-import {useUserStore} from "~/store/user";
 
 const TwoFactorAuthModal = ref<InstanceType<typeof UiKitModal>>(null)
-const authStore = useAuthStore()
 const store = useStore()
+const authStore = useAuthStore()
 const userStore = useUserStore()
+const productsStore = useProductsStore()
 const route = useRoute()
 const { emailForTwoFactorAuth } = storeToRefs(authStore)
+const { getUserRole } = storeToRefs(userStore)
 
 const auth: TwoFactorAuthData = reactive({
   code: '',
@@ -111,6 +115,10 @@ async function confirmTwoFactorAuth() {
     await authStore.checkEmailTwoFactorAuth(auth)
 
     await userStore.fetch()
+
+    if (getUserRole.value === ROLE_ADMIN) {
+      await productsStore.getPendingCount()
+    }
 
     success.value = true
     auth.code = ''

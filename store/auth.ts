@@ -29,14 +29,14 @@ export const useAuthStore = defineStore('auth', {
     async login(data: LoginData) {
       await axios.post('/auth/login', data)
 
-      return this.emailForTwoFactorAuth = data.login
+      return this.$state.emailForTwoFactorAuth = data.login
     },
 
     async checkEmailTwoFactorAuth(data: TwoFactorAuthData) {
       const response = await axios.post('/auth/2fa/email/check', data)
 
-      this.emailForTwoFactorAuth = null
-      this.token = response.data.token
+      this.$state.emailForTwoFactorAuth = null
+      this.$state.token = response.data.token
 
       navigateTo('/')
     },
@@ -52,7 +52,7 @@ export const useAuthStore = defineStore('auth', {
     async verifyEmail(data: VerifyData) {
       const response = await axios.post('/auth/register/email/verify', data)
 
-      this.token = response.data.token
+      this.$state.token = response.data.token
     },
 
     async resetPassword(data: ResetPasswordData) {
@@ -69,7 +69,7 @@ export const useAuthStore = defineStore('auth', {
 
     async logout() {
       // @ts-ignore
-      this.token = null
+      this.$state.token = null
 
       navigateTo('/')
     },
@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('auth', {
       const response = await axios.get('/auth/refresh')
 
       // @ts-ignore
-      this.token = response.data.token
+      this.$state.token = response.data.token
 
       return response.data.token
     }

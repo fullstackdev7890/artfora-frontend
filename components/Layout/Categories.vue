@@ -4,7 +4,7 @@
     <div class="categories-body">
 
       <nuxt-link
-        v-if="user.role_id === ROLE_USER"
+        v-if="isAuthorized && getUserRole === ROLE_USER"
         to="/gallery/my-images"
         class="categories-body-item categories-body-item-parents"
       >
@@ -12,11 +12,11 @@
       </nuxt-link>
 
       <nuxt-link
-        v-if="user.role_id === ROLE_ADMIN"
+        v-if="isAuthorized && getUserRole === ROLE_ADMIN"
         to="/gallery/pending"
         class="categories-body-item categories-body-item-parents"
       >
-        Pending ({{  }})
+        Pending ({{ pendingCount }})
       </nuxt-link>
 
       <nuxt-link
@@ -49,7 +49,7 @@
         <input
           :id="item.title"
           v-model="selectedSubCategories"
-          @change="selectSubCategory(item.id)"
+          @change="selectSubCategory()"
           :value="item.id"
           type="checkbox"
         >
@@ -97,14 +97,19 @@ import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
 import { useAsyncData } from '#app'
 import { useUserStore } from '~/store/user'
+import { useAuthStore } from '~/store/auth'
 import { useProductsStore } from '~/store/products'
 import { ROLE_ADMIN, ROLE_USER, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from '~/types/constants'
 import { Category } from '~/types/categories'
 
 const categoriesStore = useCategoriesStore()
-const user = useUserStore()
-const products = useProductsStore()
+const userStore = useUserStore()
+const { getUserRole } = storeToRefs(userStore)
+const authStore = useAuthStore()
+const { isAuthorized } = storeToRefs(authStore)
+const productStore = useProductsStore()
 const { items } = storeToRefs(categoriesStore)
+const { pendingCount } = storeToRefs(productStore)
 const route = useRoute()
 const selectedSubCategories = ref([])
 const subCategories = computed(() => items.value.find((category: Category) => category.id === Number(route.params.id))?.children ?? null)
@@ -117,25 +122,25 @@ function clearSubCategories() {
 function selectSubCategory() {
 
   if (selectedSubCategories.value.length === 0) {
-    products.updateFilter({ categories: [route.params.id] })
-    products.fetchAll()
+    productStore.updateFilter({ categories: [route.params.id] })
+    productStore.fetchAll()
 
     return
   }
 
-  products.updateFilter({ categories: selectedSubCategories.value })
-  products.fetchAll()
+  productStore.updateFilter({ categories: selectedSubCategories.value })
+  productStore.fetchAll()
 }
 
 function selectAllStatuses() {
   selectedStatus.value = ''
-  products.updateFilter({ status: null })
-  products.fetchAll()
+  productStore.updateFilter({ status: null })
+  productStore.fetchAll()
 }
 
 function selectStatus() {
-  products.updateFilter({ status: selectedStatus.value })
-  products.fetchAll()
+  productStore.updateFilter({ status: selectedStatus.value })
+  productStore.fetchAll()
 }
 
 await useAsyncData('categories', async () => await categoriesStore.fetch())
