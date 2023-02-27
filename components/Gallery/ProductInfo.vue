@@ -1,14 +1,23 @@
 <template>
   <div
-    v-if="product.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
+    v-if="route.name === 'gallery-pending' && product.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
     class="gallery-item-image-container-info gallery-item-image-container-admin"
   >
     <h4>PENDING</h4>
     <p>"{{ product.title }}"</p>
     <a href="#" class="link">see details</a>
-    <button class="full-width button" @click.prevent="approveImage(product.id)">APPROVE</button>
-    <button class="full-width button" @click.prevent="declinedImage(product.id)">DECLINED</button>
+
+    <button
+      class="button button-small"
+      @click.prevent="moderateProduct(product.id, STATUS_APPROVED)"
+    >APPROVE</button>
+
+    <button
+      class="button button-small"
+      @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
+    >DECLINE</button>
   </div>
+
   <div
     v-else
     class="gallery-item-image-container-info"
@@ -25,6 +34,7 @@ import { ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from '~/
 import { useUserStore } from '~/store/user'
 import { useProductsStore } from '~/store/products'
 import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router'
 
 interface Props {
   product: Product
@@ -33,14 +43,20 @@ const props = defineProps<Props>()
 const userStore = useUserStore()
 const productsStore = useProductsStore()
 const { getUserRole } = storeToRefs(userStore)
-async function approveImage(id: number) {
-  await productsStore.update(id, { status: STATUS_APPROVED })
+const route = useRoute()
+
+async function moderateProduct(id: number, status: string) {
+  await productsStore.update(id, { status: status })
 
   await productsStore.fetchAll()
-}
-async function declinedImage(id: number) {
-  await productsStore.update(id, { status: STATUS_REJECTED })
 
-  await productsStore.fetchAll()
+  await productsStore.getPendingCount()
 }
+// async function declineImage(id: number) {
+//   await productsStore.update(id, { status: STATUS_REJECTED })
+//
+//   await productsStore.fetchAll()
+//
+//   await productsStore.getPendingCount()
+// }
 </script>

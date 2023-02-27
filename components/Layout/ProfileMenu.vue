@@ -56,10 +56,13 @@ import { ref, onBeforeMount } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
+import { useProductsStore } from '~/store/products'
 import { useAsyncData } from '#app'
+import { navigateTo } from '#imports'
 import useMedia from '~/composable/media'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
+import { ROLE_ADMIN } from '~/types/constants'
 
 const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal'])
 
@@ -70,11 +73,13 @@ const userStore = useUserStore()
 const { isAuthorized } = storeToRefs(authStore)
 const { userAvatar } = storeToRefs(userStore)
 const { getUserAvatar } = useMedia()
-
+const { getUserRole } = storeToRefs(userStore)
+const productStore = useProductsStore()
 
 function logout() {
   authStore.logout()
   menuDropdownRef.value.close()
+  navigateTo('/')
 }
 
 function openSettingsGallery() {
@@ -96,6 +101,10 @@ onBeforeMount(() => {
   if (isAuthorized.value) {
     useAsyncData('fetch-profile',async () => {
       await userStore.fetch()
+
+      if (getUserRole.value === ROLE_ADMIN) {
+        await productStore.getPendingCount()
+      }
     })
   }
 })

@@ -57,7 +57,8 @@ export const useProductsStore = defineStore('products', {
       with: ['user', 'media'],
       desc: 1
     },
-    loadingNextPage: false
+    loadingNextPage: false,
+    pendingCount: 0
   }),
 
   actions: {
@@ -99,12 +100,12 @@ export const useProductsStore = defineStore('products', {
        return axios.put(`/products/${id}`, { ...filters })
     },
 
-    async pendingCount() {
+    async getPendingCount() {
       const response = await axios.get('/products', {
-        params: Object.assign({}, this.$state.filters, { status: STATUS_PENDING })
+        params: Object.assign({}, { status: STATUS_PENDING })
       })
 
-      return response.data.data.total
+      this.$state.pendingCount = response.data.total
     }
   }
 })
