@@ -48,22 +48,28 @@
 
         <ui-kit-input
           v-model="user.username"
+          :errors="v$.user.username"
+          :error-messages="{ required: 'Username is required'}"
+          :disabled="store.pendingRequestsCount"
           placeholder="USERNAME"
         />
 
         <ui-kit-input
           v-model="user.email"
+          :errors="v$.user.email"
+          :error-messages="{ required: 'email is required', email: 'Please enter valid email address.' }"
+          :disabled="store.pendingRequestsCount"
           placeholder="EMAIL ADDRESS"
         />
 
         <ui-kit-text-area
           v-model="user.description"
+          :disabled="store.pendingRequestsCount"
           placeholder="USER DESCRIPTION"
         />
 
         <ui-kit-selector
           v-model="user.country"
-          @click="selectCountry"
           :options="countries"
           :title="'Country'"
           :disabled="store.pendingRequestsCount"
@@ -71,6 +77,7 @@
 
         <ui-kit-input
           v-model="user.external_link"
+          :disabled="store.pendingRequestsCount"
           placeholder="EXTERNAL LINKS"
         />
 
@@ -123,7 +130,11 @@
         </p>
 
         <div class="ui-kit-modal-content-buttons">
-          <button class="button full-width" type="submit">UPDATE SETTINGS</button>
+          <button
+            :disabled="store.pendingRequestsCount"
+            class="button full-width"
+            type="submit"
+          >UPDATE SETTINGS</button>
         </div>
       </form>
     </template>
@@ -131,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from '@vue/reactivity'
+import { ref } from '@vue/reactivity'
 import {
   COMMON_VISIBILITY_LEVEL,
   EROTIC_VISIBILITY_LEVEL,
@@ -139,16 +150,19 @@ import {
   PORNO_VISIBILITY_LEVEL
 } from '~/types/constants'
 import { useStore } from '~/store'
-import UiKitModal from '~/components/UiKit/UiKitModal.vue'
-import CloseIcon from '~/assets/svg/close.svg'
-import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 import { useUserStore } from '~/store/user'
 import { storeToRefs } from 'pinia'
 import { useMediaStore } from '~/store/media'
 import { useAuthStore } from '~/store/auth'
+import { required, email } from '@vuelidate/validators'
+import { navigateTo } from '#app'
+import UiKitModal from '~/components/UiKit/UiKitModal.vue'
+import CloseIcon from '~/assets/svg/close.svg'
+import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 import useMedia from '~/composable/media'
 import axios from 'axios'
 import UiKitSelector from '~/components/UiKit/UiKitSelector.vue'
+import useVuelidate from '@vuelidate/core'
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>(null)
 const store = useStore()
@@ -171,6 +185,13 @@ const user = reactive({
   avatar_image_id: currentProfile.avatar_image_id,
   country: currentProfile.country
 })
+
+const v$ = useVuelidate({
+  user: {
+    username: { required },
+    email: { email, required }
+  }
+}, { user })
 
 async function addFile(event: any) {
   const media = event.target.files || event.dataTransfer.files
@@ -197,16 +218,13 @@ async function addFile(event: any) {
 
 }
 
-async function selectCountry() {
-
-  if (countries.value.length <= 1) {
-    const response = await axios.get('https://restcountries.com/v2/all')
-    response.data.forEach((country: object) => countries.value.push({ title: country.name, key: country.name  }))
-  }
-
-}
-
 async function uploadProduct() {
+
+  v$.value.$touch()
+
+  if (v$.value.$error) {
+    return
+  }
 
   try {
 
@@ -223,11 +241,16 @@ async function uploadProduct() {
 
 function logout() {
   authStore.logout()
+  navigateTo('/')
   close()
 }
 
-function open() {
+async function open() {
   setUpAccountModal.value?.open()
+  if (countries.value.length <= 1) {
+    const response = await axios.get('https://restcountries.com/v2/all')
+    response.data.forEach((country: object) => countries.value.push({ title: country.name, key: country.name  }))
+  }
 }
 
 function close() {

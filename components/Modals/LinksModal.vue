@@ -7,7 +7,7 @@
   >
     <template v-slot:content>
       <div
-        v-if="permanentLinks.length"
+        v-if="$props.links"
         class="ui-kit-modal-content"
       >
         <div class="links-modal-item" v-if="permanentLinks.instagram">
@@ -64,7 +64,7 @@
         </div>
       </div>
 
-      <div class="links-modal-message">
+      <div class="links-modal-message" v-else>
         Unfortunately the author did not provide any links.
       </div>
 
