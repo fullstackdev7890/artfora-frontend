@@ -47,6 +47,7 @@ const props = withDefaults(defineProps<Props>(), {
   closeBtnAsHomeLink: false
 })
 const isShown = ref(false)
+const emit = defineEmits(['closeModal'])
 
 function open() {
   // @ts-ignore
@@ -58,6 +59,8 @@ function close() {
   // @ts-ignore
   document.querySelector('body').style.overflow = 'auto'
   isShown.value = false
+
+  emit('closeModal')
 }
 
 function closeByClickOutsideAction() {

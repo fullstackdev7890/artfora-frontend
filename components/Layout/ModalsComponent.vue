@@ -1,6 +1,13 @@
 <template>
   <div>
-    <add-product ref="addProductModalRef" />
+    <add-product
+      @open-ai-safe-description="openAiSafeDescription"
+      ref="addProductModalRef"
+    />
+
+    <ai-safe-description
+      ref="aiSafeDescriptionRef"
+    />
 
     <set-up-account-modal ref="setUpAccountModalRef" />
 
@@ -52,6 +59,7 @@ import EnterNewPasswordModal from '~/components/Modals/EnterNewPasswordModal.vue
 import ContactUsModal from '~/components/Modals/ContactModal.vue'
 import GallerySettingsModal from '~/components/Modals/GallerySettingsModal.vue'
 import SetUpAccountModal from '~/components/Modals/SetUpAccountModal.vue'
+import AiSafeDescription from '~/components/Modals/AiSafeDescription.vue'
 
 const authStore = useAuthStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
@@ -65,6 +73,7 @@ const enterNewPasswordModalRef = ref<InstanceType<typeof EnterNewPasswordModal>>
 const contactUsModalRef = ref<InstanceType<typeof ContactUsModal>>(null)
 const gallerySettingsModalRef = ref<InstanceType<typeof GallerySettingsModal>>(null)
 const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null)
+const aiSafeDescriptionRef = ref<InstanceType<typeof AiSafeDescription>>(null)
 
 const router = useRouter()
 const route = useRoute()
@@ -85,6 +94,7 @@ router.beforeEach((to, from, next) => {
   contactUsModalRef.value.close()
   gallerySettingsModalRef.value.close()
   setUpAccountModalRef.value.close()
+  aiSafeDescriptionRef.value.close()
 
   next()
 })
@@ -119,9 +129,13 @@ function openAddProductModal() {
   addProductModalRef.value.open()
 }
 
+function openAiSafeDescription() {
+  aiSafeDescriptionRef.value.open()
+}
+
 function openContactUsModal() {
   contactUsModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
+defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal, openAiSafeDescription })
 </script>

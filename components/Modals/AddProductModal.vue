@@ -89,7 +89,11 @@
         />
 
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
-          AI safe (the best we can do) <span class="link">read more</span>
+          AI safe (the best we can do)
+          <span
+            @click="emit('openAiSafeDescription')"
+            class="link"
+          >read more</span>
         </ui-kit-check-box>
 
         <ui-kit-input
@@ -177,6 +181,8 @@ const productStore = useProductsStore()
 const { getImageUrl } = useMedia()
 const { items } = storeToRefs(categoriesStore)
 const selectedCategory = ref(null)
+
+const emit = defineEmits(['openAiSafeDescription'])
 
 const currentSubCategories = computed(() => {
   return selectedCategory.value ? items.value.find((item) => item.id === selectedCategory.value).children : []
