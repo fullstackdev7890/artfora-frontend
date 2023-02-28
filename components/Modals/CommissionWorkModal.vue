@@ -10,6 +10,7 @@
          v-model="commissionWorkData.name"
          :errors="v$.commissionWorkData.name"
          :error-messages="{ required: 'Please enter username.' }"
+         :disabled="store.pendingRequestsCount"
          type="text"
          placeholder="YOUR NAME"
        />
@@ -17,6 +18,7 @@
          v-model="commissionWorkData.email"
          :errors="v$.commissionWorkData.email"
          :error-messages="{ required: 'Please enter email.', email: 'Please enter valid email address.' }"
+         :disabled="store.pendingRequestsCount"
          type="mail"
          placeholder="YOUR EMAIL ADDRESS"
        />
@@ -24,11 +26,18 @@
          v-model="commissionWorkData.text"
          :errors="v$.commissionWorkData.text"
          :error-messages="{ required: 'Please enter text.'}"
+         :disabled="store.pendingRequestsCount"
          placeholder="YOUR MESSAGE"
        />
 
+       <div id="mtcaptcha" class="mtcaptcha"></div>
+
        <div class="ui-kit-modal-content-buttons">
-         <button class="button full-width" @click="sendForm()">SEND MESSAGE</button>
+         <button
+           :disabled="store.pendingRequestsCount"
+           class="button full-width"
+           type="submit"
+         >SEND MESSAGE</button>
        </div>
      </form>
    </template>
@@ -41,6 +50,7 @@ import { email, required } from '@vuelidate/validators'
 import { useCommissionWorkState } from '~/store/commissionWork'
 import useVuelidate from '@vuelidate/core'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
+import {useStore} from "~/store";
 
 interface Props {
   userId: number
@@ -51,9 +61,11 @@ const commissionWorkData = reactive({
   name: '',
   email: '',
   text: '',
+  mtcaptcha_token: ''
 })
 
 const commissionFormStore = useCommissionWorkState()
+const store = useStore()
 
 const v$ = useVuelidate({
   commissionWorkData: {
@@ -63,20 +75,24 @@ const v$ = useVuelidate({
   }
 }, { commissionWorkData })
 
-function sendForm() {
+async function sendForm() {
+
+  commissionWorkData.mtcaptcha_token = document.getElementsByClassName('mtcaptcha-verifiedtoken')[0].value
+
   v$.value.$touch()
 
   if (v$.value.$error) {
     return
   }
 
-  commissionFormStore.send(props.userId, commissionWorkData)
+  await commissionFormStore.send(props.userId, commissionWorkData)
 
   close()
 }
 
 function open() {
   commissionWork.value?.open()
+  window.mtcaptchaConfig.renderQueue.push("mtcaptcha")
 }
 
 function close() {

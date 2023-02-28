@@ -4,7 +4,8 @@ import svgLoader from 'vite-svg-loader'
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      API_BASE_URL: process.env.API_BASE_URL
+      API_BASE_URL: process.env.API_BASE_URL,
+      MTCAPTCHA_SITE_KEY: process.env.MTCAPTCHA_SITE_KEY
     }
   },
   build: {

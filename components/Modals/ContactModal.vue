@@ -11,6 +11,7 @@
           v-model="contactFormData.name"
           :errors="v$.contactFormData.name"
           :error-messages="{ required: 'Please enter username.' }"
+          :disabled="store.pendingRequestsCount"
           type="text"
           placeholder="YOUR NAME"
         />
@@ -19,19 +20,27 @@
           v-model="contactFormData.email"
           :errors="v$.contactFormData.email"
           :error-messages="{ required: 'Please enter email.', email: 'Please enter valid email address.' }"
+          :disabled="store.pendingRequestsCount"
           type="mail"
           placeholder="YOUR EMAIL ADDRESS"
         />
 
         <ui-kit-text-area
+          v-model="contactFormData.text"
           :errors="v$.contactFormData.text"
           :error-messages="{ required: 'Please enter text.'}"
-          v-model="contactFormData.text"
+          :disabled="store.pendingRequestsCount"
           placeholder="YOUR MESSAGE"
         />
 
+        <div id="mtcaptcha" class="mtcaptcha"></div>
+
         <div class="ui-kit-modal-content-buttons">
-          <button class="button full-width" @click="sendForm">SEND MESSAGE</button>
+          <button
+            :disabled="store.pendingRequestsCount"
+            class="button full-width"
+            type="submit"
+          >SEND MESSAGE</button>
         </div>
       </form>
 
@@ -64,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { required, email } from '@vuelidate/validators'
 import { useStore } from '~/store/index'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
@@ -75,9 +84,10 @@ const contactFormData = reactive({
   name: '',
   email: '',
   text: '',
+  mtcaptcha_token: ''
 })
 
-const contactStore = useStore()
+const store = useStore()
 const success = ref(false)
 
 const v$ = useVuelidate({
@@ -88,20 +98,24 @@ const v$ = useVuelidate({
   }
 }, { contactFormData })
 
-function sendForm() {
+async function sendForm() {
+
+  contactFormData.mtcaptcha_token = document.getElementsByClassName('mtcaptcha-verifiedtoken')[0].value
+
   v$.value.$touch()
 
   if (v$.value.$error) {
     return
   }
 
-  contactStore.send(contactFormData)
+  await store.send(contactFormData)
 
   success.value = true
 }
 
 function open() {
   contactForm.value?.open()
+  window.mtcaptchaConfig.renderQueue.push("mtcaptcha")
 }
 
 function close() {
