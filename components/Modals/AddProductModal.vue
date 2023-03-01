@@ -31,7 +31,7 @@
                 class="add-product-upload-images-item"
               >
                 <minus-icon class="minus-icon" @click="removeFile(index)" />
-                <img :src="getImageUrl(image)" alt="upload-image">
+                <img :src="getImageUrl(image, ImageTemplate.SmallThumbnail)" alt="upload-image">
               </div>
             </vue-draggable-next>
           </div>
@@ -164,7 +164,13 @@ import { VueDraggableNext } from 'vue-draggable-next'
 import { useStore } from '~/store'
 import { useMediaStore } from '~/store/media'
 import { useProductsStore } from '~/store/products'
-import { COMMON_VISIBILITY_LEVEL, EROTIC_VISIBILITY_LEVEL, NUDITY_VISIBILITY_LEVEL, PORNO_VISIBILITY_LEVEL } from '~/types/constants'
+import {
+  COMMON_VISIBILITY_LEVEL,
+  EROTIC_VISIBILITY_LEVEL,
+  ImageTemplate,
+  NUDITY_VISIBILITY_LEVEL,
+  PORNO_VISIBILITY_LEVEL
+} from '~/types/constants'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
