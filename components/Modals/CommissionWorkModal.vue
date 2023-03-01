@@ -5,7 +5,7 @@
     ref="commissionWork"
   >
    <template v-slot:content>
-     <form @submit.prevent="sendForm" class="commission-modal-submit">
+     <form v-if="!success" @submit.prevent="sendForm" class="commission-modal-submit">
        <ui-kit-input
          v-model="commissionWorkData.name"
          :errors="v$.commissionWorkData.name"
@@ -46,6 +46,34 @@
          >SEND MESSAGE</button>
        </div>
      </form>
+
+     <div v-else class="contact-modal-submit">
+       <div>
+         <p class="contact-modal-submit-title">YOUR NAME:</p>
+         <span>{{ commissionWorkData.name }}</span>
+       </div>
+       <div>
+         <p class="contact-modal-submit-title">YOUR EMAIL ADDRESS:</p>
+         <span>{{ commissionWorkData.email }}</span>
+       </div>
+       <div>
+         <p class="contact-modal-submit-title">YOUR MESSAGE:</p>
+         <span>{{ commissionWorkData.text }}</span>
+       </div>
+       <p class="ui-kit-box-content-small-text">
+          <span class="ui-kit-box-content-success-text">
+            We have also sent you a copy of the message to your email address.
+          </span>
+       </p>
+       <div class="ui-kit-modal-content-buttons">
+         <button
+           @click="close"
+           class="button full-width"
+         >
+           Close
+         </button>
+       </div>
+     </div>
    </template>
   </ui-kit-modal>
 </template>
@@ -72,6 +100,7 @@ const commissionWorkData = reactive({
 
 const commissionFormStore = useCommissionWorkState()
 const store = useStore()
+const success = ref(false)
 
 const v$ = useVuelidate({
   commissionWorkData: {
@@ -94,7 +123,7 @@ async function sendForm() {
 
   await commissionFormStore.send(props.userId, commissionWorkData)
 
-  close()
+  success.value = true
 }
 
 function open() {
