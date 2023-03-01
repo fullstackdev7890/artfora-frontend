@@ -5,7 +5,7 @@
     ref="commissionWork"
   >
    <template v-slot:content>
-     <form @submit.prevent="sendForm">
+     <form v-if="!success" @submit.prevent="sendForm" class="commission-modal-submit">
        <ui-kit-input
          v-model="commissionWorkData.name"
          :errors="v$.commissionWorkData.name"
@@ -30,7 +30,13 @@
          placeholder="YOUR MESSAGE"
        />
 
-       <div id="mtcaptcha" class="mtcaptcha"></div>
+       <div>
+         <div id="mtcaptcha" class="mtcaptcha"></div>
+         <span
+           v-show="v$.commissionWorkData.mtcaptcha_token.$error"
+           class="form-error error"
+         >Captcha is required</span>
+       </div>
 
        <div class="ui-kit-modal-content-buttons">
          <button
@@ -40,6 +46,34 @@
          >SEND MESSAGE</button>
        </div>
      </form>
+
+     <div v-else class="contact-modal-submit">
+       <div>
+         <p class="contact-modal-submit-title">YOUR NAME:</p>
+         <span>{{ commissionWorkData.name }}</span>
+       </div>
+       <div>
+         <p class="contact-modal-submit-title">YOUR EMAIL ADDRESS:</p>
+         <span>{{ commissionWorkData.email }}</span>
+       </div>
+       <div>
+         <p class="contact-modal-submit-title">YOUR MESSAGE:</p>
+         <span>{{ commissionWorkData.text }}</span>
+       </div>
+       <p class="ui-kit-box-content-small-text">
+          <span class="ui-kit-box-content-success-text">
+            We have also sent you a copy of the message to your email address.
+          </span>
+       </p>
+       <div class="ui-kit-modal-content-buttons">
+         <button
+           @click="close"
+           class="button full-width"
+         >
+           Close
+         </button>
+       </div>
+     </div>
    </template>
   </ui-kit-modal>
 </template>
@@ -66,12 +100,14 @@ const commissionWorkData = reactive({
 
 const commissionFormStore = useCommissionWorkState()
 const store = useStore()
+const success = ref(false)
 
 const v$ = useVuelidate({
   commissionWorkData: {
     name: { required },
     email: { required, email },
-    text: { required }
+    text: { required },
+    mtcaptcha_token: { required }
   }
 }, { commissionWorkData })
 
@@ -87,7 +123,7 @@ async function sendForm() {
 
   await commissionFormStore.send(props.userId, commissionWorkData)
 
-  close()
+  success.value = true
 }
 
 function open() {

@@ -6,7 +6,7 @@
   >
 
     <template v-slot:content>
-      <form v-if="!success" @submit.prevent="sendForm">
+      <form v-if="!success" @submit.prevent="sendForm" class="contact-modal-submit">
         <ui-kit-input
           v-model="contactFormData.name"
           :errors="v$.contactFormData.name"
@@ -33,7 +33,13 @@
           placeholder="YOUR MESSAGE"
         />
 
-        <div id="mtcaptcha" class="mtcaptcha"></div>
+        <div>
+          <div id="mtcaptcha" class="mtcaptcha"></div>
+          <span
+            v-show="v$.contactFormData.mtcaptcha_token.$error"
+            class="form-error error"
+          >Captcha is required</span>
+        </div>
 
         <div class="ui-kit-modal-content-buttons">
           <button
@@ -45,15 +51,18 @@
       </form>
 
       <div v-else class="contact-modal-submit">
-        <h4>YOUR NAME: <br>
+        <div>
+          <p>YOUR NAME:</p>
           <span>{{ contactFormData.name }}</span>
-        </h4>
-        <h4>YOUR EMAIL ADDRESS: <br>
+        </div>
+        <div>
+          <p>YOUR EMAIL ADDRESS:</p>
           <span>{{ contactFormData.email }}</span>
-        </h4>
-        <h4>YOUR MESSAGE: <br>
+        </div>
+        <div>
+          <p>YOUR MESSAGE:</p>
           <span>{{ contactFormData.text }}</span>
-        </h4>
+        </div>
         <p class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
             We have also sent you a copy of the message to your email address.
@@ -94,7 +103,8 @@ const v$ = useVuelidate({
   contactFormData: {
     name: { required },
     email: { required, email },
-    text: { required }
+    text: { required },
+    mtcaptcha_token: { required }
   }
 }, { contactFormData })
 
