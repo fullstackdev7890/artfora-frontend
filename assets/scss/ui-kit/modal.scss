@@ -24,6 +24,8 @@
   .contact-modal-submit {
     display: flex; flex-direction: column; gap: 15px; width: 300px;
 
+    p { font-style: italic }
+
     @media (max-width: $mobile) {
       width: 100%;
     }
