@@ -21,7 +21,13 @@
     }
   }
 
-  .contact-modal-submit { display: flex; flex-direction: column; gap: 15px; }
+  .contact-modal-submit {
+    display: flex; flex-direction: column; gap: 15px; width: 350px;
+
+    @media (max-width: $mobile) {
+      width: 100%;
+    }
+  }
 
   &-content { z-index: 101; min-width: 350px; max-height: 100vh; overflow: auto;
     @media (max-width: $small) {
