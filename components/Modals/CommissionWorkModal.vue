@@ -30,7 +30,13 @@
          placeholder="YOUR MESSAGE"
        />
 
-       <div id="mtcaptcha" class="mtcaptcha"></div>
+       <div>
+         <div id="mtcaptcha" class="mtcaptcha"></div>
+         <span
+           v-show="v$.commissionWorkData.mtcaptcha_token.$error"
+           class="form-error error"
+         >Captcha is required</span>
+       </div>
 
        <div class="ui-kit-modal-content-buttons">
          <button
@@ -71,7 +77,8 @@ const v$ = useVuelidate({
   commissionWorkData: {
     name: { required },
     email: { required, email },
-    text: { required }
+    text: { required },
+    mtcaptcha_token: { required }
   }
 }, { commissionWorkData })
 

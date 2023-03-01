@@ -6,7 +6,7 @@
   >
 
     <template v-slot:content>
-      <form v-if="!success" @submit.prevent="sendForm">
+      <form v-if="!success" @submit.prevent="sendForm" class="contact-modal-submit">
         <ui-kit-input
           v-model="contactFormData.name"
           :errors="v$.contactFormData.name"
@@ -33,7 +33,13 @@
           placeholder="YOUR MESSAGE"
         />
 
-        <div id="mtcaptcha" class="mtcaptcha"></div>
+        <div>
+          <div id="mtcaptcha" class="mtcaptcha"></div>
+          <span
+            v-show="v$.contactFormData.mtcaptcha_token.$error"
+            class="form-error error"
+          >Captcha is required</span>
+        </div>
 
         <div class="ui-kit-modal-content-buttons">
           <button
@@ -97,7 +103,8 @@ const v$ = useVuelidate({
   contactFormData: {
     name: { required },
     email: { required, email },
-    text: { required }
+    text: { required },
+    mtcaptcha_token: { required }
   }
 }, { contactFormData })
 
