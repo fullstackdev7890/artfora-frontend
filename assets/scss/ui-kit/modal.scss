@@ -22,7 +22,15 @@
   }
 
   .contact-modal-submit {
-    display: flex; flex-direction: column; gap: 15px; width: 350px;
+    display: flex; flex-direction: column; gap: 15px; width: 300px;
+
+    @media (max-width: $mobile) {
+      width: 100%;
+    }
+  }
+
+  .commission-modal-submit {
+    width: 300px;
 
     @media (max-width: $mobile) {
       width: 100%;

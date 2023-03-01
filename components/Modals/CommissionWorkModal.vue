@@ -5,7 +5,7 @@
     ref="commissionWork"
   >
    <template v-slot:content>
-     <form @submit.prevent="sendForm">
+     <form @submit.prevent="sendForm" class="commission-modal-submit">
        <ui-kit-input
          v-model="commissionWorkData.name"
          :errors="v$.commissionWorkData.name"
