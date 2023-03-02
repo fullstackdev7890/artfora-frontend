@@ -7,7 +7,6 @@
   <template v-slot:content>
     <form @submit.prevent="uploadProduct()">
       <div class="add-product">
-
         <div class="add-product-upload">
           <label for="uploadImage" class="add-product-upload-add">
             DROP IMAGE(S) HERE <br>
@@ -22,6 +21,7 @@
               multiple
             >
           </label>
+
           <div class="add-product-upload-images">
             <vue-draggable-next :list="files" @change="sortFiles()" class="add-product-upload-images-draggable">
               <div
@@ -35,6 +35,7 @@
               </div>
             </vue-draggable-next>
           </div>
+
           <span
             v-show="fileError"
             class="form-error error"
@@ -49,6 +50,7 @@
             :title="'CATEGORY'"
             :disabled="store.pendingRequestsCount"
           />
+
           <div v-show="selectedCategory" class="add-product-categories-sub">
             <ui-kit-check-box
               v-for="sub in currentSubCategories"
