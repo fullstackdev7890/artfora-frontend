@@ -40,7 +40,7 @@ deploy:
  script:
    - cat docker/docker-compose.dev.yml | envsubst > docker-compose.yml
    - cat docker-compose.yml
-   - docker-compose up -d
+   - docker-compose up -d --force-recreate
  after_script:
    - echo "--- clean old volumes ---"
   #  - volume_list=$(docker volume ls | grep "${short_branch}-${CI_PROJECT_NAME}" | grep -v ${CI_COMMIT_SHORT_SHA} | awk '{print $2}') && for item in ${volume_list//\\n\ }; do docker volume rm $item; done
