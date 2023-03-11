@@ -29,7 +29,7 @@ build:
    - development
    - production
  tags:
-   - artfora-runner
+   - artfora
 
 deploy:
  stage: deploy
@@ -58,4 +58,4 @@ deploy:
    - development
    - production
  tags:
-#    - artfora-runner
+   - artfora
