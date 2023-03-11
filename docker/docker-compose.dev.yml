@@ -11,12 +11,16 @@ services:
     volumes:
       - ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}:/app/
     networks:
-      - artfora-network
+      - artfora
+
 
 networks:
-  artfora-network:
-    external:
-      name: artfora-network
+  artfora:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.12.0/24
 
 volumes:
  ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}:
