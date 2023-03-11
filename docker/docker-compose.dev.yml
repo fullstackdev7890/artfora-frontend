@@ -13,9 +13,9 @@ services:
     networks:
       - artfora
 
-# networks:
-#   artfora:
-#     external: true
+networks:
+  artfora:
+    external: true
 
 volumes:
  ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}:
