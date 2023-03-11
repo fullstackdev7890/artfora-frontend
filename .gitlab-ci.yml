@@ -50,7 +50,7 @@ deploy:
      do sudo rm -rf "/home/${short_branch}/$item";
      done
    - echo "--- clean unused images ---"
-   - docker system prune -a -f
+  #  - docker system prune -a -f
  environment:
    name: $CI_COMMIT_REF_NAME
  only:
