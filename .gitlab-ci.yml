@@ -3,6 +3,8 @@ stages:
  - deploy
 
 variables:
+ #disable cache
+ cache: []
  DOMAIN: dev.artfora.artel-workshop.com
  short_branch: $short_branch
  external_port: $external_port
