@@ -23,7 +23,7 @@ build:
    - cat .env
    - echo $short_branch
    - docker build . -t "${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}" --file docker/Dockerfile
-
+#
  environment:
    name: $CI_COMMIT_REF_NAME
 
