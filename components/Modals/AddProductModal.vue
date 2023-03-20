@@ -292,6 +292,18 @@ async function uploadProduct() {
       return
     }
   }
+  selectedCategory.value = null
+  selectedSubCategories.value = null
+  files.value = []
+
+  product.price = 0
+  product.media = []
+  product.author = ''
+  product.title = ''
+  product.description = ''
+  product.tags = ''
+  product.visibility_level = null
+  product.is_ai_safe = false
 
     serverErrors.value = e.response.data.errors
 }
