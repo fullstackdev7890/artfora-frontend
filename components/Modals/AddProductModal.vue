@@ -260,6 +260,21 @@ function removeChoiceSub() {
   selectedSubCategories.value = null
 }
 
+function clearProductFields() {
+  selectedCategory.value = null
+  selectedSubCategories.value = null
+  files.value = []
+
+  product.price = 0
+  product.media = []
+  product.author = ''
+  product.title = ''
+  product.description = ''
+  product.tags = ''
+  product.visibility_level = null
+  product.is_ai_safe = false
+}
+
 async function uploadProduct() {
 
   if (product.media.length < 1) {
@@ -291,21 +306,11 @@ async function uploadProduct() {
 
       return
     }
-  }
-  selectedCategory.value = null
-  selectedSubCategories.value = null
-  files.value = []
-
-  product.price = 0
-  product.media = []
-  product.author = ''
-  product.title = ''
-  product.description = ''
-  product.tags = ''
-  product.visibility_level = null
-  product.is_ai_safe = false
 
     serverErrors.value = e.response.data.errors
+  }
+
+  clearProductFields()
 }
 
 function open() {
