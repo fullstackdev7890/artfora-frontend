@@ -19,7 +19,7 @@
           OR CLICK TO BROWSE <br>
           (AT LEAST 1200 X 1200 PIXELS ) <br>
           </span>
-          <img :src="getImageUrl(backgroundImage)" alt="background Image" v-if="backgroundImage">
+          <img :src="getImageUrl(backgroundImage, ImageTemplate.FullSize)" alt="background Image" v-if="backgroundImage">
           <input
             id="uploadBackground"
             @change="addFile"
@@ -30,7 +30,7 @@
         </label>
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
-          <img :src="getImageUrl(avatar)" alt="avatar Image" v-if="avatar">
+          <img :src="getUserAvatar(avatar, ImageTemplate.SmallThumbnail)" alt="avatar Image" v-if="avatar">
           <input
             id="uploadAvatar"
             @change="addFile"
@@ -147,7 +147,8 @@ import {
   COMMON_VISIBILITY_LEVEL,
   EROTIC_VISIBILITY_LEVEL,
   NUDITY_VISIBILITY_LEVEL,
-  PORNO_VISIBILITY_LEVEL
+  PORNO_VISIBILITY_LEVEL,
+  ImageTemplate
 } from '~/types/constants'
 import { useStore } from '~/store'
 import { useUserStore } from '~/store/user'
@@ -170,7 +171,7 @@ const userStore = useUserStore()
 const authStore = useAuthStore()
 const currentProfile = storeToRefs(userStore)
 const mediaStore = useMediaStore()
-const { getImageUrl } = useMedia()
+const { getUserAvatar, getImageUrl } = useMedia()
 const countries = ref([{ title: currentProfile.country, key: currentProfile.country }])
 const backgroundImage = ref(currentProfile.background_image)
 const avatar = ref(currentProfile.avatar_image)

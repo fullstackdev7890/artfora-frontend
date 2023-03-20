@@ -11,3 +11,4 @@ dist
 dist-current
 sw.*
 /docker-compose.override.yml
+.DS_STore

@@ -5,14 +5,14 @@
       <div class="product-sidebar-background">
         <img
           v-if="props.product.user.background_image"
-          :src="getImageUrl(props.product.user.background_image)"
+          :src="getImageUrl(props.product.user.background_image, ImageTemplate.FullSize)"
           alt="background-image"
         >
       </div>
 
       <div class="product-sidebar-user">
         <img
-          :src="getUserAvatar($props.product.user.avatar_image)"
+          :src="getUserAvatar($props.product.user.avatar_image, ImageTemplate.SmallThumbnail)"
           class="product-sidebar-user-avatar"
           alt="user-avatar"
         >
@@ -69,6 +69,7 @@
 
 <script setup lang="ts">
 import { Product } from '~/types/products'
+import { ImageTemplate } from '~/types/constants'
 import ShareIcon from '~/assets/svg/share.svg'
 import LinksModal from '~/components/Modals/LinksModal.vue'
 import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'

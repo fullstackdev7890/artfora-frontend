@@ -13,10 +13,15 @@ export default function () {
     return config.public.API_BASE_URL + '/storage/' + media.link
   }
 
-  const getUserAvatar = (media: Media): string => {
+  const getUserAvatar = (media: Media, template?: string): string => {
+    if (!!template) {
+      return config.public.API_BASE_URL + '/cache/' + template + '/' + media.link
+    }
+
     if (media?.link) {
       return config.public.API_BASE_URL + '/storage/' + media.link
     }
+
     return avatar
   }
 
