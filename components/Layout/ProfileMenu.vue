@@ -81,6 +81,7 @@ const productStore = useProductsStore()
 
 function logout() {
   authStore.logout()
+  userStore.clearProfile()
   menuDropdownRef.value.close()
   navigateTo('/')
 }
