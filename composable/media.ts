@@ -14,7 +14,7 @@ export default function () {
   }
 
   const getUserAvatar = (media: Media, template?: string): string => {
-    if (!!template) {
+    if (!!template && media?.link) {
       return config.public.API_BASE_URL + '/cache/' + template + '/' + media.link
     }
 
