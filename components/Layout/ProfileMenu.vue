@@ -65,7 +65,7 @@ import { navigateTo } from '#imports'
 import useMedia from '~/composable/media'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
-import {ImageTemplate, ROLE_ADMIN} from '~/types/constants'
+import { ImageTemplate, ROLE_ADMIN } from '~/types/constants'
 
 const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openSetUpAccountModal'])
 

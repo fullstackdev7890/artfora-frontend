@@ -69,12 +69,12 @@
 
 <script setup lang="ts">
 import { Product } from '~/types/products'
+import { ImageTemplate } from '~/types/constants'
 import ShareIcon from '~/assets/svg/share.svg'
 import LinksModal from '~/components/Modals/LinksModal.vue'
 import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
 import ContactModal from '~/components/Modals/ContactModal.vue'
 import useMedia from '~/composable/media'
-import {ImageTemplate} from "~/types/constants";
 
 interface Props {
   product: Product
