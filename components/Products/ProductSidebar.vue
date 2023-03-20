@@ -5,14 +5,14 @@
       <div class="product-sidebar-background">
         <img
           v-if="props.product.user.background_image"
-          :src="getImageUrl(props.product.user.background_image)"
+          :src="getImageUrl(props.product.user.background_image, ImageTemplate.FullSize)"
           alt="background-image"
         >
       </div>
 
       <div class="product-sidebar-user">
         <img
-          :src="getUserAvatar($props.product.user.avatar_image)"
+          :src="getUserAvatar($props.product.user.avatar_image, ImageTemplate.SmallThumbnail)"
           class="product-sidebar-user-avatar"
           alt="user-avatar"
         >
@@ -74,6 +74,7 @@ import LinksModal from '~/components/Modals/LinksModal.vue'
 import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
 import ContactModal from '~/components/Modals/ContactModal.vue'
 import useMedia from '~/composable/media'
+import {ImageTemplate} from "~/types/constants";
 
 interface Props {
   product: Product
