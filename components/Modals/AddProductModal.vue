@@ -62,6 +62,14 @@
               type="radio"
             />
           </div>
+
+            <span
+              v-for="(message, key) in { required: 'Category is required.'}"
+              v-show="v$.product.category_id.$error"
+              v-html="message"
+              :key="key"
+              class="form-error error"
+            ></span>
         </div>
 
         <ui-kit-input
@@ -139,7 +147,7 @@
           />
           <span
             v-for="(message, key) in { required: 'Visibility is required. '}"
-            v-show="v$.product.visibility_level[key].$invalid"
+            v-show="v$.product.visibility_level.$error"
             v-html="message"
             :key="key"
             class="form-error error"
