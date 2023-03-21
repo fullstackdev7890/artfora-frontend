@@ -111,6 +111,13 @@ const v$ = useVuelidate({
   }
 }, { commissionWorkData })
 
+function refreshModal() {
+  commissionWorkData.name = ''
+  commissionWorkData.email = ''
+  commissionWorkData.text = ''
+  success.value = false
+}
+
 async function sendForm() {
 
   commissionWorkData.mtcaptcha_token = document.getElementsByClassName('mtcaptcha-verifiedtoken')[0].value
@@ -127,6 +134,7 @@ async function sendForm() {
 }
 
 function open() {
+  refreshModal()
   commissionWork.value?.open()
   window.mtcaptchaConfig.renderQueue.push("mtcaptcha")
 }
