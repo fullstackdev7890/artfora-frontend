@@ -108,6 +108,13 @@ const v$ = useVuelidate({
   }
 }, { contactFormData })
 
+function refreshModal() {
+  contactFormData.name = ''
+  contactFormData.email = ''
+  contactFormData.text = ''
+  success.value = false
+}
+
 async function sendForm() {
 
   contactFormData.mtcaptcha_token = document.getElementsByClassName('mtcaptcha-verifiedtoken')[0].value
@@ -124,6 +131,7 @@ async function sendForm() {
 }
 
 function open() {
+  refreshModal()
   contactForm.value?.open()
   window.mtcaptchaConfig.renderQueue.push("mtcaptcha")
 }

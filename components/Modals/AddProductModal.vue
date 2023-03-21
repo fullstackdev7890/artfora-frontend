@@ -327,11 +327,11 @@ async function uploadProduct() {
 }
 
 function open() {
+  clearProductFields()
   addProductModal.value?.open()
 }
 
 function close() {
-  clearProductFields()
   addProductModal.value?.close()
 }
 

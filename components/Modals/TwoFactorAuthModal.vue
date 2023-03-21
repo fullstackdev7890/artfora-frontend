@@ -162,6 +162,7 @@ async function resendEmailCode() {
 }
 
 function open() {
+  auth.code = ''
   TwoFactorAuthModal.value?.open()
 }
 
