@@ -39,7 +39,8 @@
           <span
             v-show="fileError"
             class="form-error error"
-          >{{ fileError }}</span>
+            v-html="fileError"
+          ></span>
         </div>
 
         <div class="add-product-categories">
@@ -241,9 +242,15 @@ async function addFiles(event: any) {
   }
 
   for (const item of media) {
-    const response = await mediaStore.upload(item, item.name)
-    files.value.push(response.data)
-    product.media.push(response.data.id)
+
+    try {
+      const response = await mediaStore.upload(item, item.name)
+
+      files.value.push(response.data)
+      product.media.push(response.data.id)
+    } catch (e) {
+      fileError.value = e.response.data.errors.file
+    }
   }
 }
 
