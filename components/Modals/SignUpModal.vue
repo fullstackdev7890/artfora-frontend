@@ -175,6 +175,15 @@ const v$ = useVuelidate({
   }
 }, { auth })
 
+function refreshModal() {
+    auth.email = ''
+    auth.password = ''
+    auth.confirm = ''
+    auth.username = ''
+    auth.tagname = ''
+    auth.redirect_after_verification = '/'
+}
+
 async function signUp() {
   v$.value.$touch()
 
@@ -206,6 +215,7 @@ function openLogInModal() {
 }
 
 function open() {
+  refreshModal()
   signUpModal.value?.open()
 }
 
