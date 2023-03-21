@@ -309,8 +309,6 @@ async function uploadProduct() {
 
     serverErrors.value = e.response.data.errors
   }
-
-  clearProductFields()
 }
 
 function open() {
@@ -318,6 +316,7 @@ function open() {
 }
 
 function close() {
+  clearProductFields()
   addProductModal.value?.close()
 }
 
