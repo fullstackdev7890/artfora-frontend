@@ -39,7 +39,8 @@
           <span
             v-show="fileError"
             class="form-error error"
-          >{{ fileError }}</span>
+            v-html="fileError"
+          ></span>
         </div>
 
         <div class="add-product-categories">
@@ -61,6 +62,14 @@
               type="radio"
             />
           </div>
+
+            <span
+              v-for="(message, key) in { required: 'Category is required.'}"
+              v-show="v$.product.category_id.$error"
+              v-html="message"
+              :key="key"
+              class="form-error error"
+            ></span>
         </div>
 
         <ui-kit-input
@@ -138,7 +147,7 @@
           />
           <span
             v-for="(message, key) in { required: 'Visibility is required. '}"
-            v-show="v$.product.visibility_level[key].$invalid"
+            v-show="v$.product.visibility_level.$error"
             v-html="message"
             :key="key"
             class="form-error error"
@@ -241,9 +250,15 @@ async function addFiles(event: any) {
   }
 
   for (const item of media) {
-    const response = await mediaStore.upload(item, item.name)
-    files.value.push(response.data)
-    product.media.push(response.data.id)
+
+    try {
+      const response = await mediaStore.upload(item, item.name)
+
+      files.value.push(response.data)
+      product.media.push(response.data.id)
+    } catch (e) {
+      fileError.value = e.response.data.errors.file
+    }
   }
 }
 
