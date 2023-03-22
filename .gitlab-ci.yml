@@ -14,6 +14,8 @@ build:
  stage: build
  image: 
    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+   entrypoint: [""]
+
   #disable cache
  cache: []
 #  before_script:
@@ -21,15 +23,17 @@ build:
  before_script:
    - mkdir -p /kaniko/.docker
    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-   - echo $CI_COMMIT_REF_NAME
-   - cat $env > .env
-   - cat .env
     # - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
 
  script:
-   - /kaniko/executor
-     --cache
+   - echo $CI_COMMIT_REF_NAME
+   - cat $env > .env
+   - cat .env
+   - >
+     /kaniko/executor
+     --use-new-run=true
      --cleanup
+     --cache=true
      --cache-dir=/tmp
      --snapshotMode=redo
      --context "${CI_PROJECT_DIR}"
@@ -68,8 +72,8 @@ deploy:
 # local init docker-compose
    - cat docker/docker-compose.dev.yml | envsubst > docker-compose.yml
 #remote commands
-   - ssh root@${host} "mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}"
-   - ssh root@${host} "mkdir -p /home/${short_branch}/docker-composes"
+   - ssh root@${host} 'mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}'
+   - ssh root@${host} 'mkdir -p /home/${short_branch}/docker-composes'
    - >
      sudo docker -H "ssh://root@${host}" volume create --opt type=none --opt device=/home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} --opt o=bind
 
