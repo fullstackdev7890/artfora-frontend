@@ -1,6 +1,6 @@
 <template>
   <div class="gallery-item-image-container-details-user">
-  <img :src="getUserAvatar($props.authorAvatar)" :alt="author">
+  <img :src="getUserAvatar($props.authorAvatar, ImageTemplate.SmallThumbnail)" :alt="author">
   <div class="gallery-item-image-container-details-user-name">
     <h3>{{ author }}</h3>
     <p>{{ authorTag }}</p>
@@ -10,8 +10,9 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import useMedia from '~/composable/media'
+import { ImageTemplate } from '~/types/constants'
 import { Media } from '~/types'
+import useMedia from '~/composable/media'
 
 interface Props {
   author: string
