@@ -4,7 +4,7 @@ services:
 
   ${short_branch}-${CI_PROJECT_NAME}:
     container_name: ${short_branch}-${CI_PROJECT_NAME}
-    image: ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
+    image: ${CI_REGISTRY_IMAGE}:${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
     restart: on-failure
     ports:
       - 3000

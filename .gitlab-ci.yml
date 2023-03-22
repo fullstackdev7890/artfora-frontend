@@ -12,17 +12,39 @@ variables:
 
 build:
  stage: build
+ image: 
+   name: gcr.io/kaniko-project/executor:v1.9.0-debug
   #disable cache
  cache: []
- before_script:
-   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+#  before_script:
+#    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    # - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
 
- script:
-   - echo $CI_COMMIT_REF_NAME
-   - cat $env > .env
-   - cat .env
-   - echo $short_branch
-   - docker build . -t "${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}" --file docker/Dockerfile
+  script:
+    - echo $CI_COMMIT_REF_NAME
+    - cat $env > .env
+    - cat .env
+    - >-
+      /kaniko/executor
+      --use-new-run=true
+      --cleanup
+      --cache=true
+      --cache-dir=/tmp
+      --snapshotMode=redo
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/docker/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}"
+#--destination "${CI_REGISTRY_IMAGE}:env-latest"
+
+#  script:
+#    - echo $CI_COMMIT_REF_NAME
+#    - cat $env > .env
+#    - cat .env
+#    - echo $short_branch
+#    - docker build . -t "${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}" --file docker/Dockerfile
 #
  environment:
    name: $CI_COMMIT_REF_NAME
@@ -32,20 +54,36 @@ build:
    - development
    - production
  tags:
-   - artfora
+   - docker-runner-artel
+
 
 deploy:
  stage: deploy
+ image: 
+   name: linuxserver/openssh-server:latest
  before_script:
-   - sudo mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}
-   - >
-     sudo docker volume create --opt type=none --opt device=/home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} --opt o=bind
- script:
+ ##for ini ssh
+   - mkdir /root/.ssh/
+   - echo $ssh_priv_key > /root/.ssh/id_rsa
+   - echo $ssh_pub_key > /root/.ssh/id_rsa.pub
+   - chmod 600 -R /root/.ssh/
+# local init docker-compose
    - cat docker/docker-compose.dev.yml | envsubst > docker-compose.yml
+#remote commands
+   - ssh root@${host} 'mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}'
+   - ssh root@${host} 'mkdir -p /home/${short_branch}/docker-composes'
+   - >
+     sudo docker -H "ssh://root@${host}" volume create --opt type=none --opt device=/home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} --opt o=bind
+
+ script:
    - cat docker-compose.yml
-   - docker-compose up -d
- after_script:
-   - echo "--- clean old volumes ---"
+   - scp docker-composes.yml root@${host}:/home/${short_branch}/docker-composes/
+   - docker-compose -H "ssh://root@${host}" up -d
+#    
+
+#    - docker-compose up -d
+#  after_script:
+#    - echo "--- clean old volumes ---"
   #  - volume_list=$(docker volume ls | grep "${short_branch}-${CI_PROJECT_NAME}" | grep -v ${CI_COMMIT_SHORT_SHA} | awk '{print $2}') && for item in ${volume_list//\\n\ }; do docker volume rm $item; done
   #  - >
   #    dir_list=$(sudo ls /home/${short_branch}/ | grep "${short_branch}-${CI_PROJECT_NAME}" | grep -v "${CI_COMMIT_SHORT_SHA}" ) &&
@@ -61,4 +99,4 @@ deploy:
    - development
    - production
  tags:
-   - artfora
+   - docker-runner-artel
