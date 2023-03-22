@@ -70,6 +70,8 @@ deploy:
    - echo $ssh_pub_key > /root/.ssh/id_rsa.pub
    - chmod 600 -R /root/.ssh/
 # local init docker-compose
+   - apk update && apk add bash
+   - apk update && apk add gettext
    - cat docker/docker-compose.dev.yml | envsubst > docker-compose.yml
 #remote commands
    - ssh root@${host} 'mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}'
@@ -78,6 +80,7 @@ deploy:
      sudo docker -H "ssh://root@${host}" volume create --opt type=none --opt device=/home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} --opt o=bind
 
  script:
+ 
    - cat docker-compose.yml
    - scp docker-composes.yml root@${host}:/home/${short_branch}/docker-composes/
    - docker-compose -H "ssh://root@${host}" up -d
