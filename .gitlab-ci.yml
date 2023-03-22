@@ -27,7 +27,7 @@ build:
    - echo $CI_COMMIT_REF_NAME
    - cat $env > .env
    - cat .env
-   - >-
+   - >
      /kaniko/executor
      --use-new-run=true
      --cleanup
