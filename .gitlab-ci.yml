@@ -28,8 +28,8 @@ build:
 
  script:
    - /kaniko/executor
+     --cache
      --cleanup
-     --cache=true
      --cache-dir=/tmp
      --snapshotMode=redo
      --context "${CI_PROJECT_DIR}"
