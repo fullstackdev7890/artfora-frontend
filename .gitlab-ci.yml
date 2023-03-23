@@ -64,6 +64,7 @@ deploy:
    name: kroniak/ssh-client
  before_script:
  ##for ini ssh
+   - eval $(ssh-agent -s)
    - ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
    - ssh-add "$ssh_priv_key"
