@@ -39,7 +39,6 @@ build:
      --context "${CI_PROJECT_DIR}"
      --dockerfile "${CI_PROJECT_DIR}/docker/Dockerfile"
      --destination "${CI_REGISTRY_IMAGE}:${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}"
-#--destination "${CI_REGISTRY_IMAGE}:env-latest"
 
 #  script:
 #    - echo $CI_COMMIT_REF_NAME
@@ -67,8 +66,9 @@ deploy:
  ##for ini ssh
    - ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-   - cat ${ssh_priv_key} 
-   - cat ${ssh_priv_key} > /root/.ssh/id_rsa
+   - echo ${ssh_priv_key} 
+   - echo $ssh_priv_key > /root/.ssh/id_rsa
+   - cat /root/.ssh/id_rsa
    - cat ${ssh_pub_key} > /root/.ssh/id_rsa.pub
 # local init docker-compose
    - apk update && apk add bash
