@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 USER root
-RUN npm i --legacy-peer-deps && \
+RUN npm i --legacy-peer-deps --force && \
     npm run build
 
 EXPOSE 3000
