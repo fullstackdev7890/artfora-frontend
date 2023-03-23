@@ -80,7 +80,7 @@ deploy:
 #remote commands
    - ssh root@${host} "mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}"
    - ssh root@${host} "mkdir -p /home/${short_branch}/docker-composes"
-   - ssh root@${host} "docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
+   - docker -H "ssh://root@${host}" login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY"
    - >
      docker -H "ssh://root@${host}" volume create --opt type=none --opt device=/home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} ${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA} --opt o=bind
 
