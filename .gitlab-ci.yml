@@ -62,7 +62,7 @@ build:
 deploy:
  stage: deploy
  image: 
-   name: occitech/ssh-client:latest
+   name: kroniak/ssh-client
  before_script:
  ##for ini ssh
    - mkdir -p /root/.ssh/
@@ -73,7 +73,7 @@ deploy:
    - chmod 600 -R /root/.ssh/
 # local init docker-compose
    - apk update && apk add bash
-   - apk update && apk add gettext && apk add docker docker-compose
+   - apk update && apk add gettext docker docker-compose
    - cat docker/docker-compose.dev.yml | envsubst > docker-compose.yml
 #remote commands
    - ssh root@${host} "mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}"
