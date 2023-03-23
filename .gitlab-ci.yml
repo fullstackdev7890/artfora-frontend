@@ -67,6 +67,7 @@ deploy:
    - eval $(ssh-agent -s)
    - ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+   - chmod 400 "$ssh_priv_key"
    - ssh-add "$ssh_priv_key"
    - chmod 700 -R /root/.ssh/
    - cat /root/.ssh/id_rsa
