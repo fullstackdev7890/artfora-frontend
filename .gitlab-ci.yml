@@ -66,6 +66,7 @@ deploy:
  before_script:
  ##for ini ssh
    - mkdir -p /root/.ssh/
+   - cat ${ssh_priv_key} 
    - cat ${ssh_priv_key} > /root/.ssh/id_rsa
    - cat ${ssh_pub_key} > /root/.ssh/id_rsa.pub
    - chmod 600 -R /root/.ssh/
