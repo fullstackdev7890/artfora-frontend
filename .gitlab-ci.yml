@@ -87,7 +87,7 @@ deploy:
  script:
  
    - cat docker-compose.yml
-   - scp docker-composes.yml root@${host}:/home/${short_branch}/docker-composes/
+   - scp docker-compoes.yml root@${host}:/home/${short_branch}/docker-composes/
    - docker-compose -H "ssh://root@${host}" up -d
 #    
 
