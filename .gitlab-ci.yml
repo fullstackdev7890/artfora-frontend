@@ -66,8 +66,8 @@ deploy:
  ##for ini ssh
    - ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-   - echo ${ssh_priv_key} > /root/.ssh/id_rsa
-   - chmod 700  /root/.ssh/id_rsa
+   - ssh-add "$ssh_priv_key"
+   - chmod 700 -R /root/.ssh/
    - cat /root/.ssh/id_rsa
    - cat ${ssh_pub_key} > /root/.ssh/id_rsa.pub
 # local init docker-compose
