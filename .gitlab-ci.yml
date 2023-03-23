@@ -65,12 +65,11 @@ deploy:
    name: kroniak/ssh-client
  before_script:
  ##for ini ssh
-   - mkdir -p /root/.ssh/
+   - ssh-keygen -t rsa -q -f "$HOME/.ssh/id_rsa" -N ""
    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
    - cat ${ssh_priv_key} 
    - cat ${ssh_priv_key} > /root/.ssh/id_rsa
    - cat ${ssh_pub_key} > /root/.ssh/id_rsa.pub
-   - chmod 600 -R /root/.ssh/
 # local init docker-compose
    - apk update && apk add bash
    - apk update && apk add gettext docker docker-compose
