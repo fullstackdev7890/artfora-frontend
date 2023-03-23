@@ -62,17 +62,18 @@ build:
 deploy:
  stage: deploy
  image: 
-   name: linuxserver/openssh-server:latest
+   name: occitech/ssh-client:latest
  before_script:
  ##for ini ssh
    - mkdir -p /root/.ssh/
+   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
    - cat ${ssh_priv_key} 
    - cat ${ssh_priv_key} > /root/.ssh/id_rsa
    - cat ${ssh_pub_key} > /root/.ssh/id_rsa.pub
    - chmod 600 -R /root/.ssh/
 # local init docker-compose
    - apk update && apk add bash
-   - apk update && apk add gettext
+   - apk update && apk add gettext && apk add docker docker-compose
    - cat docker/docker-compose.dev.yml | envsubst > docker-compose.yml
 #remote commands
    - ssh root@${host} "mkdir -p /home/${short_branch}/${short_branch}-${CI_PROJECT_NAME}-${CI_COMMIT_SHORT_SHA}"
