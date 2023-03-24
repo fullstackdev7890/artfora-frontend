@@ -7,6 +7,8 @@
     display: flex; justify-content: flex-start; align-items: center; height: 40px; width: fit-content;
     border: 2px solid $border-color; border-radius: 30px; background: $header-background-color;
 
+    &-search-bar { display: flex; align-items: start; align-items: center; margin-right: 5px; }
+
     &-input {
       width: 200px; background: $header-background-color;
       margin-left: 10px; border: none; border-radius: 20px; color: $border-color;
@@ -21,7 +23,10 @@
     }
 
     &-expanded {
-      & input { animation: 1s expanded; }
+
+      & .search-bar-content-search-bar { animation: 1s expanded; }
+
+      & .search-bar-content-icon { background: $header-background-color }
 
       @media (max-width: $mobile) {
         position: absolute; z-index: 2; top: 0;
@@ -30,10 +35,11 @@
     @keyframes expanded {
       0% {
         width: 0;
+        overflow: hidden;
       }
       100% {
-        width: 200px;
-
+        width: 315px;
+        overflow: hidden;
       }
     }
   }
