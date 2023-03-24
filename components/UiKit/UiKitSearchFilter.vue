@@ -1,8 +1,8 @@
 <template>
   <div>
     <div
-      :class="{ 'ui-kit-search-filter-active': isExpanded }"
       @click="isExpanded = !isExpanded"
+      :class="{ 'ui-kit-search-filter-active': isExpanded }"
       class="ui-kit-search-filter"
     >
 
@@ -21,8 +21,9 @@
       >
         <li
           v-for="option in options"
-          :key="option.key"
           @click="onClick(option)"
+          :key="option.key"
+          :class="{ 'ui-kit-search-filter-dropdown-item-active': option.key === selectedOption.key }"
           class="ui-kit-search-filter-dropdown-item"
         >
           {{ option.title }}
