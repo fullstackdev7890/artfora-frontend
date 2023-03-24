@@ -1,16 +1,24 @@
 <template>
   <div class="search-bar">
     <div
-      class="search-bar-content"
       :class="{ 'search-bar-content-expanded': isExpanded }"
+      class="search-bar-content"
     >
-      <input
-        v-show="isExpanded"
-        v-model="search"
-        @input="findProducts"
-        class="search-bar-content-input"
-        type="text"
-      />
+      <div v-show="isExpanded" class="search-bar-content-search-bar">
+        <input
+          v-model="search"
+          @input="findProducts"
+          class="search-bar-content-input"
+          type="text"
+        />
+
+        <UiKitSearchFilter
+          :options="filters"
+          v-model="selectedFilter"
+          @changed="selectFilter"
+        />
+      </div>
+
       <div
         :class="{'search-bar-content-icon-expanded' : isExpanded}"
         @click="toggleExpanded"
@@ -24,13 +32,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import SearchIcon from '~/assets/svg/search.svg'
 import { useProductsStore } from '~/store/products'
+import SearchIcon from '~/assets/svg/search.svg'
 
 const isExpanded = ref(false)
 const products = useProductsStore()
 const search = ref('')
 let timer: ReturnType<typeof setTimeout> | null = null
+const filters = ref([
+  { title:'All', key: null },
+  { title: 'Artist', key: 'author' },
+  { title: 'Title', key: 'title' },
+  { title: 'User', key: 'user.username' },
+  { title: 'Tagname', key: 'user.tagname'}
+])
+const selectedFilter = ref(null)
 
 const findProducts = () => {
 
@@ -46,10 +62,15 @@ const findProducts = () => {
       return
     }
 
-    products.updateFilter({ query: search.value })
+    products.updateFilter({ query: search.value, query_by: selectedFilter.value })
     products.fetchAll()
 
   }, 1000)
+}
+
+function selectFilter() {
+  products.updateFilter({ query: search.value, query_by: selectedFilter.value })
+  products.fetchAll()
 }
 
 const toggleExpanded = () => {
@@ -57,7 +78,8 @@ const toggleExpanded = () => {
 
   if (!isExpanded.value) {
     search.value = ''
-    products.updateFilter({ query: null })
+    selectedFilter.value = null
+    products.updateFilter({ query: null, query_by: null })
     products.fetchAll()
   }
 }
