@@ -1,8 +1,9 @@
 <template>
   <div>
     <div
-      @click="isExpanded = !isExpanded"
+      @click="toggle()"
       :class="{ 'ui-kit-search-filter-active': isExpanded }"
+      ref="searchFilterRef"
       class="ui-kit-search-filter"
     >
 
@@ -52,7 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits(['update:modelValue', 'changed'])
-const router = useRouter()
+const searchFilterRef = ref<InstanceType<typeof HTMLElement>>()
 
 const selectedOption = computed<OptionItem | undefined>(
   () => props.options.find((option) => option.key === props.modelValue)
@@ -64,6 +65,26 @@ function onClick (option: OptionItem) {
   emit('update:modelValue', option.key)
 
   emit('changed', option)
+}
+
+const сlickOutside = (event: any) => {
+  if (searchFilterRef.value!.contains(event.target)) {
+    return
+  }
+
+  toggle()
+}
+
+function toggle() {
+  isExpanded.value = !isExpanded.value
+
+  if (isExpanded.value) {
+    nextTick(() => document.addEventListener('click', сlickOutside, { capture: true }))
+
+    return
+  }
+
+  nextTick(() => document.removeEventListener('click', сlickOutside, { capture: true }))
 }
 
 const isExpanded = ref(false)

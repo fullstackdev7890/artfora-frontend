@@ -2,7 +2,7 @@
 
 .ui-kit-search-filter {
   position: relative; width: 100%; min-width: 100px; border-radius: 10px; background: $border-color; color: $header-background-color;
-  display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; gap: 10px;
+  display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; gap: 10px; cursor: pointer;
 
   &-active {
     border-radius: 10px 10px 0 0;
@@ -18,7 +18,7 @@
 
       &:hover { background: $font-color}
 
-      &-active { background: $font-color }
+      &-active { background: white }
     }
   }
 
