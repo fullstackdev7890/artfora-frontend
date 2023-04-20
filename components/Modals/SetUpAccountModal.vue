@@ -1,5 +1,9 @@
 <template>
-  <ui-kit-modal :with-header="false" ref="setUpAccountModal">
+  <ui-kit-modal
+    :with-header="false"
+    :with-footer="false"
+    ref="setUpAccountModal"
+  >
 
     <template v-slot:customHeader>
       <header class="account-settings-header">

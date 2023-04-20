@@ -22,21 +22,13 @@
   }
 
   .contact-modal-submit {
-    display: flex; flex-direction: column; gap: 15px; width: 300px;
+    display: flex; flex-direction: column; gap: 15px; width: 100%;
 
     &-title { font-style: italic }
-
-    @media (max-width: $mobile) {
-      width: 100%;
-    }
   }
 
   .commission-modal-submit {
-    width: 300px;
-
-    @media (max-width: $mobile) {
-      width: 100%;
-    }
+    width: 100%;
   }
 
   &-content { z-index: 101; min-width: 350px; max-height: 100vh; overflow: auto;
