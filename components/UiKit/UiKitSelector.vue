@@ -9,14 +9,24 @@
       class="ui-kit-selector"
     >
       <label
+        v-if="!withSearch"
         :class="{ 'ui-kit-selector-title-filled': modelValue }"
         class="ui-kit-selector-title"
       >
         {{ title }}
       </label>
 
-      <label v-if="selectedValue" class="ui-kit-selector-value">
+      <label v-if="selectedValue && !withSearch" class="ui-kit-selector-value">
         {{ selectedValue }}
+      </label>
+
+      <label v-if="withSearch" for="search" @click.prevent="isExpanded = false" class="ui-kit-selector-search">
+        <input
+          id="search"
+          v-model="search"
+          type="text"
+          class="ui-kit-selector-search-input"
+        >
       </label>
 
       <next-icon
@@ -29,7 +39,7 @@
         class="ui-kit-selector-dropdown"
       >
         <li
-          v-for="option in options"
+          v-for="option in optionsArray"
           :key="option.key"
           @click="onClick(option)"
           class="ui-kit-selector-dropdown-item"
@@ -55,23 +65,40 @@ interface Props {
   title: string
   options: OptionItem[]
   sortingMode?: boolean
+  withSearch?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   options: () => ([]),
-  sortingMode: false
+  sortingMode: false,
+  withSearch: false
 })
 
 const emit = defineEmits(['update:modelValue', 'changed'])
 const router = useRouter()
 
+const optionsArray = ref(props.options)
 const selectedOption = computed<OptionItem | undefined>(
     () => props.options.find((option) => option.key === props.modelValue)
 )
 
 const selectedValue = computed<string>(() => selectedOption.value ? selectedOption.value.title : '')
 
-function  onClick (option: OptionItem) {
+const search = computed({
+  get() {
+    return selectedOption.value?.title ?? props.title
+  },
+  set(searchValue) {
+    if (searchValue.length === 0) {
+      optionsArray.value = props.options
+    }
+    const regexp = new RegExp(searchValue, "i")
+    optionsArray.value = props.options.filter((option) => regexp.test(option.title))
+
+    selectedOption.value.title = searchValue
+  }
+})
+function onClick (option: OptionItem) {
   emit('update:modelValue', option.key)
 
   emit('changed', option.payload)

@@ -73,6 +73,7 @@
           :options="countries"
           :title="'Country'"
           :disabled="store.pendingRequestsCount"
+          :withSearch="true"
         />
 
         <ui-kit-input
