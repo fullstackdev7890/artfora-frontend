@@ -9,7 +9,15 @@
 
     &-filled ~ .form-label { transform: translate(0, -.6rem) scale(0.6); }
 
-    &-textarea { min-height: 100px; outline: none !important; }
+    &-textarea {
+      min-height: 100px; outline: none !important;
+      &::placeholder {
+        opacity: 0.4;
+        color: $box-content-font-color;
+        font-family: AtkinsonHyperlegible, sans-serif;
+        font-style: italic;
+      }
+    }
 
     &:disabled { opacity: 0.8; cursor: not-allowed; }
   }
