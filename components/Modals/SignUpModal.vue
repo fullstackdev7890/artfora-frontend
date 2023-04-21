@@ -142,6 +142,12 @@ const auth: SignUpData = reactive({
   redirect_after_verification: '/'
 })
 
+watch(auth, () => {
+  if (!auth.tagname.includes('@')) {
+    auth.tagname = '@' + auth.tagname
+  }
+})
+
 let error = ref('')
 let serverErrors = ref({})
 let success = ref(false)
