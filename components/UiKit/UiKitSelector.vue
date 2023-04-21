@@ -86,7 +86,7 @@ const selectedValue = computed<string>(() => selectedOption.value ? selectedOpti
 
 const search = computed({
   get() {
-    return selectedOption.value?.title ?? props.title
+    return isExpanded.value || selectedValue.value.length ? selectedValue.value : props.title
   },
   set(searchValue) {
     if (searchValue.length === 0) {
