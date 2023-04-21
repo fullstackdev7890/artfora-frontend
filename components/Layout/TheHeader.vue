@@ -36,6 +36,7 @@ const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContact
 
 const isShown = ref(false)
 const scrollPosition = ref(0)
+const router = useRouter()
 
 onMounted(() => {
   if (process.client) {
@@ -57,5 +58,12 @@ function handleScroll () {
   isShown.value = currentScrollPosition > scrollPosition.value && currentScrollPosition > HEADER_HEIGHT
   scrollPosition.value = window.scrollY
 }
+
+router.afterEach((to) => {
+  if (to.query['open-set-up-modal']) {
+    emit('openSetUpAccountModal')
+    window.history.replaceState( {current: '/'}, '', '/')
+  }
+})
 
 </script>
