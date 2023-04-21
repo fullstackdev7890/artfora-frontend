@@ -185,19 +185,17 @@ async function signUp() {
     return
   }
 
-  auth.tagname = '@' + auth.tagname
+  const data = { ...auth }
+  data.tagname = '@' + auth.tagname
 
   error.value = ''
   serverErrors.value = {}
 
   try {
-    await authStore.signUp(auth)
+    await authStore.signUp(data)
 
     success.value = true
   } catch (e) {
-
-    auth.tagname = auth.tagname.substring(1)
-
     if (e.response && !e.response.data.errors) {
       error.value = 'Something went wrong! Please try again later.'
 
