@@ -29,15 +29,13 @@
         <ui-kit-input
           v-model="auth.tagname"
           :errors="v$.auth.tagname"
-          :error-messages="{
-            required: 'Please enter @tagname. ',
-            containsTagNamePrefix: 'Tagname must start with a character @. '
-          }"
+          :error-messages="{ required: 'Please enter @tagname. ' }"
           :server-errors="serverErrors"
           :attention-messages="{ notChanged: 'Can not be changed later. ' }"
           :disabled="globalStore.pendingRequestsCount"
           placeholder="@TAGNAME"
           name="tagname"
+          prefix="@"
         />
 
         <ui-kit-input
@@ -121,7 +119,7 @@ import { ref, computed } from '@vue/reactivity'
 import { required, email, sameAs, minLength } from '@vuelidate/validators'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import type { SignUpData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
@@ -131,6 +129,7 @@ const signUpModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const globalStore = useStore()
 const route = useRoute()
+const router = useRouter()
 const emit = defineEmits(['openLogInModal'])
 
 const auth: SignUpData = reactive({
@@ -139,7 +138,7 @@ const auth: SignUpData = reactive({
   confirm: '',
   username: '',
   tagname: '',
-  redirect_after_verification: '/'
+  redirect_after_verification: '/?open-set-up-modal=true'
 })
 
 let error = ref('')
@@ -149,12 +148,7 @@ let success = ref(false)
 const v$ = useVuelidate({
   auth: {
     username: { required },
-    tagname: {
-      required,
-      containsTagNamePrefix: (value: string) => {
-        return /^@/.test(value)
-      }
-    },
+    tagname: { required },
     email: { required, email },
     password: {
       required,
@@ -181,7 +175,7 @@ function refreshModal() {
     auth.confirm = ''
     auth.username = ''
     auth.tagname = ''
-    auth.redirect_after_verification = '/'
+    auth.redirect_after_verification = '/?open-set-up-modal=true'
 }
 
 async function signUp() {
@@ -191,11 +185,14 @@ async function signUp() {
     return
   }
 
+  const data = { ...auth }
+  data.tagname = '@' + auth.tagname
+
   error.value = ''
   serverErrors.value = {}
 
   try {
-    await authStore.signUp(auth)
+    await authStore.signUp(data)
 
     success.value = true
   } catch (e) {
