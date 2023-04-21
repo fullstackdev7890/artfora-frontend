@@ -29,15 +29,13 @@
         <ui-kit-input
           v-model="auth.tagname"
           :errors="v$.auth.tagname"
-          :error-messages="{
-            required: 'Please enter @tagname. ',
-            containsTagNamePrefix: 'Tagname must start with a character @. '
-          }"
+          :error-messages="{ required: 'Please enter @tagname. ' }"
           :server-errors="serverErrors"
           :attention-messages="{ notChanged: 'Can not be changed later. ' }"
           :disabled="globalStore.pendingRequestsCount"
           placeholder="@TAGNAME"
           name="tagname"
+          prefix="@"
         />
 
         <ui-kit-input
@@ -140,13 +138,7 @@ const auth: SignUpData = reactive({
   confirm: '',
   username: '',
   tagname: '',
-  redirect_after_verification: '/'
-})
-
-watch(auth, () => {
-  if (!auth.tagname.includes('@')) {
-    auth.tagname = '@' + auth.tagname
-  }
+  redirect_after_verification: '/?open-set-up-modal=true'
 })
 
 let error = ref('')
@@ -156,12 +148,7 @@ let success = ref(false)
 const v$ = useVuelidate({
   auth: {
     username: { required },
-    tagname: {
-      required,
-      containsTagNamePrefix: (value: string) => {
-        return /^@/.test(value)
-      }
-    },
+    tagname: { required },
     email: { required, email },
     password: {
       required,
@@ -198,6 +185,8 @@ async function signUp() {
     return
   }
 
+  auth.tagname = '@' + auth.tagname
+
   error.value = ''
   serverErrors.value = {}
 
@@ -206,6 +195,9 @@ async function signUp() {
 
     success.value = true
   } catch (e) {
+
+    auth.tagname = auth.tagname.substring(1)
+
     if (e.response && !e.response.data.errors) {
       error.value = 'Something went wrong! Please try again later.'
 

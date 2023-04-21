@@ -16,28 +16,42 @@
         @update:modelValue="onChanged"
       />
 
-      <input
-        v-else
-        :max="max"
-        :min="min"
-        :step="step"
-        :name="name"
-        :type="type"
-        :value="modelValue"
-        :class="{ 'form-control-filled': modelValue || type === 'date' }"
-        :disabled="props.disabled"
-        autocomplete="off"
-        class="form-control"
-        @input="onChanged"
-      />
+      <label :for="name" class="form-field" v-else>
+        <span
+          v-if="prefix"
+          :class="{ 'form-prefix-filled': modelValue && prefix }"
+          class="form-prefix"
+        >
+          {{ prefix }}
+        </span>
 
-      <label
-        v-if="placeholder"
-        :for="name"
-        class="form-label"
-      >
-        {{ placeholder }}
+        <input
+          :max="max"
+          :min="min"
+          :step="step"
+          :name="name"
+          :id="name"
+          :type="type"
+          :value="modelValue"
+          :class="{
+            'form-control-filled': modelValue || type === 'date',
+            'form-control-prefix': modelValue && prefix
+          }"
+          :disabled="props.disabled"
+          autocomplete="off"
+          class="form-control"
+          @input="onChanged"
+        />
+
+        <span
+          v-if="placeholder"
+          :for="name"
+          class="form-label"
+        >
+          {{ placeholder }}
+        </span>
       </label>
+
 
       <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">
         <span
@@ -90,6 +104,7 @@ interface Props {
   serverErrors?: object,
   attentionMessages?: object
   disabled?: number
+  prefix: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
