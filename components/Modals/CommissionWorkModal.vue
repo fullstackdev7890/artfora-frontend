@@ -1,7 +1,8 @@
 <template>
   <ui-kit-modal
-    title="Commission work"
     :with-footer="false"
+    class="commission-modal"
+    title="Commission work"
     ref="commissionWork"
   >
    <template v-slot:content>

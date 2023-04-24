@@ -2,6 +2,7 @@
   <ui-kit-modal
     :title="success ? 'Message sent' : 'Contact'"
     :with-footer="false"
+    class="contact-modal"
     ref="contactForm"
   >
 
