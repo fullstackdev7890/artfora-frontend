@@ -12,14 +12,14 @@
 
   &-control {
     background: transparent; border: $input-border-color 1px solid; padding: .8rem .8rem .5rem .8rem; width: 100%;
-    box-sizing: border-box; font-size: 1rem; color: $light-bg; border-radius: 10px;
+    box-sizing: border-box; font-size: 1rem; color: $light-bg; border-radius: 10px; font-family: AtkinsonHyperlegible, sans-serif;
 
     &-prefix { padding: .8rem .8rem .5rem 1.7rem; }
 
     &-filled ~ .form-label { transform: translate(0, -.6rem) scale(0.6); left: .8rem; }
 
     &-textarea {
-      min-height: 100px; outline: none !important;
+      min-height: 100px; outline: none !important; font-family: AtkinsonHyperlegible, sans-serif;
       &::placeholder {
         opacity: 0.4;
         color: $box-content-font-color;
