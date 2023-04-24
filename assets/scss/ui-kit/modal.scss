@@ -21,21 +21,30 @@
     }
   }
 
-  .contact-modal-submit {
-    display: flex; flex-direction: column; gap: 15px; width: 100%;
+  &.contact-modal {
+    &-submit {
+      display: flex; flex-direction: column; gap: 15px; width: 100%;
 
-    &-title { font-style: italic }
+      &-title { font-style: italic }
+    }
+
+    & .ui-kit-modal-content { width: 350px;
+      @media (max-width: $small) { width: 100% }
+    }
   }
 
-  .commission-modal-submit {
-    width: 100%;
+  &.commission-modal {
+    &-submit {
+      width: 100%;
+    }
+
+    & .ui-kit-modal-content { width: 350px;
+      @media (max-width: $small) { width: 100% }
+    }
   }
 
   &-content { z-index: 101; min-width: 350px; max-height: 100vh; overflow: auto;
-    @media (max-width: $small) {
-      min-width: 100%;
-      width: 100%;
-    }
+    @media (max-width: $small) { min-width: 100%; width: 100%; }
 
     &-buttons { padding-top: 2rem; }
 
