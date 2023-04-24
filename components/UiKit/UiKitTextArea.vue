@@ -12,12 +12,20 @@
       <textarea
         :name="name"
         :value="modelValue"
-        :placeholder="placeholder"
         :cy-name="name"
+        :class="{ 'form-control-filled': modelValue }"
         autocomplete="off"
         class="form-control form-control-textarea"
         @input="onChanged"
       />
+
+      <span
+        v-if="placeholder"
+        :for="name"
+        class="form-label"
+      >
+          {{ placeholder }}
+      </span>
 
       <span v-if="errors.$error" class="form-errors-list">
         <span
