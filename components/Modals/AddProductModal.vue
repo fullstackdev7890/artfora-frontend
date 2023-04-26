@@ -108,8 +108,10 @@
         </ui-kit-check-box>
 
         <ui-kit-input
-          :disabled="product.is_ai_safe"
           v-model="product.tags"
+          :errors="v$.product.tags"
+          :error-messages="{ required: 'Tags are required' }"
+          :disabled="product.is_ai_safe"
           placeholder="ADD TAGS, SEPARATE BY COMMA"
         />
 
@@ -186,7 +188,7 @@ import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import {required, sameAs} from '@vuelidate/validators'
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
