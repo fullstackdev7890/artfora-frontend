@@ -108,8 +108,10 @@
         </ui-kit-check-box>
 
         <ui-kit-input
-          :disabled="product.is_ai_safe"
           v-model="product.tags"
+          :errors="v$.product.tags"
+          :error-messages="{ required: 'Tags are required' }"
+          :disabled="product.is_ai_safe"
           placeholder="ADD TAGS, SEPARATE BY COMMA"
         />
 
