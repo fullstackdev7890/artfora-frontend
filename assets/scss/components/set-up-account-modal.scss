@@ -35,6 +35,10 @@
     margin-top: 35px;
   }
 
+  &-visibility-level {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+
   &-divider { height: 1px; border-bottom: 1px solid $border-color; margin-top: 10px; margin-bottom: 20px; }
 
 }

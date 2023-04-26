@@ -3,6 +3,8 @@
 .add-product {
   &-ai-safe-checkboxes { margin-bottom: .7rem; }
 
+  &-visibility-level { display: flex; flex-direction: column; gap: 4px; }
+
   textarea { resize: none; }
 
   &-upload {

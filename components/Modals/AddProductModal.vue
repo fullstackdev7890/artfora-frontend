@@ -115,7 +115,7 @@
           placeholder="ADD TAGS, SEPARATE BY COMMA"
         />
 
-        <div>
+        <div class="add-product-visibility-level">
           <ui-kit-check-box
             v-model="product.visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
