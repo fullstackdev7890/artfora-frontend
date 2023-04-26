@@ -2,7 +2,7 @@
   <ui-kit-modal
     :with-footer="false"
     class="commission-modal"
-    title="Commission work"
+    :title="success ? 'Message sent' : 'Commission work'"
     ref="commissionWork"
   >
    <template v-slot:content>
