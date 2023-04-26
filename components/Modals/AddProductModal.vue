@@ -188,7 +188,7 @@ import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
 import useVuelidate from '@vuelidate/core'
-import {required, sameAs} from '@vuelidate/validators'
+import { required } from '@vuelidate/validators'
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
