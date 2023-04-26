@@ -86,7 +86,7 @@
           placeholder="EXTERNAL LINKS"
         />
 
-        <div>
+        <div class="account-settings-visibility-level">
           <ui-kit-check-box
             v-model="user.product_visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"

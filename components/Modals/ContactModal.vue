@@ -53,15 +53,15 @@
 
       <div v-else class="contact-modal-submit">
         <div>
-          <p>YOUR NAME:</p>
+          <p class="contact-modal-submit-title">YOUR NAME:</p>
           <span>{{ contactFormData.name }}</span>
         </div>
         <div>
-          <p>YOUR EMAIL ADDRESS:</p>
+          <p class="contact-modal-submit-title">YOUR EMAIL ADDRESS:</p>
           <span>{{ contactFormData.email }}</span>
         </div>
         <div>
-          <p>YOUR MESSAGE:</p>
+          <p class="contact-modal-submit-title">YOUR MESSAGE:</p>
           <span>{{ contactFormData.text }}</span>
         </div>
         <p class="ui-kit-box-content-small-text">
