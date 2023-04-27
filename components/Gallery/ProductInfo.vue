@@ -7,17 +7,19 @@
     <p>"{{ product.title }}"</p>
     <a href="#" class="link">see details</a>
 
-    <button
-      :disabled="store.pendingRequestsCount"
-      class="button button-small"
-      @click.prevent="moderateProduct(product.id, STATUS_APPROVED)"
-    >APPROVE</button>
+    <div class="gallery-item-image-container-admin-buttons">
+      <button
+        :disabled="store.pendingRequestsCount"
+        class="button"
+        @click.prevent="moderateProduct(product.id, STATUS_APPROVED)"
+      >APPROVE</button>
 
-    <button
-      :disabled="store.pendingRequestsCount"
-      class="button button-small"
-      @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
-    >DECLINE</button>
+      <button
+        :disabled="store.pendingRequestsCount"
+        class="button"
+        @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
+      >DECLINE</button>
+    </div>
   </div>
 
   <div
