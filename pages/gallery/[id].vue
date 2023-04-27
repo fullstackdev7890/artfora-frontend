@@ -34,7 +34,15 @@ onMounted(async () => {
 })
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: [route.params.id], status: STATUS_APPROVED, user_id: null, page: 1, order_by })
+  products.updateFilter({
+    categories: [route.params.id],
+    status: STATUS_APPROVED,
+    user_id: null,
+    page: 1,
+    order_by,
+    username: null,
+    author: null
+  })
 
   await products.fetchAll()
 })
