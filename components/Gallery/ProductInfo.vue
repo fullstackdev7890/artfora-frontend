@@ -25,8 +25,21 @@
     class="gallery-item-image-container-info"
   >
     <h4>"{{ product.title }}"</h4>
-    <p>by {{ product.author }}</p>
-    <p>Uploaded by {{ product.user.tagname }}</p>
+
+    <nuxt-link
+      :to="`/gallery/author/${product.author}`"
+      class="gallery-item-image-container-info-link"
+    >
+      by {{ product.author }}
+    </nuxt-link>
+
+    <nuxt-link
+      :to="`/gallery/user/${product.user.username}`"
+      class="gallery-item-image-container-info-link"
+    >
+      Uploaded by {{ product.user.username }}
+    </nuxt-link>
+    <p></p>
   </div>
 </template>
 

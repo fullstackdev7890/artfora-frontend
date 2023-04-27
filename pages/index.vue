@@ -24,7 +24,14 @@ const gallerySettings = useSettingsGalleryStore()
 const { order_by } = storeToRefs(gallerySettings)
 
 await useAsyncData('products',async () => {
-  products.updateFilter({ categories: null, status: STATUS_APPROVED, user_id: null, order_by })
+  products.updateFilter({
+    categories: null,
+    status: STATUS_APPROVED,
+    user_id: null,
+    order_by,
+    username: null,
+    author: null
+  })
 
   await products.fetchAll()
 })
