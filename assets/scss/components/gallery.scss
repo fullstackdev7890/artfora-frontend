@@ -52,7 +52,9 @@
         }
       }
 
-      &-details { flex-direction: column;
+      &-details { display: grid; grid-template-rows: 70px 1fr; justify-content: stretch;
+
+        & img { align-self: center; height: auto; }
 
         &-user {
           height: 70px; background: $user-details-background-color; display: flex; align-items: center; padding-left: 15px;
