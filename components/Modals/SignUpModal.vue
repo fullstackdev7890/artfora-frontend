@@ -58,6 +58,7 @@
             containsNumber: 'Minimum 1 number. '
           }"
           :server-errors="serverErrors"
+          :attention-messages="{ minLength: 'Minimum 8 characters, 1 capital letter, 1 number. ' }"
           :disabled="globalStore.pendingRequestsCount"
           placeholder="PASSWORD"
           name="password"
