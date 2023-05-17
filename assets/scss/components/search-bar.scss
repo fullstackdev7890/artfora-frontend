@@ -4,7 +4,7 @@
   position: relative; height: 40px;
 
   &-content {
-    display: flex; justify-content: flex-start; align-items: center; height: 40px; width: fit-content;
+    display: flex; justify-content: flex-start; align-items: center; height: 40px; width: 40px;
     border: 2px solid $border-color; border-radius: 30px; background: $header-background-color;
 
     &-search-bar { display: flex; align-items: center; margin-right: 5px; }
@@ -23,6 +23,7 @@
     }
 
     &-expanded {
+      width: fit-content;
 
       & .search-bar-content-search-bar { animation: 1s expanded; }
 
