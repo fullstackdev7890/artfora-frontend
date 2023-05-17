@@ -12,6 +12,7 @@
         <div
             class="gallery-item-image-container"
             :class="{
+              'gallery-item-image-container-large': galleryViewType === LARGE_GALLERY_VIEW_TYPE,
               'gallery-item-image-container-square': galleryViewType === SQUARE_GALLERY_VIEW_TYPE,
               'gallery-item-image-container-details': galleryViewType === DETAILS_GALLERY_VIEW_TYPE
             }"
@@ -35,6 +36,7 @@
 
 <script setup lang="ts">
 import {
+  LARGE_GALLERY_VIEW_TYPE,
   SQUARE_GALLERY_VIEW_TYPE,
   DETAILS_GALLERY_VIEW_TYPE,
   MOBILE_WIDTH,

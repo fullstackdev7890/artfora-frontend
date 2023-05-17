@@ -15,6 +15,18 @@
 
           <ui-kit-check-box
             v-model="GalleryViewType"
+            :value="LARGE_GALLERY_VIEW_TYPE"
+            :show-checkbox="false"
+            type="radio"
+          >
+            <LargeGalleryIcon
+              :class="{ 'gallery-settings-item-view-active': GalleryViewType === LARGE_GALLERY_VIEW_TYPE }"
+              class="gallery-settings-item-view"
+            />
+          </ui-kit-check-box>
+
+          <ui-kit-check-box
+            v-model="GalleryViewType"
             :value="JUSTIFIED_GALLERY_VIEW_TYPE"
             :show-checkbox="false"
             type="radio"
@@ -58,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { DETAILS_GALLERY_VIEW_TYPE, JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE } from '~/types/products'
+import { DETAILS_GALLERY_VIEW_TYPE, LARGE_GALLERY_VIEW_TYPE, JUSTIFIED_GALLERY_VIEW_TYPE, SQUARE_GALLERY_VIEW_TYPE } from '~/types/products'
 import { SORT_LATEST, SORT_RANDOM } from '~/types/gallerySettings'
 import { ref } from '@vue/reactivity'
 import { useSettingsGalleryStore } from '~/store/gallerySettings'
@@ -66,6 +78,7 @@ import { useProductsStore } from '~/store/products'
 import { OptionItem } from '~/types/uiKit'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitSwitch from '~/components/UiKit/UiKitSwitch.vue'
+import LargeGalleryIcon from '~/assets/svg/large-gallery.svg'
 import JustifiedGalleryIcon from '~/assets/svg/justified-gallery.svg'
 import SquareGalleryIcon from '~/assets/svg/square-gallery.svg'
 import DetailsGalleryIcon from '~/assets/svg/details-gallery.svg'

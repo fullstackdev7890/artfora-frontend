@@ -1,6 +1,7 @@
 import { Entity, Media, User } from '~/types/index'
 import { Paginated } from '~/types/search'
 
+export const LARGE_GALLERY_VIEW_TYPE = 'large'
 export const JUSTIFIED_GALLERY_VIEW_TYPE = 'justified'
 export const SQUARE_GALLERY_VIEW_TYPE = 'square'
 export const DETAILS_GALLERY_VIEW_TYPE = 'details'
