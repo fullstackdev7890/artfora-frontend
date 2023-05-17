@@ -15,7 +15,7 @@ $border-radius: 15px;
     }
   }
 
-  &-tools { float: right; position: absolute; right: 0.5rem; top: 0.5rem;
+  &-tools { float: right; position: absolute; right: 1rem; top: 1rem;
     &-link { display: inline-block; min-width: 1rem; margin-left: 0.5rem; cursor: pointer;
       &.close-icon {
         fill: white; border-radius: 50%; background-color: $black; display: flex; align-items: center;
@@ -28,7 +28,7 @@ $border-radius: 15px;
   }
 
   &-content {
-    padding: 15px 20px 20px 20px; transition: all $transition-delay; box-sizing: border-box;
+    padding: 1rem; transition: all $transition-delay; box-sizing: border-box;
     color: $box-content-font-color;
 
     &-small-text { font-size: 14px; margin: 5px 0 20px;
