@@ -6,11 +6,11 @@ on:
       - development
 
 env:
-  PATH_PROD: /home/actions-runner/projects/artfora23-frontend
+  PATH_PROD: /home/dev/projects/artfora23-frontend
 
 jobs:
   deploy:
-    runs-on: prod
+    runs-on: dev23ArtforaFrontend
     name: Production
     steps:
       - name: Git       
