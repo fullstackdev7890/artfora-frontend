@@ -2,7 +2,12 @@
   <div class="gallery" ref="galleryComponentRef">
     <div
       v-for="column in galleryImages"
-      class="col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100"
+      :class="{
+        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100': galleryViewType === LARGE_GALLERY_VIEW_TYPE,
+        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-50': galleryViewType === JUSTIFIED_GALLERY_VIEW_TYPE,
+        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-33': galleryViewType === SQUARE_GALLERY_VIEW_TYPE,
+        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100': galleryViewType === DETAILS_GALLERY_VIEW_TYPE
+      }"
     >
       <nuxt-link
         v-for="image in column"
@@ -13,6 +18,7 @@
             class="gallery-item-image-container"
             :class="{
               'gallery-item-image-container-large': galleryViewType === LARGE_GALLERY_VIEW_TYPE,
+              'gallery-item-image-container-justified': galleryViewType === JUSTIFIED_GALLERY_VIEW_TYPE,
               'gallery-item-image-container-square': galleryViewType === SQUARE_GALLERY_VIEW_TYPE,
               'gallery-item-image-container-details': galleryViewType === DETAILS_GALLERY_VIEW_TYPE
             }"
@@ -119,6 +125,15 @@ function getColumnsCount() {
     return 1
   }
 
+  const  vType:  'large' | 'justified' | 'square' | 'details' = galleryViewType.value
+  const galleryColumns = {
+    [LARGE_GALLERY_VIEW_TYPE]: 1,
+    [JUSTIFIED_GALLERY_VIEW_TYPE]: 2,
+    [SQUARE_GALLERY_VIEW_TYPE]: 3,
+    [DETAILS_GALLERY_VIEW_TYPE]: 1
+  }
+  let mobileColumnCount = galleryColumns[vType];
+
   const columnsCounts = {
     [MOBILE_WIDTH]: 2,
     [TABLET_WIDTH]: 3,
@@ -127,7 +142,7 @@ function getColumnsCount() {
   }
 
   return Object.entries(columnsCounts)
-    .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, 1)
+    .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, mobileColumnCount)
 }
 
 function sortImagesByColumns (images: Product[]) {
