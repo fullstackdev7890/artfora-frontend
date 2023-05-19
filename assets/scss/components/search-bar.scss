@@ -12,7 +12,7 @@
     &-input {
       width: 200px; 
       @media (max-width: $mobile) {
-        width: calc(100vw - 210px);
+        width: calc(100vw - 195px);
       }
       background: $header-background-color;
       margin-left: 10px; border: none; border-radius: 20px; color: $border-color;
@@ -34,7 +34,7 @@
       & .search-bar-content-icon { background: $header-background-color }
 
       @media (max-width: $mobile) {
-        width: calc(100vw - 48px);
+        width: calc(100vw - 32px);
         position: absolute; z-index: 2; top: 0;
       }
     }
