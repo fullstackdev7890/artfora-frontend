@@ -10,6 +10,11 @@
     border: solid 1px $box-border-color;
   }
 
+  &-grey {
+    color: $button-grey-font-color; background-color: $button-grey-background-color;
+    border: solid 1px $box-border-color;
+  }
+
   &-success { color: $button-success-font-color; background-color: $button-success-background-color; }
 
   &-danger { color: $button-danger-font-color; background-color: $button-danger-background-color; }

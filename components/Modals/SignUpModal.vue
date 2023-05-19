@@ -86,7 +86,7 @@
         <div class="ui-kit-modal-content-buttons">
           <button
             :disabled="globalStore.pendingRequestsCount"
-            class="button full-width"
+            class="button button-grey full-width"
             type="submit"
           >
             Send verification email

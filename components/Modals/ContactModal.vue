@@ -45,7 +45,7 @@
         <div class="ui-kit-modal-content-buttons">
           <button
             :disabled="store.pendingRequestsCount"
-            class="button full-width"
+            class="button button-grey full-width"
             type="submit"
           >SEND MESSAGE</button>
         </div>
