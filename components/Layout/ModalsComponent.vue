@@ -137,5 +137,5 @@ function openContactUsModal() {
   contactUsModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
+defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
 </script>

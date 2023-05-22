@@ -27,7 +27,7 @@
 
       <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
         <span
-          @click="openSignUpModal"
+          @click="openLogInModal"
           class="ui-kit-dropdown-content-item-btn"
         >Login/Sign up</span>
       </div>
@@ -67,7 +67,7 @@ import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 import { ImageTemplate, ROLE_ADMIN } from '~/types/constants'
 
-const emit = defineEmits(['openAddProductModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openSetUpAccountModal'])
+const emit = defineEmits(['openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openSetUpAccountModal'])
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 
@@ -94,6 +94,11 @@ function openSettingsGallery() {
 function openSetUpAccountModal() {
   menuDropdownRef.value.close()
   emit('openSetUpAccountModal')
+}
+
+function openLogInModal() {
+  menuDropdownRef.value.close()
+  emit('openLogInModal')
 }
 
 function openSignUpModal() {

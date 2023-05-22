@@ -2,7 +2,7 @@
   <div class="page-container">
     <the-header
       v-show="$route.name !== 'products-id'"
-      @open-sign-up-modal="modalsComponentRef.openSignUpModal()"
+      @open-log-in-modal="modalsComponentRef.openLogInModal()"
       @open-add-product-modal="modalsComponentRef.openAddProductModal()"
       @open-contact-us-modal="modalsComponentRef.openContactUsModal()"
       @open-gallery-settings-modal="modalsComponentRef.openGallerySettingsModal()"
