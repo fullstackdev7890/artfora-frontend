@@ -48,11 +48,24 @@
     }
 
     &-info {
+      cursor: pointer;
+      padding: 3px;
+      border-radius: 50%;
+      background-color: #000000;
       font-weight: 600; display: flex; justify-content: center; align-items: center;
 
-      & .hide-icon { fill: white; }
+      & .hide-icon {
+        fill: white;
+        width: 20px;
+        height: 20px;
+      }
     }
-    &-close { display: flex; align-items: center; justify-content: center; fill: white; }
+    &-close { 
+      cursor: pointer;
+      padding: 3px;
+      border-radius: 50%;
+      background-color: #000000;
+      display: flex; align-items: center; justify-content: center; fill: white; }
 
   }
 }

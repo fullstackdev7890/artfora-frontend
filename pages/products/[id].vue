@@ -2,14 +2,14 @@
   <div class="product-container">
     <div class="product-container-btn">
 
-      <button class="product-container-btn-info" @click="toggleSidebar">
-        <span v-show="!isShown">i</span>
-        <arrow-left v-show="isShown" class="hide-icon" />
-      </button>
+      <NuxtLink class="product-container-btn-info" @click="toggleSidebar">
+        <info v-show="!isShown" class="hide-icon" />
+        <arrow-right v-show="isShown" class="hide-icon" />
+      </NuxtLink>
 
-      <button class="product-container-btn-close" @click="toBack()" >
-        <close-icon/>
-      </button>
+      <NuxtLink class="product-container-btn-close" @click="toBack()" >
+        <close-icon class="close-icon" @click="toBack()" />
+      </NuxtLink>
 
     </div>
 
@@ -43,7 +43,8 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ImageTemplate } from '~/types/constants'
 import CloseIcon from '~/assets/svg/close.svg'
-import ArrowLeft from '~/assets/svg/arrow-left.svg'
+import ArrowRight from '~/assets/svg/arrow-right.svg'
+import Info from '~/assets/svg/info.svg'
 import ProductSidebar from '~/components/Products/ProductSidebar.vue'
 import NextIcon from '~/assets/svg/next.svg'
 import useMedia from '~/composable/media'
