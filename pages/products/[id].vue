@@ -7,8 +7,8 @@
         <arrow-right v-show="isShown" class="hide-icon" />
       </NuxtLink>
 
-      <NuxtLink class="product-container-btn-close" @click="toBack()" >
-        <close-icon class="close-icon" @click="toBack()" />
+      <NuxtLink class="product-container-btn-close" to="/" >
+        <close-icon class="close-icon" />
       </NuxtLink>
 
     </div>
