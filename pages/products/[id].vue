@@ -16,7 +16,7 @@
     <div class="product-container-images">
       <img
         v-for="(image, index) in item.media"
-        v-show="index === currentImage"
+        v-show="index === currentImage && isFetched"
         :src="getImageUrl(image, ImageTemplate.FullSize)"
         :alt="tags"
       >
@@ -57,9 +57,11 @@ const { item } = storeToRefs(products)
 const isShown = ref(false)
 const currentImage = ref(0)
 const { getImageUrl } = useMedia()
+const isFetched = ref(false)
 
 onMounted(async () => {
   await products.fetch(route.params.id as string)
+  isFetched.value = true
 })
 
 function toggleSidebar() {
