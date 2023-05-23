@@ -78,10 +78,10 @@ import { useProductsStore } from '~/store/products'
 import { OptionItem } from '~/types/uiKit'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitSwitch from '~/components/UiKit/UiKitSwitch.vue'
-import LargeGalleryIcon from '~/assets/svg/large-gallery.svg'
-import JustifiedGalleryIcon from '~/assets/svg/justified-gallery.svg'
-import SquareGalleryIcon from '~/assets/svg/square-gallery.svg'
-import DetailsGalleryIcon from '~/assets/svg/details-gallery.svg'
+import LargeGalleryIcon from '~/assets/svg/icon_gallery_full_width.svg'
+import JustifiedGalleryIcon from '~/assets/svg/icon_gallery_justified.svg'
+import SquareGalleryIcon from '~/assets/svg/icon_gallery_square.svg'
+import DetailsGalleryIcon from '~/assets/svg/icon_gallery_details.svg'
 
 const gallerySettingsStore = useSettingsGalleryStore()
 const products = useProductsStore()
