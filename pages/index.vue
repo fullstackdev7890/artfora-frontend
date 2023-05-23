@@ -23,7 +23,7 @@ const { items } = storeToRefs(products)
 const gallerySettings = useSettingsGalleryStore()
 const { order_by } = storeToRefs(gallerySettings)
 
-await useAsyncData('products',async () => {
+onMounted(async () => {
   products.updateFilter({
     categories: null,
     status: STATUS_APPROVED,

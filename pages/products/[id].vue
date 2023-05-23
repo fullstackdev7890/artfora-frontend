@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { useAsyncData, useRoute, useRouter} from '#app'
 import { useProductsStore } from '~/store/products'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ImageTemplate } from '~/types/constants'
 import CloseIcon from '~/assets/svg/close.svg'
@@ -58,7 +58,7 @@ const isShown = ref(false)
 const currentImage = ref(0)
 const { getImageUrl } = useMedia()
 
-await useAsyncData('get-product', async () => {
+onMounted(async () => {
   await products.fetch(route.params.id as string)
 })
 
