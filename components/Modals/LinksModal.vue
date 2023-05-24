@@ -69,7 +69,9 @@
       </div>
 
       <div class="ui-kit-modal-content-buttons">
-        <button class="button full-width" @click="linksModal.close()">CLOSE</button>
+        <button class="button full-width" @click="linksModal.close()">
+          <span>CLOSE</span>
+        </button>
       </div>
     </template>
   </ui-kit-modal>

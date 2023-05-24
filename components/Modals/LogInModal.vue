@@ -66,7 +66,7 @@
             class="button button-grey full-width"
             type="submit"
           >
-            Login
+            <span>Login</span>
           </button>
         </div>
       </form>

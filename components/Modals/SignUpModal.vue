@@ -89,7 +89,7 @@
             class="button button-grey full-width"
             type="submit"
           >
-            Send verification email
+            <span>Send verification email</span>
           </button>
         </div>
       </form>
@@ -107,7 +107,7 @@
             @click="close"
             class="button full-width"
           >
-            Close
+            <span>Close</span>
           </button>
         </div>
       </div>

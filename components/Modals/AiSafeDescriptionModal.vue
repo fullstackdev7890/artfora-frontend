@@ -33,7 +33,9 @@
         >Read more about invisible watermark</a>
       </div>
       <div class="ui-kit-modal-content-buttons">
-        <button class="button full-width" @click="aiSafeDescription.close()">CLOSE</button>
+        <button class="button full-width" @click="aiSafeDescription.close()">
+          <span>CLOSE</span>
+        </button>
       </div>
     </template>
   </ui-kit-modal>

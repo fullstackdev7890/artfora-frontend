@@ -56,7 +56,7 @@
           type="button"
           @click="imageUploader.click()"
         >
-          Upload Photo
+          <span>Upload Photo</span>
         </button>
 
         <button
@@ -66,7 +66,7 @@
           type="button"
           @click="videoUploader.click()"
         >
-          Upload Video
+          <span>Upload Video</span>
         </button>
 
         <button
@@ -76,7 +76,7 @@
           class="button button-success"
           type="button"
         >
-          Save
+          <span>Save</span>
         </button>
 
         <button
@@ -84,7 +84,7 @@
           class="button button-default"
           type="button"
         >
-          Cancel
+          <span>Cancel</span>
         </button>
       </div>
     </template>

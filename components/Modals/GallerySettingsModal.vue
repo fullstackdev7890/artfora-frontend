@@ -64,7 +64,9 @@
       </div>
     </template>
     <template v-slot:buttons>
-      <button class="full-width button-grey button" @click="updateSettings()">SAVE SETTINGS</button>
+      <button class="full-width button-grey button" @click="updateSettings()">
+        <span>SAVE SETTINGS</span>
+      </button>
     </template>
   </ui-kit-modal>
 </template>

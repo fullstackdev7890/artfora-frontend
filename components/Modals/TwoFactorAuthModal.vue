@@ -49,7 +49,7 @@
             class="button full-width"
             type="submit"
           >
-            Login
+            <span>Login</span>
           </button>
         </div>
       </form>

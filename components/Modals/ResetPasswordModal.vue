@@ -38,7 +38,7 @@
             class="button full-width"
             type="submit"
           >
-            Reset password
+            <span>Reset password</span>
           </button>
         </div>
       </form>
@@ -55,7 +55,7 @@
             class="button full-width"
             @click="close"
           >
-            Close
+            <span>Close</span>
           </button>
         </div>
       </div>

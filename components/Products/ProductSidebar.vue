@@ -54,8 +54,12 @@
       </div>
 
       <div class="product-sidebar-bottom-buttons-wrapper">
-        <button class="button full-width" @click="contactModal.open()">CONTACT</button>
-        <button class="button full-width" @click="commissionWorkModal.open()">COMMISSION OPEN</button>
+        <button class="button full-width" @click="contactModal.open()">
+          <span>CONTACT</span>
+        </button>
+        <button class="button full-width" @click="commissionWorkModal.open()">
+          <span>COMMISSION OPEN</span>
+        </button>
       </div>
 
       <links-modal ref="linksModal" :links="props.product.user.external_link" />

@@ -161,7 +161,9 @@
             :disabled="store.pendingRequestsCount"
             class="button full-width"
             type="submit"
-          >SEND FOR APPROVAL</button>
+          >
+            <span>SEND FOR APPROVAL</span>
+          </button>
         </div>
       </div>
     </form>

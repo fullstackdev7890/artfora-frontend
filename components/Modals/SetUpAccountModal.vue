@@ -139,7 +139,7 @@
             :disabled="store.pendingRequestsCount"
             class="button full-width"
             type="submit"
-          >UPDATE SETTINGS</button>
+          ><span>UPDATE SETTINGS</span></button>
         </div>
       </form>
     </template>

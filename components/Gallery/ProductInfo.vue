@@ -12,13 +12,13 @@
         :disabled="store.pendingRequestsCount"
         class="button"
         @click.prevent="moderateProduct(product.id, STATUS_APPROVED)"
-      >APPROVE</button>
+      ><span>APPROVE</span></button>
 
       <button
         :disabled="store.pendingRequestsCount"
         class="button"
         @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
-      >DECLINE</button>
+      ><span>DECLINE</span></button>
     </div>
   </div>
 

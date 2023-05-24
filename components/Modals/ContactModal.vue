@@ -47,7 +47,7 @@
             :disabled="store.pendingRequestsCount"
             class="button button-grey full-width"
             type="submit"
-          >SEND MESSAGE</button>
+          ><span>SEND MESSAGE</span></button>
         </div>
       </form>
 
@@ -74,7 +74,7 @@
             @click="close"
             class="button full-width"
           >
-            Close
+            <span>Close</span>
           </button>
         </div>
       </div>
