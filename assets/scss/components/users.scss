@@ -1,0 +1,8 @@
+@import '../variables';
+
+.users-page {
+  display: flex; flex-direction: column; width: 100%; gap: 10px; margin-bottom: 10px;
+  .users-list {
+    padding: 1rem;
+  }
+}

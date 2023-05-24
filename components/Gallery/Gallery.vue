@@ -24,7 +24,7 @@
             }"
         >
 
-          <product-info :product="image" />
+          <product-info v-if="image?.user" :product="image" />
 
           <user-details
             v-if="galleryViewType === DETAILS_GALLERY_VIEW_TYPE"

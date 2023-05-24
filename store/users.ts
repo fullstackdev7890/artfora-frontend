@@ -1,0 +1,56 @@
+import { defineStore } from 'pinia'
+import { UsersState } from '~/types/users'
+import axios from 'axios'
+import {Paginated} from "~/types/search";
+
+export const useUsersStore = defineStore('users', {
+  state: (): UsersState => ({
+    users: {
+      total: 0,
+      current_page: 1,
+      last_page: 1,
+      data: []
+    },
+    user: {
+      id: 1,
+      username: '',
+      tagname: '',
+      email: '',
+      password: '',
+      phone: '',
+      description: '',
+      country: '',
+      background_image_id: 0,
+      avatar_image_id: 0,
+      product_visibility_level: 0,
+      background_image: null,
+      avatar_image: null,
+      role_id: 0,
+      external_link: '',
+    },
+    filters: {
+      per_page: 20,
+      page: 1,
+      desc: 1
+    },
+    loadingNextPage: false,
+    pendingCount: 0
+  }),
+
+  actions: {
+    async fetchAll() {
+      this.$state.filters.page = 1
+
+      const response = await axios.get('/users', { params: this.$state.filters })
+      this.$state.users = response.data
+    },
+    
+    async delete(id: number) {
+      const response = await axios.delete(`/users/${id}`)
+      this.$state.users = response.data
+   },
+  }
+})
+
+
+

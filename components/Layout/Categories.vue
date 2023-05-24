@@ -20,6 +20,14 @@
       </nuxt-link>
 
       <nuxt-link
+        v-if="isAuthorized && getUserRole === ROLE_ADMIN"
+        to="/users"
+        class="categories-body-item categories-body-item-parents"
+      >
+        Users
+      </nuxt-link>
+
+      <nuxt-link
         @click="clearSubCategories()"
         class="categories-body-item categories-body-item-parents"
         to="/"
