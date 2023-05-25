@@ -7,12 +7,11 @@
     class="auth-modal"
   >
     <template v-slot:content>
-      <p class="ui-kit-box-content-small-text">
-        You have now reset your password.<br>
-        Please type in your new password.
-      </p>
-
       <form v-if="!success" @submit.prevent="resetPassword">
+        <p class="ui-kit-box-content-small-text">
+          You have now reset your password.<br>
+          Please type in your new password.
+        </p>
         <ui-kit-input
           v-model="restoreData.password"
           :errors="v$.restoreData.password"
