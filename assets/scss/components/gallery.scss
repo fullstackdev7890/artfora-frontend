@@ -20,7 +20,9 @@
 
         h4 { font-size: 21px; margin: 0 0 20px; }
 
-        &-link { text-decoration: none; color: inherit; background: inherit !important;
+        &-link {
+          font-family: AtkinsonHyperlegible;
+          text-decoration: none; color: inherit; background: inherit !important;
           &:nth-child(odd) {
             margin-top: 10px;
           }
