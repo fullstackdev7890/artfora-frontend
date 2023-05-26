@@ -26,7 +26,7 @@
     v-else
     class="gallery-item-image-container-info"
   >
-    <h4>"{{ product.title }}"</h4>
+    <h4>{{ product.title }}</h4>
     <div>
       by 
       <nuxt-link

@@ -23,6 +23,23 @@
           &:hover {
             text-decoration: underline;
           }
+          &::before,
+          &::after {
+            content: '"';
+            position: absolute;
+            color: inherit;
+          }
+
+          &::before:hover,
+          &::after:hover {
+            text-decoration: none;
+          }
+          &::before {
+            margin-left: -10px;
+          }
+          &::after {
+            margin-right: -10px;
+          }
         }
         div {
           font-family: AtkinsonHyperlegible;
