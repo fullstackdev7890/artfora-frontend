@@ -27,14 +27,14 @@
         a { font-size: 14px; }
         div {
           font-family: AtkinsonHyperlegible;
+          &:nth-child(odd) {
+            margin-top: 10px;
+          }
         }
         &-link {
           text-decoration: none; color: inherit; background: inherit !important;
           &:hover {
             text-decoration: underline;
-          }
-          &:nth-child(odd) {
-            margin-top: 10px;
           }
         }
       }
