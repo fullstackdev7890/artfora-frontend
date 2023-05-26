@@ -27,20 +27,24 @@
     class="gallery-item-image-container-info"
   >
     <h4>"{{ product.title }}"</h4>
-
-    <nuxt-link
-      :to="`/gallery/author/${product.author}`"
-      class="gallery-item-image-container-info-link"
-    >
-      by {{ product.author }}
-    </nuxt-link>
-
-    <nuxt-link
-      :to="`/gallery/user/${product.user.username}`"
-      class="gallery-item-image-container-info-link"
-    >
-      Uploaded by {{ product.user.username }}
-    </nuxt-link>
+    <div>
+      by 
+      <nuxt-link
+        :to="`/gallery/author/${product.author}`"
+        class="gallery-item-image-container-info-link"
+      >
+        {{ product.author }}
+      </nuxt-link>
+    </div>
+    <div>
+      Uploaded by 
+      <nuxt-link
+        :to="`/gallery/user/${product.user.username}`"
+        class="gallery-item-image-container-info-link"
+      >
+        {{ product.user.username }}
+      </nuxt-link>
+    </div>
     <p></p>
   </div>
 </template>

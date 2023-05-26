@@ -40,6 +40,9 @@
 
   &-btn {
     position: absolute; top: 16px; right: 16px; display: flex; gap: 10px; z-index: 1;
+    @media (max-width: $mobile) {
+      right: 32px
+    }
 
     & button {
       background: black; color: white; cursor: pointer; width: 25px; height: 25px; border-radius: 50%; transition: opacity $transition-delay ease;
