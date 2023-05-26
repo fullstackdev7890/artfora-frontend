@@ -25,9 +25,10 @@
           }
         }
         a { font-size: 14px; }
-
-        &-link {
+        div {
           font-family: AtkinsonHyperlegible;
+        }
+        &-link {
           text-decoration: none; color: inherit; background: inherit !important;
           &:hover {
             text-decoration: underline;
