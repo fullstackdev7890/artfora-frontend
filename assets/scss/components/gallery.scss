@@ -24,9 +24,9 @@
             text-decoration: underline;
           }
         }
-        a { font-size: 14px; }
         div {
           font-family: AtkinsonHyperlegible;
+          font-size: 14px;
           &:nth-child(odd) {
             margin-top: 10px;
           }
