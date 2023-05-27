@@ -3,10 +3,35 @@
     v-if="route.name === 'gallery-pending' && product.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
     class="gallery-item-image-container-info gallery-item-image-container-admin"
   >
-    <h4>PENDING</h4>
-    <p>"{{ product.title }}"</p>
-    <a href="#" class="link">see details</a>
-
+    <h4>{{ product.title }}</h4>
+    <div>
+      by 
+      <nuxt-link
+        :to="`/gallery/author/${product.author}`"
+        class="gallery-item-image-container-info-link"
+      >
+        {{ product.author }}
+      </nuxt-link>
+    </div>
+    <div>
+      Uploaded by 
+      <nuxt-link
+        :to="`/gallery/user/${product.user.username}`"
+        class="gallery-item-image-container-info-link"
+      >
+        {{ product.user.username }}
+      </nuxt-link>
+    </div>
+    <div>
+      {{ [
+        '',
+        'For all users, does not contain explicit material',
+        'Can contain nudity but only for educational use',
+        'Can contain nudity and erotic material',
+        'Can contain pornographic or other explicit material'
+        ][product.visibility_level]
+      }}
+    </div>
     <div class="gallery-item-image-container-admin-buttons">
       <button
         :disabled="store.pendingRequestsCount"
@@ -19,6 +44,10 @@
         class="button"
         @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
       ><span>DECLINE</span></button>
+
+      <button
+        class="button"
+      ><span>DETAILS</span></button>
     </div>
   </div>
 

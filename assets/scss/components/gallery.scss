@@ -19,7 +19,7 @@
         letter-spacing: 1px; padding: 25px 0; opacity: 0; flex-direction: column; align-items: center;
 
         h4 { 
-          font-size: 24px; margin: 0 0 20px;
+          font-size: 24px; margin: 0 0 10px;
           &:hover {
             text-decoration: underline;
           }
@@ -44,9 +44,7 @@
         div {
           font-family: AtkinsonHyperlegible;
           font-size: 14px;
-          &:nth-child(odd) {
-            margin-top: 10px;
-          }
+          margin-top: 10px;
         }
         &-link {
           text-decoration: none; color: inherit; background: inherit !important;
@@ -56,9 +54,6 @@
         }
       }
       &-admin {
-        h4 { font-size: 30px; letter-spacing: 2px; margin: 5px auto; color: white; }
-        p { font-size: 18px; }
-        a { display: block; margin: 10px 0; text-decoration: underline; }
         button { margin: 10px 0; font-size: 16px; }
         &-buttons { display: flex; gap: 15px; }
       }
