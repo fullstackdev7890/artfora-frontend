@@ -8,6 +8,7 @@
     padding: 0.5rem; display: block; text-decoration: none; color: $border-color;
 
     &-image-container {
+      min-height: 200px;
       border: 1px solid $border-color; border-radius: 10px; overflow: hidden; display: flex; align-items: center;
       justify-content: center; position: relative;
 
