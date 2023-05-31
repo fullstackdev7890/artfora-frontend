@@ -37,6 +37,18 @@
           </span>
         </span>
 
+        <span
+          v-if="!successResend && !success"
+          class="form-errors-list form-error error"
+        >
+            <span
+              class="link"
+              @click="toLogin"
+            >
+              Login as different user.
+          </span>
+        </span>
+
         <p v-if="successResend" class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
             The 2 factor authentication has been resent to your email address.
@@ -80,6 +92,7 @@ const productsStore = useProductsStore()
 const route = useRoute()
 const { emailForTwoFactorAuth } = storeToRefs(authStore)
 const { getUserRole } = storeToRefs(userStore)
+const emit = defineEmits(['openLogInModal'])
 
 const auth: TwoFactorAuthData = reactive({
   code: '',
@@ -133,6 +146,12 @@ async function confirmTwoFactorAuth() {
 
     serverErrors.value = e.response.data.errors
   }
+}
+
+async function toLogin() {
+  await authStore.removeEmailForTwoFactorAuth()
+  close()
+  emit('openLogInModal')
 }
 
 async function resendEmailCode() {
