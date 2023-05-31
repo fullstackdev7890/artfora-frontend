@@ -18,7 +18,7 @@ export const useProductsStore = defineStore('products', {
       author: '',
       price: 0,
       user_id: 0,
-      category_id: 0,
+      category: [],
       slug: '',
       tags: '',
       description: '',
