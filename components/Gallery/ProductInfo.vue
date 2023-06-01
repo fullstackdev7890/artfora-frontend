@@ -103,6 +103,7 @@ const categoriesStore = useCategoriesStore()
 
 async function byAuthor(author: string) {
   await categoriesStore.categoriesByAuthor(author);
+  await productsStore.updateFilter({ author: author })
 }
 
 async function moderateProduct(id: number, status: string) {

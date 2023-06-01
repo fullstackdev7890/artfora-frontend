@@ -44,6 +44,7 @@ export declare interface SearchProductsFilters {
   per_page?: number
   with?: string[]
   desc?: number
+  author?: string
 }
 export interface ProductsState {
   items: Paginated<Product>

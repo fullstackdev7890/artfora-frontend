@@ -55,16 +55,16 @@ export const useProductsStore = defineStore('products', {
       per_page: 20,
       page: 1,
       with: ['user', 'media'],
-      desc: 1
+      desc: 1,
+      author: ''
     },
     loadingNextPage: false,
     pendingCount: 0
   }),
 
   actions: {
-     async fetchAll() {
-       this.$state.filters.page = 1
-
+    async fetchAll() {
+      this.$state.filters.page = 1
       const response = await axios.get('/products', { params: this.$state.filters })
 
       this.$state.items = response.data
