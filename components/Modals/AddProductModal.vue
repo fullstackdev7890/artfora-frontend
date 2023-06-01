@@ -222,7 +222,7 @@ const categoriesSelectorItems = computed(() => items.value.map((category) => ({
 
 const product = reactive({
   price: 0,
-  category: selectCategory,
+  categories: selectCategory,
   media: [],
   author: '',
   title: '',
@@ -307,7 +307,7 @@ async function uploadProduct() {
     return
   }
 
-  if (product.category.length < 1) {
+  if (product.categories.length < 1) {
     subCategoryError.value = 'Must select at least one sub category. '
     return
   }
