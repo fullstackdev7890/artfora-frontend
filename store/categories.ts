@@ -26,6 +26,12 @@ export const useCategoriesStore = defineStore('categories', {
       this.filters.author = author
 
       this.fetch()
+    },
+
+    async clearAuthor() {
+      this.filters.author = ''
+
+      this.fetch()
     }
   },
 })
