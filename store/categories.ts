@@ -11,8 +11,8 @@ export const useCategoriesStore = defineStore('categories', {
       all: 1,
       with: ['children'],
       only_parents: 1,
-      author: '',
-      username: ''
+      author: null,
+      username: null
     }
   }),
 

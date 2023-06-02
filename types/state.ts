@@ -28,7 +28,7 @@ export interface CategoriesState {
     all: number
     with: string[]
     only_parents: number
-    author: string
-    username: string
+    author: string | null
+    username: string | null
   }
 }
