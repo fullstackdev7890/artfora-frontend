@@ -29,5 +29,6 @@ export interface CategoriesState {
     with: string[]
     only_parents: number
     author: string
+    username: string
   }
 }

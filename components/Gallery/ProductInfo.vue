@@ -18,6 +18,7 @@
       Uploaded by 
       <nuxt-link
         :to="`/gallery/user/${product.user.username}`"
+        @click="() => byUsername(product.user.username)"
         class="gallery-item-image-container-info-link"
       >
         {{ product.user.username }}
@@ -71,6 +72,7 @@
       Uploaded by 
       <nuxt-link
         :to="`/gallery/user/${product.user.username}`"
+        @click="() => byUsername(product.user.username)"
         class="gallery-item-image-container-info-link"
       >
         {{ product.user.username }}
@@ -102,8 +104,15 @@ const route = useRoute()
 const categoriesStore = useCategoriesStore()
 
 async function byAuthor(author: string) {
-  await categoriesStore.categoriesByAuthor(author);
-  await productsStore.updateFilter({ author: author })
+  await categoriesStore.updateFilter({ author: author, username: '' })
+  await productsStore.updateFilter({ author: author, username: '' })
+  await categoriesStore.fetch()
+}
+
+async function byUsername(username: string) {
+  await categoriesStore.updateFilter({ username: username, author: '' })
+  await productsStore.updateFilter({ username: username, author: '' })
+  await categoriesStore.fetch()
 }
 
 async function moderateProduct(id: number, status: string) {

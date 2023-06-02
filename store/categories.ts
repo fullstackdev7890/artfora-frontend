@@ -11,7 +11,8 @@ export const useCategoriesStore = defineStore('categories', {
       all: 1,
       with: ['children'],
       only_parents: 1,
-      author: ''
+      author: '',
+      username: ''
     }
   }),
 
@@ -22,10 +23,8 @@ export const useCategoriesStore = defineStore('categories', {
       this.items = response.data.data
     },
 
-    async categoriesByAuthor(author: string) {
-      this.filters.author = author
-
-      this.fetch()
+    updateFilter(filter: any) {
+      this.filters = Object.assign({}, this.filters, filter)
     },
 
     async clearAuthor() {

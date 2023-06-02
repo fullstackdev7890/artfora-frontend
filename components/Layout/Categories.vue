@@ -28,7 +28,7 @@
       </nuxt-link>
 
       <nuxt-link
-        v-if="categoriesStore.filters.author === ''"
+        v-if="categoriesStore.filters.author === '' && categoriesStore.filters.username === ''"
         @click="clearSubCategories()"
         class="categories-body-item categories-body-item-parents"
         to="/"
@@ -36,12 +36,22 @@
         All
       </nuxt-link>
       <nuxt-link
-        v-else
+        v-else-if="categoriesStore.filters.author !== ''"
         @click="clearAuthor()"
         class="categories-body-item categories-body-item-parents"
         to="/"
       >
         {{categoriesStore.filters.author}}
+        <close-icon class="close-icon" />
+      </nuxt-link>
+
+      <nuxt-link
+        v-else-if="categoriesStore.filters.username !== ''"
+        @click="clearUsername()"
+        class="categories-body-item categories-body-item-parents"
+        to="/"
+      >
+        {{categoriesStore.filters.username}}
         <close-icon class="close-icon" />
       </nuxt-link>
 
@@ -139,7 +149,12 @@ function clearSubCategories() {
   selectedSubCategories.value = []
 }
 function clearAuthor() {
-  categoriesStore.clearAuthor();
+  categoriesStore.updateFilter({author: ''})
+  categoriesStore.fetch()
+}
+function clearUsername() {
+  categoriesStore.updateFilter({username: ''})
+  categoriesStore.fetch()
 }
 function selectSubCategory() {
 
