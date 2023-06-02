@@ -56,7 +56,7 @@ export const useProductsStore = defineStore('products', {
       page: 1,
       with: ['user', 'media'],
       desc: 1,
-      author: ''
+      author: null
     },
     loadingNextPage: false,
     pendingCount: 0

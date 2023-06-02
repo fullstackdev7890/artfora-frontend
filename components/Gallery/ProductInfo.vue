@@ -104,14 +104,14 @@ const route = useRoute()
 const categoriesStore = useCategoriesStore()
 
 async function byAuthor(author: string) {
-  await categoriesStore.updateFilter({ author: author, username: '' })
-  await productsStore.updateFilter({ author: author, username: '' })
+  await categoriesStore.updateFilter({ author: author, username: null })
+  await productsStore.updateFilter({ author: author, username: null })
   await categoriesStore.fetch()
 }
 
 async function byUsername(username: string) {
-  await categoriesStore.updateFilter({ username: username, author: '' })
-  await productsStore.updateFilter({ username: username, author: '' })
+  await categoriesStore.updateFilter({ username: username, author: null })
+  await productsStore.updateFilter({ username: username, author: null })
   await categoriesStore.fetch()
 }
 
