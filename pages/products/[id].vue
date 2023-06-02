@@ -7,7 +7,7 @@
         <arrow-right v-show="isShown" class="hide-icon" />
       </NuxtLink>
 
-      <NuxtLink class="product-container-btn-close" to="/" >
+      <NuxtLink class="product-container-btn-close" @click="toBack" >
         <close-icon class="close-icon" />
       </NuxtLink>
 
@@ -69,7 +69,11 @@ function toggleSidebar() {
 }
 
 function toBack() {
-  router.go(-1)
+  if (router.options.history.state.back) {
+    router.go(-1)
+  } else{
+    router.push('/')
+  }
 }
 
 function toNextImage() {

@@ -1,5 +1,6 @@
 import { Entity, Media, User } from '~/types/index'
 import { Paginated } from '~/types/search'
+import { SubCategory } from '~/types/categories'
 
 export const LARGE_GALLERY_VIEW_TYPE = 'large'
 export const JUSTIFIED_GALLERY_VIEW_TYPE = 'justified'
@@ -19,7 +20,7 @@ export enum ProductStatus {
 export declare interface Product extends Entity {
   price: number
   user_id: number
-  category_id: number
+  category: SubCategory[]
   title: string
   author: string
   slug: string
@@ -43,6 +44,7 @@ export declare interface SearchProductsFilters {
   per_page?: number
   with?: string[]
   desc?: number
+  author?: string
 }
 export interface ProductsState {
   items: Paginated<Product>

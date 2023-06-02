@@ -8,6 +8,7 @@
       by 
       <nuxt-link
         :to="`/gallery/author/${product.author}`"
+        @click="() => byAuthor(product.author)"
         class="gallery-item-image-container-info-link"
       >
         {{ product.author }}
@@ -17,6 +18,7 @@
       Uploaded by 
       <nuxt-link
         :to="`/gallery/user/${product.user.username}`"
+        @click="() => byUsername(product.user.username)"
         class="gallery-item-image-container-info-link"
       >
         {{ product.user.username }}
@@ -59,6 +61,7 @@
     <div>
       by 
       <nuxt-link
+        @click="() => byAuthor(product.author)"
         :to="`/gallery/author/${product.author}`"
         class="gallery-item-image-container-info-link"
       >
@@ -69,6 +72,7 @@
       Uploaded by 
       <nuxt-link
         :to="`/gallery/user/${product.user.username}`"
+        @click="() => byUsername(product.user.username)"
         class="gallery-item-image-container-info-link"
       >
         {{ product.user.username }}
@@ -86,6 +90,7 @@ import { useProductsStore } from '~/store/products'
 import { useStore } from '~/store'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
+import { useCategoriesStore } from '~/store/categories'
 
 interface Props {
   product: Product
@@ -96,6 +101,19 @@ const userStore = useUserStore()
 const productsStore = useProductsStore()
 const { getUserRole } = storeToRefs(userStore)
 const route = useRoute()
+const categoriesStore = useCategoriesStore()
+
+async function byAuthor(author: string) {
+  await categoriesStore.updateFilter({ author: author, username: '' })
+  await productsStore.updateFilter({ author: author, username: '' })
+  await categoriesStore.fetch()
+}
+
+async function byUsername(username: string) {
+  await categoriesStore.updateFilter({ username: username, author: '' })
+  await productsStore.updateFilter({ username: username, author: '' })
+  await categoriesStore.fetch()
+}
 
 async function moderateProduct(id: number, status: string) {
   await productsStore.update(id, { status: status })

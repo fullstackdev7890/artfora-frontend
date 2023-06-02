@@ -23,7 +23,10 @@
       @open-reset-password-modal="resetPasswordModalRef.open()"
     />
 
-    <two-factor-auth-modal ref="twoFactorAuthModalRef" />
+    <two-factor-auth-modal
+      ref="twoFactorAuthModalRef"
+      @open-log-in-modal="openLogInModal"
+    />
 
     <reset-password-modal
       ref="resetPasswordModalRef"

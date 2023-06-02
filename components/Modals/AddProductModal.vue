@@ -55,20 +55,18 @@
           <div v-show="selectedCategory" class="add-product-categories-sub">
             <ui-kit-check-box
               v-for="sub in currentSubCategories"
-              v-model="selectedSubCategories"
               :name="'subCategory' + sub.id"
-              :value="sub.id"
+              @change="(e) => selectSubCategory(sub.id, e.target.checked)"
+              :key="'subCategory' + sub.id"
               :title="sub.title"
-              type="radio"
+              type="checkbox"
             />
           </div>
 
             <span
-              v-for="(message, key) in { required: 'Category is required.'}"
-              v-show="v$.product.category_id.$error"
-              v-html="message"
-              :key="key"
+              v-show="subCategoryError"
               class="form-error error"
+              v-html="subCategoryError"
             ></span>
         </div>
 
@@ -209,9 +207,10 @@ const currentSubCategories = computed(() => {
   return selectedCategory.value ? items.value.find((item) => item.id === selectedCategory.value).children : []
 })
 
-const selectedSubCategories = ref(null)
+const selectedSubCategories = ref<number[]>([])
 const selectCategory = computed(() => selectedSubCategories.value ?? selectedCategory.value)
 const fileError = ref('')
+const subCategoryError = ref('')
 const error = ref('')
 const serverErrors = ref({})
 
@@ -223,7 +222,7 @@ const categoriesSelectorItems = computed(() => items.value.map((category) => ({
 
 const product = reactive({
   price: 0,
-  category_id: selectCategory,
+  categories: selectCategory,
   media: [],
   author: '',
   title: '',
@@ -236,7 +235,6 @@ const product = reactive({
 const v$ = useVuelidate({
   product: {
     price: { required },
-    category_id: { required },
     author: { required },
     title: { required },
     description: { required },
@@ -275,13 +273,21 @@ function sortFiles() {
   product.media = [...files.value]
 }
 
+const selectSubCategory = (cId: number, selected: any) => {
+  if (selected) {
+    selectedSubCategories.value.push(cId)
+  } else {
+    selectedSubCategories.value = selectedSubCategories.value.filter(existingId => existingId !== cId)
+  }
+}
+
 function removeChoiceSub() {
-  selectedSubCategories.value = null
+  selectedSubCategories.value = []
 }
 
 function clearProductFields() {
   selectedCategory.value = null
-  selectedSubCategories.value = null
+  selectedSubCategories.value = []
   files.value = []
 
   product.price = 0
@@ -298,6 +304,11 @@ async function uploadProduct() {
 
   if (product.media.length < 1) {
     fileError.value = 'Media is required. '
+    return
+  }
+
+  if (product.categories.length < 1) {
+    subCategoryError.value = 'Must select at least one sub category. '
     return
   }
 

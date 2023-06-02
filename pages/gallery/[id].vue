@@ -41,7 +41,7 @@ await useAsyncData('products',async () => {
     page: 1,
     order_by,
     username: null,
-    author: null
+    author: products.filters.author
   })
 
   await products.fetchAll()

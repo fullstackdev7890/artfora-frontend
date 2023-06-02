@@ -41,6 +41,10 @@ export const useAuthStore = defineStore('auth', {
       navigateTo('/')
     },
 
+    async removeEmailForTwoFactorAuth() {
+      this.$state.emailForTwoFactorAuth = null
+    },
+
     async resendEmailTwoFactorAuthCode(data: TwoFactorAuthData) {
       await axios.post('/auth/2fa/email/resend', data)
     },

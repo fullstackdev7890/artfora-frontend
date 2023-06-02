@@ -28,11 +28,31 @@
       </nuxt-link>
 
       <nuxt-link
+        v-if="categoriesStore.filters.author === '' && categoriesStore.filters.username === ''"
         @click="clearSubCategories()"
         class="categories-body-item categories-body-item-parents"
         to="/"
       >
         All
+      </nuxt-link>
+      <nuxt-link
+        v-else-if="categoriesStore.filters.author !== ''"
+        @click="clearAuthor()"
+        class="categories-body-item categories-body-item-parents"
+        to="/"
+      >
+        {{categoriesStore.filters.author}}
+        <close-icon class="close-icon" />
+      </nuxt-link>
+
+      <nuxt-link
+        v-else-if="categoriesStore.filters.username !== ''"
+        @click="clearUsername()"
+        class="categories-body-item categories-body-item-parents"
+        to="/"
+      >
+        {{categoriesStore.filters.username}}
+        <close-icon class="close-icon" />
       </nuxt-link>
 
       <nuxt-link
@@ -109,6 +129,7 @@ import { useAuthStore } from '~/store/auth'
 import { useProductsStore } from '~/store/products'
 import { ROLE_ADMIN, ROLE_USER, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from '~/types/constants'
 import { Category } from '~/types/categories'
+import CloseIcon from '~/assets/svg/close.svg'
 
 const categoriesStore = useCategoriesStore()
 const userStore = useUserStore()
@@ -126,6 +147,14 @@ const selectedStatus = ref('')
 function clearSubCategories() {
   selectedStatus.value = ''
   selectedSubCategories.value = []
+}
+function clearAuthor() {
+  categoriesStore.updateFilter({author: ''})
+  categoriesStore.fetch()
+}
+function clearUsername() {
+  categoriesStore.updateFilter({username: ''})
+  categoriesStore.fetch()
 }
 function selectSubCategory() {
 

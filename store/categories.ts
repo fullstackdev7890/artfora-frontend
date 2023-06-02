@@ -10,7 +10,9 @@ export const useCategoriesStore = defineStore('categories', {
     filters: {
       all: 1,
       with: ['children'],
-      only_parents: 1
+      only_parents: 1,
+      author: '',
+      username: ''
     }
   }),
 
@@ -19,6 +21,16 @@ export const useCategoriesStore = defineStore('categories', {
       const response: AxiosResponse<Paginated<Category>> = await axios.get('/categories', { params: this.filters })
 
       this.items = response.data.data
+    },
+
+    updateFilter(filter: any) {
+      this.filters = Object.assign({}, this.filters, filter)
+    },
+
+    async clearAuthor() {
+      this.filters.author = ''
+
+      this.fetch()
     }
   },
 })
