@@ -5,10 +5,6 @@
       ref="addProductModalRef"
     />
 
-    <edit-product-modal
-      ref="editProductModalRef"
-    />
-
     <ai-safe-description-modal
       ref="aiSafeDescriptionModalRef"
     />
@@ -59,7 +55,6 @@ import { useAuthStore } from '~/store/auth'
 import { storeToRefs } from 'pinia'
 import SignUpModal from '~/components/Modals/SignUpModal.vue'
 import AddProduct from '~/components/Modals/AddProductModal.vue'
-import EditProductModal from '~/components/Modals/EditProductModal.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
@@ -75,7 +70,6 @@ const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
 
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModalRef = ref<InstanceType<typeof UiKitModal>>(null)
-const editProductModalRef = ref<InstanceType<typeof EditProductModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
@@ -99,7 +93,6 @@ router.beforeEach((to, from, next) => {
   logInModalRef.value.close()
   twoFactorAuthModalRef.value.close()
   addProductModalRef.value.close()
-  editProductModalRef.value.close()
   resetPasswordModalRef.value.close()
   enterNewPasswordModalRef.value.close()
   contactUsModalRef.value.close()
@@ -140,10 +133,6 @@ function openAddProductModal() {
   addProductModalRef.value.open()
 }
 
-function openEditProductModal() {
-  editProductModalRef.value.open()
-}
-
 function openAiSafeDescriptionModal() {
   aiSafeDescriptionModalRef.value.open()
 }
@@ -152,5 +141,5 @@ function openContactUsModal() {
   contactUsModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openEditProductModal, openLogInModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
+defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
 </script>

@@ -24,7 +24,7 @@
             }"
         >
 
-          <product-info v-if="image?.user" :product="image" @open-edit-product-modal="modalsComponentRef.openEditProductModal()" />
+          <product-info v-if="image?.user" :product="image" @open-edit-product-modal="editProductModalRef.open()" />
 
           <user-details
             v-if="galleryViewType === DETAILS_GALLERY_VIEW_TYPE"
@@ -37,7 +37,10 @@
         </div>
       </nuxt-link>
     </div>
-    <modals-component ref="modalsComponentRef" />
+    
+    <edit-product-modal
+      ref="editProductModalRef"
+    />
   </div>
 </template>
 
@@ -62,6 +65,7 @@ import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
 import randomWords from 'random-words'
 import ModalsComponent from '~/components/Layout/ModalsComponent.vue'
+import EditProductModal from '~/components/Modals/EditProductModal.vue'
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
@@ -72,6 +76,7 @@ const { viewType } = storeToRefs(gallerySettings)
 const galleryViewType = ref(viewType)
 const router = useRouter()
 const modalsComponentRef = ref<InstanceType<typeof ModalsComponent>>(null)
+const editProductModalRef = ref<InstanceType<typeof EditProductModal>>(null)
 
 interface Props {
   items: ProductsState
