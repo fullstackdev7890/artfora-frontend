@@ -171,6 +171,7 @@
 </template>
 
 <script setup lang="ts">
+import { ROLE_ADMIN, STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED } from '~/types/constants'
 import { computed, ref, reactive } from 'vue'
 import { useCategoriesStore } from '~/store/categories'
 import { storeToRefs } from 'pinia'
@@ -232,6 +233,7 @@ const product = reactive({
   author: '',
   title: '',
   description: '',
+  status: STATUS_PENDING,
   tags: '',
   visibility_level: 0,
   is_ai_safe: false
