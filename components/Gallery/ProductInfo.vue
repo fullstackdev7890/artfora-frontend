@@ -57,6 +57,11 @@
     v-else
     class="gallery-item-image-container-info"
   >
+    <edit-icon 
+      class="edit-icon" 
+      @click.prevent="() => editProduct(product)"
+      v-if="isAuthorized"
+    />
     <h4>{{ product.title }}</h4>
     <div>
       by 
@@ -91,6 +96,9 @@ import { useStore } from '~/store'
 import { storeToRefs } from 'pinia'
 import { useRoute } from 'vue-router'
 import { useCategoriesStore } from '~/store/categories'
+import EditIcon from '~/assets/svg/icon_edit_pencil.svg'
+import { useAuthStore } from '~/store/auth'
+const emit = defineEmits(['openEditProductModal', 'openAddProductModal'])
 
 interface Props {
   product: Product
@@ -99,9 +107,11 @@ const props = defineProps<Props>()
 const store = useStore()
 const userStore = useUserStore()
 const productsStore = useProductsStore()
+const authStore = useAuthStore()
 const { getUserRole } = storeToRefs(userStore)
 const route = useRoute()
 const categoriesStore = useCategoriesStore()
+const { isAuthorized } = storeToRefs(authStore)
 
 async function byAuthor(author: string) {
   await categoriesStore.updateFilter({ author: author, username: null })
@@ -121,5 +131,10 @@ async function moderateProduct(id: number, status: string) {
   await productsStore.fetchAll()
 
   await productsStore.getPendingCount()
+}
+
+async function editProduct(product: Product) {
+  productsStore.item = product
+  emit('openEditProductModal')
 }
 </script>

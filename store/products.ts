@@ -18,7 +18,7 @@ export const useProductsStore = defineStore('products', {
       author: '',
       price: 0,
       user_id: 0,
-      category: [],
+      categories: [],
       slug: '',
       tags: '',
       description: '',
@@ -54,7 +54,7 @@ export const useProductsStore = defineStore('products', {
     filters: {
       per_page: 20,
       page: 1,
-      with: ['user', 'media'],
+      with: ['user', 'media', 'categories.parent'],
       desc: 1,
       author: null
     },

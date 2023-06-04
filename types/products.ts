@@ -20,7 +20,7 @@ export enum ProductStatus {
 export declare interface Product extends Entity {
   price: number
   user_id: number
-  category: SubCategory[]
+  categories: SubCategory[]
   title: string
   author: string
   slug: string
