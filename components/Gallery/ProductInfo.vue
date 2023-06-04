@@ -60,7 +60,7 @@
     <edit-icon 
       class="edit-icon" 
       @click.prevent="() => editProduct(product)"
-      v-if="isAuthorized"
+      v-if="isAuthorized && product.user.id === userStore.id"
     />
     <h4>{{ product.title }}</h4>
     <div>

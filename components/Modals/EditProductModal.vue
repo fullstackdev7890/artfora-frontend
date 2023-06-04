@@ -291,7 +291,7 @@ function removeChoiceSub() {
 }
 
 function initializeProductFields() {
-  selectedCategory.value = productStore.item.categories ? productStore.item.categories[0].parent_id : null
+  selectedCategory.value = productStore.item.categories ? productStore.item.categories[0]?.parent_id : null
   selectedSubCategories.value = productStore.item.categories.map((c) => c.id)
   files.value = productStore.item.media
   product.price = productStore.item.price
