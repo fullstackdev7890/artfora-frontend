@@ -3,6 +3,9 @@ import {ProductStatus, ProductsState, Product} from '~/types/products'
 import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import axios from 'axios'
 import {Paginated} from "~/types/search";
+import { storeToRefs } from 'pinia'
+import { useCategoriesStore } from '~/store/categories'
+import { Category } from '~~/types/categories';
 
 export const useProductsStore = defineStore('products', {
   state: (): ProductsState => ({
@@ -51,6 +54,7 @@ export const useProductsStore = defineStore('products', {
         media: []
       }
     },
+    subCategories: [],
     filters: {
       per_page: 20,
       page: 1,
@@ -68,6 +72,28 @@ export const useProductsStore = defineStore('products', {
       const response = await axios.get('/products', { params: this.$state.filters })
 
       this.$state.items = response.data
+      
+      const categoriesStore = useCategoriesStore()
+      const { items } = storeToRefs(categoriesStore)
+      const categories = this.$state.filters.categories?.map((id) => Number(id))
+      
+      const category = items.value.find((category) => categories?.includes(category.id))
+      if (category) {
+        const children = category.children
+        if (children) {
+          const pts = this.$state.items.data
+          const subs = children.filter((child) => {
+            return pts.find((p) => {
+              return p.categories.find((c) => c.id === child.id)
+            })
+          })
+          this.$state.subCategories = subs
+        }
+      }
+
+      if (!this.$state.filters.categories) {
+        this.$state.subCategories = []
+      }
     },
 
     async fetchNextPage() {
