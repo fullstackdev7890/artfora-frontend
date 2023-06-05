@@ -334,9 +334,11 @@ async function updateProduct() {
   fileError.value = ''
 
   try {
-    await productStore.update(productStore.item.id, product).then(() => {
+    await productStore.update(productStore.item.id, product).then(async () => {
       close()
-      productStore.fetchAll()
+      await productStore.fetchAll()
+
+      await productStore.getPendingCount()
     })
 
   } catch (e) {

@@ -6,6 +6,9 @@ export default function () {
   const config = useRuntimeConfig()
 
   const getImageUrl = (media: Media, template?: string): string => {
+    if (!media) {
+      return ''
+    }
     if (!!template) {
       return config.public.API_BASE_URL + '/cache/' + template + '/' + media.link
     }
