@@ -38,7 +38,6 @@
         </span>
 
         <span
-          v-if="!successResend && !success"
           class="form-errors-list form-error error"
         >
             <span
