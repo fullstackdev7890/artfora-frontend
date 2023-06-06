@@ -11,7 +11,7 @@
           <label for="uploadImage" class="add-product-upload-add">
             DROP IMAGE(S) HERE <br>
             OR CLICK TO BROWSE <br>
-            SHOULD BE AT LEAST 1920PX X 586PX <br>
+            SHOULD BE AT LEAST 1920 PX <br>
             <input
               id="uploadImage"
               @change="addFiles($event)"
