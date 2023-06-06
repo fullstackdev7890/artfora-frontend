@@ -91,7 +91,7 @@
             <ui-kit-input 
 
             v-for="(link,k) in moreexternal_link"
-            placeholder="EXTERNAL LINKS More" :modelValue="link"  v-model="moreexternal_link[k]">
+            placeholder="EXTERNAL LINK" :modelValue="link"  v-model="moreexternal_link[k]">
            
                 <div class="account-settings-form-icons">
                     <minus-icon class="account-settings-minus-icon" @click="removeField(k)"/>
