@@ -191,6 +191,7 @@ import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { Media } from '~~/types'
 
 const editProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -277,7 +278,7 @@ function removeFile(index: number) {
 }
 
 function sortFiles() {
-  product.media = [...files.value]
+  product.media = [...files.value.map((media: Media) => media.id)]
 }
 
 const selectSubCategory = (cId: number, selected: any) => {
