@@ -45,7 +45,7 @@
         :disabled="store.pendingRequestsCount"
         class="gallery-item-image-container-decline"
         @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
-      >D</button>
+      >R</button>
 
       <button
         class="gallery-item-image-container-inform"
@@ -55,7 +55,7 @@
 
   <div
     v-else
-    class="gallery-item-image-container-info"
+    :class="`gallery-item-image-container-info ${product.status}`"
   >
     <edit-icon 
       class="edit-icon" 

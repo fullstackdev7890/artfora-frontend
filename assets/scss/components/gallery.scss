@@ -67,6 +67,9 @@
             text-decoration: underline;
           }
         }
+        &.Pending, &.Rejected {
+          display: flex; opacity: 1
+        }
       }
       &-admin {
         button { margin: 10px 0; font-size: 16px; border-radius: 50%; height: 35px; width: 35px; cursor: pointer;}
