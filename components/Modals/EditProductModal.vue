@@ -11,7 +11,7 @@
           <label for="uploadImage" class="add-product-upload-add">
             DROP IMAGE(S) HERE <br>
             OR CLICK TO BROWSE <br>
-            SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
+            SHOULD BE AT LEAST 1920PX X 586PX <br>
             <input
               id="uploadImage"
               @change="addFiles($event)"
@@ -107,7 +107,7 @@
         </ui-kit-check-box>
 
         <ui-kit-input
-          v-model="product.tags"
+          v-model="product.tags" v-if="!product.is_ai_safe"
           :errors="v$.product.tags"
           :error-messages="{ required: 'Tags are required' }"
           :disabled="product.is_ai_safe"
