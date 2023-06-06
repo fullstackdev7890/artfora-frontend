@@ -83,7 +83,7 @@
         <ui-kit-input
           v-model="user.external_link"
           :disabled="store.pendingRequestsCount" 
-          placeholder="EXTERNAL LINKS"
+          placeholder="EXTERNAL LINK"
         />
 
         <div class="addmore">
