@@ -141,12 +141,16 @@ const { items } = storeToRefs(categoriesStore)
 const { pendingCount } = storeToRefs(productStore)
 const route = useRoute()
 const selectedSubCategories = ref([])
-const subCategories = computed(() => items.value.find((category: Category) => category.id === Number(route.params.id))?.children ?? null)
+
+const subCategories = computed(() => {
+  return productStore.subCategories
+})
 const statuses = ref([ STATUS_APPROVED, STATUS_PENDING, STATUS_REJECTED ])
 const selectedStatus = ref('')
 function clearSubCategories() {
   selectedStatus.value = ''
   selectedSubCategories.value = []
+  productStore.subCategories = []
 }
 function clearAuthor() {
   categoriesStore.updateFilter({author: null})

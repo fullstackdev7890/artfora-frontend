@@ -49,6 +49,7 @@ export declare interface SearchProductsFilters {
 export interface ProductsState {
   items: Paginated<Product>
   item: Product
+  subCategories: SubCategory[],
   filters: SearchProductsFilters,
   loadingNextPage: boolean,
   pendingCount: number
