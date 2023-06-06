@@ -9,7 +9,7 @@ export const useCategoriesStore = defineStore('categories', {
     items: [],
     filters: {
       all: 1,
-      with: ['children'],
+      with: ['children.products'],
       only_parents: 1,
       author: null,
       username: null
@@ -20,7 +20,13 @@ export const useCategoriesStore = defineStore('categories', {
     async fetch() {
       const response: AxiosResponse<Paginated<Category>> = await axios.get('/categories', { params: this.filters })
 
-      this.items = response.data.data
+      /**
+       * Get the categories include the current products
+       */
+      const categories = response.data.data.map((category) => {
+        return {...category, has_products: !!category.children.find((sub) => sub.products?.length > 0)}
+      })
+      this.items = categories
     },
 
     updateFilter(filter: any) {

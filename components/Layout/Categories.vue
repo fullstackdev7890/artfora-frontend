@@ -56,7 +56,8 @@
       </nuxt-link>
 
       <nuxt-link
-        v-for="(category) in items"
+        v-for="(category, index) in items.filter((c) => c.has_products)"
+        :key="index"
         @click="clearSubCategories"
         :to="`/gallery/${category.id}`"
         class="categories-body-item categories-body-item-parents"
@@ -68,7 +69,8 @@
 
     <div class="categories-body" v-if="subCategories">
       <label
-        v-for="item in subCategories"
+        v-for="(item, index) in subCategories"
+        :key="index"
         :class="{'categories-body-item-active': selectedSubCategories.some((el) => el === item.id)}"
         :for="item.title"
         class="categories-body-item categories-body-item-children"
@@ -101,7 +103,8 @@
       </label>
 
       <label
-        v-for="status in statuses"
+        v-for="(status, index) in statuses"
+        :key="index"
         :class="{'categories-body-item-active': selectedStatus === status}"
         :for="status"
         class="categories-body-item categories-body-item-children"
