@@ -62,6 +62,15 @@
             {{ link }}
           </a>
         </div>
+        <div
+          v-for="link in morelinks"
+          class="links-modal-item"
+        >
+          <browser-white-icon class="social-icon"/>
+          <a :href="link" class="ui-kit-modal-content-links">
+            {{ link }}
+          </a>
+        </div>
       </div>
 
       <div class="links-modal-message" v-else>
@@ -91,6 +100,7 @@ import PatreonIcon from '~/assets/svg/social/patreon.svg'
 
 interface Props {
   links: string | null
+  morelinks: [] | []
 }
 
 const props = defineProps<Props>()
@@ -110,17 +120,17 @@ const otherLinks = ref([])
 onBeforeMount(() => {
   if (links.value) {
     siteSort()
+    
   }
 })
 
 function siteSort() {
-
+  
   links.value.split(',').forEach(link => {
     let found = false
     sites.value.forEach(site => {
       const pattern = new RegExp(`(https://)?(www\.)?${site}`, 'i')
       if (pattern.test(link)) {
-        console.log(permanentLinks.twitch)
         permanentLinks[site] = link
         found = true
       }

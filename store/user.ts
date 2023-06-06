@@ -41,7 +41,6 @@ export const useUserStore = defineStore('user', {
   actions: {
     async fetch() {
       const response = await axios.get('/profile')
-      // console.log(response.data);
       if(response.data.more_external_link == null){
         response.data.more_external_link = [];
       }
@@ -49,7 +48,6 @@ export const useUserStore = defineStore('user', {
     },
 
     async updateProfile(data: {}) {
-      console.log(data);
       await axios.put('/profile', data)
 
       await this.fetch()
