@@ -18,6 +18,7 @@ const initState = (): User => ({
   deleted_at: null,
   product_visibility_level: null,
   background_image: null,
+  more_external_link: [],
   avatar_image: {
     id: 0,
     link: '',
@@ -40,11 +41,15 @@ export const useUserStore = defineStore('user', {
   actions: {
     async fetch() {
       const response = await axios.get('/profile')
-
+      // console.log(response.data);
+      if(response.data.more_external_link == null){
+        response.data.more_external_link = [];
+      }
       this.$state = response.data
     },
 
     async updateProfile(data: {}) {
+      console.log(data);
       await axios.put('/profile', data)
 
       await this.fetch()

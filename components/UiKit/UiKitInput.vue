@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="add-custom-field">
     <fieldset class="form-group">
       <the-mask
         v-if="mask"
@@ -50,8 +50,9 @@
         >
           {{ placeholder }}
         </span>
+        
       </label>
-
+      <slot></slot>
 
       <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">
         <span
@@ -87,6 +88,7 @@
 <script lang="ts" setup>
 import TheMask from 'vue-the-mask'
 import { defineEmits } from 'vue'
+
 
 interface Props {
   modelValue: string | number,
@@ -140,4 +142,5 @@ function onChanged(value: any) {
     input(value)
   }
 }
+
 </script>

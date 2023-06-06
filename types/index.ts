@@ -1,3 +1,5 @@
+import { StringMappingType } from 'typescript'
+
 export * from './state'
 
 export const HEADER_HEIGHT = 100
@@ -36,6 +38,7 @@ export interface User extends Entity {
   email_verified_at?: string | null
   deleted_at?: string | null
   media?: Media
+  more_external_link: [] | []
 }
 
 export interface UsersState {
@@ -47,4 +50,6 @@ export interface Setting extends Entity {
   value: object
   is_public: boolean
 }
+
+
 

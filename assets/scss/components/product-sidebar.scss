@@ -36,12 +36,11 @@
     }
 
     &-share {
-      background: $user-details-tag-font-color;width: 26px; height: 26px; padding: 3px 2px;
+      background: $box-background-color;width: 26px; height: 26px; padding: 3px 2px;
       border-radius: 50%; cursor: pointer; margin-left: auto; margin-right: 16px; transition: opacity $transition-delay ease;
 
       & .share-icon{ fill: $header-background-color;   }
 
-      &:hover { opacity: .7 }
     }
   }
 
