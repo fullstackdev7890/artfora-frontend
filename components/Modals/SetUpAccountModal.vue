@@ -82,10 +82,27 @@
 
         <ui-kit-input
           v-model="user.external_link"
-          :disabled="store.pendingRequestsCount"
+          :disabled="store.pendingRequestsCount" 
           placeholder="EXTERNAL LINKS"
         />
 
+        <div class="addmore">
+            <plus-icon @click="addField()" class="account-settings-plus-icon"/> 
+            <ui-kit-input 
+
+            v-for="(link,k) in moreexternal_link"
+            placeholder="EXTERNAL LINKS More" :modelValue="link"  v-model="moreexternal_link[k]">
+           
+                <div class="account-settings-form-icons">
+                    <minus-icon class="account-settings-minus-icon" @click="removeField(k)"/>
+                  </div>
+              </ui-kit-input>
+            <div>
+          
+          </div>
+        </div>
+          
+        
         <div class="account-settings-visibility-level">
           <ui-kit-check-box
             v-model="user.product_visibility_level"
@@ -164,6 +181,8 @@ import { required, email } from '@vuelidate/validators'
 import { navigateTo } from '#app'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import CloseIcon from '~/assets/svg/close.svg'
+import PlusIcon from '~/assets/svg/plus.svg'
+import MinusIcon from '~/assets/svg/minus.svg'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 import useMedia from '~/composable/media'
 import axios from 'axios'
@@ -177,10 +196,12 @@ const authStore = useAuthStore()
 const currentProfile = storeToRefs(userStore)
 const mediaStore = useMediaStore()
 const { getUserAvatar, getImageUrl } = useMedia()
+const moreexternal_link =  reactive(currentProfile.more_external_link)
 const countries = ref([{ title: currentProfile.country, key: currentProfile.country }])
 const backgroundImage = ref(currentProfile.background_image)
 const avatar = ref(currentProfile.avatar_image)
 const error = ref('')
+console.log(currentProfile.more_external_link);
 const user = reactive({
   username: currentProfile.username,
   email: currentProfile.email,
@@ -189,8 +210,10 @@ const user = reactive({
   product_visibility_level: currentProfile.product_visibility_level,
   background_image_id: currentProfile.background_image_id,
   avatar_image_id: currentProfile.avatar_image_id,
-  country: currentProfile.country
+  country: currentProfile.country,
+  more_external_link: currentProfile.more_external_link,
 })
+
 
 const v$ = useVuelidate({
   user: {
@@ -224,6 +247,16 @@ async function addFile(event: any) {
 
 }
 
+async function addField() {
+  
+  moreexternal_link.value.push("");
+  
+}
+async function removeField(index){
+  moreexternal_link.value.splice(index,1);
+}
+
+
 async function uploadProduct() {
 
   v$.value.$touch()
@@ -233,7 +266,7 @@ async function uploadProduct() {
   }
 
   try {
-
+    user.more_external_link = moreexternal_link;
     await userStore.updateProfile(user).then(close)
 
   } catch (e: any) {

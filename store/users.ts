@@ -24,6 +24,7 @@ export const useUsersStore = defineStore('users', {
       avatar_image_id: 0,
       product_visibility_level: 0,
       background_image: null,
+      more_external_link: [],
       avatar_image: null,
       role_id: 0,
       external_link: '',

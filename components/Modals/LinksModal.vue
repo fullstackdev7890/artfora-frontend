@@ -57,7 +57,7 @@
           v-for="link in otherLinks"
           class="links-modal-item"
         >
-          <browser-icon class="social-icon"/>
+          <browser-white-icon class="social-icon"/>
           <a :href="link" class="ui-kit-modal-content-links">
             {{ link }}
           </a>
@@ -81,6 +81,7 @@
 import { reactive, onBeforeMount, computed, ref } from 'vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import BrowserIcon from '~/assets/svg/social/browser.svg'
+import BrowserWhiteIcon from '~/assets/svg/social/browser-white.svg'
 import InstagramIcon from '~/assets/svg/social/instagram.svg'
 import FacebookIcon from '~/assets/svg/social/facebook.svg'
 import BandcampIcon from '~/assets/svg/social/bandcamp.svg'
