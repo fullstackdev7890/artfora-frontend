@@ -1,16 +1,18 @@
 <template>
   <div class="gallery" ref="galleryComponentRef">
     <div
-      v-for="column in galleryImages"
+      v-for="(column, index) in galleryImages"
+      :key="index"
+      class="col-20 col-large-25 col-laptop-33 col-tab-50"
       :class="{
-        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100': galleryViewType === LARGE_GALLERY_VIEW_TYPE,
-        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-50': galleryViewType === JUSTIFIED_GALLERY_VIEW_TYPE,
-        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-33': galleryViewType === SQUARE_GALLERY_VIEW_TYPE,
-        'col-20 col-large-25 col-laptop-33 col-tab-50 col-mobile-100': galleryViewType === DETAILS_GALLERY_VIEW_TYPE
+        'col-mobile-100': galleryViewType === LARGE_GALLERY_VIEW_TYPE || galleryViewType === DETAILS_GALLERY_VIEW_TYPE,
+        'col-mobile-50': galleryViewType === JUSTIFIED_GALLERY_VIEW_TYPE,
+        'col-mobile-33': galleryViewType === SQUARE_GALLERY_VIEW_TYPE,
       }"
     >
       <nuxt-link
-        v-for="image in column"
+        v-for="(image, index) in column"
+        :key="index"
         :to="`/products/${image.id}`"
         class="gallery-item"
       >
