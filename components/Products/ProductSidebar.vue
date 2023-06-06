@@ -61,8 +61,7 @@
           <span>COMMISSION OPEN</span>
         </button>
       </div>
-
-      <links-modal ref="linksModal" :links="props.product.user.external_link" />
+      <links-modal ref="linksModal" :morelinks="props.product.user.more_external_link" :links="props.product.user.external_link" />
 
       <commission-work-modal ref="commissionWorkModal" :user-id="props.product.user.id" />
 

@@ -37,18 +37,18 @@
     <div class="gallery-item-image-container-admin-buttons">
       <button
         :disabled="store.pendingRequestsCount"
-        class="button gallery-item-image-container-approved"
+        class="gallery-item-image-container-approved"
         @click.prevent="moderateProduct(product.id, STATUS_APPROVED)"
       >A</button>
 
       <button
         :disabled="store.pendingRequestsCount"
-        class="button gallery-item-image-container-decline"
+        class="gallery-item-image-container-decline"
         @click.prevent="moderateProduct(product.id, STATUS_REJECTED)"
       >D</button>
 
       <button
-        class="button gallery-item-image-container-inform"
+        class="gallery-item-image-container-inform"
       >I</button>
     </div>
   </div>

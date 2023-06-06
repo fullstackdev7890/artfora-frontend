@@ -201,7 +201,6 @@ const countries = ref([{ title: currentProfile.country, key: currentProfile.coun
 const backgroundImage = ref(currentProfile.background_image)
 const avatar = ref(currentProfile.avatar_image)
 const error = ref('')
-console.log(currentProfile.more_external_link);
 const user = reactive({
   username: currentProfile.username,
   email: currentProfile.email,
