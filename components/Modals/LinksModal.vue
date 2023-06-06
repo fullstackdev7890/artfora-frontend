@@ -67,7 +67,7 @@
           class="links-modal-item"
         >
           <browser-white-icon class="social-icon"/>
-          <a :href="link" class="ui-kit-modal-content-links">
+          <a :href="link" class="ui-kit-modal-content-links" target="_blank">
             {{ link }}
           </a>
         </div>

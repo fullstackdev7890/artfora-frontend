@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="custom-ui-selected">
     <div
       :class="{
         'ui-kit-selector-active': isExpanded,
