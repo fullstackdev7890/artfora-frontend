@@ -13,14 +13,13 @@
           ></span>
         </span>
       <div >
-        <p class="ui-kit-box-content-small-text">
+        <div class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
-            <div class="" v-if="textData.length !== 0" v-for="text in textData">
-                {{ text.text_name }}
-                {{ text.text_content }}
-            </div>
+            <p style="margin-bottom:10px" v-if="textData.length !== 0" v-for="tData in textData" :style="{color:tData.text_colour}">
+              {{ tData.text_content }}
+            </p>
           </span>
-        </p>
+        </div>
 
         <div class="ui-kit-modal-content-buttons">
           <button
@@ -49,29 +48,11 @@ const preSignUpModal = ref<InstanceType<typeof UiKitModal>>(null)
   
 const emit = defineEmits(['openSignUpModal'])
 const textData = ref(1);
-const auth: SignUpData = reactive({
-  email: '',
-  password: '',
-  confirm: '',
-  username: '',
-  tagname: '',
-  redirect_after_verification: '/?open-set-up-modal=true'
-})
 
 let error = ref('')
 let serverErrors = ref({})
 let success = ref(false)
 
-
-
-function refreshModal() {
-    auth.email = ''
-    auth.password = ''
-    auth.confirm = ''
-    auth.username = ''
-    auth.tagname = ''
-    auth.redirect_after_verification = '/?open-set-up-modal=true'
-}
 
 async function gettext() {
   
