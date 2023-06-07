@@ -2,7 +2,7 @@
   <ui-kit-modal
     :with-footer="false"
     :close-btn-as-home-link="route.name === 'enter-new-password'"
-    title="Login"
+    title="Log in"
     ref="logInModal"
     class="auth-modal"
   >

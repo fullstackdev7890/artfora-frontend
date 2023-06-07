@@ -36,7 +36,7 @@
         <span
           @click="openLogInModal"
           class="ui-kit-dropdown-content-item-btn"
-        >Login/Sign up</span>
+        >Log in/Sign up</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">

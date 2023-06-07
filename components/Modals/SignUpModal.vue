@@ -13,7 +13,7 @@
           <span
             class="link"
             @click="openLogInModal"
-          >Login here!</span>
+          >Log in here!</span>
         </p>
 
         <ui-kit-input
