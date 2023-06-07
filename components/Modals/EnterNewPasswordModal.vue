@@ -45,7 +45,7 @@
             class="button full-width"
             type="submit"
           >
-            <span>LOGIN</span>
+            <span>LOG IN</span>
           </button>
         </div>
       </form>
@@ -62,7 +62,7 @@
             class="button full-width"
             @click="openSignUpModal"
           >
-            <span>LOGIN</span>
+            <span>LOG IN</span>
           </button>
         </div>
       </div>

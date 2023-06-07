@@ -147,7 +147,7 @@
           <span class="ui-kit-box-content-success-text">
             If you want to change your password, please <br>
             logout <a href="#" class="link" @click.prevent="logout">here</a> and use the "Reset password" function <br>
-            on the "Login" page.
+            on the "Log in" page.
           </span>
         </p>
 

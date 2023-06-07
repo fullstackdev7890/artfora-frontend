@@ -2,7 +2,7 @@
   <ui-kit-modal
     :with-footer="false"
     :close-btn-as-home-link="route.name === 'enter-new-password'"
-    title="Safe login"
+    title="Safe log in"
     ref="TwoFactorAuthModal"
     class="auth-modal"
   >
@@ -44,7 +44,7 @@
               class="link"
               @click="toLogin"
             >
-              Login as different user.
+              Log in as different user.
           </span>
         </span>
 
@@ -60,7 +60,7 @@
             class="button full-width"
             type="submit"
           >
-            <span>Login</span>
+            <span>Log in</span>
           </button>
         </div>
       </form>
