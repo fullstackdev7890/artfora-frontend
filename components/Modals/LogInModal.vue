@@ -12,7 +12,7 @@
           Don't have an account?
           <span
             class="link"
-            @click="openSignUpModal"
+            @click="openPreSignUpModal"
           >Sign up here!</span>
         </p>
 
@@ -89,7 +89,7 @@ const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
 const route = useRoute()
-const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
+const emit = defineEmits(['openSignUpModal', 'openPreSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
 
 const auth: LoginData = reactive({
   login: '',
@@ -137,6 +137,11 @@ async function logIn() {
 function openSignUpModal() {
   close()
   emit('openSignUpModal')
+}
+
+function openPreSignUpModal() {
+  close()
+  emit('openPreSignUpModal')
 }
 
 function openResetPasswordModal() {
