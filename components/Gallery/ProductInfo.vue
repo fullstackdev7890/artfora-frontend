@@ -83,6 +83,9 @@
         {{ product.user.username }}
       </nuxt-link>
     </div>
+    <div class="product-status">
+      {{product.status}}
+    </div>
     <p></p>
   </div>
 </template>
