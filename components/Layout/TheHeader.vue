@@ -13,6 +13,7 @@
       <profile-menu
         @open-log-in-modal="emit('openLogInModal')"
         @open-add-product-modal="emit('openAddProductModal')"
+        @open-start-selling-modal="emit('openStartSellingModal')"
         @open-contact-us-modal="emit('openContactUsModal')"
         @open-gallery-settings-modal="emit('openGallerySettingsModal')"
         @open-set-up-account-modal="emit('openSetUpAccountModal')"
@@ -32,7 +33,7 @@ import SearchBar from '~/components/Layout/SearchBar.vue'
 import ProfileMenu from '~/components/Layout/ProfileMenu.vue'
 import Categories from '~/components/Layout/Categories.vue'
 
-const emit = defineEmits(['openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openSetUpAccountModal'])
+const emit = defineEmits(['openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openStartSellingModal', 'openGallerySettingsModal', 'openSetUpAccountModal'])
 
 const isShown = ref(false)
 const scrollPosition = ref(0)

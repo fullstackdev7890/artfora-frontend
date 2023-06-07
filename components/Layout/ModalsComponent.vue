@@ -11,6 +11,8 @@
 
     <set-up-account-modal ref="setUpAccountModalRef" />
 
+    <start-selling-modal ref="startSellingModalRef" />
+
     <sign-up-modal
       ref="signUpModalRef"
       @open-log-in-modal="openLogInModal"
@@ -64,6 +66,7 @@ import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
 import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
+import StartSellingMdal from '~/components/Modals/StartSellingModal.vue'
 import EnterNewPasswordModal from '~/components/Modals/EnterNewPasswordModal.vue'
 import ContactUsModal from '~/components/Modals/ContactModal.vue'
 import GallerySettingsModal from '~/components/Modals/GallerySettingsModal.vue'
@@ -85,7 +88,8 @@ const gallerySettingsModalRef = ref<InstanceType<typeof GallerySettingsModal>>(n
 const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null)
 const aiSafeDescriptionModalRef = ref<InstanceType<typeof AiSafeDescriptionModal>>(null)
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>(null)
-  
+const startSellingModalRef = ref<InstanceType<typeof StartSellingModal>>(null)
+
 const router = useRouter()
 const route = useRoute()
 
@@ -101,6 +105,7 @@ router.beforeEach((to, from, next) => {
   twoFactorAuthModalRef.value.close()
   addProductModalRef.value.close()
   resetPasswordModalRef.value.close()
+  startSellingModalRef.value.close()
   enterNewPasswordModalRef.value.close()
   contactUsModalRef.value.close()
   gallerySettingsModalRef.value.close()
@@ -132,6 +137,10 @@ function openSignUpModal() {
   signUpModalRef.value.open()
 }
 
+function openStartSellingModal() {
+  startSellingModalRef.value.open()
+}
+
 function openGallerySettingsModal() {
   gallerySettingsModalRef.value.open()
 }
@@ -152,5 +161,5 @@ function openPreSignUpModal() {
   preSignUpModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openPreSignUpModal, openContactUsModal, openGallerySettingsModal, openSetUpAccountModal })
+defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openPreSignUpModal, openContactUsModal, openStartSellingModal, openGallerySettingsModal, openSetUpAccountModal })
 </script>
