@@ -67,8 +67,20 @@
             text-decoration: underline;
           }
         }
-        &.Pending, &.Rejected {
-          display: flex; opacity: 1
+        &.Pending {
+          display: flex; opacity: 1;
+          .product-status {
+            text-transform: uppercase;
+            color: #FDFDFD;
+            margin-top: 15px;
+          }
+        }
+        &.Rejected {
+          display: flex; opacity: 1;
+          .product-status {
+            text-transform: uppercase;
+            color: #D56457
+          }
         }
       }
       &-admin {
