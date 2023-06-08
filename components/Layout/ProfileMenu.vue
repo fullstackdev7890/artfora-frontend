@@ -54,7 +54,7 @@
         <span
           class="ui-kit-dropdown-content-item-btn"
           @click="logout"
-        >Logout</span>
+        >Log out</span>
       </div>
     </ui-kit-dropdown>
 
