@@ -10,6 +10,13 @@ export declare interface Entity {
   updated_at?: string | Date
 }
 
+export interface Text {
+  id: number
+  text_name: string
+  text_content: string
+  text_color: string
+}
+
 export declare interface Media extends Entity {
   id: number
   deleted_at: string | null

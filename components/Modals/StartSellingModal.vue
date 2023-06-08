@@ -6,9 +6,30 @@
     class="auth-modal"
   >
     <template v-slot:content>
-      <form>
-        <div>Start Selling</div>
-      </form>
+      <span v-if="error" class="form-errors-list">
+          <span
+            class="form-error error"
+            v-html="error"
+          ></span>
+        </span>
+      <div >
+        <div class="ui-kit-box-content-small-text">
+          <span class="ui-kit-box-content-success-text">
+            <p style="margin-bottom:10px" v-if="textData.length !== 0" v-for="tData in textData" :style="{color:tData.text_colour}">
+              {{ tData.text_content }}
+            </p>
+          </span>
+        </div>
+
+        <div class="ui-kit-modal-content-buttons">
+          <button
+            @click="openSignUpModal"
+            class="button full-width"
+          >
+            <span>Continue</span>
+          </button>
+        </div>
+      </div>
     </template>
   </ui-kit-modal>
 </template>
@@ -19,6 +40,8 @@ import { required, email } from '@vuelidate/validators'
 import { useRoute } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import { useAuthStore } from '~/store/auth'
+import { useAsyncData } from '#app'
+import { useTextsStore } from '~/store/texts'
 import { useStore } from '~/store'
 import type { LoginData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
@@ -26,9 +49,13 @@ import UiKitInput from '~/components/UiKit/UiKitInput.vue'
 
 const startSellingModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
+const textsStore = useTextsStore()
 const store = useStore()
 const route = useRoute()
 const emit = defineEmits(['openSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
+let error = ref()
+let serverErrors = ref({})
+const textData = ref(1);
 
 function openSignUpModal() {
   close()
@@ -46,6 +73,10 @@ function openTwoFactorAuthModal() {
 }
 
 function open() {
+  textData.value = [
+    textsStore.getByname('start_selling_1'),
+    textsStore.getByname('start_selling_2'),
+  ];
   startSellingModal.value?.open()
 }
 
@@ -54,4 +85,6 @@ function close() {
 }
 
 defineExpose({ open, close })
+
+await useAsyncData('categories', async () => await textsStore.fetchAll())
 </script>
