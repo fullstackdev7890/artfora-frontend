@@ -42,6 +42,7 @@ export const useProductsStore = defineStore('products', {
         country: '',
         role_id: 0,
         external_link: null,
+        more_external_link: [],
         background_image: {
           id: 1,
           deleted_at: null,
