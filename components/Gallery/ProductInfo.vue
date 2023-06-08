@@ -83,7 +83,7 @@
         {{ product.user.username }}
       </nuxt-link>
     </div>
-    <div class="product-status">
+    <div class="product-status" v-if="$route.path === '/gallery/my-images'">
       {{product.status}}
     </div>
     <p></p>
