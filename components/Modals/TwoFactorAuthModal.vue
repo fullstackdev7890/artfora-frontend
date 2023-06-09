@@ -37,9 +37,7 @@
           </span>
         </span>
 
-        <span
-          class="form-errors-list form-error error"
-        >
+        <span>
             Log in as different user 
             <span
               class="link"
