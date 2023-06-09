@@ -40,11 +40,12 @@
         <span
           class="form-errors-list form-error error"
         >
+            Log in as different user 
             <span
               class="link"
               @click="toLogin"
             >
-              Log in as different user.
+              here!
           </span>
         </span>
 
