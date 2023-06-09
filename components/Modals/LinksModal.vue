@@ -16,8 +16,8 @@
           <youtube-icon class="social-icon" v-if="getSocialType(link) === 'youtube'" />
           <patreon-icon class="social-icon" v-if="getSocialType(link) === 'patreon'" />
           <browser-white-icon class="social-icon" v-if="getSocialType(link) === 'other'" />
-          <a :href="link" class="ui-kit-modal-content-links" target="_blank">
-            {{ getLink(link) }}
+          <a :href="getFullLink(link)" class="ui-kit-modal-content-links" target="_blank">
+            {{ getShortLink(link) }}
           </a>
         </div>
       </div>
@@ -56,7 +56,14 @@ const props = defineProps<Props>()
 const linksModal = ref<InstanceType<typeof UiKitModal>>(null)
 const sites = ref(['twitch', 'youtube', 'patreon', 'facebook', 'instagram', 'bandcamp'])
 
-function getLink(link: string) {
+function getFullLink(link: string) {
+  if (!/^https?:\/\//i.test(link)) {
+    link = 'https://www.' + link
+  }
+  return link;
+}
+
+function getShortLink(link: string) {
   if(link){
     link = link.trim();
     link = link.replace(/(^\w+:|^)\/\//, '');
