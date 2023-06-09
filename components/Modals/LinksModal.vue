@@ -6,7 +6,7 @@
     class="links-modal"
   >
     <template v-slot:content>
-      <div v-for="(link, index) in [...links.split(','), ...morelinks]" :key="index"
+      <div v-for="(link, index) in [...links?.split(','), ...morelinks]" :key="index"
         class="ui-kit-modal-content"
       >
         <div class="links-modal-item">
@@ -17,12 +17,12 @@
           <patreon-icon class="social-icon" v-if="getSocialType(link) === 'patreon'" />
           <browser-white-icon class="social-icon" v-if="getSocialType(link) === 'other'" />
           <a :href="link" class="ui-kit-modal-content-links" target="_blank">
-            {{ link }}
+            {{ getLink(link) }}
           </a>
         </div>
       </div>
 
-      <div class="links-modal-message" v-if="[...links.split(','), ...morelinks].length === 0">
+      <div class="links-modal-message" v-if="[...links?.split(','), ...morelinks].length === 0">
         Unfortunately the author did not provide any links.
       </div>
 
@@ -55,6 +55,23 @@ interface Props {
 const props = defineProps<Props>()
 const linksModal = ref<InstanceType<typeof UiKitModal>>(null)
 const sites = ref(['twitch', 'youtube', 'patreon', 'facebook', 'instagram', 'bandcamp'])
+
+function getLink(link: string) {
+  if(link){
+    link = link.replace(/(^\w+:|^)\/\//, '');
+    let arr = link.split('.');
+    let updatedLink = '';
+    for(let i = 0; i < arr.length; i++){
+      if(i > 0){
+        updatedLink += arr[i];
+        if(i != (arr.length - 1)) updatedLink += '.';
+      }
+    }
+    
+    return updatedLink;
+  }
+  return '';
+}
 
 function getSocialType(link: string) {
   let socialType = 'other'
