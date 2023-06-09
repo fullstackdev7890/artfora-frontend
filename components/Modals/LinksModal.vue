@@ -58,19 +58,26 @@ const sites = ref(['twitch', 'youtube', 'patreon', 'facebook', 'instagram', 'ban
 
 function getLink(link: string) {
   if(link){
+    link = link.trim();
     link = link.replace(/(^\w+:|^)\/\//, '');
+
     let arr = link.split('.');
-    let updatedLink = '';
+    let newURL = '';
     for(let i = 0; i < arr.length; i++){
-      if(i > 0){
-        updatedLink += arr[i];
-        if(i != (arr.length - 1)) updatedLink += '.';
+      if(arr[i] != 'www'){
+        newURL += arr[i];
+        if(i != (arr.length - 1)) newURL += '.';
+      }
+      else if(i > 0){
+        newURL += arr[i];
+        if(i != (arr.length - 1)) newURL += '.';
       }
     }
     
-    return updatedLink;
+    return newURL;
+  }else{
+    return '';
   }
-  return '';
 }
 
 function getSocialType(link: string) {
