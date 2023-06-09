@@ -6,74 +6,23 @@
     class="links-modal"
   >
     <template v-slot:content>
-      <div
-        v-if="$props.links"
+      <div v-for="(link, index) in [...links.split(','), ...morelinks]" :key="index"
         class="ui-kit-modal-content"
       >
-        <div class="links-modal-item" v-if="permanentLinks.instagram">
-          <instagram-icon class="social-icon" />
-          <a :href="permanentLinks.instagram" class="ui-kit-modal-content-links" target="_blank">
-            {{ permanentLinks.instagram }}
-          </a>
-        </div>
-
-        <div class="links-modal-item" v-if="permanentLinks.facebook">
-          <facebook-icon class="social-icon" />
-          <a :href="permanentLinks.facebook" class="ui-kit-modal-content-links" target="_blank">
-            {{ permanentLinks.facebook }}
-          </a>
-        </div>
-
-        <div class="links-modal-item" v-if="permanentLinks.bandcamp">
-          <bandcamp-icon class="social-icon" />
-          <a href="" class="ui-kit-modal-content-links" target="_blank">
-            {{ permanentLinks.bandcamp }}
-          </a>
-        </div>
-
-        <div class="links-modal-item" v-if="permanentLinks.youtube">
-          <youtube-icon class="social-icon" />
-          <a :href="permanentLinks.youtube" class="ui-kit-modal-content-links" target="_blank">
-            {{ permanentLinks.youtube }}
-          </a>
-        </div>
-
-        <div class="links-modal-item" v-if="permanentLinks.twitch">
-          <twitch-icon class="social-icon" />
-          <a :href="permanentLinks.twitch" class="ui-kit-modal-content-links" target="_blank">
-            {{ permanentLinks.twitch }}
-          </a>
-        </div>
-
-        <div class="links-modal-item" v-if="permanentLinks.patreon">
-          <patreon-icon class="social-icon" />
-          <a :href="permanentLinks.patreon" class="ui-kit-modal-content-links" target="_blank">
-            {{ permanentLinks.patreon }}
-          </a>
-        </div>
-
-        <div
-          v-if="otherLinks.length !== 0"
-          v-for="link in otherLinks"
-          class="links-modal-item"
-        >
-          <browser-white-icon class="social-icon"/>
-          <a :href="link" class="ui-kit-modal-content-links">
-            {{ link }}
-          </a>
-        </div>
-        <div
-          v-for="link in morelinks"
-          class="links-modal-item"
-        >
-          <browser-white-icon class="social-icon"/>
+        <div class="links-modal-item">
+          <instagram-icon class="social-icon" v-if="getSocialType(link) === 'instagram'" />
+          <facebook-icon class="social-icon" v-if="getSocialType(link) === 'facebook'" />
+          <bandcamp-icon class="social-icon" v-if="getSocialType(link) === 'bandcamp'" />
+          <youtube-icon class="social-icon" v-if="getSocialType(link) === 'youtube'" />
+          <patreon-icon class="social-icon" v-if="getSocialType(link) === 'patreon'" />
+          <browser-white-icon class="social-icon" v-if="getSocialType(link) === 'other'" />
           <a :href="link" class="ui-kit-modal-content-links" target="_blank">
             {{ link }}
           </a>
         </div>
       </div>
 
-      <div class="links-modal-message" v-else>
+      <div class="links-modal-message" v-if="[...links.split(','), ...morelinks].length === 0">
         Unfortunately the author did not provide any links.
       </div>
 
@@ -87,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onBeforeMount, computed, ref } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import BrowserIcon from '~/assets/svg/social/browser.svg'
 import BrowserWhiteIcon from '~/assets/svg/social/browser-white.svg'
@@ -105,41 +54,19 @@ interface Props {
 
 const props = defineProps<Props>()
 const linksModal = ref<InstanceType<typeof UiKitModal>>(null)
-const sites = ref(['twitch', 'youtube', 'patreon'])
-const permanentLinks = reactive({
-  twitch: null,
-  youtube: null,
-  patreon: null,
-  facebook: null,
-  instagram: null,
-  bandcamp: null
-})
-const links = computed(() => props.links)
-const otherLinks = ref([])
+const sites = ref(['twitch', 'youtube', 'patreon', 'facebook', 'instagram', 'bandcamp'])
 
-onBeforeMount(() => {
-  if (links.value) {
-    siteSort()
-    
-  }
-})
-
-function siteSort() {
-  
-  links.value.split(',').forEach(link => {
-    let found = false
-    sites.value.forEach(site => {
-      const pattern = new RegExp(`(https://)?(www\.)?${site}`, 'i')
-      if (pattern.test(link)) {
-        permanentLinks[site] = link
-        found = true
-      }
-    })
-
-    if (!found) {
-      otherLinks.value.push(link)
+function getSocialType(link: string) {
+  let socialType = 'other'
+  sites.value.forEach(site => {
+    const pattern = new RegExp(`(https://)?(www\.)?${site}`, 'i')
+    if (pattern.test(link)) {
+      socialType = site
+      return
     }
   })
+
+  return socialType
 }
 
 function open() {
