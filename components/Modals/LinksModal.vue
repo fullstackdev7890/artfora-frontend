@@ -58,7 +58,7 @@ const sites = ref(['twitch', 'youtube', 'patreon', 'facebook', 'instagram', 'ban
 
 function getFullLink(link: string) {
   if (!/^https?:\/\//i.test(link)) {
-    link = 'https://www.' + link
+    link = link.replace(/^(www\.)?([^\/]+)(.*)$/i, 'https://www.$2$3');
   }
   return link;
 }
