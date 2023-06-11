@@ -13,7 +13,7 @@
       <nuxt-link
         v-for="(image, index) in column"
         :key="index"
-        :to="`/products/${image.id}`"
+        @click.prevent="() => openViewProductModal(image.id)"
         class="gallery-item"
       >
         <div
@@ -43,6 +43,9 @@
     <edit-product-modal
       ref="editProductModalRef"
     />
+    <view-product-modal
+      ref="viewProductModalRef"
+    />
   </div>
 </template>
 
@@ -68,6 +71,7 @@ import ProductInfo from '~/components/Gallery/ProductInfo.vue'
 import randomWords from 'random-words'
 import ModalsComponent from '~/components/Layout/ModalsComponent.vue'
 import EditProductModal from '~/components/Modals/EditProductModal.vue'
+import ViewProductModal from '~/components/Modals/ViewProductModal.vue'
 
 const { getImageUrl } = useMedia()
 const galleryComponentRef = ref(null)
@@ -79,6 +83,7 @@ const galleryViewType = ref(viewType)
 const router = useRouter()
 const modalsComponentRef = ref<InstanceType<typeof ModalsComponent>>(null)
 const editProductModalRef = ref<InstanceType<typeof EditProductModal>>(null)
+const viewProductModalRef = ref<InstanceType<typeof ViewProductModal>>(null)
 
 interface Props {
   items: ProductsState
@@ -153,6 +158,10 @@ function getColumnsCount() {
 
   return Object.entries(columnsCounts)
     .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, mobileColumnCount)
+}
+
+function openViewProductModal(id: number) {
+  viewProductModalRef.value.open()
 }
 
 function sortImagesByColumns (images: Product[]) {
