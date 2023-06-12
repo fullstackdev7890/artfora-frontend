@@ -27,10 +27,10 @@
     <div>
       {{ [
         '',
-        'For all users, does not contain explicit material',
-        'Can contain nudity but only for educational use',
-        'Can contain nudity and erotic material',
-        'Can contain pornographic or other explicit material'
+        '1 For all users, does not contain explicit material',
+        '2 Can contain nudity but only for educational use',
+        '3 Can contain nudity and erotic material',
+        '4 Can contain pornographic or other explicit material'
         ][product.visibility_level]
       }}
     </div>
