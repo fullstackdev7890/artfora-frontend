@@ -13,7 +13,7 @@
       <nuxt-link
         v-for="(image, index) in column"
         :key="index"
-        @click.prevent="() => openViewProductModal(image.id)"
+        @click.prevent="(event) => openViewProductModal(event, image.id)"
         class="gallery-item"
       >
         <div
@@ -160,7 +160,10 @@ function getColumnsCount() {
     .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, mobileColumnCount)
 }
 
-function openViewProductModal(id: number) {
+function openViewProductModal(event: Event, id: number) {
+  if (['path', 'svg'].includes((event.target as HTMLElement).tagName)) {
+    return
+  }
   viewProductModalRef.value.open(id)
 }
 
