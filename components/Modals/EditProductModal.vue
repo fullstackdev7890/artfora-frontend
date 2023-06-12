@@ -328,10 +328,12 @@ function initializeProductFields() {
 }
 
 async function deleteProduct() {
-  await productStore.update(productStore.item.id, product).then(async () => {
-    close()
-    await productStore.fetchAll()
-  })
+  if (confirm('Are you sure you want to delete this product?')) {
+    await productStore.update(productStore.item.id, product).then(async () => {
+      close()
+      await productStore.fetchAll()
+    })
+  }
 }
 
 async function updateProduct() {
