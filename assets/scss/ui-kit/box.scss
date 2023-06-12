@@ -24,6 +24,14 @@ $border-radius: 15px;
 
         &:hover { opacity: 0.7; }
       }
+      &.trash-icon {
+        margin-right: 5px;
+        fill: white; border-radius: 50%; background-color: $black; display: flex; align-items: center;
+        justify-content: center; padding: 3px; font-size: 20px; margin: 0; width: 20px; height: 20px;
+        transition: opacity 0.3s;
+
+        &:hover { opacity: 0.7; }
+      }
     }
   }
 

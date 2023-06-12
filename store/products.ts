@@ -124,7 +124,11 @@ export const useProductsStore = defineStore('products', {
     },
 
     update(id: number, filters: {}) {
-       return axios.put(`/products/${id}`, { ...filters })
+      return axios.put(`/products/${id}`, { ...filters })
+   },
+
+    delete(id: number) {
+      return axios.delete(`/products/${id}`)
     },
 
     async getPendingCount() {

@@ -1,9 +1,27 @@
 <template>
   <ui-kit-modal
   title="Edit Product"
+  :with-header="false"
   :with-footer="false"
   ref="editProductModal"
   >
+  <template v-slot:customHeader>
+    <header class="edit-product-header">
+      <h5>Edit Product</h5>
+      <div class="edit-product-header-tools">
+        <trash-icon
+          @click="deleteProduct()"
+          class="trash-icon ui-kit-box-tools-link"
+        />
+        <close-icon
+          @click="close()"
+          class="close-icon ui-kit-box-tools-link"
+        />
+      </div>
+
+    </header>
+  </template>
+
   <template v-slot:content>
     <form @submit.prevent="updateProduct()">
       <div class="add-product">
@@ -192,6 +210,8 @@ import useMedia from '~/composable/media'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { Media } from '~~/types'
+import CloseIcon from '~/assets/svg/close.svg'
+import TrashIcon from '~/assets/svg/icon_trash.svg'
 
 const editProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -305,6 +325,13 @@ function initializeProductFields() {
   product.tags = productStore.item.tags
   product.visibility_level = productStore.item.visibility_level
   product.is_ai_safe = productStore.item.is_ai_safe
+}
+
+async function deleteProduct() {
+  await productStore.update(productStore.item.id, product).then(async () => {
+    close()
+    await productStore.fetchAll()
+  })
 }
 
 async function updateProduct() {
