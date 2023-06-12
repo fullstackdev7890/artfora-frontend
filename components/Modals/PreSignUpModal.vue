@@ -15,8 +15,7 @@
       <div >
         <div class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
-            <p style="margin-bottom:10px" v-if="textData.length !== 0" v-for="tData in textData" :style="{color:tData.text_colour}">
-              {{ tData.text_content }}
+            <p style="margin-bottom:10px" v-html="tData.text_content.replace(/\n/g, '<br>')" v-for="(tData, index) in textData" :style="{color:tData.text_colour}" :key="index">
             </p>
           </span>
         </div>
