@@ -161,7 +161,7 @@ function getColumnsCount() {
 }
 
 function openViewProductModal(id: number) {
-  viewProductModalRef.value.open()
+  viewProductModalRef.value.open(id)
 }
 
 function sortImagesByColumns (images: Product[]) {

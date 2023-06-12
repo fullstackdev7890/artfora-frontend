@@ -66,8 +66,6 @@ const { getImageUrl } = useMedia()
 const isFetched = ref(false)
 
 onMounted(async () => {
-  await products.fetch(route.params.id as string)
-  isFetched.value = true
 })
 
 function toggleSidebar() {
@@ -92,7 +90,9 @@ function toPrevImage() {
 
 const tags = computed(() => item.value.is_ai_safe ? randomWords(10).join(', ') : item.value.tags)
 
-function open() {
+async function open(id: number) {
+  await products.fetch(id.toString())
+  isFetched.value = true
   viewProductModal.value?.open()
 }
 
