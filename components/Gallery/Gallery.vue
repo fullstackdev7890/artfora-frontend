@@ -161,7 +161,7 @@ function getColumnsCount() {
 }
 
 function openViewProductModal(event: Event, id: number) {
-  if (['path', 'svg'].includes((event.target as HTMLElement).tagName)) {
+  if (['path', 'svg', 'button'].includes((event.target as HTMLElement).tagName.toLowerCase())) {
     return
   }
   viewProductModalRef.value.open(id)
