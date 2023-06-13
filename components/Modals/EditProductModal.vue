@@ -331,7 +331,7 @@ function initializeProductFields() {
 
 async function deleteProduct() {
   if (confirm('Are you sure you want to delete this product?')) {
-    await productStore.update(productStore.item.id, product).then(async () => {
+    await productStore.delete(productStore.item.id).then(async () => {
       close()
       await productStore.fetchAll()
     })
