@@ -7,12 +7,12 @@
   >
   <template v-slot:customHeader>
     <header class="edit-product-header">
+      <trash-icon
+          @click="deleteProduct()"
+          class="trash-icon ui-kit-box-tools-link trash-icon"
+        />
       <h5>Edit Product</h5>
       <div class="edit-product-header-tools">
-        <trash-icon
-          @click="deleteProduct()"
-          class="trash-icon ui-kit-box-tools-link"
-        />
         <close-icon
           @click="close()"
           class="close-icon ui-kit-box-tools-link"

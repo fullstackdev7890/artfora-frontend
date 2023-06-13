@@ -8,6 +8,14 @@
   display: flex;
   justify-content: center;
   position: relative;
+  .trash-icon {
+    width: 30px !important;
+    height: 30px !important;
+    background-color: transparent !important;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+  }
   & > h5 {
     display: inline-block;
     margin: 0 0 0.5rem;
