@@ -1,6 +1,7 @@
 <template>
   <ui-kit-modal
   title="View Product"
+  :with-header="false"
   :with-footer="false"
   ref="viewProductModal"
   >
@@ -11,6 +12,10 @@
         <NuxtLink class="product-container-btn-info" @click="toggleSidebar">
           <info v-show="!isShown" class="hide-icon" />
           <arrow-right v-show="isShown" class="hide-icon" />
+        </NuxtLink>
+
+        <NuxtLink class="product-container-btn-close" @click="close()" >
+          <close-icon class="close-icon" />
         </NuxtLink>
 
       </div>
@@ -103,6 +108,7 @@ async function open(id: number) {
 
 function close() {
   viewProductModal.value?.close()
+  router.push({query: {}})
 }
 
 defineExpose({ open, close })
