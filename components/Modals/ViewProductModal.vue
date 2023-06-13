@@ -18,6 +18,7 @@
       <div class="product-container-images">
         <img
           v-for="(image, index) in item.media"
+          :key="index"
           v-show="index === currentImage && isFetched"
           :src="getImageUrl(image, ImageTemplate.FullSize)"
           :alt="tags"
