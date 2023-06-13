@@ -67,6 +67,9 @@ const { getImageUrl } = useMedia()
 const isFetched = ref(false)
 
 onMounted(async () => {
+  if (route.query && route.query.product) {
+    open(Number(route.query.product))
+  }
 })
 
 function toggleSidebar() {
@@ -95,6 +98,7 @@ async function open(id: number) {
   await products.fetch(id.toString())
   isFetched.value = true
   viewProductModal.value?.open()
+  router.push(`/?product=${id}`)
 }
 
 function close() {
