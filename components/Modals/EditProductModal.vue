@@ -137,7 +137,7 @@
             v-model="product.visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="For all users, does not contain explicit material"
+            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -145,7 +145,7 @@
             v-model="product.visibility_level"
             :value="NUDITY_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain nudity but only for educational use"
+            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -153,7 +153,7 @@
             v-model="product.visibility_level"
             :value="EROTIC_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain nudity and erotic material"
+            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -161,7 +161,7 @@
             v-model="product.visibility_level"
             :value="PORNO_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain pornographic or other explicit material"
+            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
             type="radio"
           />
           <span
@@ -212,10 +212,12 @@ import { required } from '@vuelidate/validators'
 import { Media } from '~~/types'
 import CloseIcon from '~/assets/svg/close.svg'
 import TrashIcon from '~/assets/svg/icon_trash.svg'
+import { useFiltersStore } from '~/store/filters'
 
 const editProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
 const files = ref([])
+const filtersStore = useFiltersStore()
 const store = useStore()
 const categoriesStore = useCategoriesStore()
 const mediaStore = useMediaStore()
@@ -382,7 +384,8 @@ async function updateProduct() {
   }
 }
 
-function open() {
+async function open() {
+  await filtersStore.fetchAll()
   initializeProductFields()
   editProductModal.value?.open()
 }

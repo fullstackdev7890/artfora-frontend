@@ -118,7 +118,7 @@
             v-model="product.visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="For all users, does not contain explicit material"
+            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -126,7 +126,7 @@
             v-model="product.visibility_level"
             :value="NUDITY_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain nudity but only for educational use"
+            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -134,7 +134,7 @@
             v-model="product.visibility_level"
             :value="EROTIC_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain nudity and erotic material"
+            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -142,7 +142,7 @@
             v-model="product.visibility_level"
             :value="PORNO_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain pornographic or other explicit material"
+            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
             type="radio"
           />
           <span
@@ -189,10 +189,12 @@ import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { useFiltersStore } from '~/store/filters'
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
 const files = ref([])
+const filtersStore = useFiltersStore()
 const store = useStore()
 const categoriesStore = useCategoriesStore()
 const mediaStore = useMediaStore()
@@ -341,7 +343,8 @@ async function uploadProduct() {
   }
 }
 
-function open() {
+async function open() {
+  await filtersStore.fetchAll()
   clearProductFields()
   addProductModal.value?.open()
 }

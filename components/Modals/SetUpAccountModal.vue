@@ -288,7 +288,6 @@ function logout() {
 
 async function open() {
   await filtersStore.fetchAll()
-  const filters = filtersStore.items.data
   setUpAccountModal.value?.open()
   if (countries.value.length <= 1) {
     const response = await axios.get('https://restcountries.com/v2/all')
