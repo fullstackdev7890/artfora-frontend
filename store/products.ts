@@ -128,7 +128,9 @@ export const useProductsStore = defineStore('products', {
    },
 
     delete(id: number) {
-      return axios.delete(`/products/${id}`)
+      return axios.delete(`/products/${id}`, {
+        params: {"force": 1}
+      })
     },
 
     async getPendingCount() {
