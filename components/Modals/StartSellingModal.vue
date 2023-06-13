@@ -85,5 +85,5 @@ function close() {
 
 defineExpose({ open, close })
 
-await useAsyncData('categories', async () => await textsStore.fetchAll())
+await useAsyncData('texts', async () => await textsStore.fetchAll())
 </script>

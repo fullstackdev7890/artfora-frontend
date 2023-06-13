@@ -108,7 +108,7 @@
             v-model="user.product_visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="For all users, does not contain explicit material"
+            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -116,7 +116,7 @@
             v-model="user.product_visibility_level"
             :value="NUDITY_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain nudity but only for educational use"
+            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -124,7 +124,7 @@
             v-model="user.product_visibility_level"
             :value="EROTIC_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain nudity and erotic material"
+            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
             type="radio"
           />
 
@@ -132,7 +132,7 @@
             v-model="user.product_visibility_level"
             :value="PORNO_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            title="Can contain pornographic or other explicit material"
+            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
             type="radio"
           />
         </div>
@@ -164,6 +164,7 @@
 </template>
 
 <script setup lang="ts">
+import { useAsyncData } from '#app'
 import { ref } from '@vue/reactivity'
 import {
   COMMON_VISIBILITY_LEVEL,
@@ -188,10 +189,12 @@ import useMedia from '~/composable/media'
 import axios from 'axios'
 import UiKitSelector from '~/components/UiKit/UiKitSelector.vue'
 import useVuelidate from '@vuelidate/core'
+import { useFiltersStore } from '~/store/filters'
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>(null)
 const store = useStore()
 const userStore = useUserStore()
+const filtersStore = useFiltersStore()
 const authStore = useAuthStore()
 const currentProfile = storeToRefs(userStore)
 const mediaStore = useMediaStore()
@@ -284,6 +287,8 @@ function logout() {
 }
 
 async function open() {
+  await filtersStore.fetchAll()
+  const filters = filtersStore.items.data
   setUpAccountModal.value?.open()
   if (countries.value.length <= 1) {
     const response = await axios.get('https://restcountries.com/v2/all')

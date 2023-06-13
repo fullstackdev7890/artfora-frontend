@@ -17,6 +17,11 @@ export interface Text {
   text_color: string
 }
 
+export interface Filter {
+  id: number
+  filter: string
+}
+
 export declare interface Media extends Entity {
   id: number
   deleted_at: string | null
