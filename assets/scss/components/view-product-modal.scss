@@ -1,0 +1,10 @@
+@import '../variables';
+
+.product-view-modal {
+  & .ui-kit-box {
+    border-radius: 0px;
+    &-content {
+      padding: 0px;
+    }
+  }
+}

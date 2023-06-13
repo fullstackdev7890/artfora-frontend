@@ -4,6 +4,7 @@
   :with-header="false"
   :with-footer="false"
   ref="viewProductModal"
+  class="product-view-modal"
   >
   <template v-slot:content>
     <div class="product-container">
