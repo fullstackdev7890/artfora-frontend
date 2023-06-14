@@ -92,10 +92,10 @@
       </div>
       <p></p>
     </span>
-    <div v-if="isAuthorized && product.visibility_level > product_visibility_level">
+    <div class="no-product-description" v-if="isAuthorized && product.visibility_level > product_visibility_level">
       Change your filter setting<br> to see this image
     </div>
-    <div v-if="!isAuthorized && product.visibility_level > 1">
+    <div class="no-product-description" v-if="!isAuthorized && product.visibility_level > 1">
       Login to see images<br> with sensitive content
     </div>
   </div>
