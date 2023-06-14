@@ -8,7 +8,7 @@
   <template v-slot:customHeader>
     <header class="edit-product-header">
       <trash-icon
-          @click="deleteProduct()"
+          @click="deleteProductModalRef.open()" 
           class="trash-icon ui-kit-box-tools-link trash-icon"
         />
       <h5>Edit Product</h5>
@@ -186,6 +186,11 @@
     </form>
   </template>
   </ui-kit-modal>
+      
+  <delete-product-modal
+      ref="deleteProductModalRef"
+      @confirm="deleteProduct()"
+    />
 </template>
 
 <script setup lang="ts">
@@ -213,6 +218,8 @@ import { Media } from '~~/types'
 import CloseIcon from '~/assets/svg/close.svg'
 import TrashIcon from '~/assets/svg/icon_trash.svg'
 import { useFiltersStore } from '~/store/filters'
+import DeleteProductModal from '~/components/Modals/DeleteProductModal.vue'
+
 
 const editProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -227,6 +234,8 @@ const { items } = storeToRefs(categoriesStore)
 const selectedCategory = ref<null | number>(null)
 
 const emit = defineEmits(['openAiSafeDescription'])
+const deleteProductModalRef = ref<InstanceType<typeof DeleteProductModal>>(null)
+
 
 const currentSubCategories = computed(() => {
   const children = selectedCategory.value ? items.value.find((item) => item.id === selectedCategory.value).children : []
@@ -330,12 +339,11 @@ function initializeProductFields() {
 }
 
 async function deleteProduct() {
-  if (confirm('Are you sure you want to delete this product?')) {
-    await productStore.delete(productStore.item.id).then(async () => {
-      close()
-      await productStore.fetchAll()
-    })
-  }
+  deleteProductModalRef.value.close()
+  await productStore.delete(productStore.item.id).then(async () => {
+    close()
+    await productStore.fetchAll()
+  })
 }
 
 async function updateProduct() {
