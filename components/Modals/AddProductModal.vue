@@ -11,7 +11,7 @@
           <label for="uploadImage" class="add-product-upload-add">
             DROP IMAGE(S) HERE <br>
             OR CLICK TO BROWSE <br>
-            SHOULD BE AT LEAST 1920 X 586 PIXELS <br>
+            MINIMUM WIDTH 1920 PX <br>
             AND MAX 5MB <br>
             <input
               id="uploadImage"
