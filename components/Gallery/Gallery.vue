@@ -34,8 +34,7 @@
             :author-tag="image.user.tagname"
             :author-avatar="image.user.avatar_image"
           />
-
-          <img :src="getImageUrl(image.media[0], ImageTemplate.Thumbnail)" :alt="getTags(image)">
+          <img :class="(!isAuthorized && image?.visibility_level > 1) || (isAuthorized && image?.visibility_level > product_visibility_level) ? 'blur-image': ''"  :src="getImageUrl(image.media[0], ImageTemplate.Thumbnail)" :alt="getTags(image)">
         </div>
       </nuxt-link>
     </div>
@@ -60,6 +59,8 @@ import {
 import { onMounted, onUnmounted, watch } from 'vue'
 import { Product } from '~/types/products'
 import { ref } from '@vue/reactivity'
+import { useAuthStore } from '~/store/auth'
+import { useUserStore } from '~/store/user'
 import { useProductsStore} from '~/store/products'
 import { Paginated } from '~/types/search'
 import { useSettingsGalleryStore } from '~/store/gallerySettings'
@@ -74,6 +75,10 @@ import EditProductModal from '~/components/Modals/EditProductModal.vue'
 import ViewProductModal from '~/components/Modals/ViewProductModal.vue'
 
 const { getImageUrl } = useMedia()
+const authStore = useAuthStore()
+const { isAuthorized } = storeToRefs(authStore)
+const userStore = useUserStore()
+const { product_visibility_level } = storeToRefs(userStore)
 const galleryComponentRef = ref(null)
 const galleryImages = ref([])
 const products = useProductsStore()
