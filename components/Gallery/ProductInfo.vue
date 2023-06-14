@@ -1,4 +1,7 @@
 <template>
+  <div class="filter-text" v-if="product.visibility_level === 1 || (isAuthorized && product.visibility_level < product_visibility_level)">
+    Filter {{ product.visibility_level }}
+  </div>
   <div
     v-if="route.name === 'gallery-pending' && product.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
     class="gallery-item-image-container-info gallery-item-image-container-admin"
@@ -62,31 +65,39 @@
       @click.prevent="() => editProduct(product)"
       v-if="isAuthorized && product.user.id === userStore.id"
     />
-    <h4>{{ product.title }}</h4>
-    <div>
-      by 
-      <nuxt-link
-        @click="() => byAuthor(product.author)"
-        :to="`/gallery/author/${product.author}`"
-        class="gallery-item-image-container-info-link"
-      >
-        {{ product.author }}
-      </nuxt-link>
+    <span v-if="product.visibility_level === 1 || (isAuthorized && product.visibility_level <= product_visibility_level)">
+      <h4>{{ product.title }}</h4>
+      <div>
+        by 
+        <nuxt-link
+          @click="() => byAuthor(product.author)"
+          :to="`/gallery/author/${product.author}`"
+          class="gallery-item-image-container-info-link"
+        >
+          {{ product.author }}
+        </nuxt-link>
+      </div>
+      <div>
+        Uploaded by 
+        <nuxt-link
+          :to="`/gallery/user/${product.user.username}`"
+          @click="() => byUsername(product.user.username)"
+          class="gallery-item-image-container-info-link"
+        >
+          {{ product.user.username }}
+        </nuxt-link>
+      </div>
+      <div class="product-status" v-if="$route.path === '/gallery/my-images'">
+        {{product.status}}
+      </div>
+      <p></p>
+    </span>
+    <div v-if="isAuthorized && product.visibility_level > product_visibility_level">
+      Change your filter setting<br> to see this image
     </div>
-    <div>
-      Uploaded by 
-      <nuxt-link
-        :to="`/gallery/user/${product.user.username}`"
-        @click="() => byUsername(product.user.username)"
-        class="gallery-item-image-container-info-link"
-      >
-        {{ product.user.username }}
-      </nuxt-link>
+    <div v-if="!isAuthorized && product.visibility_level > 1">
+      Login to see images<br> with sensitive content
     </div>
-    <div class="product-status" v-if="$route.path === '/gallery/my-images'">
-      {{product.status}}
-    </div>
-    <p></p>
   </div>
 </template>
 
@@ -111,6 +122,7 @@ const store = useStore()
 const userStore = useUserStore()
 const productsStore = useProductsStore()
 const authStore = useAuthStore()
+const { product_visibility_level } = storeToRefs(userStore)
 const { getUserRole } = storeToRefs(userStore)
 const route = useRoute()
 const categoriesStore = useCategoriesStore()
