@@ -1,8 +1,8 @@
 <template>
   <div class="gallery-item-image-container-details-user">
-  <img :src="getUserAvatar($props.authorAvatar, ImageTemplate.SmallThumbnail)" :alt="author">
+  <img :src="getUserAvatar($props.authorAvatar, ImageTemplate.SmallThumbnail)" :alt="username">
   <div class="gallery-item-image-container-details-user-name">
-    <h3>{{ author }}</h3>
+    <h3>{{ username }}</h3>
     <p>{{ authorTag }}</p>
   </div>
 </div>
@@ -15,13 +15,13 @@ import { Media } from '~/types'
 import useMedia from '~/composable/media'
 
 interface Props {
-  author: string
+  username: string
   authorTag: string
   authorAvatar: Media
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  author: '',
+  username: '',
   authorTag: '',
   authorAvatar: () => ({ id: 0,  link: null, deleted_at: null }),
 })

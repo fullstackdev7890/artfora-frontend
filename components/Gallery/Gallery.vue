@@ -30,6 +30,7 @@
 
           <user-details
             v-if="galleryViewType === DETAILS_GALLERY_VIEW_TYPE"
+            :username="image.user.username"
             :author="image.author"
             :author-tag="image.user.tagname"
             :author-avatar="image.user.avatar_image"
