@@ -30,6 +30,7 @@
             DROP IMAGE(S) HERE <br>
             OR CLICK TO BROWSE <br>
             SHOULD BE AT LEAST 1920 PX <br>
+            AND MAX 5MB <br>
             <input
               id="uploadImage"
               @change="addFiles($event)"
