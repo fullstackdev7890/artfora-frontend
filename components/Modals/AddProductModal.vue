@@ -112,6 +112,7 @@
           :error-messages="{ required: 'Tags are required' }"
           :disabled="product.is_ai_safe"
           placeholder="ADD TAGS, SEPARATE BY COMMA"
+          v-if="!product.is_ai_safe"
         />
 
         <div class="add-product-visibility-level">
@@ -232,7 +233,7 @@ const product = reactive({
   description: '',
   tags: '',
   visibility_level: null,
-  is_ai_safe: false
+  is_ai_safe: true
 })
 
 const v$ = useVuelidate({
@@ -300,7 +301,7 @@ function clearProductFields() {
   product.description = ''
   product.tags = ''
   product.visibility_level = null
-  product.is_ai_safe = false
+  product.is_ai_safe = true
 }
 
 async function uploadProduct() {
