@@ -1,7 +1,4 @@
 <template>
-  <div class="filter-text" v-if="product.visibility_level === 1 || (isAuthorized && product.visibility_level < product_visibility_level)">
-    Filter {{ product.visibility_level }}
-  </div>
   <div
     v-if="route.name === 'gallery-pending' && product.status === STATUS_PENDING && getUserRole === ROLE_ADMIN"
     class="gallery-item-image-container-info gallery-item-image-container-admin"
