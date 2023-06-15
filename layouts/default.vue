@@ -13,6 +13,7 @@
     <slot/>
 
     <modals-component ref="modalsComponentRef" />
+    <the-footer />
   </div>
 </template>
 
@@ -21,6 +22,8 @@ import { ref } from 'vue'
 import { useRuntimeConfig } from '#app'
 import TheHeader from '~/components/Layout/TheHeader.vue'
 import ModalsComponent from '~/components/Layout/ModalsComponent.vue'
+import TheFooter from '~/components/Layout/TheFooter'
+
 
 const config = useRuntimeConfig()
 
