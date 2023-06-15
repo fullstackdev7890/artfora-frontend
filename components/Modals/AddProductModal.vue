@@ -128,7 +128,7 @@
         <ui-kit-input
             v-model="product.price_in_euro"
             :errors="v$.product.price_in_euro"
-            :error-messages="{ required: 'Price euro is required'}"
+            :error-messages="{ required: 'Price in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="PRODUCT PRICE IN EURO"
@@ -137,13 +137,11 @@
           <ui-kit-input
             v-model="product.shipping_in_euro"
             :errors="v$.product.shipping_in_euro"
-            :error-messages="{ required: 'Shipping euro is required'}"
+            :error-messages="{ required: 'Shipping in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="SHIPPING IN EURO"
           />
-
-          <hr />
 
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
           AI safe (the best we can do)
@@ -152,6 +150,8 @@
             class="link"
           >read more</span>
         </ui-kit-check-box>
+
+        <hr />
 
         <ui-kit-input
           v-model="product.tags"
@@ -282,7 +282,7 @@ const product = reactive({
   visibility_level: null,
   is_ai_safe: true,
   height: '',
-  widht: '',
+  width: '',
   depth: '',
   price_in_euro: '',
   shipping_in_euro: ''
@@ -294,6 +294,11 @@ const v$ = useVuelidate({
     author: { required },
     title: { required },
     description: { required },
+    height: { required },
+    width: { required },
+    depth: { required },
+    price_in_euro: { required },
+    shipping_in_euro: { required },
     tags: { required },
     visibility_level: { required },
     is_ai_safe: {}
