@@ -125,6 +125,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="HEIGHT"
+            type="number"
           />
           <ui-kit-input
             v-model="product.width"
@@ -133,6 +134,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="WIDTH"
+            type="number"
           />
           <ui-kit-input
             v-model="product.depth"
@@ -141,6 +143,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="DEPTH"
+            type="number"
           />
         </div>
 
@@ -151,6 +154,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="PRODUCT PRICE IN EURO"
+            type="number"
           />
 
           <ui-kit-input
@@ -160,6 +164,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             placeholder="SHIPPING IN EURO"
+            type="number"
           />
 
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
@@ -317,11 +322,11 @@ const product = reactive({
   tags: '',
   visibility_level: 0,
   is_ai_safe: false,
-  height: '',
-  width: '',
-  depth: '',
-  price_in_euro: '',
-  shipping_in_euro: ''
+  height: 0,
+  width: 0,
+  depth: 0,
+  price_in_euro: 0,
+  shipping_in_euro: 0
 })
 
 const v$ = useVuelidate({
