@@ -117,6 +117,53 @@
           placeholder="DESCRIPTION"
         />
 
+        <div class="space-between-inputs">
+          <ui-kit-input
+            v-model="product.height"
+            :errors="v$.product.height"
+            :error-messages="{ required: 'Height is required'}"
+            :server-errors="serverErrors"
+            :disabled="store.pendingRequestsCount"
+            placeholder="HEIGHT"
+          />
+          <ui-kit-input
+            v-model="product.width"
+            :errors="v$.product.width"
+            :error-messages="{ required: 'Width is required'}"
+            :server-errors="serverErrors"
+            :disabled="store.pendingRequestsCount"
+            placeholder="WIDTH"
+          />
+          <ui-kit-input
+            v-model="product.depth"
+            :errors="v$.product.depth"
+            :error-messages="{ required: 'Depth is required'}"
+            :server-errors="serverErrors"
+            :disabled="store.pendingRequestsCount"
+            placeholder="DEPTH"
+          />
+        </div>
+
+        <ui-kit-input
+            v-model="product.price_in_euro"
+            :errors="v$.product.price_in_euro"
+            :error-messages="{ required: 'Price euro is required'}"
+            :server-errors="serverErrors"
+            :disabled="store.pendingRequestsCount"
+            placeholder="PRODUCT PRICE IN EURO"
+          />
+
+          <ui-kit-input
+            v-model="product.shipping_in_euro"
+            :errors="v$.product.shipping_in_euro"
+            :error-messages="{ required: 'Shipping euro is required'}"
+            :server-errors="serverErrors"
+            :disabled="store.pendingRequestsCount"
+            placeholder="SHIPPING IN EURO"
+          />
+
+          <hr />
+
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
           AI safe (the best we can do)
           <span
@@ -269,7 +316,12 @@ const product = reactive({
   status: STATUS_PENDING,
   tags: '',
   visibility_level: 0,
-  is_ai_safe: false
+  is_ai_safe: false,
+  height: '',
+  widht: '',
+  depth: '',
+  price_in_euro: '',
+  shipping_in_euro: ''
 })
 
 const v$ = useVuelidate({

@@ -44,4 +44,10 @@
       }
     }
   }
+
+  .space-between-inputs{
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+  }
 }

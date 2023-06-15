@@ -1,10 +1,12 @@
 @import '../variables';
 
-.product-view-modal {
-  & .ui-kit-box {
-    border-radius: 0px;
-    &-content {
-      padding: 0px;
+.product-view-modal.ui-kit-modal {
+  &>.ui-kit-modal-content {
+    &>.ui-kit-box {
+      border-radius: 0px;
+      &>.ui-kit-box-content {
+        padding: 0px;
+      }
     }
   }
 }
