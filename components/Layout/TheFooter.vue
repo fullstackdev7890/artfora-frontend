@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer" style="background-color: #3A3A39;color: white;">
+  <footer class="footer">
 
     <div class="footer-bottom">
       <div class="footer-bottom-kofi">
