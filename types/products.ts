@@ -31,6 +31,9 @@ export declare interface Product extends Entity {
   width: number
   height: number
   weight: number
+  depth: number
+  shipping_in_euro: number
+  price_in_euro: number
   status: string
   deleted_at: string | null
   media: Media[]

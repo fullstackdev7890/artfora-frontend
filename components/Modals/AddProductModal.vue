@@ -105,6 +105,7 @@
             :error-messages="{ required: 'Height is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="HEIGHT"
             type="number"
           />
@@ -114,6 +115,7 @@
             :error-messages="{ required: 'Width is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="WIDTH"
             type="number"
           />
@@ -123,6 +125,7 @@
             :error-messages="{ required: 'Depth is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="DEPTH"
             type="number"
           />
@@ -134,6 +137,7 @@
             :error-messages="{ required: 'Price in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="PRODUCT PRICE IN EURO"
             type="number"
           />
@@ -144,6 +148,7 @@
             :error-messages="{ required: 'Shipping in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="SHIPPING IN EURO"
             type="number"
           />

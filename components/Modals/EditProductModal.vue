@@ -124,6 +124,7 @@
             :error-messages="{ required: 'Height is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="HEIGHT"
             type="number"
           />
@@ -133,6 +134,7 @@
             :error-messages="{ required: 'Width is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="WIDTH"
             type="number"
           />
@@ -142,6 +144,7 @@
             :error-messages="{ required: 'Depth is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="DEPTH"
             type="number"
           />
@@ -153,6 +156,7 @@
             :error-messages="{ required: 'Price in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="PRODUCT PRICE IN EURO"
             type="number"
           />
@@ -163,6 +167,7 @@
             :error-messages="{ required: 'Shipping in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
+            step="0.01"
             placeholder="SHIPPING IN EURO"
             type="number"
           />
@@ -392,6 +397,11 @@ function initializeProductFields() {
   selectedSubCategories.value = productStore.item.categories.map((c) => c.id)
   files.value = productStore.item.media
   product.price = productStore.item.price
+  product.width = productStore.item.width
+  product.height = productStore.item.height
+  product.depth = productStore.item.depth
+  product.price_in_euro = productStore.item.price_in_euro
+  product.shipping_in_euro = productStore.item.shipping_in_euro
   product.media = productStore.item.media.map((m) => m.id)
   product.author = productStore.item.author
   product.title = productStore.item.title
