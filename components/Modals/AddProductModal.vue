@@ -137,9 +137,8 @@
             :error-messages="{ required: 'Price in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
             placeholder="PRODUCT PRICE IN EURO"
-            type="number"
+            @input="euroChange('price_in_euro')"
           />
 
           <ui-kit-input
@@ -148,9 +147,8 @@
             :error-messages="{ required: 'Shipping in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
             placeholder="SHIPPING IN EURO"
-            type="number"
+            @input="euroChange('shipping_in_euro')"
           />
 
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
@@ -294,8 +292,8 @@ const product = reactive({
   height: 0,
   width: 0,
   depth: 0,
-  price_in_euro: 0,
-  shipping_in_euro: 0
+  price_in_euro: '0',
+  shipping_in_euro: '0'
 })
 
 const v$ = useVuelidate({
@@ -356,6 +354,10 @@ function removeChoiceSub() {
   selectedSubCategories.value = []
 }
 
+function euroChange(key){
+  product[key] = product[key].replace(/[^0-9,]/g, '');
+}
+
 function clearProductFields() {
   selectedCategory.value = null
   selectedSubCategories.value = []
@@ -399,6 +401,9 @@ async function uploadProduct() {
   fileError.value = ''
 
   try {
+    product.price_in_euro = product.price_in_euro?.toString().replace(",", ".");
+    product.shipping_in_euro = product.shipping_in_euro?.toString().replace(",", ".");
+
     await productStore.create(product).then(close)
 
   } catch (e) {

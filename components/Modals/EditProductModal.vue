@@ -156,9 +156,8 @@
             :error-messages="{ required: 'Price in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
             placeholder="PRODUCT PRICE IN EURO"
-            type="number"
+            @input="euroChange('price_in_euro')"
           />
 
           <ui-kit-input
@@ -167,9 +166,8 @@
             :error-messages="{ required: 'Shipping in euro is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
             placeholder="SHIPPING IN EURO"
-            type="number"
+            @input="euroChange('shipping_in_euro')"
           />
 
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
@@ -330,8 +328,8 @@ const product = reactive({
   height: 0,
   width: 0,
   depth: 0,
-  price_in_euro: 0,
-  shipping_in_euro: 0
+  price_in_euro: '0',
+  shipping_in_euro: '0'
 })
 
 const v$ = useVuelidate({
@@ -388,6 +386,10 @@ const selectSubCategory = (cId: number, selected: any) => {
   }
 }
 
+function euroChange(key){
+  product[key] = product[key].replace(/[^0-9,]/g, '');
+}
+
 function removeChoiceSub() {
   selectedSubCategories.value = []
 }
@@ -400,8 +402,8 @@ function initializeProductFields() {
   product.width = productStore.item.width
   product.height = productStore.item.height
   product.depth = productStore.item.depth
-  product.price_in_euro = productStore.item.price_in_euro
-  product.shipping_in_euro = productStore.item.shipping_in_euro
+  product.price_in_euro = productStore.item.price_in_euro?.toString().replace('.', ',')
+  product.shipping_in_euro = productStore.item.shipping_in_euro?.toString().replace('.', ',')
   product.media = productStore.item.media.map((m) => m.id)
   product.author = productStore.item.author
   product.title = productStore.item.title
@@ -420,6 +422,8 @@ async function deleteProduct() {
 }
 
 async function updateProduct() {
+  product.price_in_euro = product.price_in_euro.replace(",", ".");
+  product.shipping_in_euro = product.shipping_in_euro.replace(",", ".");
 
   if (product.media.length < 1) {
     fileError.value = 'Media is required. '
