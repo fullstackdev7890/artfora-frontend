@@ -82,6 +82,8 @@
         }
         div.no-product-description {
           margin-top: 0px;
+          min-height: 36px;
+          line-height: 17px;
         }
         &-link {
           text-decoration: none; color: inherit; background: inherit !important;
