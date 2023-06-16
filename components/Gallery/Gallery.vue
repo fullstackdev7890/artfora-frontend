@@ -170,7 +170,12 @@ function openViewProductModal(event: Event, id: number) {
   if (['path', 'svg', 'button'].includes((event.target as HTMLElement).tagName.toLowerCase())) {
     return
   }
-  viewProductModalRef.value.open(id)
+  const allowedProduct = products.items.data.find((product) => {
+    if (product.id === id && (product.visibility_level === 1 || (product_visibility_level.value && product.visibility_level <= product_visibility_level.value))) {
+      return true
+    }
+  })
+  allowedProduct && viewProductModalRef.value.open(id)
 }
 
 function sortImagesByColumns (images: Product[]) {
