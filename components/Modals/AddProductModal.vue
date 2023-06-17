@@ -132,7 +132,7 @@
         </div>
 
         <CurrencyInput
-          v-model="product.price_in_euro"
+          v-model.lazy="product.price_in_euro"
           placeholder="PRODUCT PRICE IN EURO"
           :errors="v$.product.price_in_euro"
           :error-messages="{ required: 'Price in euro is required'}"
@@ -140,7 +140,7 @@
           :disabled="store.pendingRequestsCount"
         />
         <CurrencyInput
-          v-model="product.shipping_in_euro"
+          v-model.lazy="product.shipping_in_euro"
           placeholder="SHIPPING IN EURO"
           :errors="v$.product.price_in_euro"
           :error-messages="{ required: 'Shipping in euro is required'}"
