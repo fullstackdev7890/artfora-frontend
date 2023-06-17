@@ -40,12 +40,12 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size:</h5>
-          <span>{{ props.product.width }}/{{ props.product.height }} cm</span>
+          <span>{{ props.product.width }}/{{ props.product.height }}/{{ props.product.depth }} cm</span>
         </div>
-        <div class="product-sidebar-info-item">
+        <!-- <div class="product-sidebar-info-item">
           <h5>Weight:</h5>
           <span>{{ props.product.weight }}kg</span>
-        </div>
+        </div> -->
       </div>
 
       <div class="product-sidebar-description">
