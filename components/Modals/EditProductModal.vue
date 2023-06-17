@@ -149,26 +149,22 @@
             type="number"
           />
         </div>
-
-        <ui-kit-input
-            v-model="product.price_in_euro"
-            :errors="v$.product.price_in_euro"
-            :error-messages="{ required: 'Price in euro is required'}"
-            :server-errors="serverErrors"
-            :disabled="store.pendingRequestsCount"
-            placeholder="PRODUCT PRICE IN EURO"
-            @input="euroChange('price_in_euro')"
-          />
-
-          <ui-kit-input
-            v-model="product.shipping_in_euro"
-            :errors="v$.product.shipping_in_euro"
-            :error-messages="{ required: 'Shipping in euro is required'}"
-            :server-errors="serverErrors"
-            :disabled="store.pendingRequestsCount"
-            placeholder="SHIPPING IN EURO"
-            @input="euroChange('shipping_in_euro')"
-          />
+        <CurrencyInput
+          v-model="product.price_in_euro"
+          placeholder="PRODUCT PRICE IN EURO"
+          :errors="v$.product.price_in_euro"
+          :error-messages="{ required: 'Price in euro is required'}"
+          :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
+        />
+        <CurrencyInput
+          v-model="product.shipping_in_euro"
+          placeholder="SHIPPING IN EURO"
+          :errors="v$.product.price_in_euro"
+          :error-messages="{ required: 'Shipping in euro is required'}"
+          :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
+        />
 
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
           AI safe (the best we can do)
@@ -266,6 +262,7 @@ import {
   PORNO_VISIBILITY_LEVEL
 } from '~/types/constants'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
+import CurrencyInput from '~~/components/UiKit/CurrencyInput.vue'
 import MinusIcon from '~/assets/svg/minus.svg'
 import useMedia from '~/composable/media'
 import useVuelidate from '@vuelidate/core'
@@ -328,8 +325,8 @@ const product = reactive({
   height: 0,
   width: 0,
   depth: 0,
-  price_in_euro: '0',
-  shipping_in_euro: '0'
+  price_in_euro: 0,
+  shipping_in_euro: 0
 })
 
 const v$ = useVuelidate({
@@ -402,8 +399,8 @@ function initializeProductFields() {
   product.width = productStore.item.width
   product.height = productStore.item.height
   product.depth = productStore.item.depth
-  product.price_in_euro = productStore.item.price_in_euro?.toString().replace('.', ',')
-  product.shipping_in_euro = productStore.item.shipping_in_euro?.toString().replace('.', ',')
+  product.price_in_euro = productStore.item.price_in_euro
+  product.shipping_in_euro = productStore.item.shipping_in_euro
   product.media = productStore.item.media.map((m) => m.id)
   product.author = productStore.item.author
   product.title = productStore.item.title
@@ -422,8 +419,6 @@ async function deleteProduct() {
 }
 
 async function updateProduct() {
-  product.price_in_euro = product.price_in_euro.replace(",", ".");
-  product.shipping_in_euro = product.shipping_in_euro.replace(",", ".");
 
   if (product.media.length < 1) {
     fileError.value = 'Media is required. '
