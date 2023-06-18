@@ -49,6 +49,7 @@
 
       <button
         class="gallery-item-image-container-inform"
+        @click.prevent="(event) => viewProductInfo(event, product.id)"
       >I</button>
     </div>
   </div>
@@ -109,7 +110,7 @@ import { useRoute } from 'vue-router'
 import { useCategoriesStore } from '~/store/categories'
 import EditIcon from '~/assets/svg/icon_edit_pencil.svg'
 import { useAuthStore } from '~/store/auth'
-const emit = defineEmits(['openEditProductModal', 'openAddProductModal'])
+const emit = defineEmits(['openEditProductModal', 'openAddProductModal', 'openViewProductModal'])
 
 interface Props {
   product: Product
@@ -148,5 +149,9 @@ async function moderateProduct(id: number, status: string) {
 async function editProduct(product: Product) {
   productsStore.item = product
   emit('openEditProductModal')
+}
+
+function viewProductInfo(event: Event, id: number) {
+  emit('openViewProductModal', id)
 }
 </script>

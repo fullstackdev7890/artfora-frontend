@@ -13,7 +13,7 @@
       <nuxt-link
         v-for="(image, index) in column"
         :key="index"
-        @click.prevent="(event) => openViewProductModal(event, image.id)"
+        @click.prevent="(event) => clickProduct(event, image.id)"
         class="gallery-item"
       >
         <div
@@ -26,7 +26,12 @@
             }"
         >
 
-          <product-info v-if="image?.user" :product="image" @open-edit-product-modal="editProductModalRef.open()" />
+          <product-info
+            v-if="image?.user"
+            :product="image"
+            @open-edit-product-modal="editProductModalRef.open()"
+            @open-view-product-modal="(id) => openViewProductModal(id)"
+          />
 
           <user-details
             v-if="galleryViewType === DETAILS_GALLERY_VIEW_TYPE"
@@ -166,16 +171,20 @@ function getColumnsCount() {
     .reduce((result, [size, columns]) => window.innerWidth > size ? columns : result, mobileColumnCount)
 }
 
-function openViewProductModal(event: Event, id: number) {
-  if (['path', 'svg', 'button'].includes((event.target as HTMLElement).tagName.toLowerCase())) {
-    return
-  }
+function openViewProductModal(id: number) {
   const allowedProduct = products.items.data.find((product) => {
     if (product.id === id && (product.visibility_level === 1 || (product_visibility_level.value && product.visibility_level <= product_visibility_level.value))) {
       return true
     }
   })
   allowedProduct && viewProductModalRef.value.open(id)
+}
+
+function clickProduct(event: Event, id: number) {
+  if (['path', 'svg', 'button'].includes((event.target as HTMLElement).tagName.toLowerCase())) {
+    return
+  }
+  openViewProductModal(id)
 }
 
 function sortImagesByColumns (images: Product[]) {
