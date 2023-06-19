@@ -320,7 +320,7 @@ async function addFiles(event: any) {
 
   let exceed = false
   for (const item of media) {
-    const maxSize = 5 * 1024 * 10 // Set the maximum item size here (in bytes)
+    const maxSize = 5 * 1024 * 1024 // Set the maximum item size here (in bytes)
     if (item.size > maxSize) {
       fileError.value = 'The file size exceeds the maximum allowed size of 5MB.';
       exceed = true
