@@ -354,6 +354,7 @@ async function addFiles(event: any) {
   }
 
   let exceed = false
+  let hasLarge = false
   for (const item of media) {
     const maxSize = 5 * 1024 * 1024 // Set the maximum item size here (in bytes)
     if (item.size > maxSize) {
@@ -365,14 +366,34 @@ async function addFiles(event: any) {
       fileError.value = ''
     }
 
-    try {
-      const response = await mediaStore.upload(item, item.name)
+    
+    // Check the image resolution.
+    const reader = new FileReader();
+    reader.onload = async function() {
+      const img = new Image();
+      img.onload = async function() {
+        if (this.naturalWidth > 3840 || this.naturalHeight > 2160) {
+          fileError.value = 'The image size exceeds the maximum allowed size of width(3840px) or height(2160px).';
+          hasLarge = true
+          return
+        }
 
-      files.value.push(response.data)
-      product.media.push(response.data.id)
-    } catch (e) {
-      fileError.value = e.response.data.errors.file
-    }
+        if (!hasLarge) {
+          fileError.value = ''
+        }
+
+        try {
+          const response = await mediaStore.upload(item, item.name)
+
+          files.value.push(response.data)
+          product.media.push(response.data.id)
+        } catch (e) {
+          fileError.value = e.response.data.errors.file
+        }
+      };
+      img.src = reader.result;
+    };
+    await reader.readAsDataURL(item);
   }
 }
 
