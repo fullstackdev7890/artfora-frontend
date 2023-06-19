@@ -181,7 +181,8 @@ function openViewProductModal(id: number) {
 }
 
 function clickProduct(event: Event, id: number) {
-  if (['path', 'svg', 'button'].includes((event.target as HTMLElement).tagName.toLowerCase())) {
+  console.log('---', (event.target as HTMLElement).tagName.toLowerCase())
+  if (['path', 'svg', 'button', 'a'].includes((event.target as HTMLElement).tagName.toLowerCase())) {
     return
   }
   openViewProductModal(id)
