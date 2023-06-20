@@ -38,6 +38,7 @@
   &-label {
     position: absolute; top: .85rem; left: .8rem; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0;
     transition: all $transition-delay; font-style: italic;
+    width: 100%;
   }
 
   &-errors-list, &-attentions-list { width: 100%; }

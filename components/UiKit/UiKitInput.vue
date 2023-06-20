@@ -34,7 +34,7 @@
           :type="type"
           :value="modelValue"
           :class="{
-            'form-control-filled': modelValue || type === 'date',
+            'form-control-filled': modelValue || modelValue === 0 || type === 'date',
             'form-control-prefix': modelValue && prefix
           }"
           :disabled="props.disabled"

@@ -106,7 +106,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             step="0.01"
-            placeholder="HEIGHT"
+            placeholder="HEIGHT CM"
             type="number"
           />
           <ui-kit-input
@@ -116,7 +116,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             step="0.01"
-            placeholder="WIDTH"
+            placeholder="WIDTH CM"
             type="number"
           />
           <ui-kit-input
@@ -126,7 +126,7 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
             step="0.01"
-            placeholder="DEPTH"
+            placeholder="DEPTH CM"
             type="number"
           />
         </div>
