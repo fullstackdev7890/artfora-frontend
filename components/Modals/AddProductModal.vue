@@ -392,6 +392,11 @@ function clearProductFields() {
   files.value = []
 
   product.price = 0
+  product.height = 0
+  product.width = 0
+  product.depth = 0
+  product.price_in_euro = 0
+  product.shipping_in_euro = 0
   product.media = []
   product.author = ''
   product.title = ''
@@ -429,7 +434,7 @@ async function uploadProduct() {
   fileError.value = ''
 
   try {
-    await productStore.create(product).then(close)
+    await productStore.create({...product, price_in_euro: product.price_in_euro/100, shipping_in_euro: product.shipping_in_euro/100}).then(close)
 
   } catch (e) {
     if (e.response && !e.response.data.errors) {

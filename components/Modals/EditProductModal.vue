@@ -477,7 +477,7 @@ async function updateProduct() {
   fileError.value = ''
 
   try {
-    await productStore.update(productStore.item.id, product).then(async () => {
+    await productStore.update(productStore.item.id, {...product, price_in_euro: product.price_in_euro/100, shipping_in_euro: product.shipping_in_euro/100}).then(async () => {
       close()
       await productStore.fetchAll()
 

@@ -26,22 +26,13 @@
         </span>
 
         <input
-          :max="max"
-          :min="min"
-          :step="step"
-          :name="name"
-          :id="name"
-          :type="type"
-          :value="modelValue"
+          type="text"
           ref="inputRef"
           :class="{
             'form-control-filled': modelValue || modelValue === 0 || type === 'date',
             'form-control-prefix': modelValue && prefix
           }"
-          :disabled="props.disabled"
-          autocomplete="off"
           class="form-control"
-          @input="onChanged"
         />
 
         <span
@@ -89,7 +80,7 @@
 <script lang="ts" setup>
 import TheMask from 'vue-the-mask'
 import { defineEmits } from 'vue'
-import { useCurrencyInput } from 'vue-currency-input'
+import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
 
 type Options = {
   currency: string,
@@ -102,16 +93,13 @@ type Options = {
 }
 
 interface Props {
-  modelValue: string | number,
+  modelValue: number,
   placeholder: string,
   mask?: string,
   title?: string,
   name?: string,
   type?: string,
-  max?: number,
-  min?: number,
   step?: number,
-  timeout?: number,
   errors?: object,
   errorMessages?: object,
   serverErrors?: object,
@@ -137,9 +125,6 @@ const props = withDefaults(defineProps<Props>(), {
     currencyDisplay: 'symbol',
     accountingSign: false
   },
-  min: 0,
-  step: 1,
-  timeout: 0,
   errors: () => ({ $error: false }),
   errorMessages: () => ({}),
   serverErrors: () => ({})
@@ -147,28 +132,16 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['update:modelValue'])
 
-const { inputRef } = useCurrencyInput({...props.options})
+const { inputRef, setOptions, setValue } = useCurrencyInput(props.options as CurrencyInputOptions)
 
 let timeout: any = null
 
-function input($event: any) {
-    let value = props.mask ? $event : $event.target.value
+watch(() => props.options, (options) => {
+  setOptions(options as CurrencyInputOptions)
+})
 
-    if (props.type === 'number') {
-      value = parseFloat(value)
-    }
-
-    emit('update:modelValue', value)
-  }
-
-function onChanged(value: any) {
-  if (props.timeout) {
-    clearTimeout(timeout)
-
-    timeout = setTimeout(() => input(value), props.timeout)
-  } else {
-    input(value)
-  }
-}
+watch(() => props.modelValue, (modelValue) => {
+  setValue(modelValue)
+})
 
 </script>
