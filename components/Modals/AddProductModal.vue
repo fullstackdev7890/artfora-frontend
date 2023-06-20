@@ -156,7 +156,7 @@
           >read more</span>
         </ui-kit-check-box>
 
-        <hr />
+        <hr class="horizontal-separator" />
 
         <ui-kit-input
           v-model="product.tags"
