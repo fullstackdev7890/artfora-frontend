@@ -134,6 +134,7 @@ async function sendForm() {
 function open() {
   refreshModal()
   contactForm.value?.open()
+  console.log('window.mtcaptchaConfig', window.mtcaptchaConfig)
   window.mtcaptchaConfig.renderQueue.push("mtcaptcha")
 }
 
