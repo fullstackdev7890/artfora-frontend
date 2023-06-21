@@ -36,7 +36,7 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Price:</h5>
-          <span>€{{ props.product.price_in_euro }}</span>
+          <span>€{{ parseFloat(props.product.price_in_euro).toFixed(2) }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size (L/W/D):</h5>
