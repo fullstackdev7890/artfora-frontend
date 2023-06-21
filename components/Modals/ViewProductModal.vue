@@ -109,7 +109,12 @@ async function open(id: number) {
 
 function close() {
   viewProductModal.value?.close()
-  router.push({query: {}})
+  // router.push({query: {}})
+  if (router.options.history.state.back) {
+    router.go(-1)
+  } else{
+    router.push('/')
+  }
 }
 
 defineExpose({ open, close })
