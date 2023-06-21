@@ -31,7 +31,7 @@ export const useUsersStore = defineStore('users', {
       can_add_product: false,
     },
     filters: {
-      per_page: 20,
+      per_page: 1000,
       page: 1,
       desc: 1
     },
