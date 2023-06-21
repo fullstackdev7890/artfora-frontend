@@ -28,6 +28,7 @@ export const useUsersStore = defineStore('users', {
       avatar_image: null,
       role_id: 0,
       external_link: '',
+      can_add_product: false,
     },
     filters: {
       per_page: 20,
@@ -50,6 +51,11 @@ export const useUsersStore = defineStore('users', {
       const response = await axios.delete(`/users/${id}`)
       this.$state.users = response.data
    },
+
+   async update(id: number, filters: {}) {
+     const response = await axios.put(`/users/${id}`, { ...filters })
+     return response
+  },
   }
 })
 

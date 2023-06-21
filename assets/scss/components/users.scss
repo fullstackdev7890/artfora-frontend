@@ -17,6 +17,15 @@
         tr {
           td {
             text-align: left;
+            .toggle-button {
+              width: 70px;
+            }
+            .toggle-button.no-button {
+              color: #D5695C;
+            }
+            .toggle-button.yes-button {
+              color: #3F3F3D;
+            }
           }
           td.centered-column {
             text-align: center;

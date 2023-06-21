@@ -24,7 +24,10 @@
           <td class="centered-column">{{ user.role_id }}</td>
           <td class="centered-column">{{ user.product_visibility_level }}</td>
           <td class="centered-column">
-            <button class="button" @click.prevent="deleteUser(user.id)">
+            <button v-if="user.can_add_product" class="button toggle-button yes-button" @click.prevent="updateUser(user.id, false)">
+              <span>YES</span>
+            </button>
+            <button v-else class="button toggle-button no-button" @click.prevent="updateUser(user.id, true)">
               <span>NO</span>
             </button>
           </td>
@@ -56,6 +59,13 @@ onMounted(async () => {
   await usersStore.fetchAll()
   users.value = usersStore.users.data
 })
+
+async function updateUser(id: number, can_add_product: boolean) {
+  usersStore.update(id, {can_add_product: can_add_product}).then(async () => {
+    await usersStore.fetchAll()
+    users.value = usersStore.users.data
+  })
+}
 
 async function deleteUser(id: number) {
   if (confirm('Are you sure you want to delete this user?')) {

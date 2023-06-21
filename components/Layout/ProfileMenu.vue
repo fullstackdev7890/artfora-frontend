@@ -1,7 +1,7 @@
 <template>
   <div class="profile-menu">
     <div
-      v-if="isAuthorized"
+      v-if="isAuthorized && (userStore.can_add_product || userStore.role_id === 1)"
       @click="emit('openAddProductModal')"
       class="new-product"
     >
