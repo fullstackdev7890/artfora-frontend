@@ -434,7 +434,7 @@ async function uploadProduct() {
   fileError.value = ''
 
   try {
-    await productStore.create({...product, price_in_euro: product.price_in_euro/100, shipping_in_euro: product.shipping_in_euro/100}).then(async() => {
+    await productStore.create(product).then(async() => {
       close()
       await productStore.fetchAll()
       await productStore.getPendingCount()

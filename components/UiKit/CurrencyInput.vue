@@ -120,7 +120,7 @@ const props = withDefaults(defineProps<Props>(), {
     hideNegligibleDecimalDigitsOnFocus: true,
     autoDecimalDigitsEnabled: true,
     autoDecimalDigits: false,
-    valueScaling: 'precision',
+    // valueScaling: 'precision',
     useGrouping: true,
     currencyDisplay: 'symbol',
     accountingSign: false
