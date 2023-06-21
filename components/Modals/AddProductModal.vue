@@ -99,35 +99,29 @@
         />
 
         <div class="space-between-inputs">
-          <ui-kit-input
-            v-model="product.height"
+          <MeasureInput
+            v-model.lazy="product.height"
+            placeholder="HEIGHT CM"
             :errors="v$.product.height"
             :error-messages="{ required: 'Height is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
-            placeholder="HEIGHT CM"
-            type="number"
           />
-          <ui-kit-input
-            v-model="product.width"
+          <MeasureInput
+            v-model.lazy="product.width"
+            placeholder="WIDTH CM"
             :errors="v$.product.width"
             :error-messages="{ required: 'Width is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
-            placeholder="WIDTH CM"
-            type="number"
           />
-          <ui-kit-input
-            v-model="product.depth"
+          <MeasureInput
+            v-model.lazy="product.depth"
+            placeholder="DEPTH CM"
             :errors="v$.product.depth"
             :error-messages="{ required: 'Depth is required'}"
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
-            step="0.01"
-            placeholder="DEPTH CM"
-            type="number"
           />
         </div>
 
@@ -245,6 +239,7 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { useFiltersStore } from '~/store/filters'
 import CurrencyInput from '~~/components/UiKit/CurrencyInput.vue'
+import MeasureInput from '~~/components/UiKit/MeasureInput.vue'
 
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
