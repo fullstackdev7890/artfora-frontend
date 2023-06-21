@@ -39,7 +39,7 @@
           <span>€{{ props.product.price }}</span>
         </div>
         <div class="product-sidebar-info-item">
-          <h5>Size:</h5>
+          <h5>Size (L/W/D):</h5>
           <span>{{ props.product.width }}/{{ props.product.height }}/{{ props.product.depth }} cm</span>
         </div>
         <!-- <div class="product-sidebar-info-item">
