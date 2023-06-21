@@ -39,7 +39,7 @@
   }
 
   &-btn {
-    position: absolute; top: 1rem; right: 2rem; display: flex; gap: 10px; z-index: 1;
+    position: absolute; top: 16px; right: 16px; display: flex; gap: 10px; z-index: 1;
     @media (max-width: $mobile) {
       right: 32px
     }
