@@ -36,11 +36,11 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Price:</h5>
-          <span>€{{ props.product.price }}</span>
+          <span>€{{ props.product.price_in_euro }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size (L/W/D):</h5>
-          <span>{{ props.product.width }}/{{ props.product.height }}/{{ props.product.depth }} cm</span>
+          <span>{{ props.product.height }}/{{ props.product.width }}/{{ props.product.depth }} cm</span>
         </div>
         <!-- <div class="product-sidebar-info-item">
           <h5>Weight:</h5>
