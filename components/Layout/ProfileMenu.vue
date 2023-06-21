@@ -1,7 +1,7 @@
 <template>
   <div class="profile-menu">
     <div
-      v-if="isAuthorized && (userStore.can_add_product || userStore.role_id === 1)"
+      v-if="isAuthorized && (can_add_product || userStore.role_id === 1)"
       @click="emit('openAddProductModal')"
       class="new-product"
     >
@@ -84,6 +84,7 @@ const { isAuthorized } = storeToRefs(authStore)
 const { userAvatar } = storeToRefs(userStore)
 const { getUserAvatar } = useMedia()
 const { getUserRole } = storeToRefs(userStore)
+const { can_add_product } = storeToRefs(userStore)
 const productStore = useProductsStore()
 
 function logout() {

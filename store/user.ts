@@ -19,6 +19,7 @@ const initState = (): User => ({
   product_visibility_level: null,
   background_image: null,
   more_external_link: [],
+  can_add_product: false,
   avatar_image: {
     id: 0,
     link: '',
