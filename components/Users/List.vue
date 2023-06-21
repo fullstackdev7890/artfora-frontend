@@ -5,12 +5,13 @@
         <th>No.</th>
         <th>ID</th>
         <th>Username</th>
-        <th>tagname</th>
+        <th>Tagname</th>
         <th>Email</th>
-        <th>Role</th>
         <th>Created</th>
-        <th>Filter</th>
-        <th>action</th>
+        <th class="centered-column">Role</th>
+        <th class="centered-column">Filter</th>
+        <th class="centered-column">Gallery</th>
+        <th class="centered-column">Action</th>
       </thead>
       <tbody>
         <tr v-for="(user, index) in users" :key="user.id">
@@ -19,10 +20,15 @@
           <td>{{ user.username }}</td>
           <td>{{ user.tagname }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.role_id }}</td>
           <td>{{ new Date(user.created_at).toISOString().replace('T', ' ').slice(0, 19) }}</td>
-          <td>{{ user.product_visibility_level }}</td>
-          <td>
+          <td class="centered-column">{{ user.role_id }}</td>
+          <td class="centered-column">{{ user.product_visibility_level }}</td>
+          <td class="centered-column">
+            <button class="button" @click.prevent="deleteUser(user.id)">
+              <span>NO</span>
+            </button>
+          </td>
+          <td class="centered-column">
             <button class="button" @click.prevent="deleteUser(user.id)">
               <span>Delete</span>
             </button>
