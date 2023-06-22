@@ -268,7 +268,7 @@ async function uploadProduct() {
   }
 
   try {
-    user.more_external_link = moreexternal_link;
+    user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
     await userStore.updateProfile(user).then(close)
 
   } catch (e: any) {
