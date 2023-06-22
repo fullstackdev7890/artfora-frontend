@@ -36,11 +36,11 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Price:</h5>
-          <span>€{{ parseFloat(props.product.price_in_euro).toFixed(2) }}</span>
+          <span>€{{ formattedNumber(props.product.price_in_euro) }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size (L/W/D):</h5>
-          <span>{{ props.product.height }}/{{ props.product.width }}/{{ props.product.depth }} cm</span>
+          <span>{{ formattedNumber(props.product.height) }}/{{ formattedNumber(props.product.width) }}/{{ formattedNumber(props.product.depth) }} cm</span>
         </div>
         <!-- <div class="product-sidebar-info-item">
           <h5>Weight:</h5>
@@ -116,4 +116,9 @@ const linksModal = ref<InstanceType<typeof LinksModal>>(null)
 const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
 const contactModal = ref<InstanceType<typeof ContactModal>>(null)
 const { getUserAvatar, getImageUrl } = useMedia()
+
+function formattedNumber(amount: number) {
+  const formattedNumber = amount.toLocaleString('de-DE', {})
+  return formattedNumber
+}
 </script>
