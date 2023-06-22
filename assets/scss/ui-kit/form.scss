@@ -58,7 +58,7 @@
     }
   }
 
-  &-label { position: absolute; top: 0; left: 0.8rem; height: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
+  &-label { position: absolute; top: 0; left: 0.8rem; height: 100%; width: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
   &-label-content { display: flex; align-items: center; height: 100%; }
   &-textarea-label{ position: absolute; top: 0.75rem; left: 0.8rem; height: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
  

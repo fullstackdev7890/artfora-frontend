@@ -9,17 +9,17 @@
         :name="name"
         :type="type"
         :model-value="modelValue"
-        :class="{ 'form-control-filled': modelValue }"
+        :class="{ 'form-control-filled': model }"
         :disabled="props.disabled"
         autocomplete="off"
         class="form-control"
         @update:modelValue="onChanged"
       />
 
-      <label :for="name" class="form-field" v-else>
+      <div :for="name" class="form-field" v-else>
         <span
           v-if="prefix"
-          :class="{ 'form-prefix-filled': modelValue && prefix }"
+          :class="{ 'form-prefix-filled': model && prefix }"
           class="form-prefix"
         >
           {{ prefix }}
@@ -29,21 +29,20 @@
           type="text"
           ref="inputRef"
           :class="{
-            'form-control-filled': modelValue || modelValue === 0 || type === 'date',
-            'form-control-prefix': modelValue && prefix
+            'form-control-filled': model || model === 0 || type === 'date',
+            'form-control-prefix': model && prefix
           }"
           class="form-control"
+          v-model="model"
         />
 
-        <span
-          v-if="placeholder"
-          :for="name"
-          class="form-label"
-        >
-          {{ placeholder }}
+        <span class="form-label">
+          <span v-if="placeholder" :for="name" class="form-label-content">
+            {{ placeholder }}
+          </span>
         </span>
         
-      </label>
+      </div>
       <slot></slot>
 
       <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">
@@ -131,6 +130,8 @@ const props = withDefaults(defineProps<Props>(), {
   errorMessages: () => ({}),
   serverErrors: () => ({})
 })
+
+const model = ref(props.modelValue)
 
 const emit = defineEmits(['update:modelValue'])
 
