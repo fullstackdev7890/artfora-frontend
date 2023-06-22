@@ -16,7 +16,7 @@
         @update:modelValue="onChanged"
       />
 
-      <label :for="name" class="form-field" v-else>
+      <div :for="name" class="form-field" v-else>
         <span
           v-if="prefix"
           :class="{ 'form-prefix-filled': modelValue && prefix }"
@@ -43,15 +43,13 @@
           @input="onChanged"
         />
 
-        <span
-          v-if="placeholder"
-          :for="name"
-          class="form-label"
-        >
-          {{ placeholder }}
+         <span class="form-label">
+          <span v-if="placeholder" :for="name" class="form-label-content">
+            {{ placeholder }}
+          </span>
         </span>
         
-      </label>
+      </div>
       <slot></slot>
 
       <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">

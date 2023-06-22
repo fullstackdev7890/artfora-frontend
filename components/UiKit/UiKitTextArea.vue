@@ -1,6 +1,7 @@
 <template>
   <div>
     <fieldset class="form-group">
+    <div class="form-field">
       <label
         v-if="title"
         :for="name"
@@ -19,13 +20,12 @@
         @input="onChanged"
       />
 
-      <span
-        v-if="placeholder"
-        :for="name"
-        class="form-label"
-      >
-          {{ placeholder }}
-      </span>
+      <span class="form-textarea-label">
+          <span v-if="placeholder" :for="name" class="form-textarea-label-content">
+            {{ placeholder }}
+          </span>
+        </span>
+    </div>
 
       <span v-if="errors.$error" class="form-errors-list">
         <span

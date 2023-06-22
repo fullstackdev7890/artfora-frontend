@@ -3,44 +3,65 @@
 .form {
   &-group { margin-bottom: 1rem; position: relative; }
 
-  &-field {  }
-  &-prefix {
-    position: absolute; top: 0.8rem; left: .8rem; font-size: 1.2rem; color: $light-bg; opacity: 0;
-
-    &-filled { opacity: 1; }
+  &-field { position: relative; }
+  &-prefix { position: absolute; top: 0.8rem; left: 0.8rem; font-size: 1.2rem; color: $light-bg; opacity: 0;
+    &-filled {
+      opacity: 1;
+    }
   }
 
-  &-control {
-    background: transparent; border: $input-border-color 1px solid; padding: .8rem .8rem .8rem .8rem; width: 100%;
-    box-sizing: border-box; font-size: 1rem; color: $light-bg; border-radius: 10px; font-family: AtkinsonHyperlegible, sans-serif;
+  &-control { background: transparent; border: $input-border-color 1px solid; padding: 0.8rem 0.8rem 0.8rem 0.8rem; width: 100%; box-sizing: border-box; font-size: 1rem; color: $light-bg; border-radius: 10px; font-family: AtkinsonHyperlegible, sans-serif;
+    &-prefix { padding: 0.8rem 0.8rem 0.5rem 1.7rem; }
 
-    &-prefix { padding: .8rem .8rem .5rem 1.7rem; }
-
-    &-filled ~ .form-label { transform: translate(0, -.6rem) scale(0.6); left: .8rem; }
-
+    &-filled ~ .form-label { transform: translate(0, -0.4rem) scale(0.6); left: 0.8rem; }
+    &-filled ~ .form-label { height: auto; top: 0.6rem; }
+    &-filled ~ .form-textarea-label {
+      transform: translate(0, -0.4rem) scale(0.6);
+      left: 0.8rem;
+    }
+    &-filled ~ .form-textarea-label { height: auto; top: 0.6rem; }
+    &-textarea-container { display: flex; align-items: center; }
     &-textarea {
-      min-height: 100px; outline: none !important; font-family: AtkinsonHyperlegible, sans-serif;
+      min-height: 100px;
+      align-items: center;
+      outline: none !important;
+      font-family: AtkinsonHyperlegible, sans-serif;
       &::placeholder {
         opacity: 0.4;
         color: $box-content-font-color;
         font-family: AtkinsonHyperlegible, sans-serif;
         font-style: italic;
       }
+      vertical-align: text-top;
+      display: flex;
     }
-
+    &-textarea-label {
+      position: absolute;
+      top: 0;
+      left: 0.8rem;
+  
+      height: 100%;
+      opacity: 0.4;
+      pointer-events: none;
+      transform: none;
+      transform-origin: 0 0;
+      transition: all $transition-delay;
+      font-style: italic;
+    }
+  
     &:disabled { opacity: 0.8; cursor: not-allowed; }
   }
 
-  &-checkbox { margin: .3rem 0;
-    & input { margin-right: .5rem; }
+  &-checkbox { margin: 0.3rem 0;
+    & input {
+      margin-right: 0.5rem;
+    }
   }
 
-  &-label {
-    position: absolute; top: .85rem; left: .8rem; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0;
-    transition: all $transition-delay; font-style: italic;
-    width: 100%;
-  }
-
+  &-label { position: absolute; top: 0; left: 0.8rem; height: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
+  &-label-content { display: flex; align-items: center; height: 100%; }
+  &-textarea-label{ position: absolute; top: 0.75rem; left: 0.8rem; height: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
+ 
   &-errors-list, &-attentions-list { width: 100%; }
   &-attention { font-style: italic; }
   &-error, &-attention { color: $light-bg; margin-top: .3rem; font-size: 15px; }
