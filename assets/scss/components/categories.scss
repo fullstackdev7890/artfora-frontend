@@ -31,5 +31,8 @@
         & input { display: none;}
       }
     }
+    &-item:hover {
+      background: white;
+    }
   }
 }
