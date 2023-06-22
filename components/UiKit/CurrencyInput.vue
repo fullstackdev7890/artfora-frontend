@@ -121,6 +121,8 @@ const props = withDefaults(defineProps<Props>(), {
     autoDecimalDigitsEnabled: true,
     autoDecimalDigits: false,
     // valueScaling: 'precision',
+    valueRangeEnabled: true,
+    valueRange: {min: 0, max: undefined},
     useGrouping: true,
     currencyDisplay: 'symbol',
     accountingSign: false
