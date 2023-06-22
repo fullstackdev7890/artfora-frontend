@@ -7,7 +7,9 @@
       <search-bar />
 
       <div class="container header-title">
-        <h1>ARTfora</h1>
+        <NuxtLink :to="'/'">
+          <h1>ARTfora</h1>
+        </NuxtLink>
       </div>
 
       <profile-menu

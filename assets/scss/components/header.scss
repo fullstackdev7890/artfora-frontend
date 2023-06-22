@@ -13,7 +13,13 @@
 
   &-hide { transform: translate3d(0, -100%, 0); }
 
-  &-title { max-width: 400px; min-width: 200px; text-align: center; justify-self: center; }
+  &-title {
+    max-width: 400px; min-width: 200px; text-align: center; justify-self: center;
+    a {
+      color: #c1c1c1;
+      text-decoration: none;
+    }
+  }
 
   h1 { font-family: Prozak, sans-serif; font-weight: 700; font-size: 3em; letter-spacing: 4px; margin: 0; }
 
