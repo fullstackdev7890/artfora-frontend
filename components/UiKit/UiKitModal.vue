@@ -19,11 +19,11 @@
       </template>
 
       <template v-slot:content>
-        <slot name="content"/>
+        <slot name="content"></slot>
       </template>
 
       <template v-slot:footer>
-        <slot name="buttons"/>
+        <slot name="buttons"></slot>
       </template>
     </ui-kit-box>
   </div>

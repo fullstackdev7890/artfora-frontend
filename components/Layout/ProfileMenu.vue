@@ -25,12 +25,12 @@
         >My Settings</span>
       </div>
 
-      <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
+      <!-- <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
         <span
           @click="openStartSellingModal"
           class="ui-kit-dropdown-content-item-btn"
         >Start selling</span>
-      </div>
+      </div> -->
 
       <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
         <span
@@ -41,6 +41,12 @@
 
       <div class="ui-kit-dropdown-content-item">
         <span @click="openSettingsGallery" class="ui-kit-dropdown-content-item-btn">Gallery settings</span>
+      </div>
+      <div class="ui-kit-dropdown-content-item">
+        <span @click="openAboutArtforaModal" class="ui-kit-dropdown-content-item-btn">About ARTfora</span>
+      </div>
+      <div class="ui-kit-dropdown-content-item">
+        <span @click="openFaqModal" class="ui-kit-dropdown-content-item-btn">FAQ</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
@@ -74,7 +80,7 @@ import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
 import { ImageTemplate, ROLE_ADMIN } from '~/types/constants'
 
-const emit = defineEmits(['openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openStartSellingModal', 'openSetUpAccountModal'])
+const emit = defineEmits(['openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openFaqModal','openStartSellingModal', 'openSetUpAccountModal','openAboutArtforaModal'])
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 
@@ -107,6 +113,14 @@ function openStartSellingModal() {
 function openSetUpAccountModal() {
   menuDropdownRef.value.close()
   emit('openSetUpAccountModal')
+}
+function openAboutArtforaModal() {
+  menuDropdownRef.value.close()
+  emit('openAboutArtforaModal')
+}
+function openFaqModal() {
+  menuDropdownRef.value.close()
+  emit('openFaqModal')
 }
 
 function openLogInModal() {

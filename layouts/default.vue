@@ -8,6 +8,8 @@
       @open-start-selling-modal="modalsComponentRef.openStartSellingModal()"
       @open-gallery-settings-modal="modalsComponentRef.openGallerySettingsModal()"
       @open-set-up-account-modal="modalsComponentRef.openSetUpAccountModal()"
+      @open-about-artfora-modal="modalsComponentRef.openAboutArtforaModal()"
+      @open-faq-modal="modalsComponentRef.openFaqModal()"
     />
 
     <slot/>

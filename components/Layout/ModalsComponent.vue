@@ -50,6 +50,10 @@
       @open-log-in-modal="openLogInModal"
     />
 
+    <AboutArtforaModal
+      ref="aboutArtforaModelRef"
+    />
+
     <contact-us-modal ref="contactUsModalRef" />
   </div>
 </template>
@@ -73,6 +77,8 @@ import GallerySettingsModal from '~/components/Modals/GallerySettingsModal.vue'
 import SetUpAccountModal from '~/components/Modals/SetUpAccountModal.vue'
 import AiSafeDescriptionModal from '~/components/Modals/AiSafeDescriptionModal.vue'
 import PreSignUpModal from '~/components/Modals/PreSignUpModal.vue'
+import AboutArtforaModal from '~/components/Modals/AboutArtforaModal.vue'
+import FaqModal from '~/components/Modals/FAQModal.vue'
 
 const authStore = useAuthStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
@@ -89,6 +95,8 @@ const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null)
 const aiSafeDescriptionModalRef = ref<InstanceType<typeof AiSafeDescriptionModal>>(null)
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>(null)
 const startSellingModalRef = ref<InstanceType<typeof StartSellingModal>>(null)
+const aboutArtforaModelRef = ref<InstanceType<typeof AboutArtforaModal>>(null)
+const faqModalRef = ref<InstanceType<typeof FaqModal>>(null)
 
 const router = useRouter()
 const route = useRoute()
@@ -111,7 +119,8 @@ router.beforeEach((to, from, next) => {
   gallerySettingsModalRef.value.close()
   setUpAccountModalRef.value.close()
   aiSafeDescriptionModalRef.value.close()
-  preSignUpModalRef.value.close()
+  aboutArtforaModelRef.value.close()
+  faqModalRef.value.close()
 
   next()
 })
@@ -149,6 +158,14 @@ function openAddProductModal() {
   addProductModalRef.value.open()
 }
 
+function openAboutArtforaModal() {
+  console.log(aboutArtforaModelRef)
+  aboutArtforaModelRef.value.open()
+}
+function openFaqModal() {
+  faqModalRef.value.open()
+}
+
 function openAiSafeDescriptionModal() {
   aiSafeDescriptionModalRef.value.open()
 }
@@ -161,5 +178,5 @@ function openPreSignUpModal() {
   preSignUpModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openPreSignUpModal, openContactUsModal, openStartSellingModal, openGallerySettingsModal, openSetUpAccountModal })
+defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openPreSignUpModal, openContactUsModal, openStartSellingModal, openGallerySettingsModal, openSetUpAccountModal,openAboutArtforaModal,openFaqModal })
 </script>
