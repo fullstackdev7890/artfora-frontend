@@ -50,8 +50,11 @@
       @open-log-in-modal="openLogInModal"
     />
 
-    <AboutArtforaModal
+    <about-artfora-modal
       ref="aboutArtforaModelRef"
+    />
+    <faq-modal
+    ref="faqModalRef"
     />
 
     <contact-us-modal ref="contactUsModalRef" />

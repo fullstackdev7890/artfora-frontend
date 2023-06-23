@@ -1,13 +1,18 @@
 <template>
     <ui-kit-modal
-      :title="'About ARTfora'"
+      :title="'FAQ'"
       :with-footer="false"
       class="contact-modal"
       ref="faqModalForm"
     >
   
       <template v-slot:content>
-        faqModalForm
+        <div class="ui-kit-modal-content-buttons">
+          <button
+            class="button button-grey full-width"
+            @click="close"
+          ><span>Close</span></button>
+        </div>
       </template>
     </ui-kit-modal>
   </template>
