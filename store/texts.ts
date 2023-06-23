@@ -20,6 +20,15 @@ export const useTextsStore = defineStore('texts', {
     getByname(name: string) {
       const row = this.$state.items.data.find((row) => row.text_name === name)
       return row
+    },
+    getFaq() {
+      const row = this.$state.items.data.filter((row) => row.text_name === 'faq')
+      return row
+    },
+    getArtfora(){
+      const row = this.$state.items.data.filter((row) => row.text_name === 'about')
+      return row
     }
+
   },
 })

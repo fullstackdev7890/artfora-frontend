@@ -21,7 +21,7 @@
             DROP YOUR HEADER AND PROFILE IMAGE <br>
           IN THE RESPECTIVE FIELDS <br>
           OR CLICK TO BROWSE <br>
-          (AT LEAST 1200 X 1200 PIXELS ) <br>
+          PROFILE HEADER 1050 x 300 PX <br>
           </span>
           <img :src="getImageUrl(backgroundImage, ImageTemplate.FullSize)" alt="background Image" v-if="backgroundImage">
           <input
@@ -35,6 +35,7 @@
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
           <img :src="getUserAvatar(avatar, ImageTemplate.SmallThumbnail)" alt="avatar Image" v-if="avatar">
+          <div>800 X 800</div>
           <input
             id="uploadAvatar"
             @change="addFile"

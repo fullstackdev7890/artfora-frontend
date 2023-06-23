@@ -22,7 +22,7 @@
       &-title { font-style: italic }
     }
   }
-
+  
   & .commission-modal {
     &-submit {
       width: 100%;
@@ -56,4 +56,24 @@
 @keyframes toShow {
   0% { transform: translateY(-20px); }
   100% { transform: translateY(0); }
+}
+.faq-modal{
+  .faq-title{
+   font-weight: bold;
+ }
+ .faq-content{
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+ }
+
+}
+.artfora-modal{
+  .artfora-title{
+   font-weight: bold;
+ }
+ .artfora-content{
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+ }
+
 }
