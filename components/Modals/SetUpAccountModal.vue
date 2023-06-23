@@ -35,7 +35,13 @@
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
           <img :src="getUserAvatar(avatar, ImageTemplate.SmallThumbnail)" alt="avatar Image" v-if="avatar">
-          <div>800 X 800</div>
+          <div class="account-settings-avatar-placeholder">
+            <div class="account-settings-avatar-placeholder-body">
+              <div class="account-settings-avatar-placeholder-content">
+                800 X 800
+              </div>
+            </div>
+          </div>
           <input
             id="uploadAvatar"
             @change="addFile"
