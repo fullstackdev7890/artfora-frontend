@@ -33,6 +33,7 @@ export declare interface Product extends Entity {
   weight: number
   depth: number
   shipping_in_euro: number
+  quantity_for_sale:number
   price_in_euro: number
   status: string
   deleted_at: string | null

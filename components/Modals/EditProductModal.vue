@@ -154,8 +154,16 @@
         <CurrencyInput
           v-model.lazy="product.shipping_in_euro"
           placeholder="SHIPPING IN EURO"
-          :errors="v$.product.price_in_euro"
+          :errors="v$.product.shipping_in_euro"
           :error-messages="{ required: 'Shipping in euro is required'}"
+          :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
+        />
+        <ui-kit-input
+        v-model.lazy="product.quantity_for_sale"
+          placeholder="QUANTITY FOR SALE"
+          :errors="v$.product.quantity_for_sale"
+          :error-messages="{ required: 'QUANTITY FOR SALE is required'}"
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
         />
@@ -321,7 +329,8 @@ const product = reactive({
   width: 0,
   depth: 0,
   price_in_euro: 0,
-  shipping_in_euro: 0
+  shipping_in_euro: 0,
+  quantity_for_sale:1
 })
 
 const v$ = useVuelidate({
@@ -335,6 +344,7 @@ const v$ = useVuelidate({
     depth: { required },
     price_in_euro: { required },
     shipping_in_euro: { required },
+    quantity_for_sale:{required},
     tags: { required },
     visibility_level: { required },
     is_ai_safe: {}
@@ -427,6 +437,7 @@ function initializeProductFields() {
   product.depth = productStore.item.depth
   product.price_in_euro = productStore.item.price_in_euro
   product.shipping_in_euro = productStore.item.shipping_in_euro
+  product.quantity_for_sale=productStore.item.quantity_for_sale
   product.media = productStore.item.media.map((m) => m.id)
   product.author = productStore.item.author
   product.title = productStore.item.title

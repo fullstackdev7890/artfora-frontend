@@ -136,12 +136,19 @@
         <CurrencyInput
           v-model.lazy="product.shipping_in_euro"
           placeholder="SHIPPING IN EURO"
-          :errors="v$.product.price_in_euro"
+          :errors="v$.product.shipping_in_euro"
           :error-messages="{ required: 'Shipping in euro is required'}"
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
         />
-
+        <ui-kit-input
+        v-model.lazy="product.quantity_for_sale"
+          placeholder="QUANTITY FOR SALE"
+          :errors="v$.product.quantity_for_sale"
+          :error-messages="{ required: 'QUANTITY FOR SALE is required'}"
+          :server-errors="serverErrors"
+          :disabled="store.pendingRequestsCount"
+        />
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
           AI safe (the best we can do)
           <span
@@ -286,7 +293,8 @@ const product = reactive({
   width: 0,
   depth: 0,
   price_in_euro: 0,
-  shipping_in_euro: 0
+  shipping_in_euro: 0,
+  quantity_for_sale:1
 })
 
 const v$ = useVuelidate({
@@ -302,7 +310,8 @@ const v$ = useVuelidate({
     shipping_in_euro: { required },
     tags: { required },
     visibility_level: { required },
-    is_ai_safe: {}
+    is_ai_safe: {},
+    quantity_for_sale:{required}
   }
 }, { product })
 
@@ -392,6 +401,7 @@ function clearProductFields() {
   product.depth = 0
   product.price_in_euro = 0
   product.shipping_in_euro = 0
+  product.quantity_for_sale = 1
   product.media = []
   product.author = ''
   product.title = ''
@@ -402,6 +412,7 @@ function clearProductFields() {
 }
 
 async function uploadProduct() {
+  console.log("upload")
 
   if (product.media.length < 1) {
     fileError.value = 'Media is required. '
