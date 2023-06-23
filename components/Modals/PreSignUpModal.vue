@@ -15,7 +15,7 @@
       <div >
         <div class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
-            <p style="margin-bottom:10px" v-html="tData.text_content.replace(/\n/g, '<br>')" v-for="(tData, index) in textData" :style="{color:tData.text_colour}" :key="index">
+            <p style="margin-bottom:10px" v-html="tData.text_content?.replace(/\n/g, '<br>')" v-for="(tData, index) in textData" :style="{color:tData.text_colour}" :key="index">
             </p>
           </span>
         </div>
@@ -60,7 +60,7 @@ async function gettext() {
   try {
     const response = await axios.get('/text')
     textData.value = response.data.text;
-
+    console.log('textData', textData.value)
 
     success.value = true
   } catch (e) {
