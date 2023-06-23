@@ -14,6 +14,7 @@
         autocomplete="off"
         class="form-control"
         @update:modelValue="onChanged"
+        @blur="onBlur"
       />
 
       <div :for="name" class="form-field" v-else>
@@ -34,6 +35,7 @@
           }"
           class="form-control"
           v-model="model"
+          @blur="onBlur"
         />
 
         <span class="form-label">
@@ -146,5 +148,8 @@ watch(() => props.options, (options) => {
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
 })
+function onBlur(event: any) {
+  emit('update:modelValue', model.value)
+}
 
 </script>
