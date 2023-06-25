@@ -4,6 +4,10 @@
       @open-ai-safe-description="openAiSafeDescriptionModal"
       ref="addProductModalRef"
     />
+    <CartModal
+      @open-cart-modal="openCartModal"
+      ref="cartModalRef"
+    />
 
     <ai-safe-description-modal
       ref="aiSafeDescriptionModalRef"
@@ -69,6 +73,7 @@ import { useAuthStore } from '~/store/auth'
 import { storeToRefs } from 'pinia'
 import SignUpModal from '~/components/Modals/SignUpModal.vue'
 import AddProduct from '~/components/Modals/AddProductModal.vue'
+import CartModal from '~/components/Modals/CartModal.vue'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
@@ -88,6 +93,7 @@ const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
 
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const addProductModalRef = ref<InstanceType<typeof UiKitModal>>(null)
+const cartModalRef = ref<InstanceType<typeof UiKitModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
@@ -113,6 +119,7 @@ onMounted(() => {
 router.beforeEach((to, from, next) => {
   signUpModalRef.value.close()
   logInModalRef.value.close()
+  cartModalRef.value.close()
   twoFactorAuthModalRef.value.close()
   addProductModalRef.value.close()
   resetPasswordModalRef.value.close()
@@ -137,6 +144,10 @@ function openLogInModal() {
   logInModalRef.value.open()
 }
 
+function openCartModal() {
+  console.log(cartModalRef)
+  cartModalRef.value.open()
+}
 function openSetUpAccountModal() {
   setUpAccountModalRef.value.open()
 }
@@ -181,5 +192,5 @@ function openPreSignUpModal() {
   preSignUpModalRef.value.open()
 }
 
-defineExpose({ openAddProductModal, openLogInModal, openSignUpModal, openPreSignUpModal, openContactUsModal, openStartSellingModal, openGallerySettingsModal, openSetUpAccountModal,openAboutArtforaModal,openFaqModal })
+defineExpose({ openCartModal,openAddProductModal, openLogInModal, openSignUpModal, openPreSignUpModal, openContactUsModal, openStartSellingModal, openGallerySettingsModal, openSetUpAccountModal,openAboutArtforaModal,openFaqModal })
 </script>

@@ -10,5 +10,9 @@
       fill: $header-background-color;
     }
   }
+  & .artfora-cart{
+    display: flex; align-items: center; cursor: pointer;
+
+  }
 
 }

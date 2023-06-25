@@ -3,19 +3,13 @@
     <div class="product-sidebar">
 
       <div class="product-sidebar-background">
-        <img
-          v-if="props.product.user.background_image"
-          :src="getImageUrl(props.product.user.background_image, ImageTemplate.FullSize)"
-          alt="background-image"
-        >
+        <img v-if="props.product.user.background_image"
+          :src="getImageUrl(props.product.user.background_image, ImageTemplate.FullSize)" alt="background-image">
       </div>
 
       <div class="product-sidebar-user">
-        <img
-          :src="getUserAvatar($props.product.user.avatar_image, ImageTemplate.SmallThumbnail)"
-          class="product-sidebar-user-avatar"
-          alt="user-avatar"
-        >
+        <img :src="getUserAvatar($props.product.user.avatar_image, ImageTemplate.SmallThumbnail)"
+          class="product-sidebar-user-avatar" alt="user-avatar">
         <div class="product-sidebar-user-name">
           <h4>{{ props.product.user.username }}</h4>
           <p>{{ props.product.user.tagname }}</p>
@@ -40,7 +34,8 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size (L/W/D):</h5>
-          <span>{{ formattedNumber(props.product.height) }}/{{ formattedNumber(props.product.width) }}/{{ formattedNumber(props.product.depth) }} cm</span>
+          <span>{{ formattedNumber(props.product.height) }}/{{ formattedNumber(props.product.width) }}/{{
+            formattedNumber(props.product.depth) }} cm</span>
         </div>
         <!-- <div class="product-sidebar-info-item">
           <h5>Weight:</h5>
@@ -48,14 +43,18 @@
         </div> -->
       </div>
       <div class="product-sidebar-info-item">
-          <h5>Shipping:</h5>
-          <span></span>
-        </div>
-      <div class="product-sidebar-description">
+        <h5>Shipping:</h5>
+        <span></span>
+      </div>
+      <div class="product-sidebar-info-item">
         Description:
         <p>{{ props.product.description }}</p>
       </div>
-
+      <div class="product-sidebar-buy-button">
+        <button class="button full-width" @click="saveProductToCart">
+          <span>BUY</span>
+        </button>
+      </div>
       <div class="product-sidebar-bottom-buttons-wrapper">
         <button class="button full-width" @click="contactModal.open()">
           <span>CONTACT</span>
@@ -64,16 +63,18 @@
           <span>COMMISSION OPEN</span>
         </button>
       </div>
-      <links-modal ref="linksModal" :morelinks="props.product.user.more_external_link || []" :links="props.product.user.external_link" />
+      <links-modal ref="linksModal" :morelinks="props.product.user.more_external_link || []"
+        :links="props.product.user.external_link" />
 
       <commission-work-modal ref="commissionWorkModal" :user-id="props.product.user.id" />
 
-      <contact-modal ref="contactModal"/>
+      <contact-modal ref="contactModal" />
     </div>
   </transition>
 </template>
 
 <script setup lang="ts">
+import nuxtStorage from 'nuxt-storage';
 import { Product } from '~/types/products'
 import { ImageTemplate } from '~/types/constants'
 import ShareIcon from '~/assets/svg/share.svg'
@@ -102,7 +103,7 @@ const props = withDefaults(defineProps<Props>(), {
       username: '',
       tagname: '',
       background_image: '',
-      morelinks:[],
+      morelinks: [],
       media: {
         id: 1,
         deleted_at: null,
@@ -114,7 +115,10 @@ const props = withDefaults(defineProps<Props>(), {
   }
 
 })
-
+function saveProductToCart() {
+  const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
+  nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
+}
 const linksModal = ref<InstanceType<typeof LinksModal>>(null)
 const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
 const contactModal = ref<InstanceType<typeof ContactModal>>(null)

@@ -4,6 +4,7 @@
       v-show="$route.name !== 'products-id'"
       @open-log-in-modal="modalsComponentRef.openLogInModal()"
       @open-add-product-modal="modalsComponentRef.openAddProductModal()"
+      @open-cart-modal="modalsComponentRef.openCartModal()"
       @open-contact-us-modal="modalsComponentRef.openContactUsModal()"
       @open-start-selling-modal="modalsComponentRef.openStartSellingModal()"
       @open-gallery-settings-modal="modalsComponentRef.openGallerySettingsModal()"

@@ -1,28 +1,20 @@
 <template>
   <div class="profile-menu">
-    <div
-      v-if="isAuthorized && (can_add_product || userStore.role_id === 1)"
-      @click="emit('openAddProductModal')"
-      class="new-product"
-    >
-      <plus-icon class="plus-icon"/>
+    <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="openCartModal"
+      class="artfora-cart">
+      <cart-icon class="cart-icon" />
     </div>
-    <div
-      @click="menuDropdownRef.open()"
-      class="icon-button"
-    >
-      <img
-        :src="getUserAvatar(userAvatar, ImageTemplate.SmallThumbnail)"
-        alt="user_avatar"
-      >
+    <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="emit('openAddProductModal')"
+      class="new-product">
+      <plus-icon class="plus-icon" />
+    </div>
+    <div @click="menuDropdownRef.open()" class="icon-button">
+      <img :src="getUserAvatar(userAvatar, ImageTemplate.SmallThumbnail)" alt="user_avatar">
     </div>
 
     <ui-kit-dropdown title="Menu" ref="menuDropdownRef">
       <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
-        <span
-          @click="openSetUpAccountModal"
-          class="ui-kit-dropdown-content-item-btn"
-        >My Settings</span>
+        <span @click="openSetUpAccountModal" class="ui-kit-dropdown-content-item-btn">My Settings</span>
       </div>
 
       <!-- <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
@@ -33,10 +25,7 @@
       </div> -->
 
       <div v-if="!isAuthorized" class="ui-kit-dropdown-content-item">
-        <span
-          @click="openLogInModal"
-          class="ui-kit-dropdown-content-item-btn"
-        >Log in/Sign up</span>
+        <span @click="openLogInModal" class="ui-kit-dropdown-content-item-btn">Log in/Sign up</span>
       </div>
 
       <div class="ui-kit-dropdown-content-item">
@@ -50,17 +39,11 @@
       </div>
 
       <div class="ui-kit-dropdown-content-item">
-        <span
-          @click="openContactUsModal"
-          class="ui-kit-dropdown-content-item-btn"
-        >Contact us</span>
+        <span @click="openContactUsModal" class="ui-kit-dropdown-content-item-btn">Contact us</span>
       </div>
 
       <div v-if="isAuthorized" class="ui-kit-dropdown-content-item">
-        <span
-          class="ui-kit-dropdown-content-item-btn"
-          @click="logout"
-        >Log out</span>
+        <span class="ui-kit-dropdown-content-item-btn" @click="logout">Log out</span>
       </div>
     </ui-kit-dropdown>
 
@@ -78,9 +61,10 @@ import { navigateTo } from '#imports'
 import useMedia from '~/composable/media'
 import UiKitDropdown from '~/components/UiKit/UiKitDropdown.vue'
 import PlusIcon from '~/assets/svg/plus.svg'
+import CartIcon from "~/assets/svg/icon_cart.svg"
 import { ImageTemplate, ROLE_ADMIN } from '~/types/constants'
 
-const emit = defineEmits(['openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openFaqModal','openStartSellingModal', 'openSetUpAccountModal','openAboutArtforaModal'])
+const emit = defineEmits(['openCartModal', 'openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openFaqModal', 'openStartSellingModal', 'openSetUpAccountModal', 'openAboutArtforaModal'])
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 
@@ -99,7 +83,11 @@ function logout() {
   menuDropdownRef.value.close()
   navigateTo('/')
 }
-
+function openCartModal() {
+  console.log("cart")
+  menuDropdownRef.value.close()
+  emit('openCartModal')
+}
 function openSettingsGallery() {
   menuDropdownRef.value.close()
   emit('openGallerySettingsModal')
@@ -140,7 +128,7 @@ function openContactUsModal() {
 
 onBeforeMount(() => {
   if (isAuthorized.value) {
-    useAsyncData('fetch-profile',async () => {
+    useAsyncData('fetch-profile', async () => {
       await userStore.fetch()
 
       if (getUserRole.value === ROLE_ADMIN) {
