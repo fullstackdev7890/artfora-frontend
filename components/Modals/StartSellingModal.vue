@@ -72,10 +72,8 @@ function openTwoFactorAuthModal() {
 }
 
 function open() {
-  textData.value = [
-    textsStore.getByname('start_selling_1'),
-    textsStore.getByname('start_selling_2'),
-  ];
+  textData.value = textsStore.getByname('start_selling'),
+  
   startSellingModal.value?.open()
 }
 

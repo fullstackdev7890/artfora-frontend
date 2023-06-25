@@ -7,8 +7,8 @@
     >
       <template v-slot:content>
           <div  v-for="(artfora, index) in artforas" :key="index">
-            <div v-if="artfora.text_order%2===1" :style="{color:artfora.text_colour}" class="artfora-title">{{artfora.text_content}} </div>
-            <div v-if="artfora.text_order%2===0" :style="{color:artfora.text_colour}" class="artfora-content">{{artfora.text_content}} </div>
+            <div class="artfora-title" :style="{color:artfora.text_colour, paddingBottom:artfora.text_type==='divide'?'2.5rem':'0.5rem'}">{{artfora.text_content}} </div>
+
           </div>
         <div class="ui-kit-modal-content-buttons">
           <button

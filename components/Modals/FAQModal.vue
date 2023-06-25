@@ -8,8 +8,8 @@
   
       <template v-slot:content>
         <div  v-for="(faq, index) in faqs" :key="index">
-            <div v-if="faq.text_order%2===1" class="faq-title" :style="{color:faq.text_colour}">{{faq.text_content}} </div>
-            <div v-if="faq.text_order%2===0" class="faq-content" :style="{color:faq.text_colour}">{{faq.text_content}} </div>
+            <div class="faq-title" :style="{color:faq.text_colour, paddingBottom:faq.text_type==='divide'?'2.5rem':'0.5rem'}">{{faq.text_content}} </div>
+          
         </div>
         <div class="ui-kit-modal-content-buttons">
           <button

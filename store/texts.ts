@@ -11,23 +11,29 @@ export const useTextsStore = defineStore('texts', {
       data: []
     }
   }),
-  
+
   actions: {
     async fetchAll() {
-      const response = await axios.get('/texts', { })
-      this.$state.items = response.data
+      const response = await axios.get('/texts', {})
+      this.$state.items.data = response.data
     },
     getByname(name: string) {
-      const row = this.$state.items.data.find((row) => row.text_name === name)
-      return row
+      const row = this.$state.items?.data.find((row) => row.text_name === name)
+      const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
+
+      return sortedArr
     },
     getFaq() {
-      const row = this.$state.items.data.filter((row) => row.text_name === 'faq')
-      return row
+      const row = this.$state.items?.data.filter((row) => row.text_name === 'faq')
+      const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
+      console.log(sortedArr)
+      return sortedArr
     },
-    getArtfora(){
-      const row = this.$state.items.data.filter((row) => row.text_name === 'about')
-      return row
+    getArtfora() {
+      const row = this.$state.items?.data.filter((row) => row.text_name === 'about')
+      const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
+      console.log(sortedArr)
+      return sortedArr
     }
 
   },

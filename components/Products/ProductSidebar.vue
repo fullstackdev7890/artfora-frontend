@@ -47,7 +47,10 @@
           <span>{{ props.product.weight }}kg</span>
         </div> -->
       </div>
-
+      <div class="product-sidebar-info-item">
+          <h5>Shipping:</h5>
+          <span></span>
+        </div>
       <div class="product-sidebar-description">
         Description:
         <p>{{ props.product.description }}</p>
