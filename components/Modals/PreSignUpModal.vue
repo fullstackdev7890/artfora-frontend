@@ -66,7 +66,6 @@ async function gettext() {
   } catch (e) {
     if (e.response && !e.response.data.errors) {
       error.value = 'Something went wrong! Please try again later.'
-
       return
     }
 

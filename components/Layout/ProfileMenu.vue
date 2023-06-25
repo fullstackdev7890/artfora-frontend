@@ -1,9 +1,10 @@
 <template>
   <div class="profile-menu">
     <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="openCartModal"
-      class="artfora-cart">
+      @openCheckoutModal="openCheckoutModal" class="artfora-cart">
       <cart-icon class="cart-icon" />
     </div>
+
     <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="emit('openAddProductModal')"
       class="new-product">
       <plus-icon class="plus-icon" />
@@ -64,7 +65,7 @@ import PlusIcon from '~/assets/svg/plus.svg'
 import CartIcon from "~/assets/svg/icon_cart.svg"
 import { ImageTemplate, ROLE_ADMIN } from '~/types/constants'
 
-const emit = defineEmits(['openCartModal', 'openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openFaqModal', 'openStartSellingModal', 'openSetUpAccountModal', 'openAboutArtforaModal'])
+const emit = defineEmits(['openCheckoutModal', 'openCartModal', 'openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openFaqModal', 'openStartSellingModal', 'openSetUpAccountModal', 'openAboutArtforaModal'])
 
 const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
 
@@ -82,6 +83,10 @@ function logout() {
   userStore.clearProfile()
   menuDropdownRef.value.close()
   navigateTo('/')
+}
+function openCheckoutModal() {
+  menuDropdownRef.value.close()
+  emit('openCheckoutModal')
 }
 function openCartModal() {
   console.log("cart")

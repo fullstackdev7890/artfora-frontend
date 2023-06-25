@@ -1,78 +1,40 @@
 <template>
   <div class="add-custom-field">
     <fieldset class="form-group">
-      <the-mask
-        v-if="mask"
-        :mask="mask"
-        :max="max"
-        :min="min"
-        :name="name"
-        :type="type"
-        :model-value="modelValue"
-        :class="{ 'form-control-filled': modelValue }"
-        :disabled="props.disabled"
-        autocomplete="off"
-        class="form-control"
-        @update:modelValue="onChanged"
-        @blur="onBlur"
-      />
+      <the-mask v-if="mask" :mask="mask" :max="max" :min="min" :name="name" :type="type" :model-value="modelValue"
+        :class="{ 'form-control-filled': modelValue }" :disabled="props.disabled" autocomplete="off" class="form-control"
+        @update:modelValue="onChanged" @blur="onBlur" />
 
       <div :for="name" class="form-field" v-else>
-        <span
-          v-if="prefix"
-          :class="{ 'form-prefix-filled': modelValue && prefix }"
-          class="form-prefix"
-        >
+        <span v-if="prefix" :class="{ 'form-prefix-filled': modelValue && prefix }" class="form-prefix">
           {{ prefix }}
         </span>
 
-        <input
-          type="text"
-          ref="inputRef"
-          :class="{
-            'form-control-filled': model || model === 0 || type === 'date',
-            'form-control-prefix': modelValue && prefix
-          }"
-          class="form-control"
-          v-model="model"
-          @blur="onBlur"
-        />
+        <input type="text" ref="inputRef" :class="{
+          'form-control-filled': model || model === 0 || type === 'date',
+          'form-control-prefix': modelValue && prefix
+        }" class="form-control" v-model="model" @blur="onBlur" />
 
         <span class="form-label">
           <span v-if="placeholder" :for="name" class="form-label-content">
             {{ placeholder }}
           </span>
         </span>
-        
+
       </div>
       <slot></slot>
 
       <span v-if="attentionMessages && !errors.$error" class="form-attentions-list">
-        <span
-          v-for="(message, key) in attentionMessages"
-          v-html="message"
-          :key="key"
-          class="form-attention"
-        ></span>
+        <span v-for="(message, key) in attentionMessages" v-html="message" :key="key" class="form-attention"></span>
         <br>
       </span>
 
       <span v-if="errors.$error || serverErrors[props.name]" class="form-errors-list">
-        <span
-          v-for="(message, key) in errorMessages"
-          v-show="errors[key].$invalid"
-          v-html="message"
-          :key="key"
-          class="form-error error"
-        ></span>
+        <span v-for="(message, key) in errorMessages" v-show="errors[key].$invalid" v-html="message" :key="key"
+          class="form-error error"></span>
 
-        <span
-          v-for="(message, key) in serverErrors[props.name]"
-          v-show="serverErrors && serverErrors[props.name]"
-          v-html="message"
-          :key="key"
-          class="form-error error"
-        ></span>
+        <span v-for="(message, key) in serverErrors[props.name]" v-show="serverErrors && serverErrors[props.name]"
+          v-html="message" :key="key" class="form-error error"></span>
       </span>
     </fieldset>
   </div>
@@ -123,7 +85,7 @@ const props = withDefaults(defineProps<Props>(), {
     autoDecimalDigits: false,
     // valueScaling: 'precision',
     valueRangeEnabled: true,
-    valueRange: {min: 0, max: 9999.99},
+    valueRange: { min: 0, max: 9999.99 },
     useGrouping: true,
     currencyDisplay: 'hidden',
     accountingSign: false

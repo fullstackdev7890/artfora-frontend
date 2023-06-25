@@ -141,8 +141,10 @@
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
         />
+        
         <ui-kit-input
-        v-model.lazy="product.quantity_for_sale"
+          v-model.lazy="product.quantity_for_sale"
+          :type="'number'"
           placeholder="QUANTITY FOR SALE"
           :errors="v$.product.quantity_for_sale"
           :error-messages="{ required: 'QUANTITY FOR SALE is required'}"

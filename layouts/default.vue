@@ -5,6 +5,7 @@
       @open-log-in-modal="modalsComponentRef.openLogInModal()"
       @open-add-product-modal="modalsComponentRef.openAddProductModal()"
       @open-cart-modal="modalsComponentRef.openCartModal()"
+      @open-checkout-modal="modalsComponentRef.openCheckoutModal()"
       @open-contact-us-modal="modalsComponentRef.openContactUsModal()"
       @open-start-selling-modal="modalsComponentRef.openStartSellingModal()"
       @open-gallery-settings-modal="modalsComponentRef.openGallerySettingsModal()"
