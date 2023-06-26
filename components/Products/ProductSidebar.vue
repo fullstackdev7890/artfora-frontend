@@ -51,10 +51,10 @@
         <p>{{ props.product.description }}</p>
       </div>
       <div class="product-sidebar-buy-button">
-        <button class="button full-width" @click="saveProductToCart">
+        <button class="button full-width" @click="saveProductToCart" :disabled="!isAuthorized">
           <span>BUY</span>
         </button>
-        <span v-if="error.value !==''" class="product-sidebar-buy-button-error-message">{{ error }}</span>
+        <span v-if="!isAuthorized" class="product-sidebar-buy-button-error-message">{{ error }}</span>
       </div>
       <div class="product-sidebar-bottom-buttons-wrapper">
         <button class="button full-width" @click="contactModal.open()">
@@ -68,9 +68,9 @@
         :links="props.product.user.external_link" />
 
       <commission-work-modal ref="commissionWorkModal" :user-id="props.product.user.id" />
-      <cart-modal ref='cartModalRef' @open-cart-modal="openCartModal"  @open-checkout-modal="openCheckoutModal" />
-      <checkout-modal ref='checkoutModalRef' @open-checkout-modal="openCheckoutModal"/>
-      <contact-modal ref="contactModal"/>
+      <cart-modal ref='cartModalRef' @open-cart-modal="openCartModal" @open-checkout-modal="openCheckoutModal" />
+      <checkout-modal ref='checkoutModalRef' @open-checkout-modal="openCheckoutModal" />
+      <contact-modal ref="contactModal" />
     </div>
   </transition>
 </template>
@@ -120,38 +120,34 @@ const props = withDefaults(defineProps<Props>(), {
   }
 
 })
-const authStore=useAuthStore()
+const authStore = useAuthStore()
 const { isAuthorized } = storeToRefs(authStore)
-const error=ref("")
-  const linksModal = ref<InstanceType<typeof LinksModal>>(null)
-    const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
-      const contactModal = ref<InstanceType<typeof ContactModal>>(null)
-        const cartModalRef = ref<InstanceType<typeof CartModal>>(null)
-        const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>(null)
-          const { getUserAvatar, getImageUrl } = useMedia()
-          
-          function formattedNumber(amount: number) {
-            const formattedNumber = amount.toLocaleString('de-DE', {})
-            return formattedNumber
-          }
-          function openCheckoutModal() {
-            console.log(checkoutModalRef)
-            checkoutModalRef.value.open()
-          }         
-          function openCartModal() {
-            cartModalRef.value.open()
-          }
-          
-          function saveProductToCart() {
-            if(isAuthorized.value){
-              error.value=""
+const error = ref("You need to be logged in to buy.")
+const linksModal = ref<InstanceType<typeof LinksModal>>(null)
+const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
+const contactModal = ref<InstanceType<typeof ContactModal>>(null)
+const cartModalRef = ref<InstanceType<typeof CartModal>>(null)
+const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>(null)
+const { getUserAvatar, getImageUrl } = useMedia()
 
-              // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
-              // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
-              cartModalRef.value.open()
-            }
-            else{
-              error.value="You need to be logged in to buy."
-            }
-          }
+function formattedNumber(amount: number) {
+  const formattedNumber = amount.toLocaleString('de-DE', {})
+  return formattedNumber
+}
+function openCheckoutModal() {
+  checkoutModalRef.value.open()
+}
+function openCartModal() {
+  cartModalRef.value.open()
+}
+
+function saveProductToCart() {
+  if (isAuthorized.value) {
+
+    // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
+    // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
+    cartModalRef.value.open()
+  }
+
+}
 </script>
