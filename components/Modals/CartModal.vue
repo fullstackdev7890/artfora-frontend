@@ -2,7 +2,7 @@
   <ui-kit-modal :title="'CART'" :with-footer="false" class="cart-modal" ref="cartForm">
     <template v-slot:content>
       <div class="ui-kit-cart-modal-content">
-        
+
       </div>
 
       <div class="ui-kit-modal-content-buttons">
@@ -27,8 +27,8 @@ function open() {
 
 function close() {
   console.log("Opencheckout modal")
-  emit("openCheckoutModal")
   cartForm.value?.close()
+  emit("openCheckoutModal")
 }
 
 defineExpose({ open, close })
