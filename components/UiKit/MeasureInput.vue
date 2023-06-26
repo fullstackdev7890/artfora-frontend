@@ -110,8 +110,8 @@ watch(() => props.options, (options) => {
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
 })
+
 function onBlur(event: any) {
   emit('update:modelValue', model.value)
 }
-
 </script>
