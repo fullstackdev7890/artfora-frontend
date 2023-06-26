@@ -20,12 +20,15 @@ export default defineNuxtConfig({
   },
   buildModules: [
     '@nuxtjs/pwa',
+    '@vueuse/nuxt',
+
   ],
   css: [
     '@/assets/scss/index.scss'
   ],
   modules: [
     '@pinia/nuxt',
+    '@vueuse/nuxt',
   ],
 
   vite: {

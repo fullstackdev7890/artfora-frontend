@@ -14,6 +14,7 @@
         autocomplete="off"
         class="form-control"
         @update:modelValue="onChanged"
+        @blur="onBlur"
       />
 
       <div :for="name" class="form-field" v-else>
@@ -33,6 +34,7 @@
             'form-control-prefix': model && prefix
           }"
           class="form-control"
+          @blur="onBlur"
         />
 
         <span class="form-label">
@@ -79,7 +81,6 @@
 import TheMask from 'vue-the-mask'
 import { defineEmits } from 'vue'
 import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
-import { watchDebounced } from '@vueuse/core'
 
 type Options = {
   currency: string,
@@ -149,8 +150,9 @@ watch(() => props.modelValue, (modelValue) => {
 })
 
 watchDebounced(numberValue, (value: string) => {
-  console.log(value)
   emit('update:modelValue', value)
 }, { debounce: 1000 })
-
+function onBlur() {
+  emit('update:modelValue', numberValue)
+}
 </script>

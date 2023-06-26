@@ -3,7 +3,7 @@
     <fieldset class="form-group">
       <the-mask v-if="mask" :mask="mask" :max="max" :min="min" :name="name" :type="type" :model-value="modelValue"
         :class="{ 'form-control-filled': modelValue }" :disabled="props.disabled" autocomplete="off" class="form-control"
-        @update:modelValue="onChanged" />
+        @update:modelValue="onChanged"  @blur="onBlur"/>
 
       <div :for="name" class="form-field" v-else>
         <span v-if="prefix" :class="{ 'form-prefix-filled': modelValue && prefix }" class="form-prefix">
@@ -13,7 +13,7 @@
         <input type="text" ref="inputRef" :class="{
           'form-control-filled': model || model === 0 || type === 'date',
           'form-control-prefix': modelValue && prefix
-        }" class="form-control" />
+        }" class="form-control"  @blur="onBlur"/>
 
         <span class="form-label">
           <span v-if="placeholder" :for="name" class="form-label-content">
@@ -44,7 +44,6 @@
 import TheMask from 'vue-the-mask'
 import { defineEmits, computed } from 'vue'
 import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
-import { watchDebounced } from '@vueuse/core'
 
 type Options = {
   currency: string,
@@ -109,9 +108,10 @@ watch(() => props.options, (options) => {
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
 })
-
-watchDebounced(numberValue, (value: string) => {
-  console.log(value)
-  emit('update:modelValue', value)
-}, { debounce: 1000 })
+function onBlur() {
+  emit('update:modelValue', numberValue)
+}
+// watchDebounced(numberValue, (value: string) => {
+//   emit('update:modelValue', value)
+// }, { debounce: 1000 })
 </script>
