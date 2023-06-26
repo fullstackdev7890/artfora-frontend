@@ -44,7 +44,6 @@
 import TheMask from 'vue-the-mask'
 import { defineEmits, computed } from 'vue'
 import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
-
 import { watchDebounced } from '@vueuse/core'
 
 type Options = {
