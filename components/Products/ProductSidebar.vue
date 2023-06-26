@@ -57,8 +57,9 @@
         <div class="product-sidebar-error-handler">
           <span v-if="!isAuthorized" class="product-sidebar-buy-button-error-message">{{ error }}</span>
 
-          <span  v-if="!isAuthorized" class="product-sidebar-buy-button-error-link">Sign up or log in &nbsp;<span class="link"
-              @click="openLogInModal">here</span></span>
+          <span  v-if="!isAuthorized" class="product-sidebar-buy-button-error-link"><span class="link"
+              @click="openSignUpModal">Sign up</span> &nbsp; or &nbsp;<span class="link"
+              @click="openLogInModal">Log in</span></span>
         </div>
       </div>
       <div class="product-sidebar-bottom-buttons-wrapper">
