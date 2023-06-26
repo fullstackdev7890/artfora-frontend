@@ -69,4 +69,10 @@
 
 
   }
+  &-buy-button-error-message {
+    display: flex;
+    justify-content: center;
+    color:#d26655;
+    padding-top: 8px;
+  }
 }

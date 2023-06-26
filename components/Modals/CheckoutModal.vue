@@ -12,7 +12,6 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
-import { useTextsStore } from '~/store/texts'
 
 const checkoutForm = ref<InstanceType<typeof UiKitModal>>(null)
 const emit = defineEmits(['openCheckoutModal'])
