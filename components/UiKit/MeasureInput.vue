@@ -75,8 +75,8 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   type: 'text',
   options: {
-    currency: 'USD',
-    locale: 'en-US',
+    currency: 'EUR',
+    locale: 'de-DE',
     precision: 2,
     hideCurrencySymbolOnFocus: true,
     hideGroupingSeparatorOnFocus: true,
