@@ -3,7 +3,7 @@
     <fieldset class="form-group">
       <the-mask v-if="mask" :mask="mask" :max="max" :min="min" :name="name" :type="type" :model-value="modelValue"
         :class="{ 'form-control-filled': modelValue }" :disabled="props.disabled" autocomplete="off" class="form-control"
-        @update:modelValue="onChanged" @blur="onBlur" />
+        @update:modelValue="onChanged" />
 
       <div :for="name" class="form-field" v-else>
         <span v-if="prefix" :class="{ 'form-prefix-filled': modelValue && prefix }" class="form-prefix">
@@ -13,7 +13,7 @@
         <input type="text" ref="inputRef" :class="{
           'form-control-filled': model || model === 0 || type === 'date',
           'form-control-prefix': modelValue && prefix
-        }" class="form-control" v-model="model" @blur="onBlur" />
+        }" class="form-control" />
 
         <span class="form-label">
           <span v-if="placeholder" :for="name" class="form-label-content">
@@ -42,8 +42,10 @@
 
 <script lang="ts" setup>
 import TheMask from 'vue-the-mask'
-import { defineEmits } from 'vue'
+import { defineEmits, computed } from 'vue'
 import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
+
+import { watchDebounced } from '@vueuse/core'
 
 type Options = {
   currency: string,
@@ -69,7 +71,8 @@ interface Props {
   attentionMessages?: object
   disabled?: number
   prefix: string
-  options: Options
+  options: Options,
+  onlyInteger: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -94,14 +97,11 @@ const props = withDefaults(defineProps<Props>(), {
   errorMessages: () => ({}),
   serverErrors: () => ({})
 })
-
 const model = ref(props.modelValue)
 
 const emit = defineEmits(['update:modelValue'])
 
-const { inputRef, setOptions, setValue } = useCurrencyInput(props.options as CurrencyInputOptions)
-
-let timeout: any = null
+const { inputRef, setOptions, setValue, numberValue } = useCurrencyInput(props.options as CurrencyInputOptions)
 
 watch(() => props.options, (options) => {
   setOptions(options as CurrencyInputOptions)
@@ -111,7 +111,8 @@ watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
 })
 
-function onBlur(event: any) {
-  emit('update:modelValue', model.value)
-}
+watchDebounced(numberValue, (value: string) => {
+  console.log(value)
+  emit('update:modelValue', value)
+}, { debounce: 1000 })
 </script>
