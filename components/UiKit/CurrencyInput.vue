@@ -127,6 +127,7 @@ const props = withDefaults(defineProps<Props>(), {
     useGrouping: true,
     currencyDisplay: 'symbol',
     accountingSign: false
+    
   },
   errors: () => ({ $error: false }),
   errorMessages: () => ({}),
@@ -152,6 +153,5 @@ watch(() => props.modelValue, (modelValue) => {
 function onBlur(event: any) {
   emit('update:modelValue', model.value)
 }
-
 
 </script>
