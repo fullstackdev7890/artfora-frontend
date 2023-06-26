@@ -26,7 +26,6 @@ function open() {
 }
 
 function close() {
-  console.log("Opencheckout modal")
   cartForm.value?.close()
   emit("openCheckoutModal")
 }

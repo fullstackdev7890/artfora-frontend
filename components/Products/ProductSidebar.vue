@@ -146,8 +146,8 @@ const error=ref("")
             if(isAuthorized.value){
               error.value=""
 
-              const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
-              nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
+              // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
+              // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
               cartModalRef.value.open()
             }
             else{
