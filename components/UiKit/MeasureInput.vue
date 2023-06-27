@@ -3,7 +3,7 @@
     <fieldset class="form-group">
       <the-mask v-if="mask" :mask="mask" :max="max" :min="min" :name="name" :type="type" :model-value="modelValue"
         :class="{ 'form-control-filled': modelValue }" :disabled="props.disabled" autocomplete="off" class="form-control"
-        @update:modelValue="onChanged"  @blur="onBlur"/>
+        @update:modelValue="onChanged" @blur="onBlur" />
 
       <div :for="name" class="form-field" v-else>
         <span v-if="prefix" :class="{ 'form-prefix-filled': modelValue && prefix }" class="form-prefix">
@@ -13,7 +13,8 @@
         <input type="text" ref="inputRef" :class="{
           'form-control-filled': model || model === 0 || type === 'date',
           'form-control-prefix': modelValue && prefix
-        }" class="form-control"  @blur="onBlur"/>
+        }" class="form-control" @blur="onBlur" />
+        <span v-if="isPopover" class="text-popover">{{ popoverText }}</span>
 
         <span class="form-label">
           <span v-if="placeholder" :for="name" class="form-label-content">
@@ -90,19 +91,20 @@ const props = withDefaults(defineProps<Props>(), {
     valueRange: { min: 0, max: 9999.99 },
     useGrouping: true,
     currencyDisplay: 'hidden',
-    accountingSign: false
+    accountingSign: false,
+    onlyInteger: false
   },
   errors: () => ({ $error: false }),
   errorMessages: () => ({}),
   serverErrors: () => ({})
 })
 const model = ref(props.modelValue)
-const isPopover=ref(false)
-const popoverText=ref("")
+const isPopover = ref(false)
+const popoverText = ref("")
 
 const emit = defineEmits(['update:modelValue'])
 
-const { inputRef, setOptions, setValue, numberValue } = useCurrencyInput(props.options as CurrencyInputOptions)
+const { inputRef, setOptions, setValue, numberValue, formattedValue } = useCurrencyInput(props.options as CurrencyInputOptions)
 
 watch(() => props.options, (options) => {
   setOptions(options as CurrencyInputOptions)
@@ -110,19 +112,25 @@ watch(() => props.options, (options) => {
 
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
-  // isPopover.value(false)
-  // modelValue>props.options.valueRange.max && isPopover.value(true)
-  // modelValue>props.options.valueRange.max && popoverText.value("Max value is 9999.99")
-
-  // modelValue<props.options.valueRange.min && isPopover.value(true)
-  // modelValue<props.options.valueRange.min && ipopoverText.value("Min value is 0")
-
 })
-// console.log(isPopover.value)
+
+watch(() => numberValue.value, (newValue: number | null) => {
+  if (newValue === null) return;
+  if (newValue > props.options.valueRange.max) {
+    popoverText.value = `Max is ${props.options.valueRange.max}.`
+    isPopover.value = true
+  }
+  else if (newValue < props.options.valueRange.min) {
+    popoverText.value = `Min is ${props.options.valueRange.min}.`
+    isPopover.value = true
+  } else {
+    isPopover.value = false
+    popoverText.value = ''
+  }
+  console.log(popoverText.value)
+})
 function onBlur() {
   emit('update:modelValue', numberValue)
 }
-// watchDebounced(numberValue, (value: string) => {
-//   emit('update:modelValue', value)
-// }, { debounce: 1000 })
+
 </script>
