@@ -20,7 +20,6 @@ export default defineNuxtConfig({
   },
   buildModules: [
     '@nuxtjs/pwa',
-    '@vueuse/nuxt',
 
   ],
   css: [
@@ -28,7 +27,6 @@ export default defineNuxtConfig({
   ],
   modules: [
     '@pinia/nuxt',
-    '@vueuse/nuxt',
   ],
 
   vite: {

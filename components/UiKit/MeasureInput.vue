@@ -44,6 +44,7 @@
 import TheMask from 'vue-the-mask'
 import { defineEmits, computed } from 'vue'
 import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
+import { ModalsAboutArtforaModal } from '~~/.nuxt/components'
 
 type Options = {
   currency: string,
@@ -96,6 +97,8 @@ const props = withDefaults(defineProps<Props>(), {
   serverErrors: () => ({})
 })
 const model = ref(props.modelValue)
+const isPopover=ref(false)
+const popoverText=ref("")
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -107,7 +110,15 @@ watch(() => props.options, (options) => {
 
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
+  isPopover.value(false)
+  modelValue>props.options.valueRange.max && isPopover.value(true)
+  modelValue>props.options.valueRange.max && popoverText.value("Max value is 9999.99")
+
+  modelValue<props.options.valueRange.min && isPopover.value(true)
+  modelValue<props.options.valueRange.min && ipopoverText.value("Min value is 0")
+
 })
+console.log(isPopover.value)
 function onBlur() {
   emit('update:modelValue', numberValue)
 }
