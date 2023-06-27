@@ -110,15 +110,15 @@ watch(() => props.options, (options) => {
 
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
-  isPopover.value(false)
-  modelValue>props.options.valueRange.max && isPopover.value(true)
-  modelValue>props.options.valueRange.max && popoverText.value("Max value is 9999.99")
+  // isPopover.value(false)
+  // modelValue>props.options.valueRange.max && isPopover.value(true)
+  // modelValue>props.options.valueRange.max && popoverText.value("Max value is 9999.99")
 
-  modelValue<props.options.valueRange.min && isPopover.value(true)
-  modelValue<props.options.valueRange.min && ipopoverText.value("Min value is 0")
+  // modelValue<props.options.valueRange.min && isPopover.value(true)
+  // modelValue<props.options.valueRange.min && ipopoverText.value("Min value is 0")
 
 })
-console.log(isPopover.value)
+// console.log(isPopover.value)
 function onBlur() {
   emit('update:modelValue', numberValue)
 }

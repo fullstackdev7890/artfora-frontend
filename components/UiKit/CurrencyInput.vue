@@ -148,11 +148,8 @@ watch(() => props.options, (options) => {
 watch(() => props.modelValue, (modelValue) => {
   setValue(modelValue)
 })
-
-watchDebounced(numberValue, (value: string) => {
-  emit('update:modelValue', value)
-}, { debounce: 1000 })
 function onBlur() {
   emit('update:modelValue', numberValue)
 }
+
 </script>
