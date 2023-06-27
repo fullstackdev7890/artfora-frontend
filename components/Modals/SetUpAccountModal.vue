@@ -1,36 +1,20 @@
 <template>
-  <ui-kit-modal
-    :with-header="false"
-    :with-footer="false"
-    ref="setUpAccountModal"
-  >
+  <ui-kit-modal :with-header="false" :with-footer="false" ref="setUpAccountModal">
 
     <template v-slot:customHeader>
       <header class="account-settings-header">
 
-        <close-icon
-          @click="close()"
-          class="close-icon ui-kit-box-tools-link account-settings-header-close"
-        />
+        <close-icon @click="close()" class="close-icon ui-kit-box-tools-link account-settings-header-close" />
 
-        <label
-          for="uploadBackground"
-          class="account-settings-header-upload-background flex-center"
-        >
+        <label for="uploadBackground" class="account-settings-header-upload-background flex-center">
           <span v-if="!backgroundImage">
             DROP YOUR HEADER AND PROFILE IMAGE <br>
-          IN THE RESPECTIVE FIELDS <br>
-          OR CLICK TO BROWSE <br>
-          PROFILE HEADER 1050 x 300 PX <br>
+            IN THE RESPECTIVE FIELDS <br>
+            OR CLICK TO BROWSE <br>
+            PROFILE HEADER 1050 x 300 PX <br>
           </span>
           <img :src="getImageUrl(backgroundImage, ImageTemplate.FullSize)" alt="background Image" v-if="backgroundImage">
-          <input
-            id="uploadBackground"
-            @change="addFile"
-            accept="image/bmp, image/png, image/jpeg"
-            type="file"
-            ref="file"
-          >
+          <input id="uploadBackground" @change="addFile" accept="image/bmp, image/png, image/jpeg" type="file" ref="file">
         </label>
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
@@ -42,14 +26,11 @@
               </div>
             </div>
           </div>
-          <input
-            id="uploadAvatar"
-            @change="addFile"
-            accept="image/bmp, image/png, image/jpeg"
-            type="file"
-            ref="file"
-          >
+          <input id="uploadAvatar" @change="addFile" accept="image/bmp, image/png, image/jpeg" type="file" ref="file">
         </label>
+        <div class="button connet-stripe">
+          <button class="button connect-stripe-button" @click="connectStripe"><span>Connect Stripe</span></button>
+        </div>
 
       </header>
     </template>
@@ -57,97 +38,58 @@
     <template v-slot:content>
       <form @submit.prevent="uploadProduct" class="account-settings-form">
 
-        <ui-kit-input
-          v-model="user.username"
-          :errors="v$.user.username"
-          :error-messages="{ required: 'Username is required'}"
-          :disabled="store.pendingRequestsCount"
-          placeholder="USERNAME"
-        />
+        <ui-kit-input v-model="user.username" :errors="v$.user.username"
+          :error-messages="{ required: 'Username is required' }" :disabled="store.pendingRequestsCount"
+          placeholder="USERNAME" />
 
-        <ui-kit-input
-          v-model="user.email"
-          :errors="v$.user.email"
+        <ui-kit-input v-model="user.email" :errors="v$.user.email"
           :error-messages="{ required: 'email is required', email: 'Please enter valid email address.' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="EMAIL ADDRESS"
-        />
+          :disabled="store.pendingRequestsCount" placeholder="EMAIL ADDRESS" />
 
-        <ui-kit-text-area
-          v-model="user.description"
-          :disabled="store.pendingRequestsCount"
-          placeholder="USER DESCRIPTION"
-          v-if="user.can_add_product"
-        />
+        <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount" placeholder="USER DESCRIPTION"
+          v-if="user.can_add_product" />
 
-        <ui-kit-selector
-          v-model="user.country"
-          :options="countries"
-          :title="'Country'"
-          :disabled="store.pendingRequestsCount"
-          :withSearch="true"
-        />
+        <ui-kit-selector v-model="user.country" :options="countries" :title="'Country'"
+          :disabled="store.pendingRequestsCount" :withSearch="true" />
 
-        <ui-kit-input
-          v-model="user.external_link"
-          :disabled="store.pendingRequestsCount" 
-          placeholder="EXTERNAL LINK"
-          v-if="user.can_add_product"
-        />
+        <ui-kit-input v-model="user.external_link" :disabled="store.pendingRequestsCount" placeholder="EXTERNAL LINK"
+          v-if="user.can_add_product" />
 
         <div class="addmore" v-if="user.can_add_product">
-            <plus-icon @click="addField()" class="account-settings-plus-icon"/> 
-            <ui-kit-input 
+          <plus-icon @click="addField()" class="account-settings-plus-icon" />
+          <ui-kit-input v-for="(link, k) in moreexternal_link" placeholder="EXTERNAL LINK" :modelValue="link"
+            v-model="moreexternal_link[k]">
 
-            v-for="(link,k) in moreexternal_link"
-            placeholder="EXTERNAL LINK" :modelValue="link"  v-model="moreexternal_link[k]">
-           
-                <div class="account-settings-form-icons">
-                    <minus-icon class="account-settings-minus-icon" @click="removeField(k)"/>
-                  </div>
-              </ui-kit-input>
-            <div>
-          
+            <div class="account-settings-form-icons">
+              <minus-icon class="account-settings-minus-icon" @click="removeField(k)" />
+            </div>
+          </ui-kit-input>
+          <div>
+
           </div>
         </div>
-          
-        
+
+
         <div class="account-settings-visibility-level">
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="COMMON_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
+          <ui-kit-check-box v-model="user.product_visibility_level" :value="COMMON_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
+            type="radio" />
 
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="NUDITY_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
+          <ui-kit-check-box v-model="user.product_visibility_level" :value="NUDITY_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
+            type="radio" />
 
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="EROTIC_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
+          <ui-kit-check-box v-model="user.product_visibility_level" :value="EROTIC_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
+            type="radio" />
 
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="PORNO_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
+          <ui-kit-check-box v-model="user.product_visibility_level" :value="PORNO_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
+            type="radio" />
         </div>
 
         <span v-if="error" class="form-error error">
-            {{ error }}
+          {{ error }}
         </span>
 
         <div class="account-settings-divider"></div>
@@ -155,16 +97,14 @@
         <p class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
             If you want to change your password, please <br>
-            log out <a href="#" class="link" @click.prevent="logout">here</a> and use the "Reset password" function on the "Log in" page.
+            log out <a href="#" class="link" @click.prevent="logout">here</a> and use the "Reset password" function on the
+            "Log in" page.
           </span>
         </p>
 
         <div class="ui-kit-modal-content-buttons">
-          <button
-            :disabled="store.pendingRequestsCount"
-            class="button full-width"
-            type="submit"
-          ><span>UPDATE SETTINGS</span></button>
+          <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit"><span>UPDATE
+              SETTINGS</span></button>
         </div>
       </form>
     </template>
@@ -207,12 +147,13 @@ const authStore = useAuthStore()
 const currentProfile = storeToRefs(userStore)
 const mediaStore = useMediaStore()
 const { getUserAvatar, getImageUrl } = useMedia()
-const moreexternal_link =  reactive(currentProfile.more_external_link)
+const moreexternal_link = reactive(currentProfile.more_external_link)
 const countries = ref([{ title: currentProfile.country, key: currentProfile.country }])
 const backgroundImage = ref(currentProfile.background_image)
 const avatar = ref(currentProfile.avatar_image)
 const error = ref('')
 const user = reactive({
+  id: currentProfile?.id,
   username: currentProfile.username,
   email: currentProfile.email,
   description: currentProfile.description,
@@ -222,7 +163,7 @@ const user = reactive({
   avatar_image_id: currentProfile.avatar_image_id,
   country: currentProfile.country,
   more_external_link: currentProfile.more_external_link,
-  can_add_product:currentProfile?.can_add_product
+  can_add_product: currentProfile?.can_add_product
 })
 
 
@@ -259,12 +200,12 @@ async function addFile(event: any) {
 }
 
 async function addField() {
-  
+
   moreexternal_link.value.push("");
-  
+
 }
-async function removeField(index){
-  moreexternal_link.value.splice(index,1);
+async function removeField(index) {
+  moreexternal_link.value.splice(index, 1);
 }
 
 
@@ -300,12 +241,21 @@ async function open() {
   setUpAccountModal.value?.open()
   if (countries.value.length <= 1) {
     const response = await axios.get('https://restcountries.com/v2/all')
-    response.data.forEach((country: object) => countries.value.push({ title: country.name, key: country.name  }))
+    response.data.forEach((country: object) => countries.value.push({ title: country.name, key: country.name }))
   }
 }
 
 function close() {
   setUpAccountModal.value?.close()
+}
+async function connectStripe() {
+  try {
+    const res = await authStore.connectStrip(user?.id)
+    if (res) {
+      navigateTo(res)
+  }
+  } catch (error) { }
+
 }
 
 defineExpose({ open, close })

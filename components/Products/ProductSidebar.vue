@@ -126,8 +126,10 @@ import { useAuthStore } from '~~/store/auth';
 import { storeToRefs } from 'pinia'
 
 interface Props {
-  product: Product
+  product: Product,
+
 }
+const emit = defineEmits(['toggleSidebar'])
 const props = withDefaults(defineProps<Props>(), {
   product: {
     id: 1,
@@ -159,7 +161,6 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const authStore = useAuthStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
-const modalsRef=ref<InstanceType<typeof ModalsComponent>>(null)
 const { isAuthorized } = storeToRefs(authStore)
 const error = ref("You need to be logged in to buy.")
 const linksModal = ref<InstanceType<typeof LinksModal>>(null)
@@ -184,6 +185,8 @@ function openCheckoutModal() {
   checkoutModalRef.value.open()
 }
 function openCartModal() {
+ 
+
   cartModalRef.value.open()
 }
 

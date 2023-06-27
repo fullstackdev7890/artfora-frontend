@@ -85,6 +85,10 @@ export const useAuthStore = defineStore('auth', {
       this.$state.token = response.data.token
 
       return response.data.token
+    },
+    async connectStrip (id:number){
+      const response = await axios.get(`/stripe-connect/${id}`)
+      return response.data
     }
   }
 })
