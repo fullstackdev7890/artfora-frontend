@@ -77,6 +77,7 @@
           v-model="user.description"
           :disabled="store.pendingRequestsCount"
           placeholder="USER DESCRIPTION"
+          v-if="user.can_add_product"
         />
 
         <ui-kit-selector
@@ -91,9 +92,10 @@
           v-model="user.external_link"
           :disabled="store.pendingRequestsCount" 
           placeholder="EXTERNAL LINK"
+          v-if="user.can_add_product"
         />
 
-        <div class="addmore">
+        <div class="addmore" v-if="user.can_add_product">
             <plus-icon @click="addField()" class="account-settings-plus-icon"/> 
             <ui-kit-input 
 
@@ -153,8 +155,7 @@
         <p class="ui-kit-box-content-small-text">
           <span class="ui-kit-box-content-success-text">
             If you want to change your password, please <br>
-            log out <a href="#" class="link" @click.prevent="logout">here</a> and use the "Reset password" function <br>
-            on the "Log in" page.
+            log out <a href="#" class="link" @click.prevent="logout">here</a> and use the "Reset password" function on the "Log in" page.
           </span>
         </p>
 
@@ -221,6 +222,7 @@ const user = reactive({
   avatar_image_id: currentProfile.avatar_image_id,
   country: currentProfile.country,
   more_external_link: currentProfile.more_external_link,
+  can_add_product:currentProfile?.can_add_product
 })
 
 
