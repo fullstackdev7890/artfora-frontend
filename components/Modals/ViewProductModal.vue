@@ -101,7 +101,8 @@ function toPrevImage() {
   currentImage.value = currentImage.value - 1
 }
 
-const tags = computed(() => item.value.is_ai_safe ? randomWords(10).join(', ') : item.value.tags)
+const tags = computed(() => item.value.is_ai_safe ? item.value.tags : item.value.tags ? item.value.tags : randomWords(10).join(', '))
+
 
 async function open(id: number) {
   await products.fetch(id.toString())

@@ -432,7 +432,7 @@ async function uploadProduct() {
   // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
   if (product.is_ai_safe) {
     const tags= ref([...words.value, ...['copyright', 'copy right']])
-    product.tags =tags.value?.join(" ");
+    product.tags =tags.value?.join(", ");
   }
 
   v$.value.$touch()

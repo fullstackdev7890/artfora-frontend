@@ -7,37 +7,33 @@
         <arrow-right v-show="isShown" class="hide-icon" />
       </NuxtLink>
 
-      <NuxtLink class="product-container-btn-close" @click="toBack" >
+      <NuxtLink class="product-container-btn-close" @click="toBack">
         <close-icon class="close-icon" />
       </NuxtLink>
 
     </div>
 
     <div class="product-container-images">
-      <img
-        v-for="(image, index) in item.media"
-        v-show="index === currentImage && isFetched"
-        :src="getImageUrl(image, ImageTemplate.FullSize)"
-        :alt="tags"
-      >
+      <img v-for="(image, index) in item.media" v-show="index === currentImage && isFetched"
+        :src="getImageUrl(image, ImageTemplate.FullSize)" :alt="tags">
 
       <div class="product-container-images-next" v-show="currentImage + 1 < item.media.length" @click="toNextImage()">
         <next-icon class="next-icon" />
       </div>
 
       <div class="product-container-images-prev" v-show="currentImage - 1 >= 0" @click="toPrevImage()">
-        <next-icon class="prev-icon"/>
+        <next-icon class="prev-icon" />
       </div>
 
     </div>
 
-    <product-sidebar v-show="isShown"  :product="item" />
+    <product-sidebar v-show="isShown" :product="item" />
 
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAsyncData, useRoute, useRouter} from '#app'
+import { useAsyncData, useRoute, useRouter } from '#app'
 import { useProductsStore } from '~/store/products'
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -54,6 +50,8 @@ const route = useRoute()
 const router = useRouter()
 const products = useProductsStore()
 const { item } = storeToRefs(products)
+console.log(item, "--------")
+
 const isShown = ref(false)
 const currentImage = ref(0)
 const { getImageUrl } = useMedia()
@@ -71,7 +69,7 @@ function toggleSidebar() {
 function toBack() {
   if (router.options.history.state.back) {
     router.go(-1)
-  } else{
+  } else {
     router.push('/')
   }
 }
@@ -84,5 +82,6 @@ function toPrevImage() {
   currentImage.value = currentImage.value - 1
 }
 
-const tags = computed(() => item.value.is_ai_safe ? randomWords(10).join(', ') : item.value.tags)
+const tags = computed((item) => item.value.is_ai_safe ? item.value.tags : item.value.tags ? item.value.tags : randomWords(10).join(', '))
+// randomWords(10).join(', ')
 </script>
