@@ -51,15 +51,18 @@
         <p>{{ props.product.description }}</p>
       </div>
       <div class="product-sidebar-buy-button">
-        <button class="button full-width" @click="saveProductToCart" :disabled="!isAuthorized">
+        <button class="button full-width" v-if="!isShowGotoCartButton" @click="saveProductToCart" :disabled="!isAuthorized">
           <span>BUY</span>
+        </button>
+        <button v-if="isShowGotoCartButton" class="button full-width" @click="gotoCart" :disabled="!isAuthorized">
+          <span>Go to cart</span>
         </button>
         <div class="product-sidebar-error-handler">
           <span v-if="!isAuthorized" class="product-sidebar-buy-button-error-message">{{ error }}</span>
 
-          <span  v-if="!isAuthorized" class="product-sidebar-buy-button-error-link"><span class="link"
-              @click="openSignUpModal">Sign up</span> &nbsp; or &nbsp;<span class="link"
-              @click="openLogInModal">Log in</span></span>
+          <span v-if="!isAuthorized" class="product-sidebar-buy-button-error-link"><span class="link"
+              @click="openSignUpModal">Sign up</span> &nbsp; or &nbsp;<span class="link" @click="openLogInModal">Log
+              in</span></span>
         </div>
       </div>
       <div class="product-sidebar-bottom-buttons-wrapper">
@@ -74,34 +77,19 @@
         :links="props.product.user.external_link" />
 
       <commission-work-modal ref="commissionWorkModal" :user-id="props.product.user.id" />
-      <cart-modal ref='cartModalRef' @open-cart-modal="openCartModal" @open-checkout-modal="openCheckoutModal" />
       <checkout-modal ref='checkoutModalRef' @open-checkout-modal="openCheckoutModal" />
       <contact-modal ref="contactModal" />
-      <log-in-modal
-      ref="logInModalRef"
-      @open-pre-sign-up-modal="openPreSignUpModal"
-      @open-two-factor-auth-modal="twoFactorAuthModalRef.open()"
-      @open-reset-password-modal="resetPasswordModalRef.open()"
-    />
-    <two-factor-auth-modal
-      ref="twoFactorAuthModalRef"
-      @open-log-in-modal="openLogInModal"
-    />
+      <log-in-modal ref="logInModalRef" @open-pre-sign-up-modal="openPreSignUpModal"
+        @open-two-factor-auth-modal="twoFactorAuthModalRef.open()"
+        @open-reset-password-modal="resetPasswordModalRef.open()" />
+      <two-factor-auth-modal ref="twoFactorAuthModalRef" @open-log-in-modal="openLogInModal" />
 
-    <reset-password-modal
-      ref="resetPasswordModalRef"
-      @open-sign-up-modal="openSignUpModal"
-    />
-    <pre-sign-up-modal
-      ref="preSignUpModalRef"
-      @open-sign-up-modal="openSignUpModal"
-    />
-    <sign-up-modal
-      ref="signUpModalRef"
-      @open-log-in-modal="openLogInModal"
-    />
+      <reset-password-modal ref="resetPasswordModalRef" @open-sign-up-modal="openSignUpModal" />
+      <pre-sign-up-modal ref="preSignUpModalRef" @open-sign-up-modal="openSignUpModal" />
+      <sign-up-modal ref="signUpModalRef" @open-log-in-modal="openLogInModal" />
     </div>
   </transition>
+  <cart-modal ref='cartModalRef' @open-cart-modal="openCartModal" @open-checkout-modal="openCheckoutModal" />
 </template>
 
 <script setup lang="ts">
@@ -113,7 +101,7 @@ import LinksModal from '~/components/Modals/LinksModal.vue'
 import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
 import ContactModal from '~/components/Modals/ContactModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
-import  ModalsComponent from '~/components/Layout/ModalsComponent.vue';
+import ModalsComponent from '~/components/Layout/ModalsComponent.vue';
 import PreSignUpModal from '~/components/Modals/PreSignUpModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
 import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
@@ -170,7 +158,7 @@ const cartModalRef = ref<InstanceType<typeof CartModal>>(null)
 const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
- const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
+const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>(null)
@@ -185,17 +173,25 @@ function openCheckoutModal() {
   checkoutModalRef.value.open()
 }
 function openCartModal() {
- 
+
 
   cartModalRef.value.open()
 }
-
+const isShowGotoCartButton = ref(false)
 function saveProductToCart() {
   if (isAuthorized.value) {
+    isShowGotoCartButton.value = true
 
     // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
     // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
+  }
+}
+function gotoCart(){
+  if (isAuthorized.value) {
     cartModalRef.value.open()
+
+    // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
+    // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
   }
 }
 
