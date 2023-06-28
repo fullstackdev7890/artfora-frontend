@@ -8,33 +8,7 @@
       <div class="ai-safe-description">
         <div  v-for="(aiSafe, index) in aiSafes" :key="index">
             <div class="aiSafe-title" :style="{color:aiSafe.text_colour, paddingBottom:aiSafe.text_type==='divide'?'1rem':'0.2rem'}" v-html="aiSafe.text_content"> </div>
-
           </div>
-        <!-- <p>In an attempt to hide your images from server
-          crawling bots, we will:</p>
-        <ul>
-          <li>Add rubbish tags.</li>
-          <li>Add copyright.</li>
-          <li>Add invisible watermark.</li>
-        </ul>
-        <p>Which hopefully decrease the likelyhood that your
-          images will be found and (mis)used.</p>
-        <p>The downside is that your images can't be used
-          when we promote ARTfora and you may miss
-          an opportunity to get your images promoted.</p>
-        <a
-          href="https://en.wikipedia.org/wiki/Artificial_intelligence_art"
-          target="_blank"
-          class="link"
-        >Read more about AI art</a>
-
-        <br>
-
-        <a
-          href="https://invisiblewatermark.net/how-invisible-watermarks-work.html"
-          target="_blank"
-          class="link"
-        >Read more about invisible watermark</a> -->
       </div>
       <div class="ui-kit-modal-content-buttons">
         <button class="button full-width" @click="aiSafeDescription.close()">
@@ -49,11 +23,10 @@
 import { ref } from '@vue/reactivity'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import { useTextsStore } from '~/store/texts'
-const textsStore = useTextsStore()
 
+const textsStore = useTextsStore()
 const aiSafeDescription = ref<InstanceType<typeof UiKitModal>>(null)
   const aiSafes = computed(() => textsStore?.getAiSafe())
-  console.log(aiSafes)
 function open() {
   aiSafeDescription.value?.open()
 }

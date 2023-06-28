@@ -250,7 +250,9 @@ import { required } from '@vuelidate/validators'
 import { useFiltersStore } from '~/store/filters'
 import CurrencyInput from '~~/components/UiKit/CurrencyInput.vue'
 import MeasureInput from '~~/components/UiKit/MeasureInput.vue'
+import  randomWords from "random-words";
 
+const words=ref(randomWords({exactly:5}))
 const addProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
 const files = ref([])
@@ -429,7 +431,8 @@ async function uploadProduct() {
 
   // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
   if (product.is_ai_safe) {
-    product.tags = 'copyright'
+    const tags= ref([...words.value, ...['copyright', 'copy right']])
+    product.tags =tags.value?.join(" ");
   }
 
   v$.value.$touch()

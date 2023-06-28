@@ -281,7 +281,9 @@ import TrashIcon from '~/assets/svg/icon_trash.svg'
 import { useFiltersStore } from '~/store/filters'
 import DeleteProductModal from '~/components/Modals/DeleteProductModal.vue'
 import AiSafeDescriptionModal from '~/components/Modals/AiSafeDescriptionModal'
+import  randomWords from "random-words";
 
+const words=ref(randomWords({exactly:5}))
 
 const editProductModal = ref<InstanceType<typeof UiKitModal>>(null)
 const file = ref<InstanceType<typeof HTMLInputElement>>(null)
@@ -478,7 +480,8 @@ async function updateProduct() {
 
   // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
   if (product.is_ai_safe) {
-    product.tags = 'copyright'
+    const tags= ref([...words.value, ...['copyright', 'copy right']])
+    product.tags =tags.value?.join(" ");
   }
 
   v$.value.$touch()
