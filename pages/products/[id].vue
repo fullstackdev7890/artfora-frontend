@@ -31,7 +31,7 @@
 
     </div>
 
-    <product-sidebar v-show="isShown" @toggleSidebar="toggleSidebar" :product="item" />
+    <product-sidebar v-show="isShown"  :product="item" />
 
   </div>
 </template>

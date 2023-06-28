@@ -87,13 +87,12 @@
       <reset-password-modal ref="resetPasswordModalRef" @open-sign-up-modal="openSignUpModal" />
       <pre-sign-up-modal ref="preSignUpModalRef" @open-sign-up-modal="openSignUpModal" />
       <sign-up-modal ref="signUpModalRef" @open-log-in-modal="openLogInModal" />
+      <cart-modal ref='cartModalRef' @open-cart-modal="openCartModal" @open-checkout-modal="openCheckoutModal" />
     </div>
   </transition>
-  <cart-modal ref='cartModalRef' @open-cart-modal="openCartModal" @open-checkout-modal="openCheckoutModal" />
 </template>
 
 <script setup lang="ts">
-import nuxtStorage from 'nuxt-storage';
 import { Product } from '~/types/products'
 import { ImageTemplate } from '~/types/constants'
 import ShareIcon from '~/assets/svg/share.svg'
@@ -117,7 +116,6 @@ interface Props {
   product: Product,
 
 }
-const emit = defineEmits(['toggleSidebar'])
 const props = withDefaults(defineProps<Props>(), {
   product: {
     id: 1,
