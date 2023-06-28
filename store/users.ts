@@ -44,6 +44,7 @@ export const useUsersStore = defineStore('users', {
       this.$state.filters.page = 1
 
       const response = await axios.get('/users', { params: this.$state.filters })
+      console.log(response.data)
       this.$state.users = response.data
     },
     
