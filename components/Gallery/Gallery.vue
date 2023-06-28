@@ -76,7 +76,6 @@ import UserDetails from '~/components/Gallery/UserDetails.vue'
 import useMedia from '~/composable/media'
 import ProductInfo from '~/components/Gallery/ProductInfo.vue'
 import randomWords from 'random-words'
-import ModalsComponent from '~/components/Layout/ModalsComponent.vue'
 import EditProductModal from '~/components/Modals/EditProductModal.vue'
 import ViewProductModal from '~/components/Modals/ViewProductModal.vue'
 
@@ -92,7 +91,6 @@ const gallerySettings = useSettingsGalleryStore()
 const { viewType } = storeToRefs(gallerySettings)
 const galleryViewType = ref(viewType)
 const router = useRouter()
-const modalsComponentRef = ref<InstanceType<typeof ModalsComponent>>(null)
 const editProductModalRef = ref<InstanceType<typeof EditProductModal>>(null)
 const viewProductModalRef = ref<InstanceType<typeof ViewProductModal>>(null)
 

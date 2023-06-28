@@ -167,14 +167,17 @@
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
         />
+        <div class="ai-safe-mode">
 
-        <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
-          AI safe (the best we can do)
+          <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
+            AI safe (the best we can do)
+            
+          </ui-kit-check-box>
           <span
-            @click="emit('openAiSafeDescription')"
+            @click="openAiSafeDescriptionModal"
             class="link"
-          >read more</span>
-        </ui-kit-check-box>
+            >read more</span>
+        </div>
 
         <hr class="horizontal-separator" />
 
@@ -245,6 +248,8 @@
       ref="deleteProductModalRef"
       @confirm="deleteProduct()"
     />
+  <ai-safe-description-modal
+      ref="aiSafeDescriptionModalRef"/>
 </template>
 
 <script setup lang="ts">
@@ -275,6 +280,7 @@ import CloseIcon from '~/assets/svg/close.svg'
 import TrashIcon from '~/assets/svg/icon_trash.svg'
 import { useFiltersStore } from '~/store/filters'
 import DeleteProductModal from '~/components/Modals/DeleteProductModal.vue'
+import AiSafeDescriptionModal from '~/components/Modals/AiSafeDescriptionModal'
 
 
 const editProductModal = ref<InstanceType<typeof UiKitModal>>(null)
@@ -289,8 +295,8 @@ const { getImageUrl } = useMedia()
 const { items } = storeToRefs(categoriesStore)
 const selectedCategory = ref<null | number>(null)
 
-const emit = defineEmits(['openAiSafeDescription'])
 const deleteProductModalRef = ref<InstanceType<typeof DeleteProductModal>>(null)
+const aiSafeDescriptionModalRef = ref<InstanceType<typeof AiSafeDescriptionModal>>(null)
 
 
 const currentSubCategories = computed(() => {
@@ -402,6 +408,9 @@ async function addFiles(event: any) {
   }
 }
 
+function openAiSafeDescriptionModal(){
+  aiSafeDescriptionModalRef.value.open()
+}
 function removeFile(index: number) {
   files.value.splice(index, 1)
   product.media.splice(index, 1)

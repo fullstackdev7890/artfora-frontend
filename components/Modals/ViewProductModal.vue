@@ -28,6 +28,7 @@
           v-show="index === currentImage && isFetched"
           :src="getImageUrl(image, ImageTemplate.FullSize)"
           :alt="tags"
+          class="product-image"
         >
 
         <div class="product-container-images-next" v-show="currentImage + 1 < item.media.length" @click="toNextImage()">
@@ -76,6 +77,8 @@ onMounted(async () => {
   if (route.query && route.query.product) {
     open(Number(route.query.product))
   }
+  checkScreenOrientation();
+    window.addEventListener('orientationchange', checkScreenOrientation);
 })
 
 function toggleSidebar() {
@@ -116,6 +119,20 @@ function close() {
     router.push('/')
   }
 }
+const screenOrientation=ref(true)
+
+
+  // beforeDestroy() {
+  //   window.removeEventListener('orientationchange', this.checkScreenOrientation);
+  // }
+
+ 
+   function checkScreenOrientation() {
+      const isHorizontal = window.matchMedia('(orientation: landscape)').matches;
+
+      screenOrientation.value = isHorizontal ? true : false;
+    }
+console.log(screenOrientation.value)
 
 defineExpose({ open, close })
 </script>

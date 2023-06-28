@@ -151,13 +151,14 @@
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
         />
+        <div class="ai-safe-mode">
         <ui-kit-check-box v-model="product.is_ai_safe" class="add-product-ai-safe-checkboxes">
           AI safe (the best we can do)
-          <span
-            @click="emit('openAiSafeDescription')"
-            class="link"
+          </ui-kit-check-box><span
+          @click="emit('openAiSafeDescription')"
+          class="link"
           >read more</span>
-        </ui-kit-check-box>
+          </div>
 
         <hr class="horizontal-separator" />
 

@@ -72,3 +72,15 @@
 
   }
 }
+.ai-safe-mode{
+  display: flex;
+  align-items: center;
+  line-height: 40px;
+  span{
+    padding-left: 0.5rem;
+  }
+  .add-product-ai-safe-checkboxes {
+    padding: 0px;
+    margin: 0px;
+  }
+}
