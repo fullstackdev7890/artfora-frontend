@@ -478,7 +478,7 @@ async function updateProduct() {
 
   // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
   if (product.is_ai_safe) {
-    product.tags = 'aiSafe'
+    product.tags = 'copyright'
   }
 
   v$.value.$touch()
