@@ -51,7 +51,7 @@
       </div>
 
       <div class="ui-kit-modal-content-buttons">
-        <button class="button button-grey full-width" @click="close" :disabled="carts.length > 0"><span>GO TO
+        <button class="button button-grey full-width" @click="close" :disabled="carts?.length > 0"><span>GO TO
             CHECKOUT</span></button>
       </div>
     </template>

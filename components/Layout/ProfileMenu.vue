@@ -3,7 +3,7 @@
     <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="openCartModal"
       @openCheckoutModal="openCheckoutModal" class="artfora-cart">
       <cart-icon class="cart-icon" />
-      <div class="cart-badge" v-if="carts.length > 0">{{ carts.length }}</div>
+      <div class="cart-badge" v-if="carts?.length > 0"> {{ carts?.length }}</div>
     </div>
 
     <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="emit('openAddProductModal')"
