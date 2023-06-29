@@ -33,11 +33,12 @@
               </div>
 
             </div>
-            <hr class="divide">
+            <hr class="divide" >
           </div>
         </div>
 
       </div>
+     
       <div class="carts-shipping">Shipping:&nbsp;
         <span>{{ formattedNumber(cart?.shippingPrice) || 0 }} €</span>
       </div>
