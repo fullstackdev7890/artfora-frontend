@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { User } from '~/types'
 import axios from 'axios'
+import { useCartStore } from './cart'
 const initState = (): User => ({
   id: 0,
   username: '',
@@ -41,6 +42,8 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async fetch() {
+      const cartStore = useCartStore()
+      await cartStore.getCarts()
       const response = await axios.get('/profile')
       if(response.data.more_external_link == null){
         response.data.more_external_link = [];
