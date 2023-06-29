@@ -91,6 +91,18 @@
         cursor: pointer;
       }
     }
+
+    &-buyer {
+      display: flex;
+      justify-content: space-between;
+
+      &-zip {
+        padding-right: 0.5rem;
+        width: 40%;
+      }
+
+
+    }
   }
 
   &-form {

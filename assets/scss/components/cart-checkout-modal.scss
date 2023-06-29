@@ -1,13 +1,12 @@
 .cart-item {
     display: flex;
-    padding-bottom: 0.5rem;
 
     &-image {
 
         &-content {
             width: 100px;
             height: auto;
-            padding-bottom: 1rem;
+            padding-bottom: 0.2rem;
         }
 
     }
@@ -22,12 +21,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-bottom: 1rem;
+        padding-bottom: 5px;
 
     }
 
     &-delete {
-        font-size: 14px;
+        font-size: 12px;
         width: 100px;
         text-align: center;
         display: flex;

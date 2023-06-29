@@ -94,7 +94,34 @@
               SETTINGS</span></button>
         </div>
       </form>
-      <form @submit.prevent="uploadProduct" class="account-settings-form" v-if="seletedTab === 'buyer'">
+      <form @submit.prevent="updateInvoice" class="account-settings-form" v-if="seletedTab === 'buyer'">
+        <ui-kit-input :errors="v_i$.i_name" :error-messages="{ required: 'Invoice Name is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE NAME" v-model="invoice.i_name" />
+
+        <ui-kit-input :errors="v_i$.i_address" :error-messages="{ required: 'Invoice Address is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS" v-model="invoice.i_address" />
+
+        <ui-kit-input :errors="v_i$.i_address2" :error-messages="{ required: 'Invoice Address 2 is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS 2" v-model="invoice.i_address2" />
+        <div class="account-settings-tabs-buyer">
+          <div class="account-settings-tabs-buyer-zip">
+            <ui-kit-input :errors="v_i$.i_zip_code" :error-messages="{ required: 'Invoice Zip is required' }"
+              :disabled="store.pendingRequestsCount" placeholder="INVOICE ZIP" v-model="invoice.i_zip_code" />
+          </div>
+          <div class="account-settings-tabs-buyer-city">
+            <ui-kit-input :errors="v_i$.i_city" :error-messages="{ required: 'Invoice City 2 is required' }"
+              :disabled="store.pendingRequestsCount" placeholder="INVOICE CITY" v-model="invoice.i_city" />
+          </div>
+        </div>
+
+        <ui-kit-input :errors="v_i$.i_country" :error-messages="{ required: 'Invoice Country 2 is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE COUNTRY" v-model="invoice.i_country" />
+
+        <ui-kit-input :errors="v_i$.i_phone" :error-messages="{ required: 'Invoice Phone 2 is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE PHONE" v-model="invoice.i_phone" />
+
+        <ui-kit-input :errors="v_i$.i_email" :error-messages="{ required: 'Invoice Email 2 is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE EMAIL" v-model="invoice.i_email" />
         <div class="ui-kit-modal-content-buttons">
           <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit"><span>UPDATE
               SETTINGS</span></button>
@@ -106,6 +133,12 @@
           <button class="button connect-stripe-button full-width" @click="connectStripe"><span>Connect
               Stripe</span></button>
         </div>
+        <ui-kit-input v-model="user.name" :disabled="store.pendingRequestsCount" placeholder="SELLER NAME"
+          v-if="user.can_add_product" />
+          <ui-kit-input v-model="user.name" :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS"
+          v-if="user.can_add_product" />
+        <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount" placeholder="USER DESCRIPTION"
+          v-if="user.can_add_product" />
         <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount" placeholder="USER DESCRIPTION"
           v-if="user.can_add_product" />
         <ui-kit-input v-model="user.external_link" :disabled="store.pendingRequestsCount" placeholder="EXTERNAL LINK"
@@ -161,7 +194,7 @@ import UiKitSelector from '~/components/UiKit/UiKitSelector.vue'
 import useVuelidate from '@vuelidate/core'
 import { useFiltersStore } from '~/store/filters'
 
-const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>(null)
+const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>()
 const seletedTab = ref("profile")
 const store = useStore()
 const userStore = useUserStore()
@@ -189,6 +222,28 @@ const user = reactive({
   can_add_product: currentProfile?.can_add_product
 })
 
+const invoice = reactive({
+  id: 0,
+  i_name: '',
+  i_email: '',
+  i_address: '',
+  i_address2: '',
+  i_zip_code: '',
+  i_city: '',
+  i_country: '',
+  i_phone: '',
+})
+const v_i$ = useVuelidate({
+  i_name: { required },
+  i_email: { email, required },
+  i_address: { required },
+  i_address2: { required },
+  i_zip_code: { required },
+  i_city: { required },
+  i_country: { required },
+  i_phone: { required },
+
+}, { invoice })
 
 const v$ = useVuelidate({
   user: {
@@ -225,7 +280,7 @@ async function addField() {
   moreexternal_link.value.push("");
 }
 
-async function removeField(index) {
+async function removeField(index: any) {
   moreexternal_link.value.splice(index, 1);
 }
 
@@ -249,6 +304,9 @@ async function uploadProduct() {
       return
     }
   }
+}
+async function updateInvoice() {
+
 }
 
 function selectTab(data: string) {
