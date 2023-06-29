@@ -22,7 +22,7 @@
           <span class="account-settings-tabs-tab " :style="{ color: seletedTab === 'buyer' ? 'white' : undefined }"
             @click="selectTab('buyer')">Buyer</span>
           <span class="account-settings-tabs-tab " :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
-            @click="selectTab('seller')">Seller</span>
+            @click="selectTab('seller')" v-if="user.can_add_product">Seller</span>
         </div>
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
@@ -100,7 +100,8 @@
               SETTINGS</span></button>
         </div>
       </form>
-      <form @submit.prevent="uploadProduct" class="account-settings-form" v-if="seletedTab === 'seller'">
+      <form @submit.prevent="uploadProduct" class="account-settings-form"
+        v-if="seletedTab === 'seller' && user.can_add_product">
         <div class="connet-stripe">
           <button class="button connect-stripe-button full-width" @click="connectStripe"><span>Connect
               Stripe</span></button>
