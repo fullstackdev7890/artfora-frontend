@@ -19,7 +19,8 @@
                   <span>{{ formattedNumber(cart?.price_in_euro) }} €</span>
                 </div>
                 <div class="cart-item-list">
-                  Size <span class="cart-item-size"> (L/W/D) </span>:
+                  Size 
+                  <!-- <span class="cart-item-size"> (L/W/D) </span>: -->
                   <span
                     v-show="formattedNumber(cart.height) || formattedNumber(cart.width) || formattedNumber(cart.depth)">{{
                       formattedNumber(cart.height) || 0 }}/{{ formattedNumber(cart.width) || 0 }}/{{
