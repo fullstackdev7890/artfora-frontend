@@ -67,10 +67,10 @@
         </div>
       </div>
       <div class="product-sidebar-bottom-buttons-wrapper">
-        <button class="button full-width" @click="contactModal.open()">
+        <button class="button full-width" @click="contactModal?.open()">
           <span>CONTACT</span>
         </button>
-        <button class="button full-width" @click="commissionWorkModal.open()">
+        <button class="button full-width" @click="commissionWorkModal?.open()">
           <span>COMMISSION OPEN</span>
         </button>
       </div>
@@ -81,8 +81,8 @@
       <checkout-modal ref='checkoutModalRef' @open-checkout-modal="openCheckoutModal" />
       <contact-modal ref="contactModal" />
       <log-in-modal ref="logInModalRef" @open-pre-sign-up-modal="openPreSignUpModal"
-        @open-two-factor-auth-modal="twoFactorAuthModalRef.open()"
-        @open-reset-password-modal="resetPasswordModalRef.open()" />
+        @open-two-factor-auth-modal="twoFactorAuthModalRef?.open()"
+        @open-reset-password-modal="resetPasswordModalRef?.open()" />
       <two-factor-auth-modal ref="twoFactorAuthModalRef" @open-log-in-modal="openLogInModal" />
 
       <reset-password-modal ref="resetPasswordModalRef" @open-sign-up-modal="openSignUpModal" />
@@ -94,24 +94,28 @@
 </template>
 
 <script setup lang="ts">
-import { Product, CartType } from '~/types/products'
+import { storeToRefs } from 'pinia'
+import { useCartStore } from '~~/store/cart'
+import { useAuthStore } from '~~/store/auth';
+
 import ShareIcon from '~/assets/svg/share.svg'
+
 import { ImageTemplate } from '~/types/constants'
+import { Product, CartType } from '~/types/products'
+
+import useMedia from '~/composable/media'
+
 import LinksModal from '~/components/Modals/LinksModal.vue'
-import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
-import ContactModal from '~/components/Modals/ContactModal.vue'
 import LogInModal from '~/components/Modals/LogInModal.vue'
-import ModalsComponent from '~/components/Layout/ModalsComponent.vue';
+import SignUpModal from '~/components/Modals/SignUpModal.vue'
+import ContactModal from '~/components/Modals/ContactModal.vue'
 import PreSignUpModal from '~/components/Modals/PreSignUpModal.vue'
 import TwoFactorAuthModal from '~/components/Modals/TwoFactorAuthModal.vue'
 import ResetPasswordModal from '~/components/Modals/ResetPasswordModal.vue'
-import SignUpModal from '~/components/Modals/SignUpModal.vue'
-
+import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
 import CartModal from '~/components/Modals/CartModal.vue'
 import CheckoutModal from '../Modals/CheckoutModal.vue';
-import useMedia from '~/composable/media'
-import { useAuthStore } from '~~/store/auth';
-import { storeToRefs } from 'pinia'
+
 interface Props {
   product: Product,
   newItem: CartType
@@ -147,20 +151,21 @@ const props = withDefaults(defineProps<Props>(), {
 
 })
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
 const { isAuthorized } = storeToRefs(authStore)
 const error = ref("You need to be logged in to buy.")
-const linksModal = ref<InstanceType<typeof LinksModal>>(null)
-const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>(null)
-const contactModal = ref<InstanceType<typeof ContactModal>>(null)
-const cartModalRef = ref<InstanceType<typeof CartModal>>(null)
-const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>(null)
-const logInModalRef = ref<InstanceType<typeof LogInModal>>(null)
-const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>(null)
-const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
+const linksModal = ref<InstanceType<typeof LinksModal>>()
+const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>()
+const contactModal = ref<InstanceType<typeof ContactModal>>()
+const cartModalRef = ref<InstanceType<typeof CartModal>>()
+const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>()
+const logInModalRef = ref<InstanceType<typeof LogInModal>>()
+const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>()
+const signUpModalRef = ref<InstanceType<typeof SignUpModal>>()
 
-const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
-const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>(null)
+const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>()
+const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>()
 
 const isShowGotoCartButton = ref(false)
 
@@ -170,19 +175,18 @@ function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString('de-DE', {})
   return formattedNumber
 }
+
 function openCheckoutModal() {
-  checkoutModalRef.value.open()
+  checkoutModalRef.value && checkoutModalRef.value.open()
 }
+
 function openCartModal() {
-
-
-  cartModalRef.value.open()
+  cartModalRef.value && cartModalRef.value.open()
 }
-function saveProductToCart() {
+async function saveProductToCart() {
   if (isAuthorized.value) {
     isShowGotoCartButton.value = true
 
-    const artforaCarts = ref((JSON.parse(localStorage?.getItem("artfora_carts") as string)) ?? []);
     const newItem = {
       id: props.product?.id,
       title: props.product?.title,
@@ -196,23 +200,13 @@ function saveProductToCart() {
       shippingPrice: 0,
       quantity: 1
     };
-    const isDuplictatedCart = artforaCarts.value?.filter((cart: any) => cart?.id === newItem.id)
-    if (isDuplictatedCart.length > 0) {
-      const updatedCarts = artforaCarts.value?.map((cart: any) => cart?.id === newItem.id ? { ...cart, quantity: (cart?.quantity || 0) + 1 } : cart)
-      localStorage.setItem('artfora_carts', JSON.stringify(updatedCarts));
-
-    }
-    else {
-
-      const updatedCarts = [...artforaCarts.value, newItem];
-      localStorage.setItem('artfora_carts', JSON.stringify(updatedCarts));
-    }
+    await cartStore.addCart(newItem as CartType)
 
   }
 }
 function gotoCart() {
   if (isAuthorized.value) {
-    cartModalRef.value.open()
+    cartModalRef.value && cartModalRef.value.open()
 
     // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
     // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
@@ -221,21 +215,21 @@ function gotoCart() {
 
 function openLogInModal() {
   if (isAwaitingTokenConfirmation.value) {
-    twoFactorAuthModalRef.value.open()
+    twoFactorAuthModalRef.value && twoFactorAuthModalRef.value.open()
     return
   }
 
-  logInModalRef.value.open()
+  logInModalRef.value && logInModalRef.value.open()
 }
 function openPreSignUpModal() {
-  preSignUpModalRef.value.open()
+  preSignUpModalRef.value && preSignUpModalRef.value.open()
 }
 
 function openSignUpModal() {
   if (isAwaitingTokenConfirmation.value) {
-    twoFactorAuthModalRef.value.open()
+    twoFactorAuthModalRef.value && twoFactorAuthModalRef.value.open()
     return
   }
-  signUpModalRef.value.open()
+  signUpModalRef.value && signUpModalRef.value.open()
 }
 </script>

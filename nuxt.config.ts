@@ -38,7 +38,8 @@ export default defineNuxtConfig({
     options: {
       linkActiveClass: 'categories-body-item-active'
     }
-  }
+  },
+
 })
 
 

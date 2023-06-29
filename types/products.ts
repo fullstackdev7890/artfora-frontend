@@ -71,3 +71,9 @@ export interface CartType {
   quantity: number
   shippingPrice?: number
 }
+export interface CartsState {
+  carts: CartType[],
+  totalShippingPrice: number,
+  totalProductsPrice: number
+
+}

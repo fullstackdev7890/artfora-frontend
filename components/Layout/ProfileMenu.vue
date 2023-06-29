@@ -3,13 +3,14 @@
     <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="openCartModal"
       @openCheckoutModal="openCheckoutModal" class="artfora-cart">
       <cart-icon class="cart-icon" />
+      <div class="cart-badge" v-if="carts.length > 0">{{ carts.length }}</div>
     </div>
 
     <div v-if="isAuthorized && (can_add_product || userStore.role_id === 1)" @click="emit('openAddProductModal')"
       class="new-product">
       <plus-icon class="plus-icon" />
     </div>
-    <div @click="menuDropdownRef.open()" class="icon-button">
+    <div @click="menuDropdownRef?.open()" class="icon-button">
       <img :src="getUserAvatar(userAvatar, ImageTemplate.SmallThumbnail)" alt="user_avatar">
     </div>
 
@@ -55,6 +56,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { useAuthStore } from '~/store/auth'
 import { useUserStore } from '~/store/user'
+import { useCartStore } from '~~/store/cart'
 import { storeToRefs } from 'pinia'
 import { useProductsStore } from '~/store/products'
 import { useAsyncData } from '#app'
@@ -67,66 +69,68 @@ import { ImageTemplate, ROLE_ADMIN } from '~/types/constants'
 
 const emit = defineEmits(['openCheckoutModal', 'openCartModal', 'openAddProductModal', 'openLogInModal', 'openSignUpModal', 'openContactUsModal', 'openGallerySettingsModal', 'openFaqModal', 'openStartSellingModal', 'openSetUpAccountModal', 'openAboutArtforaModal'])
 
-const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>(null)
+const menuDropdownRef = ref<InstanceType<typeof UiKitDropdown>>()
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
+const cartStore = useCartStore()
 const { isAuthorized } = storeToRefs(authStore)
 const { userAvatar } = storeToRefs(userStore)
 const { getUserAvatar } = useMedia()
 const { getUserRole } = storeToRefs(userStore)
 const { can_add_product } = storeToRefs(userStore)
 const productStore = useProductsStore()
+const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore)
 
 function logout() {
   authStore.logout()
   userStore.clearProfile()
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   navigateTo('/')
 }
 function openCheckoutModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openCheckoutModal')
 }
 function openCartModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openCartModal')
 }
 function openSettingsGallery() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openGallerySettingsModal')
 }
 
 function openStartSellingModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openStartSellingModal')
 }
 
 function openSetUpAccountModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openSetUpAccountModal')
 }
 function openAboutArtforaModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openAboutArtforaModal')
 }
 function openFaqModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openFaqModal')
 }
 
 function openLogInModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openLogInModal')
 }
 
 function openSignUpModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openSignUpModal')
 }
 
 function openContactUsModal() {
-  menuDropdownRef.value.close()
+  menuDropdownRef.value && menuDropdownRef.value.close()
   emit('openContactUsModal')
 }
 

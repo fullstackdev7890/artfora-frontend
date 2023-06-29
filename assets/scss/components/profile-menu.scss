@@ -1,18 +1,49 @@
 @import '../variables';
 
 .profile-menu {
-  display: flex; justify-content: flex-end; align-items: center; position: relative; gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+
   & .new-product {
-    display: flex; align-items: center; cursor: pointer;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 
     & .plus-icon {
-      width: 19px; height: 19px; background: $border-color; padding: 4px; border-radius: 50%;
+      width: 19px;
+      height: 19px;
+      background: $border-color;
+      padding: 4px;
+      border-radius: 50%;
       fill: $header-background-color;
     }
   }
-  & .artfora-cart{
-    display: flex; align-items: center; cursor: pointer;
 
+  & .artfora-cart {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+
+  }
+
+  & .cart-badge {
+    display: flex;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 12px;
+    color: white;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #3A99D5;
+    border-radius: 50%;
   }
 
 }

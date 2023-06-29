@@ -3,13 +3,13 @@
     <template v-slot:content>
       <div class="ui-kit-cart-modal-content">
         <div class="modal-body">
-          <div v-for="(cart, index) in artforaCarts" :key="index">
+          <div v-for="(cart, index) in carts" :key="index">
             <div class="cart-title">
               <span>{{ cart.title }}</span>
             </div>
             <div class="cart-item">
               <div class="cart-item-image">
-                <img :src="getImageUrl(cart.media[0], ImageTemplate.Thumbnail)" :alt="cart.title"
+                <img :src="getImageUrl(cart?.media[0], ImageTemplate.Thumbnail)" :alt="cart.title"
                   class="cart-item-image-content">
                 <span class="cart-item-delete" @click="deleteCart(cart?.id)">Delete product</span>
               </div>
@@ -19,12 +19,12 @@
                   <span>{{ formattedNumber(cart?.price_in_euro) }} €</span>
                 </div>
                 <div class="cart-item-list">
-                  Size 
+                  Size
                   <!-- <span class="cart-item-size"> (L/W/D) </span>: -->
                   <span
-                    v-show="formattedNumber(cart.height) || formattedNumber(cart.width) || formattedNumber(cart.depth)">{{
-                      formattedNumber(cart.height) || 0 }}/{{ formattedNumber(cart.width) || 0 }}/{{
-    formattedNumber(cart.depth) || 0 }} cm</span>
+                    v-show="formattedNumber(cart.height || 0) || formattedNumber(cart.width || 0) || formattedNumber(cart.depth || 0)">{{
+                      formattedNumber(cart.height || 0) }}/{{ formattedNumber(cart.width || 0) }}/{{
+    formattedNumber(cart.depth || 0) }} cm</span>
                 </div>
                 <div class="cart-item-list">
                   Quantity:
@@ -33,38 +33,42 @@
               </div>
 
             </div>
-            <hr class="divide" >
+            <hr class="divide">
           </div>
         </div>
 
       </div>
-     
+
       <div class="carts-shipping">Shipping:&nbsp;
-        <span>{{ formattedNumber(cart?.shippingPrice) || 0 }} €</span>
+        <span>{{ formattedNumber(totalShippingPrice) || 0 }} €</span>
       </div>
       <div class="carts-total-price">Total: &nbsp;
-        <span>{{ formattedNumber(totalPrice) || 0 }} €</span>
+        <span>{{ formattedNumber(totalProductsPrice) || 0 }} €</span>
       </div>
 
       <div class="ui-kit-modal-content-buttons">
-        <button class="button button-grey full-width" @click="close"><span>GO TO CHECKOUT</span></button>
+        <button class="button button-grey full-width" @click="close" :disabled="carts.length > 0"><span>GO TO
+            CHECKOUT</span></button>
       </div>
     </template>
   </ui-kit-modal>
 </template>
   
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { ref } from '@vue/reactivity'
 import useMedia from '~/composable/media'
+import { useCartStore } from '~~/store/cart'
 import { ImageTemplate } from '~/types/constants'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 
-const totalPrice = ref(0)
-const artforaCarts = ref([])
-const shippingPrice = ref(0)
+
+const cartStore = useCartStore()
+const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore)
+
 const { getImageUrl } = useMedia()
 const emit = defineEmits(['openCheckoutModal'])
-const cartForm = ref<InstanceType<typeof UiKitModal>>(null)
+const cartForm = ref<InstanceType<typeof UiKitModal>>()
 
 
 function formattedNumber(amount: number) {
@@ -72,27 +76,15 @@ function formattedNumber(amount: number) {
   return formattedNumber
 }
 
-function getPrices() {
-  const storedCarts = JSON.parse(localStorage.getItem("artfora_carts") as string)
-  artforaCarts.value = storedCarts
-  let tPrice = ref(0)
-  storedCarts?.map((cart: any) => { return tPrice.value += cart?.price_in_euro * cart?.quantity; })
-  storedCarts?.map((cart: any) => { return shippingPrice.value += cart?.shippingPrice ?? 0; })
+async function deleteCart(deletedCart: number) {
+  await cartStore.deleteCart(deletedCart)
+  await cartStore.getCarts()
 
-  totalPrice.value = tPrice.value + shippingPrice.value
-}
-function deleteCart(deletedCart: string) {
-  const storedCarts = JSON.parse(localStorage.getItem("artfora_carts") as string)
-  const result = storedCarts.filter((cart: any) => cart?.id !== deletedCart)
-  localStorage.setItem('artfora_carts', JSON.stringify(result));
-  artforaCarts.value = result
-  getPrices()
 
 }
-
 
 function open() {
-  getPrices()
+  cartStore.getCarts()
   cartForm.value?.open()
 }
 
