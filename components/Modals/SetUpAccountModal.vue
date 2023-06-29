@@ -16,6 +16,14 @@
           <img :src="getImageUrl(backgroundImage, ImageTemplate.FullSize)" alt="background Image" v-if="backgroundImage">
           <input id="uploadBackground" @change="addFile" accept="image/bmp, image/png, image/jpeg" type="file" ref="file">
         </label>
+        <div class="account-settings-tabs">
+          <span class="account-settings-tabs-tab " :style="{ color: seletedTab === 'profile' ? 'white' : undefined }"
+            @click="selectTab('profile')">Profile</span>
+          <span class="account-settings-tabs-tab " :style="{ color: seletedTab === 'buyer' ? 'white' : undefined }"
+            @click="selectTab('buyer')">Buyer</span>
+          <span class="account-settings-tabs-tab " :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
+            @click="selectTab('seller')">Seller</span>
+        </div>
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
           <img :src="getUserAvatar(avatar, ImageTemplate.SmallThumbnail)" alt="avatar Image" v-if="avatar">
@@ -28,15 +36,14 @@
           </div>
           <input id="uploadAvatar" @change="addFile" accept="image/bmp, image/png, image/jpeg" type="file" ref="file">
         </label>
-        <div class="button connet-stripe">
-          <button class="button connect-stripe-button" @click="connectStripe"><span>Connect Stripe</span></button>
-        </div>
+
 
       </header>
     </template>
 
     <template v-slot:content>
-      <form @submit.prevent="uploadProduct" class="account-settings-form">
+
+      <form @submit.prevent="uploadProduct" class="account-settings-form" v-if="seletedTab === 'profile'">
 
         <ui-kit-input v-model="user.username" :errors="v$.user.username"
           :error-messages="{ required: 'Username is required' }" :disabled="store.pendingRequestsCount"
@@ -46,30 +53,10 @@
           :error-messages="{ required: 'email is required', email: 'Please enter valid email address.' }"
           :disabled="store.pendingRequestsCount" placeholder="EMAIL ADDRESS" />
 
-        <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount" placeholder="USER DESCRIPTION"
-          v-if="user.can_add_product" />
+
 
         <ui-kit-selector v-model="user.country" :options="countries" :title="'Country'"
           :disabled="store.pendingRequestsCount" :withSearch="true" />
-
-        <ui-kit-input v-model="user.external_link" :disabled="store.pendingRequestsCount" placeholder="EXTERNAL LINK"
-          v-if="user.can_add_product" />
-
-        <div class="addmore" v-if="user.can_add_product">
-          <plus-icon @click="addField()" class="account-settings-plus-icon" />
-          <ui-kit-input v-for="(link, k) in moreexternal_link" placeholder="EXTERNAL LINK" :modelValue="link"
-            v-model="moreexternal_link[k]">
-
-            <div class="account-settings-form-icons">
-              <minus-icon class="account-settings-minus-icon" @click="removeField(k)" />
-            </div>
-          </ui-kit-input>
-          <div>
-
-          </div>
-        </div>
-
-
         <div class="account-settings-visibility-level">
           <ui-kit-check-box v-model="user.product_visibility_level" :value="COMMON_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount" :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
@@ -107,6 +94,40 @@
               SETTINGS</span></button>
         </div>
       </form>
+      <form @submit.prevent="uploadProduct" class="account-settings-form" v-if="seletedTab === 'buyer'">
+        <div class="ui-kit-modal-content-buttons">
+          <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit"><span>UPDATE
+              SETTINGS</span></button>
+        </div>
+      </form>
+      <form @submit.prevent="uploadProduct" class="account-settings-form" v-if="seletedTab === 'seller'">
+        <div class="connet-stripe">
+          <button class="button connect-stripe-button full-width" @click="connectStripe"><span>Connect
+              Stripe</span></button>
+        </div>
+        <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount" placeholder="USER DESCRIPTION"
+          v-if="user.can_add_product" />
+        <ui-kit-input v-model="user.external_link" :disabled="store.pendingRequestsCount" placeholder="EXTERNAL LINK"
+          v-if="user.can_add_product" />
+        <div class="addmore" v-if="user.can_add_product">
+          <plus-icon @click="addField()" class="account-settings-plus-icon" />
+          <ui-kit-input v-for="(link, k) in moreexternal_link" placeholder="EXTERNAL LINK" :modelValue="link"
+            v-model="moreexternal_link[k]">
+
+            <div class="account-settings-form-icons">
+              <minus-icon class="account-settings-minus-icon" @click="removeField(k)" />
+            </div>
+          </ui-kit-input>
+          <div>
+
+          </div>
+        </div>
+        <div class="ui-kit-modal-content-buttons">
+          <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit"><span>UPDATE
+              SETTINGS</span></button>
+        </div>
+      </form>
+
     </template>
   </ui-kit-modal>
 </template>
@@ -140,6 +161,7 @@ import useVuelidate from '@vuelidate/core'
 import { useFiltersStore } from '~/store/filters'
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>(null)
+const seletedTab = ref("profile")
 const store = useStore()
 const userStore = useUserStore()
 const filtersStore = useFiltersStore()
@@ -189,7 +211,6 @@ async function addFile(event: any) {
 
     return
   }
-
   if (event.target.id === 'uploadAvatar') {
     avatar.value = response.data
     user.avatar_image_id = response.data.id
@@ -200,10 +221,9 @@ async function addFile(event: any) {
 }
 
 async function addField() {
-
   moreexternal_link.value.push("");
-
 }
+
 async function removeField(index) {
   moreexternal_link.value.splice(index, 1);
 }
@@ -230,6 +250,10 @@ async function uploadProduct() {
   }
 }
 
+function selectTab(data: string) {
+  seletedTab.value = data
+}
+
 function logout() {
   authStore.logout()
   navigateTo('/')
@@ -253,7 +277,7 @@ async function connectStripe({ redirect }: { redirect: string }) {
     const res = await authStore.connectStrip(user?.id)
     if (res.strip_account_link) {
       return window.open(res.strip_account_link, '_blank');
-  }
+    }
   } catch (error) { }
 
 }
