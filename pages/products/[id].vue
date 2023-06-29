@@ -59,6 +59,7 @@ const isFetched = ref(false)
 onMounted(async () => {
   await products.fetch(route.params.id as string)
   isFetched.value = true
+  isShown.value = false
 })
 
 function toggleSidebar() {

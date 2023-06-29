@@ -1,56 +1,45 @@
 <template>
-  <ui-kit-modal
-  title="View Product"
-  :with-header="false"
-  :with-footer="false"
-  ref="viewProductModal"
-  class="product-view-modal"
-  >
-  <template v-slot:content>
-    <div class="product-container">
-      <div class="product-container-btn">
+  <ui-kit-modal title="View Product" :with-header="false" :with-footer="false" ref="viewProductModal"
+    class="product-view-modal">
+    <template v-slot:content>
+      <div class="product-container">
+        <div class="product-container-btn">
 
-        <NuxtLink class="product-container-btn-info" @click="toggleSidebar">
-          <info v-show="!isShown" class="hide-icon" />
-          <arrow-right v-show="isShown" class="hide-icon" />
-        </NuxtLink>
+          <NuxtLink class="product-container-btn-info" @click="toggleSidebar">
+            <info v-show="!isShown" class="hide-icon" />
+            <arrow-right v-show="isShown" class="hide-icon" />
+          </NuxtLink>
 
-        <NuxtLink class="product-container-btn-close" @click="close()" >
-          <close-icon class="close-icon" />
-        </NuxtLink>
+          <NuxtLink class="product-container-btn-close" @click="close()">
+            <close-icon class="close-icon" />
+          </NuxtLink>
 
-      </div>
-
-      <div class="product-container-images">
-        <img
-          v-for="(image, index) in item.media"
-          :key="index"
-          v-show="index === currentImage && isFetched"
-          :src="getImageUrl(image, ImageTemplate.FullSize)"
-          :alt="tags"
-          class="product-image"
-        >
-
-        <div class="product-container-images-next" v-show="currentImage + 1 < item.media.length" @click="toNextImage()">
-          <next-icon class="next-icon" />
         </div>
 
-        <div class="product-container-images-prev" v-show="currentImage - 1 >= 0" @click="toPrevImage()">
-          <next-icon class="prev-icon"/>
+        <div class="product-container-images">
+          <img v-for="(image, index) in item.media" :key="index" v-show="index === currentImage && isFetched"
+            :src="getImageUrl(image, ImageTemplate.FullSize)" :alt="tags" class="product-image">
+
+          <div class="product-container-images-next" v-show="currentImage + 1 < item.media.length" @click="toNextImage()">
+            <next-icon class="next-icon" />
+          </div>
+
+          <div class="product-container-images-prev" v-show="currentImage - 1 >= 0" @click="toPrevImage()">
+            <next-icon class="prev-icon" />
+          </div>
+
         </div>
 
+        <product-sidebar v-show="isShown" :product="item" />
+
       </div>
-
-      <product-sidebar v-show="isShown"  :product="item" />
-
-    </div>
-  </template>
+    </template>
   </ui-kit-modal>
 </template>
 
 <script setup lang="ts">
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
-import { useAsyncData, useRoute, useRouter} from '#app'
+import { useAsyncData, useRoute, useRouter } from '#app'
 import { useProductsStore } from '~/store/products'
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -78,7 +67,7 @@ onMounted(async () => {
     open(Number(route.query.product))
   }
   checkScreenOrientation();
-    window.addEventListener('orientationchange', checkScreenOrientation);
+  window.addEventListener('orientationchange', checkScreenOrientation);
 })
 
 function toggleSidebar() {
@@ -88,7 +77,7 @@ function toggleSidebar() {
 function toBack() {
   if (router.options.history.state.back) {
     router.go(-1)
-  } else{
+  } else {
     router.push('/')
   }
 }
@@ -105,6 +94,7 @@ const tags = computed(() => item.value.is_ai_safe ? item.value.tags : item.value
 
 
 async function open(id: number) {
+  isShown.value = false
   await products.fetch(id.toString())
   isFetched.value = true
   viewProductModal.value?.open()
@@ -116,23 +106,23 @@ function close() {
   // router.push({query: {}})
   if (router.options.history.state.back) {
     router.go(-1)
-  } else{
+  } else {
     router.push('/')
   }
 }
-const screenOrientation=ref(true)
+const screenOrientation = ref(true)
 
 
-  // beforeDestroy() {
-  //   window.removeEventListener('orientationchange', this.checkScreenOrientation);
-  // }
+// beforeDestroy() {
+//   window.removeEventListener('orientationchange', this.checkScreenOrientation);
+// }
 
- 
-   function checkScreenOrientation() {
-      const isHorizontal = window.matchMedia('(orientation: landscape)').matches;
 
-      screenOrientation.value = isHorizontal ? true : false;
-    }
+function checkScreenOrientation() {
+  const isHorizontal = window.matchMedia('(orientation: landscape)').matches;
+
+  screenOrientation.value = isHorizontal ? true : false;
+}
 
 defineExpose({ open, close })
 </script>
