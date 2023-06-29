@@ -127,7 +127,6 @@ watch(() => numberValue.value, (newValue: number | null) => {
     isPopover.value = false
     popoverText.value = ''
   }
-  console.log(popoverText.value)
 })
 function onBlur() {
   emit('update:modelValue', numberValue)

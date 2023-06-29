@@ -89,7 +89,6 @@ function openCheckoutModal() {
   emit('openCheckoutModal')
 }
 function openCartModal() {
-  console.log("cart")
   menuDropdownRef.value.close()
   emit('openCartModal')
 }

@@ -251,7 +251,6 @@ function close() {
 async function connectStripe({ redirect }: { redirect: string }) {
   try {
     const res = await authStore.connectStrip(user?.id)
-    console.log(res)
     if (res.strip_account_link) {
       return window.open(res.strip_account_link, '_blank');
   }

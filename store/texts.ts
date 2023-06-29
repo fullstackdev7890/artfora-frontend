@@ -26,7 +26,6 @@ export const useTextsStore = defineStore('texts', {
     getFaq() {
       const row = this.$state.items?.data.filter((row) => row.text_name === 'faq')
       const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
-      console.log(sortedArr)
       return sortedArr
     },
     getArtfora() {

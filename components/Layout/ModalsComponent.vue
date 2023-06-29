@@ -182,7 +182,6 @@ function openAddProductModal() {
 }
 
 function openAboutArtforaModal() {
-  console.log(aboutArtforaModelRef)
   aboutArtforaModelRef.value.open()
 }
 function openFaqModal() {

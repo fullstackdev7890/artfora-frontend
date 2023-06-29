@@ -32,6 +32,7 @@
 @import 'components/gallery-settings';
 @import 'components/set-up-account-modal';
 @import 'components/ai-safe-description';
+@import 'components/cart-checkout-modal';
 
 .search {
   &-query { margin-bottom: 1rem; padding-bottom: 0; }
@@ -83,4 +84,7 @@
   &-item {
     text-decoration: underline; cursor: pointer; margin: 10px
   }
+}
+.divide {
+  color: #949495;
 }

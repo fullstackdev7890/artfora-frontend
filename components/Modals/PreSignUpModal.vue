@@ -60,7 +60,6 @@ async function gettext() {
   try {
     const response = await axios.get('/text')
     textData.value = response.data.text;
-    console.log('textData', textData.value)
 
     success.value = true
   } catch (e) {

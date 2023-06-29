@@ -8,7 +8,7 @@
       </div>
 
       <div class="product-sidebar-user">
-        <img :src="getUserAvatar($props.product.user.avatar_image, ImageTemplate.SmallThumbnail)"
+        <img :src="getUserAvatar($props.product?.user.avatar_image, ImageTemplate.SmallThumbnail)"
           class="product-sidebar-user-avatar" alt="user-avatar">
         <div class="product-sidebar-user-name">
           <h4>{{ props.product.user.username }}</h4>
@@ -51,7 +51,8 @@
         <p>{{ props.product.description }}</p>
       </div>
       <div class="product-sidebar-buy-button">
-        <button class="button full-width" v-if="!isShowGotoCartButton" @click="saveProductToCart" :disabled="!isAuthorized">
+        <button class="button full-width" v-if="!isShowGotoCartButton" @click="saveProductToCart"
+          :disabled="!isAuthorized">
           <span>BUY</span>
         </button>
         <button v-if="isShowGotoCartButton" class="button full-width" @click="gotoCart" :disabled="!isAuthorized">
@@ -93,9 +94,9 @@
 </template>
 
 <script setup lang="ts">
-import { Product } from '~/types/products'
-import { ImageTemplate } from '~/types/constants'
+import { Product, CartType } from '~/types/products'
 import ShareIcon from '~/assets/svg/share.svg'
+import { ImageTemplate } from '~/types/constants'
 import LinksModal from '~/components/Modals/LinksModal.vue'
 import CommissionWorkModal from '~/components/Modals/CommissionWorkModal.vue'
 import ContactModal from '~/components/Modals/ContactModal.vue'
@@ -111,9 +112,9 @@ import CheckoutModal from '../Modals/CheckoutModal.vue';
 import useMedia from '~/composable/media'
 import { useAuthStore } from '~~/store/auth';
 import { storeToRefs } from 'pinia'
-
 interface Props {
   product: Product,
+  newItem: CartType
 
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -161,6 +162,8 @@ const signUpModalRef = ref<InstanceType<typeof SignUpModal>>(null)
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>(null)
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>(null)
 
+const isShowGotoCartButton = ref(false)
+
 const { getUserAvatar, getImageUrl } = useMedia()
 
 function formattedNumber(amount: number) {
@@ -175,16 +178,39 @@ function openCartModal() {
 
   cartModalRef.value.open()
 }
-const isShowGotoCartButton = ref(false)
 function saveProductToCart() {
   if (isAuthorized.value) {
     isShowGotoCartButton.value = true
 
-    // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
-    // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
+    const artforaCarts = ref((JSON.parse(localStorage?.getItem("artfora_carts") as string)) ?? []);
+    const newItem = {
+      id: props.product?.id,
+      title: props.product?.title,
+      artist: props.product?.author,
+      price_in_euro: props.product?.price_in_euro,
+      description: props.product?.description,
+      media: props.product?.media,
+      height: props.product?.height,
+      width: props.product?.width,
+      depth: props.product?.depth,
+      shippingPrice: 0,
+      quantity: 1
+    };
+    const isDuplictatedCart = artforaCarts.value?.filter((cart: any) => cart?.id === newItem.id)
+    if (isDuplictatedCart.length > 0) {
+      const updatedCarts = artforaCarts.value?.map((cart: any) => cart?.id === newItem.id ? { ...cart, quantity: (cart?.quantity || 0) + 1 } : cart)
+      localStorage.setItem('artfora_carts', JSON.stringify(updatedCarts));
+
+    }
+    else {
+
+      const updatedCarts = [...artforaCarts.value, newItem];
+      localStorage.setItem('artfora_carts', JSON.stringify(updatedCarts));
+    }
+
   }
 }
-function gotoCart(){
+function gotoCart() {
   if (isAuthorized.value) {
     cartModalRef.value.open()
 

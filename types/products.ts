@@ -33,7 +33,7 @@ export declare interface Product extends Entity {
   weight: number
   depth: number
   shipping_in_euro: number
-  quantity_for_sale:number
+  quantity_for_sale: number
   price_in_euro: number
   status: string
   deleted_at: string | null
@@ -57,4 +57,17 @@ export interface ProductsState {
   filters: SearchProductsFilters,
   loadingNextPage: boolean,
   pendingCount: number
+}
+export interface CartType {
+  id: number
+  title: string
+  artist: string
+  price_in_euro: number
+  description?: string
+  media?: Media[]
+  height?: number
+  width?: number
+  depth?: number
+  quantity: number
+  shippingPrice?: number
 }

@@ -50,7 +50,6 @@ const route = useRoute()
 const router = useRouter()
 const products = useProductsStore()
 const { item } = storeToRefs(products)
-console.log(item, "--------")
 
 const isShown = ref(false)
 const currentImage = ref(0)

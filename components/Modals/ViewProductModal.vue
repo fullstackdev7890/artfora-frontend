@@ -133,7 +133,6 @@ const screenOrientation=ref(true)
 
       screenOrientation.value = isHorizontal ? true : false;
     }
-console.log(screenOrientation.value)
 
 defineExpose({ open, close })
 </script>

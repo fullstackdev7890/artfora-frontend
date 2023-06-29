@@ -417,7 +417,6 @@ function clearProductFields() {
 }
 
 async function uploadProduct() {
-  console.log("upload")
 
   if (product.media.length < 1) {
     fileError.value = 'Media is required. '
