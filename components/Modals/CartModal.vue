@@ -2,7 +2,7 @@
   <ui-kit-modal :title="'CART'" :with-footer="false" class="cart-modal" ref="cartForm">
     <template v-slot:content>
       <div class="ui-kit-cart-modal-content">
-        <div class="modal-body">
+        <div>
           <div v-for="(cart, index) in carts" :key="index">
             <div class="cart-title">
               <span>{{ cart.title }}</span>
@@ -14,6 +14,10 @@
                 <span class="cart-item-delete" @click="deleteCart(cart?.id)">Delete product</span>
               </div>
               <div class="cart-item-lists">
+                <div class="cart-item-list">
+                  Seller:
+                  <span>{{ cart?.seller?.name }}</span>
+                </div>
                 <div class="cart-item-list">
                   Price:
                   <span>{{ formattedNumber(cart?.price_in_euro) }} €</span>
@@ -39,9 +43,9 @@
 
       </div>
 
-      <div class="carts-shipping">Shipping:&nbsp;
+      <!-- <div class="carts-shipping">Shipping:&nbsp;
         <span>{{ formattedNumber(totalShippingPrice) || 0 }} €</span>
-      </div>
+      </div> -->
       <div class="carts-total-price">Total: &nbsp;
         <span>{{ formattedNumber(totalProductsPrice) || 0 }} €</span>
       </div>

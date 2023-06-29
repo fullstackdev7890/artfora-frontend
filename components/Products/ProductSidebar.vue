@@ -190,7 +190,7 @@ async function saveProductToCart() {
     const newItem = {
       id: props.product?.id,
       title: props.product?.title,
-      artist: props.product?.author,
+
       price_in_euro: props.product?.price_in_euro,
       description: props.product?.description,
       media: props.product?.media,
@@ -198,7 +198,13 @@ async function saveProductToCart() {
       width: props.product?.width,
       depth: props.product?.depth,
       shippingPrice: 0,
-      quantity: 1
+      quantity: 1,
+      seller: {
+        id: props.product?.user?.id,
+        email: props.product?.user?.email,
+        name: props.product?.author
+
+      }
     };
     await cartStore.addCart(newItem as CartType)
 

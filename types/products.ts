@@ -58,10 +58,15 @@ export interface ProductsState {
   loadingNextPage: boolean,
   pendingCount: number
 }
+export interface Seller {
+  name: string,
+  id: number,
+  email: string
+}
 export interface CartType {
   id: number
   title: string
-  artist: string
+  seller?: Seller
   price_in_euro: number
   description?: string
   media?: Media[]
