@@ -94,7 +94,7 @@
               SETTINGS</span></button>
         </div>
       </form>
-      <form @submit.prevent="updateInvoice" class="account-settings-form" v-if="seletedTab === 'buyer'">
+      <form @submit.prevent="updateBuyerSettings" class="account-settings-form" v-if="seletedTab === 'buyer'">
         <ui-kit-input :errors="v_i$.i_name" :error-messages="{ required: 'Invoice Name is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE NAME" v-model="invoice.i_name" />
 
@@ -109,25 +109,25 @@
               :disabled="store.pendingRequestsCount" placeholder="INVOICE ZIP" v-model="invoice.i_zip_code" />
           </div>
           <div class="account-settings-tabs-buyer-city">
-            <ui-kit-input :errors="v_i$.i_city" :error-messages="{ required: 'Invoice City 2 is required' }"
+            <ui-kit-input :errors="v_i$.i_city" :error-messages="{ required: 'Invoice City is required' }"
               :disabled="store.pendingRequestsCount" placeholder="INVOICE CITY" v-model="invoice.i_city" />
           </div>
         </div>
+        <ui-kit-selector v-model="invoice.i_country" :options="countries" :title="'INVOICE COUNTRY'"
+          :disabled="store.pendingRequestsCount" :withSearch="true" />
 
-        <ui-kit-input :errors="v_i$.i_country" :error-messages="{ required: 'Invoice Country 2 is required' }"
-          :disabled="store.pendingRequestsCount" placeholder="INVOICE COUNTRY" v-model="invoice.i_country" />
 
-        <ui-kit-input :errors="v_i$.i_phone" :error-messages="{ required: 'Invoice Phone 2 is required' }"
+        <ui-kit-input :errors="v_i$.i_phone" :error-messages="{ required: 'Invoice Phone is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE PHONE" v-model="invoice.i_phone" />
 
-        <ui-kit-input :errors="v_i$.i_email" :error-messages="{ required: 'Invoice Email 2 is required' }"
+        <ui-kit-input :errors="v_i$.i_email" :error-messages="{ required: 'Invoice Email is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE EMAIL" v-model="invoice.i_email" />
         <div class="ui-kit-modal-content-buttons">
           <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit"><span>UPDATE
               SETTINGS</span></button>
         </div>
       </form>
-      <form @submit.prevent="uploadProduct" class="account-settings-form"
+      <form @submit.prevent="updateSellerSettings" class="account-settings-form"
         v-if="seletedTab === 'seller' && user.can_add_product">
         <div class="connet-stripe">
           <button class="button connect-stripe-button full-width" @click="connectStripe"><span>Connect
@@ -135,7 +135,7 @@
         </div>
         <ui-kit-input v-model="user.name" :disabled="store.pendingRequestsCount" placeholder="SELLER NAME"
           v-if="user.can_add_product" />
-          <ui-kit-input v-model="user.name" :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS"
+        <ui-kit-input v-model="user.name" :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS"
           v-if="user.can_add_product" />
         <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount" placeholder="USER DESCRIPTION"
           v-if="user.can_add_product" />
@@ -305,7 +305,10 @@ async function uploadProduct() {
     }
   }
 }
-async function updateInvoice() {
+async function updateBuyerSettings() {
+
+}
+async function updateSellerSettings() {
 
 }
 
@@ -320,6 +323,7 @@ function logout() {
 }
 
 async function open() {
+  seletedTab.value='profile'
   await filtersStore.fetchAll()
   setUpAccountModal.value?.open()
   if (countries.value.length <= 1) {

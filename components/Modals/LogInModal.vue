@@ -19,26 +19,26 @@
         <ui-kit-input
           v-model="auth.login"
           :errors="v$.auth.login"
-          :error-messages="{ required: 'Please enter email. ', email: 'Please enter valid email address. ' }"
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
           placeholder="EMAIL ADDRESS"
           name="login"
         />
+          <!-- :error-messages="{ required: 'Please enter email. ', email: 'Please enter valid email address. ' }" -->
 
         <ui-kit-input
           v-model="auth.password"
           :errors="v$.auth.password"
-          :error-messages="{ required: 'Please enter password. ' }"
           :server-errors="serverErrors"
           :disabled="store.pendingRequestsCount"
           placeholder="PASSWORD"
           name="password"
           type="password"
         />
+          <!-- :error-messages="{ required: 'Please enter password. ' }" -->
 
-        <span v-if="error" class="form-errors-list">
-          <span class="form-error error">
+        <span v-if="error" class="form-errors-list ">
+          <span class="form-error error login-error">
             Either your email address or your password seems to be wrong. Try again or
             <span
               class="link"

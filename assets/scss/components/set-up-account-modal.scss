@@ -79,8 +79,8 @@
     align-items: center;
     justify-content: flex-end;
     background-color: #252525;
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
 
     &-tab {
       font-size: 14px;
@@ -94,7 +94,6 @@
 
     &-buyer {
       display: flex;
-      justify-content: space-between;
 
       &-zip {
         padding-right: 0.5rem;
@@ -181,12 +180,12 @@
 
 .account-settings-form .addmore .add-custom-field {
   .form-control {
-    max-width: 90%;
+    // max-width: 90%;
   }
 }
 
 .account-settings-form .custom-ui-selected+.add-custom-field input {
-  max-width: 90%;
+  // max-width: 90%;
 }
 
 .addmore {
