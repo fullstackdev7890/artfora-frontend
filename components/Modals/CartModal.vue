@@ -5,30 +5,30 @@
         <div>
           <div v-for="(cart, index) in carts" :key="index">
             <div class="cart-title">
-              <span>{{ cart.title }}</span>
+              <span>{{ cart?.prod_title }}</span>
             </div>
             <div class="cart-item">
               <div class="cart-item-image">
-                <img :src="getImageUrl(cart?.media[0], ImageTemplate.Thumbnail)" :alt="cart.title"
+                <img :src="getImageUrl(cart?.media[0], ImageTemplate.Thumbnail)" :alt="cart?.prod_title"
                   class="cart-item-image-content">
                 <span class="cart-item-delete" @click="deleteCart(cart?.id)">Delete product</span>
               </div>
               <div class="cart-item-lists">
                 <div class="cart-item-list">
                   Seller:
-                  <span>{{ cart?.seller?.name }}</span>
+                  <span>{{ "cart?.seller?.name" }}</span>
                 </div>
                 <div class="cart-item-list">
                   Price:
-                  <span>{{ formattedNumber(cart?.price_in_euro) }} €</span>
+                  <span>{{ formattedNumber(cart?.price) }} €</span>
                 </div>
                 <div class="cart-item-list">
                   Size
                   <!-- <span class="cart-item-size"> (L/W/D) </span>: -->
                   <span
-                    v-show="formattedNumber(cart.height || 0) || formattedNumber(cart.width || 0) || formattedNumber(cart.depth || 0)">{{
-                      formattedNumber(cart.height || 0) }}/{{ formattedNumber(cart.width || 0) }}/{{
-    formattedNumber(cart.depth || 0) }} cm</span>
+                    v-show="formattedNumber(cart.prod_height || 0) || formattedNumber(cart.prod_width || 0) || formattedNumber(cart.depth || 0)">{{
+                      formattedNumber(cart.prod_height || 0) }}/{{ formattedNumber(cart.prod_width || 0) }}/{{
+    formattedNumber(cart.prod_depth || 0) }} cm</span>
                 </div>
                 <div class="cart-item-list">
                   Quantity:
@@ -69,7 +69,7 @@ import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 
 const cartStore = useCartStore()
 const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore)
-
+console.log(carts.value)
 const { getImageUrl } = useMedia()
 const emit = defineEmits(['openCheckoutModal'])
 const cartForm = ref<InstanceType<typeof UiKitModal>>()
@@ -88,7 +88,9 @@ async function deleteCart(deletedCart: number) {
 }
 
 function open() {
-  cartStore.getCarts()
+  // cartStore.getCarts()
+
+
   cartForm.value?.open()
 }
 

@@ -97,7 +97,7 @@
 import { storeToRefs } from 'pinia'
 import { useCartStore } from '~~/store/cart'
 import { useAuthStore } from '~~/store/auth';
-
+import { useUserStore } from '~~/store/user';
 import ShareIcon from '~/assets/svg/share.svg'
 
 import { ImageTemplate } from '~/types/constants'
@@ -154,12 +154,14 @@ const authStore = useAuthStore()
 const cartStore = useCartStore()
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore)
 const { isAuthorized } = storeToRefs(authStore)
+const userStore = useUserStore()
+const currentProfile = storeToRefs(userStore)
 const error = ref("You need to be logged in to buy.")
 const linksModal = ref<InstanceType<typeof LinksModal>>()
 const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>()
 const contactModal = ref<InstanceType<typeof ContactModal>>()
-const cartModalRef = ref<InstanceType<typeof CartModal>>()
-const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>()
+const cartModalRef = ref<InstanceType<typeof CartModal>>(null)
+const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>(null)
 const logInModalRef = ref<InstanceType<typeof LogInModal>>()
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>()
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>()
@@ -170,7 +172,9 @@ const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>()
 const isShowGotoCartButton = ref(false)
 
 const { getUserAvatar, getImageUrl } = useMedia()
-
+const user = reactive({
+  id: currentProfile?.id,
+})
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString('de-DE', {})
   return formattedNumber
@@ -185,29 +189,26 @@ function openCartModal() {
 }
 async function saveProductToCart() {
   if (isAuthorized.value) {
-    isShowGotoCartButton.value = true
+    
 
     const newItem = {
-      id: props.product?.id,
-      title: props.product?.title,
-
-      price_in_euro: props.product?.price_in_euro,
-      description: props.product?.description,
-      media: props.product?.media,
-      height: props.product?.height,
-      width: props.product?.width,
-      depth: props.product?.depth,
-      shippingPrice: 0,
+      user_id: user?.id,
+      prod_id: props.product?.id,
+      prod_title: props.product?.title,
+      prod_artist: props.product?.author,
+      prod_height: props.product?.height,
+      prod_width: props.product?.width,
+      prod_depth: props.product?.depth,
+      prod_weight: props.product?.weight,
       quantity: 1,
-      seller: {
-        id: props.product?.user?.id,
-        email: props.product?.user?.email,
-        name: props.product?.author
-
-      }
+      price: props.product?.price_in_euro,
     };
-    await cartStore.addCart(newItem as CartType)
+    try {
 
+      await cartStore.addCart(newItem as unknown as CartType)
+      isShowGotoCartButton.value = true
+    } catch (err) { }
+    
   }
 }
 function gotoCart() {

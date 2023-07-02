@@ -1,3 +1,4 @@
+import { Product } from '~/types/products';
 import { Entity, Media, User } from '~/types/index'
 import { Paginated } from '~/types/search'
 import { SubCategory } from '~/types/categories'
@@ -64,21 +65,22 @@ export interface Seller {
   email: string
 }
 export interface CartType {
-  id: number
-  title: string
-  seller?: Seller
-  price_in_euro: number
-  description?: string
-  media?: Media[]
-  height?: number
-  width?: number
-  depth?: number
+  id?: number
+  order_id?: number
+  prod_id: number
+  prod_title: string
+  prod_artist?: Seller
+  prod_height?: number
+  prod_width?: number
+  prod_depth?: number
+  prod_colour?: number
   quantity: number
-  shippingPrice?: number
+  price: number,
+  Product?:Product
 }
 export interface CartsState {
   carts: CartType[],
   totalShippingPrice: number,
-  totalProductsPrice: number
-
+  totalProductsPrice: number,
+  filters: SearchProductsFilters,
 }
