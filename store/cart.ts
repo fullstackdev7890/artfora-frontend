@@ -29,7 +29,7 @@ export const useCartStore = defineStore({
             const response = res?.data
             const allCarts = Promise.all(response.map(async (cart: any) => {
                 const detailCart = await axios.get(`/products/${cart?.prod_id}`, { params: this.$state.filters });
-                return { ...cart, media: detailCart.data?.media };
+                return { ...cart, media: detailCart.data?.media, sellerName: detailCart?.data?.user.username };
             }));
             allCarts.then(res => {
                 this.$state.carts = res
@@ -48,7 +48,7 @@ export const useCartStore = defineStore({
 
             const response = await axios.post("/order-item", newItem)
             const detailCart = await axios.get(`/products/${response.data?.prod_id}`, { params: this.$state.filters });
-            this.$state.carts = [...this.$state.carts, { ...response.data, media: detailCart?.data?.media }]
+            this.$state.carts = [...this.$state.carts, { ...response.data, media: detailCart?.data?.media, sellerName: detailCart?.data?.user.username }]
             this.$state.totalProductsPrice += response.data.price
 
 

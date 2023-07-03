@@ -16,7 +16,7 @@
               <div class="cart-item-lists">
                 <div class="cart-item-list">
                   Seller:
-                  <span>{{ "cart?.seller?.name" }}</span>
+                  <span>{{ cart?.sellerName }}</span>
                 </div>
                 <div class="cart-item-list">
                   Price:

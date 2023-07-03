@@ -51,7 +51,28 @@ export interface User extends Entity {
   deleted_at?: string | null
   media?: Media
   more_external_link: [] | []
-  can_add_product: boolean
+  can_add_product: boolean,
+  inv_name: string
+  inv_address: string
+  inv_address2: string
+  inv_zip: string
+  inv_city: string
+  inv_state: string
+  inv_country: string
+  inv_phone: number
+  inv_email: string
+  inv_att: string
+  dev_address: string
+  dev_name:string
+  dev_address2: string
+  dev_zip: string
+  dev_city: string
+  dev_state: string
+  dev_country: string
+  dev_phone: number
+  dev_email: string
+  dev_att: string
+
 }
 
 export interface UsersState {
