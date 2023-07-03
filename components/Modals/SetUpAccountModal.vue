@@ -451,6 +451,7 @@ const user = reactive({
   dev_phone: currentProfile?.dev_phone,
   dev_att: currentProfile?.dev_att,
 });
+console.log(user)
 const v$ = useVuelidate(
   {
     user: {

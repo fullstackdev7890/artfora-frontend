@@ -1,6 +1,7 @@
 // @ts-ignore
 import { defineStore } from 'pinia'
 import { CartType, CartsState } from '~/types/products';
+import { useUserStore } from './user';
 import axios from "axios"
 export const useCartStore = defineStore({
     id: 'cart', // or any other string value
@@ -22,26 +23,37 @@ export const useCartStore = defineStore({
     actions: {
 
         async getCarts() {
-            const res = await axios.get("/cart-item")
-            const response = res?.data
-            this.$state.carts = response
-            return this.getTotalPrice()
+            const { id } = useUserStore()
+            try {
+                const res = await axios.get(`/cart-item/${id}`)
+                const response = res?.data
+                this.$state.carts = response
+                return this.getTotalPrice()
+
+            } catch (error) {
+                console.log(error)
+            }
+
         },
         async addCart(newItem: CartType) {
+            try {
+                const response = await axios.post("/cart-item", newItem)
+                const result = this.$state?.carts?.filter(cart => cart?.id === response.data?.id)
+                if (result.length > 0) {
+                    const result1 = this.$state?.carts?.map(cart => cart?.id === response.data?.id ? response.data : cart)
+                    this.$state.carts = result1
+                }
+                else {
+                    this.$state.carts = [...this.$state.carts, response.data]
+                }
 
+                return this.getTotalPrice()
 
-            const response = await axios.post("/cart-item", newItem)
-            const result = this.$state?.carts?.filter(cart => cart?.id === response.data?.id)
-            console.log(result, "result")
-            if (result.length > 0) {
-                const result1 = this.$state?.carts?.map(cart => cart?.id === response.data?.id ? response.data : cart)
-                this.$state.carts = result1
+            } catch (err) {
+
             }
-            else {
-                this.$state.carts = [...this.$state.carts, response.data]
-            }
 
-            return this.getTotalPrice()
+
 
 
         },
