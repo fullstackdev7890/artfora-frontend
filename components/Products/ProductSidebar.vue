@@ -160,8 +160,8 @@ const error = ref("You need to be logged in to buy.")
 const linksModal = ref<InstanceType<typeof LinksModal>>()
 const commissionWorkModal = ref<InstanceType<typeof CommissionWorkModal>>()
 const contactModal = ref<InstanceType<typeof ContactModal>>()
-const cartModalRef = ref<InstanceType<typeof CartModal>>(null)
-const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>(null)
+const cartModalRef = ref<InstanceType<typeof CartModal>>()
+const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>()
 const logInModalRef = ref<InstanceType<typeof LogInModal>>()
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>()
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>()
@@ -193,15 +193,8 @@ async function saveProductToCart() {
 
     const newItem = {
       user_id: user?.id,
-      prod_id: props.product?.id,
-      prod_title: props.product?.title,
-      prod_artist: props.product?.author,
-      prod_height: props.product?.height,
-      prod_width: props.product?.width,
-      prod_depth: props.product?.depth,
-      prod_weight: props.product?.weight,
+      product_id: props.product?.id,
       quantity: 1,
-      price: props.product?.price_in_euro,
     };
     try {
 

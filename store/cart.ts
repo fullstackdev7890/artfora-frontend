@@ -22,42 +22,41 @@ export const useCartStore = defineStore({
     actions: {
 
         async getCarts() {
-            const res = await axios.get("/order-item")
-            // let totalPrice = 0;
-            // let shippingPrice = 0;
-            // const storedCarts = JSON.parse(localStorage.getItem("artfora_carts") as string)
+            const res = await axios.get("/cart-item")
             const response = res?.data
-            const allCarts = Promise.all(response.map(async (cart: any) => {
-                const detailCart = await axios.get(`/products/${cart?.prod_id}`, { params: this.$state.filters });
-                return { ...cart, media: detailCart.data?.media, sellerName: detailCart?.data?.user.username };
-            }));
-            allCarts.then(res => {
-                this.$state.carts = res
-            })
-
-
-            let totalPrice = 0;
-
-            response?.map((cart: any) => { return totalPrice += cart?.price * cart?.quantity; })
-
-            this.$state.totalProductsPrice = totalPrice
-
-
+            this.$state.carts = response
+            return this.getTotalPrice()
         },
         async addCart(newItem: CartType) {
 
-            const response = await axios.post("/order-item", newItem)
-            const detailCart = await axios.get(`/products/${response.data?.prod_id}`, { params: this.$state.filters });
-            this.$state.carts = [...this.$state.carts, { ...response.data, media: detailCart?.data?.media, sellerName: detailCart?.data?.user.username }]
-            this.$state.totalProductsPrice += response.data.price
+
+            const response = await axios.post("/cart-item", newItem)
+            const result = this.$state?.carts?.filter(cart => cart?.id === response.data?.id)
+            console.log(result, "result")
+            if (result.length > 0) {
+                const result1 = this.$state?.carts?.map(cart => cart?.id === response.data?.id ? response.data : cart)
+                this.$state.carts = result1
+            }
+            else {
+                this.$state.carts = [...this.$state.carts, response.data]
+            }
+
+            return this.getTotalPrice()
 
 
         },
+        async getTotalPrice() {
+            let totalPrice = 0;
+            this.$state.carts?.map((cart: any) => { return totalPrice += cart?.product?.price_in_euro * cart?.quantity; })
+            this.$state.totalProductsPrice = totalPrice
+        },
         async deleteCart(prod_id: number) {
-            const res = await axios.delete(`/order-item/${prod_id}`, {
+            const res = await axios.delete(`/cart-item/${prod_id}`, {
                 params: { "force": 1 }
             })
             this.$state.carts = this.$state.carts.filter((cart: any) => cart?.prod_id !== prod_id)
+            return this.getTotalPrice()
+
 
         }
     }
