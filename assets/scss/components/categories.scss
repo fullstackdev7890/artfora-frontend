@@ -1,7 +1,7 @@
 @import '../variables';
 
 .categories {
-  display: flex; flex-direction: column; width: 100%; gap: 10px; margin-bottom: 10px;
+  display: flex; flex-direction: column; width: 100%; gap: 10px; padding: 1rem 1rem;
   &-body {
     display: flex; gap: 5px;
     overflow-x: auto;

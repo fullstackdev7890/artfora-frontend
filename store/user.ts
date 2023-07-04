@@ -30,7 +30,27 @@ const initState = (): User => ({
     id: 0,
     link: '',
     deleted_at: ''
-  }
+  },
+  inv_name: "",
+  inv_address: "",
+  inv_address2: "",
+  inv_zip: "",
+  inv_city: "",
+  inv_state: "",
+  inv_country: "",
+  inv_phone: 0,
+  inv_email: "",
+  inv_att: "",
+  dev_address: "",
+  dev_name:"",
+  dev_address2: "",
+  dev_zip: "",
+  dev_city: "",
+  dev_state: "",
+  dev_country: "",
+  dev_phone: 0,
+  dev_email: "",
+  dev_att: "",
 })
 export const useUserStore = defineStore('user', {
   state: initState,

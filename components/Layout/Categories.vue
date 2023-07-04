@@ -67,7 +67,7 @@
 
     </div>
 
-    <div class="categories-body" v-if="subCategories">
+    <div class="categories-body" v-if="subCategories.length>0">
       <label
         v-for="(item, index) in subCategories"
         :key="index"

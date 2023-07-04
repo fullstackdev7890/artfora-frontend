@@ -451,7 +451,6 @@ const user = reactive({
   dev_phone: currentProfile?.dev_phone,
   dev_att: currentProfile?.dev_att,
 });
-console.log(user)
 const v$ = useVuelidate(
   {
     user: {
@@ -602,29 +601,6 @@ async function updateBuyerSettings() {
 }
 async function updateSellerSettings() {
   v_d$.value.$touch();
-  console.log({
-    id: user?.id,
-    username: user.username,
-    email: user.email,
-    description: user.description,
-    external_link: user.external_link,
-    product_visibility_level: user.product_visibility_level,
-    background_image_id: user.background_image_id,
-    avatar_image_id: user.avatar_image_id,
-    country: user.country,
-    more_external_link: user.more_external_link,
-    can_add_product: user?.can_add_product,
-    dev_name: user?.dev_name,
-    dev_email: user?.dev_email,
-    dev_address: user?.dev_address,
-    dev_address2: user?.dev_address2,
-    dev_zip: user?.dev_zip,
-    dev_state: user?.dev_state,
-    dev_city: user?.dev_city,
-    dev_country: user?.dev_country,
-    dev_phone: user?.dev_phone,
-    dev_att: user?.dev_att,
-  });
 
   if (v_d$.value.$error) {
     return;

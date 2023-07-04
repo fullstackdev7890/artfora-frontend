@@ -21,7 +21,14 @@
               <div class="cart-item-lists">
                 <div class="cart-item-list">
                   Seller:
-                  <span>{{ cart?.product?.user?.username }}</span>
+
+                  <nuxt-link
+                    :to="`/gallery/user/${cart?.product?.user?.username}`"
+                    @click="() => byUsername(cart?.product?.user?.username)"
+                    class="gallery-item-image-container-info-link"
+                  >
+                    {{ cart?.product?.user?.username }}
+                  </nuxt-link>
                 </div>
                 <div class="cart-item-list">
                   Price:
@@ -78,14 +85,26 @@ import { storeToRefs } from "pinia";
 import { ref } from "@vue/reactivity";
 import useMedia from "~/composable/media";
 import { useCartStore } from "~~/store/cart";
+import { useProductsStore } from '~/store/products'
+
 import { ImageTemplate } from "~/types/constants";
 import UiKitModal from "~/components/UiKit/UiKitModal.vue";
+import { useCategoriesStore } from '~/store/categories'
 
 const cartStore = useCartStore();
 const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore);
 const { getImageUrl } = useMedia();
 const emit = defineEmits(["openCheckoutModal"]);
 const cartForm = ref<InstanceType<typeof UiKitModal>>();
+  const categoriesStore = useCategoriesStore()
+const productsStore = useProductsStore()
+
+async function byUsername(username: string) {
+  await categoriesStore.updateFilter({ username: username, author: null })
+  await productsStore.updateFilter({ username: username, author: null })
+  await categoriesStore.fetch()
+}
+
 
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
