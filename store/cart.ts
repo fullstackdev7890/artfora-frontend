@@ -70,6 +70,9 @@ export const useCartStore = defineStore({
             return this.getTotalPrice()
 
 
+        },
+        async gotoCheckout() {
+            const res = await axios.get('/checkout')
         }
     }
 })

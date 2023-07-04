@@ -122,7 +122,8 @@ function open() {
   cartForm.value?.open();
 }
 
-function close() {
+async function close() {
+  await cartStore.gotoCheckout();
   cartForm.value?.close();
   emit("openCheckoutModal");
 }

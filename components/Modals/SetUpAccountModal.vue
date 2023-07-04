@@ -262,48 +262,48 @@
         <div v-if="isDifferentDeliveryAddress">
           <ui-kit-input
             :errors="v_d$.user.dev_name"
-            :error-messages="{ required: 'Seller Name is required' }"
+            :error-messages="{ required: 'Deliver Name is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="SELLER NAME"
+            placeholder="DELIVER NAME"
             v-model="user.dev_name"
           />
 
           <ui-kit-input
             :errors="v_d$.user.dev_address"
-            :error-messages="{ required: 'Seller Address is required' }"
+            :error-messages="{ required: 'Deliver Address is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="SELLER ADDRESS"
+            placeholder="DELIVER ADDRESS"
             v-model="user.dev_address"
           />
 
           <ui-kit-input
             :disabled="store.pendingRequestsCount"
-            placeholder="SELLER ADDRESS 2"
+            placeholder="DELIVER ADDRESS 2"
             v-model="user.dev_address2"
           />
           <ui-kit-input
             :errors="v_d$.user.dev_state"
-            :error-messages="{ required: 'Seller State is required' }"
+            :error-messages="{ required: 'Deliver State is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="SELLER STATE"
+            placeholder="DELIVER STATE"
             v-model="user.dev_state"
           />
           <div class="account-settings-tabs-buyer">
             <div class="account-settings-tabs-buyer-zip">
               <ui-kit-input
                 :errors="v_d$.user.dev_zip"
-                :error-messages="{ required: 'Seller Zip is required' }"
+                :error-messages="{ required: 'Deliver Zip is required' }"
                 :disabled="store.pendingRequestsCount"
-                placeholder="SELLER ZIP"
+                placeholder="DELIVER ZIP"
                 v-model="user.dev_zip"
               />
             </div>
             <div class="account-settings-tabs-buyer-city">
               <ui-kit-input
                 :errors="v_d$.user.dev_city"
-                :error-messages="{ required: 'Seller City is required' }"
+                :error-messages="{ required: 'Deliver City is required' }"
                 :disabled="store.pendingRequestsCount"
-                placeholder="SELLER CITY"
+                placeholder="DELIVER CITY"
                 v-model="user.dev_city"
               />
             </div>
@@ -311,7 +311,7 @@
           <ui-kit-selector
             v-model="user.dev_country"
             :options="countries"
-            :title="'SELLER COUNTRY'"
+            :title="'DELIVER COUNTRY'"
             :disabled="store.pendingRequestsCount"
             :withSearch="true"
           />
@@ -319,17 +319,17 @@
           <ui-kit-input
             :errors="v_d$.user.inv_phone"
             :type="'number'"
-            :error-messages="{ required: 'Seller Phone is required' }"
+            :error-messages="{ required: 'Deliver Phone is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="SELLER PHONE"
+            placeholder="DELIVER PHONE"
             v-model="user.dev_phone"
           />
 
           <ui-kit-input
-            :errors="v_d$.user.inv_email"
-            :error-messages="{ required: 'Seller Email is required' }"
+            :errors="v_d$.user.dev_email"
+            :error-messages="{ required: 'Deliver Email is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="SELLER EMAIL"
+            placeholder="DELIVER EMAIL"
             v-model="user.dev_email"
           />
         </div>
@@ -348,6 +348,13 @@
         class="account-settings-form"
         v-if="seletedTab === 'seller' && user.can_add_product"
       >
+        <ui-kit-input
+          :errors="v_d$.user.sel_name"
+          :error-messages="{ required: 'Seller Name is required' }"
+          :disabled="store.pendingRequestsCount"
+          placeholder="SELLER NAME"
+          v-model="user.sel_name"
+        />
         <ui-kit-text-area
           v-model="user.description"
           :disabled="store.pendingRequestsCount"
@@ -463,6 +470,7 @@ const user = reactive({
   dev_country: currentProfile?.dev_country,
   dev_phone: currentProfile?.dev_phone,
   dev_att: currentProfile?.dev_att,
+  sel_name: currentProfile?.sel_name,
 });
 const v$ = useVuelidate(
   {
@@ -617,7 +625,7 @@ async function updateBuyerSettings() {
         dev_state: isDifferentDeliveryAddress.value ? user?.dev_state : "",
         dev_city: isDifferentDeliveryAddress.value ? user?.dev_city : "",
         dev_country: isDifferentDeliveryAddress.value ? user?.dev_country : "",
-        dev_phone: isDifferentDeliveryAddress.value ? user?.dev_phone : 0,
+        dev_phone: isDifferentDeliveryAddress.value ? user?.dev_phone : null,
         dev_att: isDifferentDeliveryAddress.value ? user?.dev_att : "",
       })
       .then(close);
