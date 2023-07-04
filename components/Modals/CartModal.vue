@@ -124,6 +124,7 @@ function open() {
 
 async function close() {
   await cartStore.gotoCheckout();
+  await cartStore.getCarts();
   cartForm.value?.close();
   emit("openCheckoutModal");
 }
