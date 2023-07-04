@@ -48,6 +48,13 @@
             </span>
           </span>
         </span>
+        <ui-kit-check-box
+            v-model="rememberMe"
+            :value="'Remember me'"
+            :disabled="store.pendingRequestsCount"
+            :title="'Remember me'"
+            type="checkbox"
+          />
 
         <p
           v-if="!error"
@@ -84,13 +91,14 @@ import { useStore } from '~/store'
 import type { LoginData } from '~/types/auth'
 import UiKitModal from '~/components/UiKit/UiKitModal.vue'
 import UiKitInput from '~/components/UiKit/UiKitInput.vue'
+import UiKitCheckBox from '~/components/UiKit/UiKitCheckBox.vue'
 
 const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
 const authStore = useAuthStore()
 const store = useStore()
 const route = useRoute()
 const emit = defineEmits(['openSignUpModal', 'openPreSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
-
+const rememberMe=ref(false)
 const auth: LoginData = reactive({
   login: '',
   password: ''

@@ -12,6 +12,7 @@
     }
 
     .form-checkbox {
+      cursor: pointer;
       &:nth-child(1) {
         display: none;
         @media (max-width: $mobile) {

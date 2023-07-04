@@ -77,9 +77,14 @@
     <template v-slot:content>
       <form
         @submit.prevent="uploadProduct"
-        class="account-settings-form"
+        class="account-settings-form-profile"
         v-if="seletedTab === 'profile'"
       >
+        <div class="connet-stripe">
+          <button class="button connect-stripe-button" @click="connectStripe">
+            <span>Connect Stripe</span>
+          </button>
+        </div>
         <ui-kit-input
           v-model="user.username"
           :errors="v$.user.username"
@@ -243,6 +248,91 @@
           placeholder="INVOICE EMAIL"
           v-model="user.inv_email"
         />
+        <hr class="divide" />
+        <div class="differnt-address">
+          <ui-kit-check-box
+            v-model="isDifferentDeliveryAddress"
+            :value="'DELIVER ADDRESS (If different)'"
+            :disabled="store.pendingRequestsCount"
+            :title="'DELIVER ADDRESS (If different)'"
+            type="checkbox"
+          />
+        </div>
+
+        <div v-if="isDifferentDeliveryAddress">
+          <ui-kit-input
+            :errors="v_d$.user.dev_name"
+            :error-messages="{ required: 'Seller Name is required' }"
+            :disabled="store.pendingRequestsCount"
+            placeholder="SELLER NAME"
+            v-model="user.dev_name"
+          />
+
+          <ui-kit-input
+            :errors="v_d$.user.dev_address"
+            :error-messages="{ required: 'Seller Address is required' }"
+            :disabled="store.pendingRequestsCount"
+            placeholder="SELLER ADDRESS"
+            v-model="user.dev_address"
+          />
+
+          <ui-kit-input
+            :disabled="store.pendingRequestsCount"
+            placeholder="SELLER ADDRESS 2"
+            v-model="user.dev_address2"
+          />
+          <ui-kit-input
+            :errors="v_d$.user.dev_state"
+            :error-messages="{ required: 'Seller State is required' }"
+            :disabled="store.pendingRequestsCount"
+            placeholder="SELLER STATE"
+            v-model="user.dev_state"
+          />
+          <div class="account-settings-tabs-buyer">
+            <div class="account-settings-tabs-buyer-zip">
+              <ui-kit-input
+                :errors="v_d$.user.dev_zip"
+                :error-messages="{ required: 'Seller Zip is required' }"
+                :disabled="store.pendingRequestsCount"
+                placeholder="SELLER ZIP"
+                v-model="user.dev_zip"
+              />
+            </div>
+            <div class="account-settings-tabs-buyer-city">
+              <ui-kit-input
+                :errors="v_d$.user.dev_city"
+                :error-messages="{ required: 'Seller City is required' }"
+                :disabled="store.pendingRequestsCount"
+                placeholder="SELLER CITY"
+                v-model="user.dev_city"
+              />
+            </div>
+          </div>
+          <ui-kit-selector
+            v-model="user.dev_country"
+            :options="countries"
+            :title="'SELLER COUNTRY'"
+            :disabled="store.pendingRequestsCount"
+            :withSearch="true"
+          />
+
+          <ui-kit-input
+            :errors="v_d$.user.inv_phone"
+            :type="'number'"
+            :error-messages="{ required: 'Seller Phone is required' }"
+            :disabled="store.pendingRequestsCount"
+            placeholder="SELLER PHONE"
+            v-model="user.dev_phone"
+          />
+
+          <ui-kit-input
+            :errors="v_d$.user.inv_email"
+            :error-messages="{ required: 'Seller Email is required' }"
+            :disabled="store.pendingRequestsCount"
+            placeholder="SELLER EMAIL"
+            v-model="user.dev_email"
+          />
+        </div>
         <div class="ui-kit-modal-content-buttons">
           <button
             :disabled="store.pendingRequestsCount"
@@ -258,90 +348,12 @@
         class="account-settings-form"
         v-if="seletedTab === 'seller' && user.can_add_product"
       >
-        <div class="connet-stripe">
-          <button class="button connect-stripe-button full-width" @click="connectStripe">
-            <span>Connect Stripe</span>
-          </button>
-        </div>
-        <ui-kit-input
-          :errors="v_d$.user.dev_name"
-          :error-messages="{ required: 'Seller Name is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER NAME"
-          v-model="user.dev_name"
-        />
-
-        <ui-kit-input
-          :errors="v_d$.user.dev_address"
-          :error-messages="{ required: 'Seller Address is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ADDRESS"
-          v-model="user.dev_address"
-        />
-
-        <ui-kit-input
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ADDRESS 2"
-          v-model="user.dev_address2"
-        />
-        <ui-kit-input
-          :errors="v_d$.user.dev_state"
-          :error-messages="{ required: 'Seller State is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER STATE"
-          v-model="user.dev_state"
-        />
-        <div class="account-settings-tabs-buyer">
-          <div class="account-settings-tabs-buyer-zip">
-            <ui-kit-input
-              :errors="v_d$.user.dev_zip"
-              :error-messages="{ required: 'Seller Zip is required' }"
-              :disabled="store.pendingRequestsCount"
-              placeholder="SELLER ZIP"
-              v-model="user.dev_zip"
-            />
-          </div>
-          <div class="account-settings-tabs-buyer-city">
-            <ui-kit-input
-              :errors="v_d$.user.dev_city"
-              :error-messages="{ required: 'Seller City is required' }"
-              :disabled="store.pendingRequestsCount"
-              placeholder="SELLER CITY"
-              v-model="user.dev_city"
-            />
-          </div>
-        </div>
-        <ui-kit-selector
-          v-model="user.dev_country"
-          :options="countries"
-          :title="'SELLER COUNTRY'"
-          :disabled="store.pendingRequestsCount"
-          :withSearch="true"
-        />
-
-        <ui-kit-input
-          :errors="v_d$.user.inv_phone"
-          :type="'number'"
-          :error-messages="{ required: 'Seller Phone is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER PHONE"
-          v-model="user.dev_phone"
-        />
-
-        <ui-kit-input
-          :errors="v_d$.user.inv_email"
-          :error-messages="{ required: 'Seller Email is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER EMAIL"
-          v-model="user.dev_email"
-        />
         <ui-kit-text-area
           v-model="user.description"
           :disabled="store.pendingRequestsCount"
           placeholder="SELLER DESCRIPTION"
           v-if="user.can_add_product"
         />
-
         <ui-kit-input
           v-model="user.external_link"
           :disabled="store.pendingRequestsCount"
@@ -406,6 +418,7 @@ import { useFiltersStore } from "~/store/filters";
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>();
 const seletedTab = ref("profile");
+const isDifferentDeliveryAddress = ref(false);
 const store = useStore();
 const userStore = useUserStore();
 const filtersStore = useFiltersStore();
@@ -563,6 +576,13 @@ async function updateBuyerSettings() {
     console.log(v_i$.value.$error);
     return;
   }
+  if (isDifferentDeliveryAddress.value) {
+    v_d$.value.$touch();
+
+    if (v_d$.value.$error) {
+      return;
+    }
+  }
 
   try {
     user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
@@ -589,6 +609,16 @@ async function updateBuyerSettings() {
         inv_country: user?.inv_country,
         inv_phone: user?.inv_phone,
         inv_att: user?.inv_att,
+        dev_name: isDifferentDeliveryAddress.value ? user?.dev_name : "",
+        dev_email: isDifferentDeliveryAddress.value ? user?.dev_email : "",
+        dev_address: isDifferentDeliveryAddress.value ? user?.dev_address : "",
+        dev_address2: isDifferentDeliveryAddress.value ? user?.dev_address2 : "",
+        dev_zip: isDifferentDeliveryAddress.value ? user?.dev_zip : "",
+        dev_state: isDifferentDeliveryAddress.value ? user?.dev_state : "",
+        dev_city: isDifferentDeliveryAddress.value ? user?.dev_city : "",
+        dev_country: isDifferentDeliveryAddress.value ? user?.dev_country : "",
+        dev_phone: isDifferentDeliveryAddress.value ? user?.dev_phone : 0,
+        dev_att: isDifferentDeliveryAddress.value ? user?.dev_att : "",
       })
       .then(close);
   } catch (e: any) {
@@ -600,12 +630,6 @@ async function updateBuyerSettings() {
   }
 }
 async function updateSellerSettings() {
-  v_d$.value.$touch();
-
-  if (v_d$.value.$error) {
-    return;
-  }
-
   try {
     user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
     await userStore
@@ -621,16 +645,6 @@ async function updateSellerSettings() {
         country: user.country,
         more_external_link: user.more_external_link,
         can_add_product: user?.can_add_product,
-        dev_name: user?.dev_name,
-        dev_email: user?.dev_email,
-        dev_address: user?.dev_address,
-        dev_address2: user?.dev_address2,
-        dev_zip: user?.dev_zip,
-        dev_state: user?.dev_state,
-        dev_city: user?.dev_city,
-        dev_country: user?.dev_country,
-        dev_phone: user?.dev_phone,
-        dev_att: user?.dev_att,
       })
       .then(close);
   } catch (e: any) {

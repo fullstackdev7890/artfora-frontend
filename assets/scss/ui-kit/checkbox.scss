@@ -2,6 +2,8 @@
 
 .input-checkbox { display: flex; align-items: center; gap: 5px; font-size: 14px;
 
+  cursor: pointer;
+  user-select: none;
   & input { display: none;
 
     &:checked + .input-checkbox-box {
@@ -10,6 +12,7 @@
     }
 
     &[type='radio'] + .input-checkbox-box {
+      cursor: pointer;
       &:after { width: 9px; height: 9px; content: ''; position: absolute; left: 1px; bottom: 1px;
         background-color: #fff; border-radius: 3px; transform: none; border: none;
       }
