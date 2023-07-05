@@ -71,8 +71,11 @@ export const useCartStore = defineStore({
 
 
         },
-        async gotoCheckout() {
-            const res = await axios.get('/checkout')
-        }
+        // gotoCheckout() {
+
+
+        //     const res = axios.get('/checkout').then(res => { return res.data })
+
+        // }
     }
 })
