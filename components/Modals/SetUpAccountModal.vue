@@ -419,7 +419,10 @@
 
         <ui-kit-input
           :errors="v_s$.user.sel_email"
-          :error-messages="{ required: 'Seller Email is required' }"
+          :error-messages="{
+            required: 'Seller Email is required',
+            email: 'Must be a email type',
+          }"
           :disabled="store.pendingRequestsCount"
           placeholder="SELLER EMAIL"
           v-model="user.sel_email"
@@ -737,7 +740,7 @@ async function updateBuyerSettings() {
 async function updateSellerSettings() {
   v_s$.value.$touch();
   if (v_s$.value.$error) {
-    console.log(v_s$.value.$error);
+    console.log(v_s$.value);
     return;
   }
   try {

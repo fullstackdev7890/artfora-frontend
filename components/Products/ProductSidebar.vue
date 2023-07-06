@@ -134,6 +134,8 @@
         @openPaymentModal="openPaymentModal"
       />
       <payment-modal ref="paymentModalRef" @openPaymentModal="openPaymentModal" />
+    <set-up-account-modal ref="setUpAccountModalRef" />
+
     </div>
   </transition>
 </template>
@@ -161,6 +163,7 @@ import CommissionWorkModal from "~/components/Modals/CommissionWorkModal.vue";
 import CartModal from "~/components/Modals/CartModal.vue";
 import CheckoutModal from "../Modals/CheckoutModal.vue";
 import PaymentModal from "~/components/Modals/PaymentModal.vue";
+import SetUpAccountModal from "~/components/Modals/SetUpAccountModal.vue";
 
 interface Props {
   product: Product;
@@ -209,6 +212,7 @@ const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>();
 const logInModalRef = ref<InstanceType<typeof LogInModal>>();
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>();
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>();
+  const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null);
 
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>();
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>();
@@ -263,6 +267,13 @@ function openLogInModal() {
 }
 function openPreSignUpModal() {
   preSignUpModalRef.value && preSignUpModalRef.value.open();
+}
+
+function openSetUpAccountModal() {
+  setUpAccountModalRef.value.open();
+}
+function openSetUpAccountBuyerModal() {
+  setUpAccountModalRef.value.openBuyer();
 }
 
 function openSignUpModal() {
