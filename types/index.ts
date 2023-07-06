@@ -59,19 +59,29 @@ export interface User extends Entity {
   inv_city: string
   inv_state: string
   inv_country: string
-  inv_phone: number
+  inv_phone: string
   inv_email: string
   inv_att: string
   dev_address: string
-  dev_name:string
+  dev_name: string
   dev_address2: string
   dev_zip: string
   dev_city: string
   dev_state: string
   dev_country: string
-  dev_phone: number
+  dev_phone: string
   dev_email: string
   dev_att: string
+  sel_address: string
+  sel_name: string
+  sel_address2: string
+  sel_zip: string
+  sel_city: string
+  sel_state: string
+  sel_country: string
+  sel_phone: string
+  sel_email: string
+  sel_att: string
 
 }
 
