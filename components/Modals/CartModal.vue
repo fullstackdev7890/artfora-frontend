@@ -35,6 +35,10 @@
                   <span>{{ formattedNumber(cart?.product?.price_in_euro) }} €</span>
                 </div>
                 <div class="cart-item-list">
+                  Shipping:
+                  <span>{{ formattedNumber(cart?.shipping) }} €</span>
+                </div>
+                <div class="cart-item-list">
                   Size
                   <!-- <span class="cart-item-size"> (L/W/D) </span>: -->
                   <span
@@ -62,9 +66,22 @@
       <!-- <div class="carts-shipping">Shipping:&nbsp;
         <span>{{ formattedNumber(totalShippingPrice) || 0 }} €</span>
       </div> -->
-      <div class="carts-total-price">
-        Total: &nbsp;
+      <div class="carts-total-sub-price">
+        Shipping: &nbsp;
+        <span>{{ formattedNumber(totalShippingPrice) || 0 }} €</span>
+      </div>
+      <div class="carts-total-sub-price">
+        Product Price: &nbsp;
         <span>{{ formattedNumber(totalProductsPrice) || 0 }} €</span>
+      </div>
+      <div class="carts-total-price">
+        Total Price: &nbsp;
+        <span
+          >{{
+            formattedNumber(totalShippingPrice + totalProductsPrice) || 0 || 0
+          }}
+          €</span
+        >
       </div>
 
       <div class="ui-kit-modal-content-buttons">
@@ -85,26 +102,25 @@ import { storeToRefs } from "pinia";
 import { ref } from "@vue/reactivity";
 import useMedia from "~/composable/media";
 import { useCartStore } from "~~/store/cart";
-import { useProductsStore } from '~/store/products'
+import { useProductsStore } from "~/store/products";
 
 import { ImageTemplate } from "~/types/constants";
 import UiKitModal from "~/components/UiKit/UiKitModal.vue";
-import { useCategoriesStore } from '~/store/categories'
+import { useCategoriesStore } from "~/store/categories";
 
 const cartStore = useCartStore();
 const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore);
 const { getImageUrl } = useMedia();
 const emit = defineEmits(["openCheckoutModal"]);
 const cartForm = ref<InstanceType<typeof UiKitModal>>();
-const categoriesStore = useCategoriesStore()
-const productsStore = useProductsStore()
+const categoriesStore = useCategoriesStore();
+const productsStore = useProductsStore();
 
 async function byUsername(username: string) {
-  await categoriesStore.updateFilter({ username: username, author: null })
-  await productsStore.updateFilter({ username: username, author: null })
-  await categoriesStore.fetch()
+  await categoriesStore.updateFilter({ username: username, author: null });
+  await productsStore.updateFilter({ username: username, author: null });
+  await categoriesStore.fetch();
 }
-
 
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});

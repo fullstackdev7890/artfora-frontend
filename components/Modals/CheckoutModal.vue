@@ -95,7 +95,7 @@
         <div class="checkout-footer">
           <div class="checkout-footer-title">
             <div>Total all orders</div>
-            <div>{{ totalProductsPrice ? totalProductsPrice : 0 }}€</div>
+            <div>{{ totalProductsPrice ? formattedNumber(totalProductsPrice) : 0 }}€</div>
           </div>
           <ui-kit-check-box
             v-model="agreeCheckout"
@@ -196,9 +196,14 @@ function open() {
 }
 
 function close() {
-  console.log('payment modal')
+  console.log("payment modal");
   checkoutForm.value?.close();
   emit("openPaymentModal");
+}
+
+function formattedNumber(amount: number) {
+  const formattedNumber = amount?.toLocaleString("de-DE", {});
+  return formattedNumber;
 }
 
 defineExpose({ open, close });

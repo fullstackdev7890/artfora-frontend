@@ -59,7 +59,7 @@ export const useCartStore = defineStore({
         },
         async getTotalPrice() {
             let totalPrice = 0;
-            let totalShipping=0;
+            let totalShipping = 0;
             this.$state.carts?.map((cart: any) => { return totalPrice += cart?.product?.price_in_euro * cart?.quantity; })
             this.$state.carts?.map((cart: any) => { return totalShipping += cart?.shipping * cart?.quantity; })
             this.$state.totalProductsPrice = totalPrice;
