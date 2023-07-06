@@ -96,7 +96,7 @@ const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore)
 const { getImageUrl } = useMedia();
 const emit = defineEmits(["openCheckoutModal"]);
 const cartForm = ref<InstanceType<typeof UiKitModal>>();
-  const categoriesStore = useCategoriesStore()
+const categoriesStore = useCategoriesStore()
 const productsStore = useProductsStore()
 
 async function byUsername(username: string) {
@@ -117,12 +117,9 @@ async function deleteCart(deletedCart: number) {
 }
 
 function open() {
-  // cartStore.getCarts()
-
   cartForm.value?.open();
 }
-
- function close() {
+function close() {
   cartStore.getCarts();
   cartForm.value?.close();
   emit("openCheckoutModal");

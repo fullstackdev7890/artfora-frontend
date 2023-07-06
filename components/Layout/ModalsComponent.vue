@@ -13,8 +13,9 @@
       ref="checkoutModalRef"
       @openSetUpAccountModal="openSetUpAccountModal"
       @openSetUpAccountBuyerModal="openSetUpAccountBuyerModal"
-    
+      @openPaymentModal="openPaymentModal"
     />
+    <payment-modal ref="paymentModalRef" @openPaymentModal="openPaymentModal" />
 
     <ai-safe-description-modal ref="aiSafeDescriptionModalRef" />
 
@@ -83,6 +84,7 @@ import AiSafeDescriptionModal from "~/components/Modals/AiSafeDescriptionModal.v
 import PreSignUpModal from "~/components/Modals/PreSignUpModal.vue";
 import AboutArtforaModal from "~/components/Modals/AboutArtforaModal.vue";
 import FaqModal from "~/components/Modals/FAQModal.vue";
+import PaymentModal from "~/components/Modals/PaymentModal.vue";
 
 const authStore = useAuthStore();
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore);
@@ -103,6 +105,7 @@ const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>(null);
 const startSellingModalRef = ref<InstanceType<typeof StartSellingModal>>(null);
 const aboutArtforaModelRef = ref<InstanceType<typeof AboutArtforaModal>>(null);
 const faqModalRef = ref<InstanceType<typeof FaqModal>>(null);
+const paymentModalRef = ref<InstanceType<typeof PaymentModal>>(null);
 
 const router = useRouter();
 const route = useRoute();
@@ -128,10 +131,12 @@ router.beforeEach((to, from, next) => {
   aboutArtforaModelRef.value.close();
   faqModalRef.value.close();
   checkoutModalRef.value.close();
-
+  paymentModalRef.value.close();
   next();
 });
-
+function openPaymentModal() {
+  paymentModalRef.value.open();
+}
 function openLogInModal() {
   if (isAwaitingTokenConfirmation.value) {
     twoFactorAuthModalRef.value.open();

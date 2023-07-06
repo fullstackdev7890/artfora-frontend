@@ -127,7 +127,6 @@
         @open-cart-modal="openCartModal"
         @open-checkout-modal="openCheckoutModal"
       />
-      
     </div>
   </transition>
 </template>

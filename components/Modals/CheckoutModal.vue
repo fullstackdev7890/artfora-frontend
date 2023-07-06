@@ -116,7 +116,6 @@
       </div>
     </template>
   </ui-kit-modal>
-  <payment-modal ref="paymentRef" @openPaymentModal="openPaymentModal" />
 </template>
 
 <script setup lang="ts">
@@ -129,19 +128,17 @@ import { useCartStore } from "~~/store/cart";
 import { useUserStore } from "~/store/user";
 import { storeToRefs } from "pinia";
 import Icon_Edit from "~/assets/svg/icon_edit.svg";
-import PaymentModal from "~/components/Modals/PaymentModal.vue";
 
 const userStore = useUserStore();
 const agreeCheckout = ref(false);
 const currentProfile = storeToRefs(userStore);
-const checkoutForm = ref<InstanceType<typeof UiKitModal>>(null);
-const paymentRef = ref<InstanceType<typeof UiKitModal>>(null);
+const checkoutForm = ref<InstanceType<typeof UiKitModal>>();
 
 const emit = defineEmits([
   "openCheckoutModal",
   "openSetUpAccountProfileModal",
   "openSetUpAccountBuyerModal",
-  // "openPaymentModal",
+  "openPaymentModal",
 ]);
 
 const cartStore = useCartStore();
@@ -200,12 +197,7 @@ function open() {
 
 function close() {
   checkoutForm.value?.close();
-  // emit("openPaymentModal");
-  openPaymentModal();
-}
-function openPaymentModal() {
-  console.log(paymentRef);
-  paymentRef.value.open();
+  emit("openPaymentModal");
 }
 
 defineExpose({ open, close });
