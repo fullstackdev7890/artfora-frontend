@@ -7,7 +7,7 @@
       class="artfora-cart"
     >
       <cart-icon class="cart-icon" />
-      <div class="cart-badge" v-if="carts?.length > 0">{{ carts?.length }}</div>
+      <div class="cart-badge">{{ carts?.length }}</div>
     </div>
 
     <div

@@ -196,6 +196,7 @@ function open() {
 }
 
 function close() {
+  console.log('payment modal')
   checkoutForm.value?.close();
   emit("openPaymentModal");
 }

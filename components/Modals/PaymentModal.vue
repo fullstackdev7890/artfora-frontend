@@ -116,6 +116,8 @@ function open() {
 }
 async function checkout() {
   const res = await axios.post("/checkout", stripe);
+  await cartStore.getCarts();
+
   orderId.value = res?.data;
 }
 function close() {

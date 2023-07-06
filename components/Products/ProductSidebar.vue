@@ -127,6 +127,13 @@
         @open-cart-modal="openCartModal"
         @open-checkout-modal="openCheckoutModal"
       />
+      <checkout-modal
+        ref="checkoutModalRef"
+        @openSetUpAccountModal="openSetUpAccountModal"
+        @openSetUpAccountBuyerModal="openSetUpAccountBuyerModal"
+        @openPaymentModal="openPaymentModal"
+      />
+      <payment-modal ref="paymentModalRef" @openPaymentModal="openPaymentModal" />
     </div>
   </transition>
 </template>
@@ -153,6 +160,7 @@ import ResetPasswordModal from "~/components/Modals/ResetPasswordModal.vue";
 import CommissionWorkModal from "~/components/Modals/CommissionWorkModal.vue";
 import CartModal from "~/components/Modals/CartModal.vue";
 import CheckoutModal from "../Modals/CheckoutModal.vue";
+import PaymentModal from "~/components/Modals/PaymentModal.vue";
 
 interface Props {
   product: Product;
@@ -204,6 +212,7 @@ const signUpModalRef = ref<InstanceType<typeof SignUpModal>>();
 
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>();
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>();
+const paymentModalRef = ref<InstanceType<typeof PaymentModal>>(null);
 
 const isShowGotoCartButton = ref(false);
 
@@ -215,11 +224,12 @@ function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
   return formattedNumber;
 }
-
+function openPaymentModal() {
+  paymentModalRef.value.open();
+}
 function openCheckoutModal() {
   checkoutModalRef.value && checkoutModalRef.value.open();
 }
-
 
 function openCartModal() {
   cartModalRef.value && cartModalRef.value.open();
@@ -240,9 +250,6 @@ async function saveProductToCart() {
 function gotoCart() {
   if (isAuthorized.value) {
     cartModalRef.value && cartModalRef.value.open();
-
-    // const artforaCarts = nuxtStorage.localStorage.getData("artfora_carts") || []
-    // nuxtStorage.localStorage.setData('artfora_carts', [...artforaCarts, { id: props.product.id, title: props.product.title, artist: props.product.artist, price: props.product.price, description: props.product.description }])
   }
 }
 
