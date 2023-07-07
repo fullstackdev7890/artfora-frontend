@@ -189,14 +189,13 @@
           :errors="v_i$.user.inv_address2"
           :error-messages="{ required: 'Invoice Address 2 is required' }"
           :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE ADDRESS 2"
+          placeholder="INVOICE ADDRESS 2 (OPTIONAL)"
           v-model="user.inv_address2"
         />
         <ui-kit-input
-          :errors="v_i$.user.inv_state"
           :error-messages="{ required: 'Invoice State is required' }"
           :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE STATE"
+          placeholder="INVOICE STATE (OPTIONAL)"
           v-model="user.inv_state"
         />
         <!-- <div class="account-settings-tabs-buyer">
@@ -277,18 +276,16 @@
 
           <ui-kit-input
             :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER ADDRESS 2"
+            placeholder="DELIVER ADDRESS 2 (OPTIONAL)"
             v-model="user.dev_address2"
           />
           <ui-kit-input
-            :errors="v_d$.user.dev_state"
             :error-messages="{ required: 'Deliver State is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER STATE"
+            placeholder="DELIVER STATE (OPTIONAL)"
             v-model="user.dev_state"
           />
-          <!-- <div class="account-settings-tabs-buyer">
-            <div class="account-settings-tabs-buyer-zip"> -->
+
           <ui-kit-input
             :errors="v_d$.user.dev_zip"
             :error-messages="{ required: 'Deliver Zip is required' }"
@@ -296,8 +293,7 @@
             placeholder="DELIVER ZIP"
             v-model="user.dev_zip"
           />
-          <!-- </div>
-            <div class="account-settings-tabs-buyer-city"> -->
+
           <ui-kit-input
             :errors="v_d$.user.dev_city"
             :error-messages="{ required: 'Deliver City is required' }"
@@ -305,8 +301,7 @@
             placeholder="DELIVER CITY"
             v-model="user.dev_city"
           />
-          <!-- </div>
-          </div> -->
+
           <ui-kit-selector
             v-model="user.dev_country"
             :options="countries"
@@ -330,6 +325,7 @@
             placeholder="DELIVER EMAIL"
             v-model="user.dev_email"
           />
+
           <ui-kit-input
             :disabled="store.pendingRequestsCount"
             placeholder="DELIVER ATTENTION"
@@ -363,6 +359,7 @@
           placeholder="SELLER NAME"
           v-model="user.sel_name"
         />
+
         <ui-kit-input
           :errors="v_s$.user.sel_address"
           :error-messages="{ required: 'Deliver Address is required' }"
@@ -373,18 +370,17 @@
 
         <ui-kit-input
           :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ADDRESS 2"
+          placeholder="SELLER ADDRESS 2 (OPTIONAL)"
           v-model="user.sel_address2"
         />
+
         <ui-kit-input
-          :errors="v_s$.user.sel_state"
           :error-messages="{ required: 'Seller State is required' }"
           :disabled="store.pendingRequestsCount"
-          placeholder="SELLER STATE"
+          placeholder="SELLER STATE (OPTIONAL)"
           v-model="user.sel_state"
         />
-        <!-- <div class="account-settings-tabs-buyer">
-            <div class="account-settings-tabs-buyer-zip"> -->
+
         <ui-kit-input
           :errors="v_s$.user.sel_zip"
           :error-messages="{ required: 'Seller Zip is required' }"
@@ -392,8 +388,7 @@
           placeholder="SELLER ZIP"
           v-model="user.sel_zip"
         />
-        <!-- </div>
-            <div class="account-settings-tabs-buyer-city"> -->
+
         <ui-kit-input
           :errors="v_s$.user.sel_city"
           :error-messages="{ required: 'Seller City is required' }"
@@ -401,8 +396,7 @@
           placeholder="SELLER CITY"
           v-model="user.sel_city"
         />
-        <!-- </div>
-          </div> -->
+
         <ui-kit-selector
           v-model="user.sel_country"
           :options="countries"
@@ -427,23 +421,27 @@
           placeholder="SELLER EMAIL"
           v-model="user.sel_email"
         />
+
         <ui-kit-input
           :disabled="store.pendingRequestsCount"
           placeholder="SELLER ATTENTION"
           v-model="user.sel_att"
         />
+
         <ui-kit-text-area
           v-model="user.description"
           :disabled="store.pendingRequestsCount"
           placeholder="SELLER DESCRIPTION"
           v-if="user.can_add_product"
         />
+
         <ui-kit-input
           v-model="user.external_link"
           :disabled="store.pendingRequestsCount"
           placeholder="EXTERNAL LINK"
           v-if="user.can_add_product"
         />
+
         <div class="addmore" v-if="user.can_add_product">
           <plus-icon @click="addField()" class="account-settings-plus-icon" />
           <ui-kit-input
@@ -574,7 +572,6 @@ const v_i$ = useVuelidate(
       inv_address: { required },
       inv_zip: { required },
       inv_city: { required },
-      inv_state: { required },
       inv_country: { required },
       inv_phone: { required },
       inv_email: { email, required },
@@ -590,7 +587,6 @@ const v_d$ = useVuelidate(
       dev_address: { required },
       dev_zip: { required },
       dev_city: { required },
-      dev_state: { required },
       dev_country: { required },
       // dev_phone: { required },
       dev_email: { email, required },
@@ -606,7 +602,6 @@ const v_s$ = useVuelidate(
       sel_address: { required },
       sel_zip: { required },
       sel_city: { required },
-      sel_state: { required },
       sel_country: { required },
       sel_email: { email, required },
       // dev_att: { required },
