@@ -1,0 +1,125 @@
+@import '../variables';
+
+.sub-modal {
+    padding-bottom: 2rem;
+}
+
+.ui-kit-modal-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.ui-kit-sub-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100%;
+
+
+
+    .links-modal {
+        &-message {
+            font-family: AtkinsonHyperlegible, sans-serif;
+        }
+
+        &-item {
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            gap: 8px;
+            margin: 7px 0;
+            font-size: 16px;
+
+            & .social-icon {
+                width: 20px;
+            }
+        }
+    }
+
+    & .contact-modal {
+        &-submit {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+
+            &-title {
+                font-style: italic
+            }
+        }
+    }
+
+    & .commission-modal {
+        &-submit {
+            width: 100%;
+        }
+    }
+
+    &-content {
+        z-index: 101;
+        width: 350px;
+        height: 100%;
+
+        overflow: auto;
+
+        @media (max-width: $small) {
+            width: 100%;
+        }
+
+        &-buttons {
+            padding-top: 2rem;
+        }
+
+        &-links {
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: calc(100% - 58px);
+        }
+    }
+
+    &-content:has(.product-container) {
+        width: 100%;
+    }
+
+
+
+    &-buttons {
+        align-self: end;
+        margin-top: auto;
+        display: flex;
+        gap: 20px;
+
+        & input {
+            border: none;
+            outline: none
+        }
+    }
+}
+
+@keyframes toShow {
+    0% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.ui-kit-modal-container-background {
+    position: fixed;
+    top: 0;
+    overflow-y: auto;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba($black, 0.9);
+    z-index: 100;
+
+}

@@ -1,138 +1,47 @@
 <template>
-  <ui-kit-modal
+  <ui-kit-modal-container
     :title="'CHECKOUT'"
     :with-footer="false"
     class="checkout-modal"
     ref="checkoutForm"
   >
     <template v-slot:content>
-      <div class="ui-kit-checkout-modal-content">
-        <div class="checkout-section">
-          <div class="checkout-section-header">
-            <span class="checkout-section-title"> Invoice address </span>
-            <div class="checkout-section-edit-icon">
-              <Icon_Edit @click="goToBuyerSettingModal" />
-            </div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Name:</div>
-            <div class="checkout-list-content">{{ user?.inv_name }}</div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Address:</div>
-            <div class="checkout-list-content">{{ user?.inv_address }}</div>
-          </div>
-          <div class="checkout-list" v-if="user?.inv_address2">
-            <div class="checkout-list-title">Address2:</div>
-            <div class="checkout-list-content">{{ user?.inv_address2 }}</div>
-          </div>
-          <div class="checkout-list" v-if="user?.inv_state">
-            <div class="checkout-list-title">State:</div>
-            <div class="checkout-list-content">{{ user?.inv_state }}</div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Zip/City:</div>
-            <div class="checkout-list-content">
-              {{ user?.inv_zip }}{{ user?.inv_city }}
-            </div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Phone:</div>
-            <div class="checkout-list-content">{{ user?.inv_phone }}</div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Email Address:</div>
-            <div class="checkout-list-content">{{ user?.inv_email }}</div>
-          </div>
-          <div class="checkout-list" v-if="user?.inv_att">
-            <div class="checkout-list-title">Attention:</div>
-            <div class="checkout-list-content">{{ user?.inv_att }}</div>
-          </div>
-        </div>
-        <div class="checkout-section" v-if="user?.dev_email">
-          <div class="checkout-section-header">
-            <span class="checkout-section-title"> Delivery address </span>
-            <div class="checkout-section-edit-icon">
-              <Icon_Edit @click="goToBuyerSettingModal" />
-            </div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Name:</div>
-            <div class="checkout-list-content">{{ user?.dev_name }}</div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Address:</div>
-            <div class="checkout-list-content">{{ user?.dev_address }}</div>
-          </div>
-          <div class="checkout-list" v-if="user?.dev_address2">
-            <div class="checkout-list-title">Address2:</div>
-            <div class="checkout-list-content">{{ user?.dev_address2 }}</div>
-          </div>
-          <div class="checkout-list" v-if="user?.dev_state">
-            <div class="checkout-list-title">State:</div>
-            <div class="checkout-list-content">{{ user?.dev_state }}</div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Zip/City:</div>
-            <div class="checkout-list-content">
-              {{ user?.dev_zip }}{{ user?.dev_city }}
-            </div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Phone:</div>
-            <div class="checkout-list-content">{{ user?.dev_phone }}</div>
-          </div>
-          <div class="checkout-list">
-            <div class="checkout-list-title">Email Address:</div>
-            <div class="checkout-list-content">{{ user?.dev_email }}</div>
-          </div>
-          <div class="checkout-list" v-if="user?.dev_att">
-            <div class="checkout-list-title">Attention:</div>
-            <div class="checkout-list-content">{{ user?.dev_att }}</div>
-          </div>
-        </div>
-        <hr class="divide" />
-        <div class="checkout-footer">
-          <div class="checkout-footer-title">
-            <div>Total all orders</div>
-            <div>{{ totalProductsPrice ? formattedNumber(totalProductsPrice) : 0 }}€</div>
-          </div>
-          <ui-kit-check-box
-            v-model="agreeCheckout"
-            :value="'DELIVER ADDRESS (If different)'"
-            :title="'I have read and accept all the legal shit.'"
-            type="checkbox"
-          />
-        </div>
+      <div class="sub-modal">
+        <invoice-address-modal
+          :user="user"
+          @goToBuyerSettingModal="goToBuyerSettingModal"
+        ></invoice-address-modal>
       </div>
-      <div class="ui-kit-modal-content-buttons">
-        <button
-          class="button button-grey full-width"
-          @click="close"
-          :disabled="!agreeCheckout"
-        >
-          <span>GO TO PAYMENT</span>
-        </button>
+      <div class="sub-modal" v-if="user.dev_email">
+        <delivery-address-modal
+          :user="user"
+          @goToBuyerSettingModal="goToBuyerSettingModal"
+        ></delivery-address-modal>
+      </div>
+      <div class="sub-modal">
+        <go-to-payment-modal
+          @close="close"
+          @openPaymentModal="openPaymentModal"
+        ></go-to-payment-modal>
       </div>
     </template>
-  </ui-kit-modal>
+  </ui-kit-modal-container>
 </template>
 
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
-import axios from "axios";
 import UiKitModal from "~/components/UiKit/UiKitModal.vue";
-import UiKitCheckBox from "../UiKit/UiKitCheckBox.vue";
 import DeliveryAddressModal from "./DeliveryAddressModal.vue";
 import { useCartStore } from "~~/store/cart";
 import { useUserStore } from "~/store/user";
 import { storeToRefs } from "pinia";
-import Icon_Edit from "~/assets/svg/icon_edit.svg";
+import UiKitModalContainer from "~/components/UiKit/UiKitModalContainer.vue";
+import InvoiceAddressModal from "~/components/Modals/InvoiceAddressModal.vue";
+import GoToPaymentModal from "~/components/Modals/GoToPaymentModal.vue";
 
 const userStore = useUserStore();
-const agreeCheckout = ref(false);
 const currentProfile = storeToRefs(userStore);
-const checkoutForm = ref<InstanceType<typeof UiKitModal>>();
+const checkoutForm = ref<InstanceType<typeof UiKitModalContainer>>();
 
 const emit = defineEmits([
   "openCheckoutModal",
@@ -196,14 +105,10 @@ function open() {
 }
 
 function close() {
-  console.log("payment modal");
   checkoutForm.value?.close();
-  emit("openPaymentModal");
 }
-
-function formattedNumber(amount: number) {
-  const formattedNumber = amount?.toLocaleString("de-DE", {});
-  return formattedNumber;
+function openPaymentModal() {
+  emit("openPaymentModal");
 }
 
 defineExpose({ open, close });
