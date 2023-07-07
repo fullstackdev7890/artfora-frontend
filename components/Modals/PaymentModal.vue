@@ -115,7 +115,7 @@ function open() {
   paymentForm.value && paymentForm.value?.open();
 }
 async function checkout() {
-  const res = await axios.post("/checkout", stripe);
+  const res = await axios.get("/checkout");
   await cartStore.getCarts();
 
   orderId.value = res?.data;

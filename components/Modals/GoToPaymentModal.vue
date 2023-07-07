@@ -40,25 +40,45 @@
 
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
-import UiKitModal from "~/components/UiKit/UiKitModal.vue";
+import axios from "axios";
 import { useCartStore } from "~~/store/cart";
 import { useUserStore } from "~/store/user";
 import { storeToRefs } from "pinia";
 const emit = defineEmits(["close", "openPaymentModal"]);
 const userStore = useUserStore();
-const checkoutForm = ref<InstanceType<typeof UiKitModal>>();
-
+const currentProfile = storeToRefs(userStore);
+const orderId = ref(null);
 const agreeCheckout = ref(false);
 const cartStore = useCartStore();
 const { totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore);
+const user = reactive({
+  id: currentProfile?.id,
+});
+const price = reactive({ totalProductsPrice: totalProductsPrice });
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
   return formattedNumber;
 }
+async function checkout() {
+  try {
+    console.log(currentProfile.id);
+    const res = await axios.get("/checkout");
+    orderId.value = res?.data;
+    const response = await axios.post(`/order_payment`, {
+      order_id: orderId.value,
+      amount: price.totalProductsPrice,
+      user_id: user.id,
+    });
+    console.log(response);
+
+    if (response.data.stripe_payment_url) {
+      window.open(response.data.stripe_payment_url);
+      await cartStore.getCarts();
+    }
+  } catch (error) {}
+}
 function openPayment() {
-  console.log("payment modal");
-  emit("close");
-  emit("openPaymentModal");
+  checkout();
 }
 function close() {
   emit("close");

@@ -19,10 +19,8 @@
         ></delivery-address-modal>
       </div>
       <div class="sub-modal">
-        <go-to-payment-modal
-          @close="close"
-        ></go-to-payment-modal>
-          <!-- @openPaymentModal="openPaymentModal" -->
+        <go-to-payment-modal @close="close"></go-to-payment-modal>
+        <!-- @openPaymentModal="openPaymentModal" -->
       </div>
     </template>
   </ui-kit-modal-container>
@@ -30,7 +28,6 @@
 
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
-import UiKitModal from "~/components/UiKit/UiKitModal.vue";
 import DeliveryAddressModal from "./DeliveryAddressModal.vue";
 import { useCartStore } from "~~/store/cart";
 import { useUserStore } from "~/store/user";
@@ -106,9 +103,6 @@ function open() {
 
 function close() {
   checkoutForm.value?.close();
-}
-function openPaymentModal() {
-  emit("openPaymentModal");
 }
 
 defineExpose({ open, close });
