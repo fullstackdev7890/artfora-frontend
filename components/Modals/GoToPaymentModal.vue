@@ -72,7 +72,8 @@ async function checkout() {
     console.log(response);
 
     if (response.data.stripe_payment_url) {
-      window.open(response.data.stripe_payment_url);
+      // window.open(response.data.stripe_payment_url);
+      window.location.href = response.data.stripe_payment_url;
       await cartStore.getCarts();
     }
   } catch (error) {}
