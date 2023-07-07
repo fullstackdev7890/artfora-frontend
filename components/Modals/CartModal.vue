@@ -3,61 +3,54 @@
     :title="'CHECKOUT'"
     :with-footer="false"
     class="checkout-modal"
-    ref="checkoutForm"
+    ref="cartModalRef"
   >
     <template v-slot:content>
-      <div class="sub-modal">
-        <invoice-address-modal
-          :user="user"
-          @goToBuyerSettingModal="goToBuyerSettingModal"
-        ></invoice-address-modal>
+      <div class="sub-modal" v-for="(cart, index) in carts" :key="index">
+        <CartItemModal :carts="cart"></CartItemModal>
       </div>
       <div class="sub-modal">
-        <continue-to-checkout-modal></continue-to-checkout-modal>
+        <continue-to-checkout-modal
+          @close="close"
+          @openCheckoutModal="openCheckoutModal"
+        ></continue-to-checkout-modal>
       </div>
     </template>
   </ui-kit-modal-container>
 </template>
 
 <script setup lang="ts">
-import { ref } from "@vue/reactivity";
-import UiKitModal from "~/components/UiKit/UiKitModal.vue";
-import DeliveryAddressModal from "./DeliveryAddressModal.vue";
-import { useCartStore } from "~~/store/cart";
-import { useUserStore } from "~/store/user";
 import { storeToRefs } from "pinia";
+import { ref } from "@vue/reactivity";
+import { useCartStore } from "~~/store/cart";
+
 import UiKitModalContainer from "~/components/UiKit/UiKitModalContainer.vue";
-import InvoiceAddressModal from "~/components/Modals/InvoiceAddressModal.vue";
-import GoToPaymentModal from "~/components/Modals/GoToPaymentModal.vue";
 import ContinueToCheckoutModal from "~/components/Modals/ContinueToCheckoutModal.vue";
-
-const userStore = useUserStore();
-const currentProfile = storeToRefs(userStore);
-const checkoutForm = ref<InstanceType<typeof UiKitModalContainer>>();
-
-const emit = defineEmits([
-  "openCheckoutModal",
-  "openSetUpAccountProfileModal",
-  "openSetUpAccountBuyerModal",
-  "openPaymentModal",
-]);
-
+import CartItemModal from "~/components/Modals/CartItemModal.vue";
 const cartStore = useCartStore();
 const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore);
 
-function goToBuyerSettingModal() {
-  emit("openSetUpAccountBuyerModal");
+const emit = defineEmits(["openCheckoutModal"]);
+const cartModalRef = ref<InstanceType<typeof UiKitModalContainer>>();
+
+async function deleteCart(deletedCart: number) {
+  await cartStore.deleteCart(deletedCart);
+  await cartStore.getCarts();
 }
+function deleteCartItem(id: number) {
+  deleteCart(id);
+}
+
+function openCheckoutModal() {
+  emit("openCheckoutModal");
+}
+
 function open() {
-  checkoutForm.value?.open();
+  cartModalRef.value?.open();
 }
-
 function close() {
-  checkoutForm.value?.close();
+  cartStore.getCarts();
+  cartModalRef.value?.close();
 }
-function openPaymentModal() {
-  emit("openPaymentModal");
-}
-
 defineExpose({ open, close });
 </script>

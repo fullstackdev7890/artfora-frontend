@@ -3,50 +3,132 @@
 $border-radius: 15px;
 
 .ui-kit-box {
-  background-color: $body-bg; border-radius: $border-radius; overflow: hidden;
+  background-color: $body-bg;
+  border-radius: $border-radius;
+  overflow: hidden;
 
   &-title {
-    margin-bottom: 0; padding: 1rem 1rem 0.5rem; background-color: $dark-bg; min-height: 1.5rem;
-    display: flex; justify-content: center; position: relative;
+    margin-bottom: 0;
+    padding: 1rem 1rem 0.5rem;
+    background-color: $dark-bg;
+    min-height: 1.5rem;
+    display: flex;
+    position: relative;
 
     h5 {
-      display: inline-block; float: left; margin: 0 0 0.5rem; padding: 0; text-overflow: ellipsis; font-size: 2rem;
-      letter-spacing: 4px; font-weight: normal; font-family: Prozak, sans-serif;
+      display: inline-block;
+      float: left;
+      margin: 0 0 0.5rem;
+      padding: 0;
+      text-overflow: ellipsis;
+      font-size: 2rem;
+      letter-spacing: 4px;
+      text-align: center;
+      align-items: center;
+      width: 100%;
+      font-weight: normal;
+      font-family: Prozak, sans-serif;
     }
   }
 
-  &-tools { float: right; position: absolute; right: 1rem; top: 1rem;
-    &-link { display: inline-block; min-width: 1rem; margin-left: 0.5rem; cursor: pointer;
+  &-cart-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .username {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .tagname {
+      font-size: 12px;
+    }
+  }
+
+  &-tools {
+    float: right;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+
+    &-link {
+      display: inline-block;
+      min-width: 1rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+
       &.close-icon {
-        fill: white; border-radius: 50%; background-color: $black; display: flex; align-items: center;
-        justify-content: center; padding: 3px; font-size: 20px; margin: 0; width: 20px; height: 20px;
+        fill: white;
+        border-radius: 50%;
+        background-color: $black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+        font-size: 20px;
+        margin: 0;
+        width: 20px;
+        height: 20px;
         transition: opacity 0.3s;
 
-        &:hover { opacity: 0.7; }
+        &:hover {
+          opacity: 0.7;
+        }
       }
+
       &.trash-icon {
         margin-right: 5px;
-        fill: white; border-radius: 50%; background-color: $black; display: flex; align-items: center;
-        justify-content: center; padding: 3px; font-size: 20px; margin: 0; width: 20px; height: 20px;
+        fill: white;
+        border-radius: 50%;
+        background-color: $black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+        font-size: 20px;
+        margin: 0;
+        width: 20px;
+        height: 20px;
         transition: opacity 0.3s;
 
-        &:hover { opacity: 0.7; }
+        &:hover {
+          opacity: 0.7;
+        }
       }
     }
   }
 
   &-content {
-    padding: 1rem; transition: all $transition-delay; box-sizing: border-box;
+    padding: 1rem;
+    transition: all $transition-delay;
+    box-sizing: border-box;
     color: $box-content-font-color;
 
-    &-small-text { font-size: 15px; margin: 5px 0 20px;
-      &.align-right { text-align: right; }
+    &-small-text {
+      font-size: 15px;
+      margin: 5px 0 20px;
+
+      &.align-right {
+        text-align: right;
+      }
     }
 
-    &-success-text { color: $error-color; }
+    &-success-text {
+      color: $error-color;
+    }
 
-    &-hidden { max-height: 0; overflow: hidden; padding-top: 0; padding-bottom: 0; }
+    &-hidden {
+      max-height: 0;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
-  &-footer { padding: 1rem; display: flex; justify-content: center; }
+  &-footer {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+  }
 }

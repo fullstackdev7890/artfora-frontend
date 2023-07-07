@@ -12,20 +12,10 @@
             <div>Total all orders</div>
             <div>{{ totalProductsPrice ? formattedNumber(totalProductsPrice) : 0 }}€</div>
           </div>
-          <ui-kit-check-box
-            v-model="agreeCheckout"
-            :value="'DELIVER ADDRESS (If different)'"
-            :title="'I have read and accept all the legal shit.'"
-            type="checkbox"
-          />
         </div>
       </div>
       <div class="ui-kit-modal-content-buttons">
-        <button
-          class="button button-grey full-width"
-          @click="openPayment"
-          :disabled="!agreeCheckout"
-        >
+        <button class="button button-grey full-width" @click="openPayment">
           <span>CONTINUE TO CHECKOUT</span>
         </button>
       </div>
@@ -44,7 +34,7 @@ import UiKitModal from "~/components/UiKit/UiKitModal.vue";
 import { useCartStore } from "~~/store/cart";
 import { useUserStore } from "~/store/user";
 import { storeToRefs } from "pinia";
-const emit = defineEmits(["close", "openPaymentModal"]);
+const emit = defineEmits(["close", "openCheckoutModal"]);
 const userStore = useUserStore();
 const checkoutForm = ref<InstanceType<typeof UiKitModal>>();
 
@@ -56,9 +46,8 @@ function formattedNumber(amount: number) {
   return formattedNumber;
 }
 function openPayment() {
-  console.log("payment modal");
   emit("close");
-  emit("openPaymentModal");
+  emit("openCheckoutModal");
 }
 function close() {
   emit("close");

@@ -7,7 +7,6 @@
 .ui-kit-modal-container {
     width: 100%;
     height: 100%;
-    position: relative;
 }
 
 .ui-kit-sub-modal {
@@ -115,6 +114,9 @@
     position: fixed;
     top: 0;
     overflow-y: auto;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 
     width: 100%;
     height: 100%;
