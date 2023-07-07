@@ -21,8 +21,8 @@
       <div class="sub-modal">
         <go-to-payment-modal
           @close="close"
-          @openPaymentModal="openPaymentModal"
         ></go-to-payment-modal>
+          <!-- @openPaymentModal="openPaymentModal" -->
       </div>
     </template>
   </ui-kit-modal-container>
