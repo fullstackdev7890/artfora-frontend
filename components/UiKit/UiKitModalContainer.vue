@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
   closeBtnAsHomeLink: false,
 });
 const isShown = ref(false);
+const isOver = ref(false);
 
 function open() {
   // @ts-ignore
@@ -44,6 +45,5 @@ function closeByClickOutsideAction() {
     close();
   }
 }
-
 defineExpose({ open, close });
 </script>

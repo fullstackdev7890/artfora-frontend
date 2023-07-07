@@ -2,20 +2,33 @@
 
 .sub-modal {
     padding-bottom: 2rem;
+    padding-top: 2rem;
+    width: 100%;
+    display: flex;
+}
+
+.multi-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .ui-kit-modal-container {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
 }
 
 .ui-kit-sub-modal {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
-    overflow-y: auto;
     height: 100%;
+    width: 100%;
 
 
 
@@ -102,7 +115,7 @@
 
 @keyframes toShow {
     0% {
-        transform: translateY(-20px);
+        transform: translateY(0px);
     }
 
     100% {
@@ -111,17 +124,13 @@
 }
 
 .ui-kit-modal-container-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    align-items: center;
+
     display: flex;
     justify-content: center;
-
+    overflow-y: auto;
     width: 100%;
-    height: 100%;
     transform: translateZ(0);
+    height: 100%;
     background: rgba($black, 0.9);
     z-index: 100;
 
