@@ -22,7 +22,7 @@
           <div class="username">
             {{ carts?.carts && carts?.carts[0]?.product?.user?.username }}
           </div>
-          <div class="'tagname">
+          <div class="tagname">
             {{ carts?.carts && carts?.carts[0]?.product?.user?.tagname }}
           </div>
         </div>
@@ -30,7 +30,7 @@
     </template>
     <template v-slot:content>
       <div class="ui-kit-checkout-modal-content">
-        <div v-for="(cart, index) in carts?.carts" :key="index">
+        <div v-for="(cart, index) in carts?.carts" :key="index" class="cart-item-wrapper">
           <div class="cart-title">
             <span>{{ cart?.product?.title }}</span>
           </div>
@@ -46,7 +46,7 @@
               >
             </div>
             <div class="cart-item-lists">
-              <div class="cart-item-list">
+              <!-- <div class="cart-item-list">
                 Seller:
 
                 <nuxt-link
@@ -56,28 +56,38 @@
                 >
                   {{ cart?.product?.user?.username }}
                 </nuxt-link>
-              </div>
+              </div> -->
               <div class="cart-item-list">
                 Price:
                 <span>{{ formattedNumber(cart?.product?.price_in_euro) }} €</span>
               </div>
-              <div class="cart-item-list">
+              <!-- <div class="cart-item-list">
                 Shipping:
                 <span>{{ formattedNumber(cart?.shipping) }} €</span>
-              </div>
+              </div> -->
               <div class="cart-item-list">
-                Size
-                <!-- <span class="cart-item-size"> (L/W/D) </span>: -->
+                Length
                 <span
                   v-show="
-                    formattedNumber(cart?.product?.height || 0) ||
-                    formattedNumber(cart?.product?.width || 0) ||
+                    formattedNumber(cart?.product?.height || 0)
+                  "
+                  >{{ formattedNumber(cart?.product?.height || 0) }} cm</span>
+              </div>
+              <div class="cart-item-list">
+                Width
+                <span
+                  v-show="
+                    formattedNumber(cart?.product?.width || 0)
+                  "
+                  >{{ formattedNumber(cart?.product?.width || 0) }} cm</span>
+              </div>
+              <div class="cart-item-list">
+                Depth
+                <span
+                  v-show="
                     formattedNumber(cart?.product?.depth || 0)
                   "
-                  >{{ formattedNumber(cart?.product?.height || 0) }}/{{
-                    formattedNumber(cart?.product?.width || 0)
-                  }}/{{ formattedNumber(cart?.product?.depth || 0) }} cm</span
-                >
+                  >{{ formattedNumber(cart?.product?.depth || 0) }} cm</span>
               </div>
               <div class="cart-item-list">
                 Quantity:

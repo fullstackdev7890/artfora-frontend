@@ -10,7 +10,7 @@
         <div class="checkout-footer">
           <div class="checkout-footer-title">
             <div>Total all orders</div>
-            <div>{{ totalProductsPrice ? formattedNumber(totalProductsPrice) : 0 }}€</div>
+            <div>{{ totalProductsPrice ? formattedNumber(totalProductsPrice) : 0 }} €</div>
           </div>
         </div>
       </div>
@@ -19,9 +19,9 @@
           <span>CONTINUE TO CHECKOUT</span>
         </button>
       </div>
-      <div class="ui-kit-modal-content-buttons">
+      <div class="ui-kit-modal-content-buttons button--gap">
         <button class="button button-grey full-width" @click="close">
-          <span>CANCEL</span>
+          <span>CLOSE</span>
         </button>
       </div>
     </template>
