@@ -9,13 +9,13 @@
       v-html="item.text_content"
     ></div> -->
   <div
-    style="margin-bottom: 10px"
+    style="margin-bottom: 4px"
     v-html="tData.text_content.replace(/\n/g, '<br>')"
     v-for="(tData, index) in props.items"
     :key="index"
     :style="{
       color: tData.text_colour,
-      padding: tData.text_colour === '#C1C1C1' ? '0.8rem 0' : '0.2rem 0',
+      padding: tData.text_colour === '#C1C1C1' ? '0.8rem 0 0 0' : '0.2rem 0 0 0 0',
       fontWeight: tData.text_colour === '#C1C1C1' ? 'bold' : 'normal',
       fontSize: tData.text_colour === '#C1C1C1' ? '18px' : '16px',
     }"
