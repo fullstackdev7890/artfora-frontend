@@ -7,11 +7,11 @@
   >
     <template v-slot:customHeader>
       <div class="ui-kit-box-cart-item">
-        <div>
+        <div class="icon-button">
           <img
             :src="
               getUserAvatar(
-                carts?.carts[0]?.product?.user?.avatar_image,
+                carts?.carts && carts?.carts[0]?.product?.user?.avatar_image,
                 ImageTemplate.SmallThumbnail
               )
             "
@@ -19,8 +19,12 @@
           />
         </div>
         <div class="cart-user-tag">
-          <div class="username">{{ carts?.carts[0]?.product?.user?.username }}</div>
-          <div class="'tagname">{{ carts?.carts[0]?.product?.user?.tagname }}</div>
+          <div class="username">
+            {{ carts?.carts && carts?.carts[0]?.product?.user?.username }}
+          </div>
+          <div class="'tagname">
+            {{ carts?.carts && carts?.carts[0]?.product?.user?.tagname }}
+          </div>
         </div>
       </div>
     </template>
@@ -37,7 +41,7 @@
                 :alt="cart?.prod_title"
                 class="cart-item-image-content"
               />
-              <span class="cart-item-delete" @click="deleteCart(cart?.id)"
+              <span class="cart-item-delete" @click="deleteCartItem(cart?.id)"
                 >Delete product</span
               >
             </div>
@@ -92,7 +96,10 @@
         Shipping: &nbsp;
         <span>{{ formattedNumber(carts.total_shipping) || 0 }} €</span>
       </div>
-      <div class="carts-total-sub-price" :style="{ color: 'white', fontSize: 18 ,paddingTop:'0.3rem'}">
+      <div
+        class="carts-total-sub-price"
+        :style="{ color: 'white', fontSize: 18, paddingTop: '0.3rem' }"
+      >
         Total: &nbsp;
         <span
           >{{ formattedNumber(carts.total_price + carts.total_shipping) || 0 }} €</span
@@ -124,6 +131,13 @@ const props = withDefaults(defineProps<Props>(), {
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
   return formattedNumber;
+}
+async function deleteCart(deletedCart: number) {
+  await cartStore.deleteCart(deletedCart);
+  await cartStore.getCarts();
+}
+function deleteCartItem(id: number) {
+  deleteCart(id);
 }
 async function byUsername(username: string) {
   await categoriesStore.updateFilter({ username: username, author: null });

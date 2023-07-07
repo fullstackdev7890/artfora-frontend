@@ -134,8 +134,7 @@
         @openPaymentModal="openPaymentModal"
       />
       <payment-modal ref="paymentModalRef" @openPaymentModal="openPaymentModal" />
-    <set-up-account-modal ref="setUpAccountModalRef" />
-
+      <set-up-account-modal ref="setUpAccountModalRef" />
     </div>
   </transition>
 </template>
@@ -212,7 +211,7 @@ const checkoutModalRef = ref<InstanceType<typeof CheckoutModal>>();
 const logInModalRef = ref<InstanceType<typeof LogInModal>>();
 const twoFactorAuthModalRef = ref<InstanceType<typeof TwoFactorAuthModal>>();
 const signUpModalRef = ref<InstanceType<typeof SignUpModal>>();
-  const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null);
+const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null);
 
 const resetPasswordModalRef = ref<InstanceType<typeof ResetPasswordModal>>();
 const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>();
@@ -236,6 +235,7 @@ function openCheckoutModal() {
 }
 
 function openCartModal() {
+  console.log(cartModalRef);
   cartModalRef.value && cartModalRef.value.open();
 }
 async function saveProductToCart() {

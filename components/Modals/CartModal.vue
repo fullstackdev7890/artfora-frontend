@@ -33,14 +33,6 @@ const { carts, totalProductsPrice, totalShippingPrice } = storeToRefs(cartStore)
 const emit = defineEmits(["openCheckoutModal"]);
 const cartModalRef = ref<InstanceType<typeof UiKitModalContainer>>();
 
-async function deleteCart(deletedCart: number) {
-  await cartStore.deleteCart(deletedCart);
-  await cartStore.getCarts();
-}
-function deleteCartItem(id: number) {
-  deleteCart(id);
-}
-
 function openCheckoutModal() {
   emit("openCheckoutModal");
 }
