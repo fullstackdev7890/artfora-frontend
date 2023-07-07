@@ -18,7 +18,7 @@
             alt="user_avatar"
           />
         </div>
-        <div>
+        <div class="cart-user-tag">
           <div class="username">{{ carts?.carts[0]?.product?.user?.username }}</div>
           <div class="'tagname">{{ carts?.carts[0]?.product?.user?.tagname }}</div>
         </div>
@@ -90,11 +90,13 @@
       </div> -->
       <div class="carts-total-sub-price">
         Shipping: &nbsp;
-        <span>{{ formattedNumber(totalShipping) || 0 }} €</span>
+        <span>{{ formattedNumber(carts.total_shipping) || 0 }} €</span>
       </div>
-      <div class="carts-total-sub-price">
-        Product Price: &nbsp;
-        <span>{{ formattedNumber(totalPrice) || 0 }} €</span>
+      <div class="carts-total-sub-price" :style="{ color: 'white', fontSize: 18 ,paddingTop:'0.3rem'}">
+        Total: &nbsp;
+        <span
+          >{{ formattedNumber(carts.total_price + carts.total_shipping) || 0 }} €</span
+        >
       </div>
     </template>
   </ui-kit-sub-modal>
@@ -118,9 +120,6 @@ const { getUserAvatar } = useMedia();
 const props = withDefaults(defineProps<Props>(), {
   carts: { carts: [], total_price: 0, total_shipping: 0, user_id: 0 },
 });
-
-let totalPrice = 0;
-let totalShipping = 0;
 
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
