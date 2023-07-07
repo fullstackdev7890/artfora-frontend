@@ -9,11 +9,14 @@ $border-radius: 15px;
 
   &-title {
     margin-bottom: 0;
-    padding: 1rem 1rem 0.5rem;
-    background-color: $dark-bg;
+    padding: 0;
+    background-color: $dark-2-bg;
     min-height: 1.5rem;
     display: flex;
     position: relative;
+    align-items: center;
+    padding-left: 15px;
+    height: 70px;
 
     h5 {
       display: inline-block;
@@ -37,8 +40,10 @@ $border-radius: 15px;
     align-items: center;
 
     .username {
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 14px;
+      letter-spacing: 1px;
     }
 
     .cart-user-tag {
@@ -48,6 +53,9 @@ $border-radius: 15px;
 
     .tagname {
       font-size: 12px;
+      color: #999999;
+      line-height: 14px;
+      letter-spacing: 1px;
     }
   }
 
@@ -136,4 +144,9 @@ $border-radius: 15px;
     display: flex;
     justify-content: center;
   }
+}
+
+.sub-modal {
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
 }
