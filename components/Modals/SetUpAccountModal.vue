@@ -611,7 +611,6 @@ const v_s$ = useVuelidate(
   { user }
 );
 function initializeSettingsFields() {
-  console.log("initial", userStore);
   user.id = userStore?.id;
   user.username = userStore?.username;
   user.email = userStore?.email;
