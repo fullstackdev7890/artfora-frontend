@@ -513,48 +513,49 @@ const countries = ref([{ title: currentProfile.country, key: currentProfile.coun
 const backgroundImage = ref(currentProfile.background_image);
 const avatar = ref(currentProfile.avatar_image);
 const error = ref("");
+
 const user = reactive({
-  id: currentProfile?.id,
-  username: currentProfile.username,
-  email: currentProfile.email,
-  description: currentProfile.description,
-  external_link: currentProfile.external_link,
-  product_visibility_level: currentProfile.product_visibility_level,
-  background_image_id: currentProfile.background_image_id,
-  avatar_image_id: currentProfile.avatar_image_id,
-  country: currentProfile.country,
-  more_external_link: currentProfile.more_external_link,
-  can_add_product: currentProfile?.can_add_product,
-  inv_name: currentProfile?.inv_name,
-  inv_email: currentProfile?.inv_email,
-  inv_address: currentProfile?.inv_address,
-  inv_address2: currentProfile?.inv_address2,
-  inv_zip: currentProfile?.inv_zip,
-  inv_state: currentProfile?.inv_state,
-  inv_city: currentProfile?.inv_city,
-  inv_country: currentProfile?.inv_country,
-  inv_phone: currentProfile?.inv_phone,
-  inv_att: currentProfile?.inv_att,
-  dev_name: currentProfile?.dev_name,
-  dev_email: currentProfile?.dev_email,
-  dev_address: currentProfile?.dev_address,
-  dev_address2: currentProfile?.dev_address2,
-  dev_zip: currentProfile?.dev_zip,
-  dev_state: currentProfile?.dev_state,
-  dev_city: currentProfile?.dev_city,
-  dev_country: currentProfile?.dev_country,
-  dev_phone: currentProfile?.dev_phone.toString(),
-  dev_att: currentProfile?.dev_att,
-  sel_name: currentProfile?.sel_name,
-  sel_email: currentProfile?.sel_email,
-  sel_address: currentProfile?.sel_address,
-  sel_address2: currentProfile?.sel_address2,
-  sel_zip: currentProfile?.sel_zip,
-  sel_state: currentProfile?.sel_state,
-  sel_city: currentProfile?.sel_city,
-  sel_country: currentProfile?.sel_country,
-  sel_phone: currentProfile?.sel_phone,
-  sel_att: currentProfile?.sel_att,
+  id: null,
+  username: null,
+  email: null,
+  description: null,
+  external_link: [],
+  product_visibility_level: null,
+  background_image_id: null,
+  avatar_image_id: null,
+  country: null,
+  more_external_link: null,
+  can_add_product: null,
+  inv_name: null,
+  inv_email: null,
+  inv_address: null,
+  inv_address2: null,
+  inv_zip: null,
+  inv_state: null,
+  inv_city: null,
+  inv_country: null,
+  inv_phone: null,
+  inv_att: null,
+  dev_name: null,
+  dev_email: null,
+  dev_address: null,
+  dev_address2: null,
+  dev_zip: null,
+  dev_state: null,
+  dev_city: null,
+  dev_country: null,
+  dev_phone: null,
+  dev_att: null,
+  sel_name: null,
+  sel_email: null,
+  sel_address: null,
+  sel_address2: null,
+  sel_zip: null,
+  sel_state: null,
+  sel_city: null,
+  sel_country: null,
+  sel_phone: null,
+  sel_att: null,
 });
 const v$ = useVuelidate(
   {
@@ -609,6 +610,50 @@ const v_s$ = useVuelidate(
   },
   { user }
 );
+function initializeSettingsFields() {
+  console.log("initial", userStore);
+  user.id = userStore?.id;
+  user.username = userStore?.username;
+  user.email = userStore?.email;
+  user.description = userStore?.description;
+  user.external_link = userStore?.external_link;
+  user.product_visibility_level = userStore?.product_visibility_level;
+  user.background_image_id = userStore?.background_image_id;
+  user.avatar_image_id = userStore?.avatar_image_id;
+  user.country = userStore?.country;
+  user.more_external_link = userStore?.more_external_link;
+  user.can_add_product = userStore?.can_add_product;
+  user.inv_name = userStore?.inv_name;
+  user.inv_email = userStore?.inv_email;
+  user.inv_address = userStore?.inv_address;
+  user.inv_address2 = userStore?.inv_address2;
+  user.inv_zip = userStore?.inv_zip;
+  user.inv_state = userStore?.inv_state;
+  user.inv_city = userStore?.inv_city;
+  user.inv_country = userStore?.inv_country;
+  user.inv_phone = userStore?.inv_phone;
+  user.inv_att = userStore?.inv_att;
+  user.dev_name = userStore?.dev_name;
+  user.dev_email = userStore?.dev_email;
+  user.dev_address = userStore?.dev_address;
+  user.dev_address2 = userStore?.dev_address2;
+  user.dev_zip = userStore?.dev_zip;
+  user.dev_state = userStore?.dev_state;
+  user.dev_city = userStore?.dev_city;
+  user.dev_country = userStore?.dev_country;
+  user.dev_phone = userStore?.dev_phone;
+  user.dev_att = userStore?.dev_att;
+  user.sel_name = userStore?.sel_name;
+  user.sel_email = userStore?.sel_email;
+  user.sel_address = userStore?.sel_address;
+  user.sel_address2 = userStore?.sel_address2;
+  user.sel_zip = userStore?.sel_zip;
+  user.sel_state = userStore?.sel_state;
+  user.sel_city = userStore?.sel_city;
+  user.sel_country = userStore?.sel_country;
+  user.sel_phone = userStore?.sel_phone;
+  user.sel_att = userStore?.sel_att;
+}
 
 async function addFile(event: any) {
   const media = event.target.files || event.dataTransfer.files;
@@ -787,17 +832,20 @@ function logout() {
 async function open() {
   seletedTab.value = "profile";
   await filtersStore.fetchAll();
+  initializeSettingsFields();
   setUpAccountModal.value?.open();
   if (countries.value.length <= 1) {
     const response = await axios.get("https://restcountries.com/v2/all");
     response.data.forEach((country: object) =>
-      countries.value.push({ title: country.name, key: country.name })
+      countries.value.push({ title: country?.name, key: country?.name })
     );
   }
 }
 async function openBuyer() {
   seletedTab.value = "buyer";
   await filtersStore.fetchAll();
+  initializeSettingsFields();
+
   setUpAccountModal.value?.open();
   if (countries.value.length <= 1) {
     const response = await axios.get("https://restcountries.com/v2/all");

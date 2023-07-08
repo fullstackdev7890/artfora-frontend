@@ -38,19 +38,29 @@ const initState = (): User => ({
   inv_city: "",
   inv_state: "",
   inv_country: "",
-  inv_phone: 0,
+  inv_phone: "",
   inv_email: "",
   inv_att: "",
   dev_address: "",
-  dev_name:"",
+  dev_name: "",
   dev_address2: "",
   dev_zip: "",
   dev_city: "",
   dev_state: "",
   dev_country: "",
-  dev_phone: 0,
+  dev_phone: "",
   dev_email: "",
   dev_att: "",
+  sel_name: "",
+  sel_address: "",
+  sel_address2: "",
+  sel_zip: "",
+  sel_city: "",
+  sel_state: "",
+  sel_country: "",
+  sel_phone: "",
+  sel_email: "",
+  sel_att: "",
 })
 export const useUserStore = defineStore('user', {
   state: initState,
@@ -64,7 +74,7 @@ export const useUserStore = defineStore('user', {
     async fetch() {
       const cartStore = useCartStore()
       const response = await axios.get('/profile')
-      if(response.data.more_external_link == null){
+      if (response.data.more_external_link == null) {
         response.data.more_external_link = [];
       }
       this.$state = response.data
