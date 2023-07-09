@@ -10,10 +10,7 @@
       <form @submit.prevent="logIn">
         <p class="ui-kit-box-content-small-text">
           Don't have an account?
-          <span
-            class="link"
-            @click="openPreSignUpModal"
-          >Sign up here!</span>
+          <span class="link" @click="openPreSignUpModal">Sign up here!</span>
         </p>
 
         <ui-kit-input
@@ -24,7 +21,7 @@
           placeholder="EMAIL ADDRESS"
           name="login"
         />
-          <!-- :error-messages="{ required: 'Please enter email. ', email: 'Please enter valid email address. ' }" -->
+        <!-- :error-messages="{ required: 'Please enter email. ', email: 'Please enter valid email address. ' }" -->
 
         <ui-kit-input
           v-model="auth.password"
@@ -35,36 +32,27 @@
           name="password"
           type="password"
         />
-          <!-- :error-messages="{ required: 'Please enter password. ' }" -->
+        <!-- :error-messages="{ required: 'Please enter password. ' }" -->
 
-        <span v-if="error" class="form-errors-list ">
+        <span v-if="error" class="form-errors-list">
           <span class="form-error error login-error">
             Either your email address or your password seems to be wrong. Try again or
-            <span
-              class="link"
-              @click="openResetPasswordModal"
-            >
+            <span class="link" @click="openResetPasswordModal">
               reset password here!
             </span>
           </span>
         </span>
         <ui-kit-check-box
-            v-model="rememberMe"
-            :value="'Remember me'"
-            :disabled="store.pendingRequestsCount"
-            :title="'Remember me'"
-            type="checkbox"
-          />
+          v-model="auth.remember_me"
+          :value="'Remember me'"
+          :disabled="store.pendingRequestsCount"
+          :title="'Remember me'"
+          type="checkbox"
+        />
 
-        <p
-          v-if="!error"
-          class="ui-kit-box-content-small-text align-right"
-        >
+        <p v-if="!error" class="ui-kit-box-content-small-text align-right">
           Forgot your password?
-          <span
-            class="link"
-            @click="openResetPasswordModal"
-          >Reset here!</span>
+          <span class="link" @click="openResetPasswordModal">Reset here!</span>
         </p>
 
         <div class="ui-kit-modal-content-buttons">
@@ -82,96 +70,108 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
-import { required, email } from '@vuelidate/validators'
-import { useRoute } from 'vue-router'
-import useVuelidate from '@vuelidate/core'
-import { useAuthStore } from '~/store/auth'
-import { useStore } from '~/store'
-import type { LoginData } from '~/types/auth'
-import UiKitModal from '~/components/UiKit/UiKitModal.vue'
-import UiKitInput from '~/components/UiKit/UiKitInput.vue'
-import UiKitCheckBox from '~/components/UiKit/UiKitCheckBox.vue'
+import { ref } from "@vue/reactivity";
+import { required, email } from "@vuelidate/validators";
+import { useRoute } from "vue-router";
+import useVuelidate from "@vuelidate/core";
+import { useAuthStore } from "~/store/auth";
+import { useStore } from "~/store";
+import type { LoginData } from "~/types/auth";
+import UiKitModal from "~/components/UiKit/UiKitModal.vue";
+import UiKitInput from "~/components/UiKit/UiKitInput.vue";
+import UiKitCheckBox from "~/components/UiKit/UiKitCheckBox.vue";
 
-const logInModal = ref<InstanceType<typeof UiKitModal>>(null)
-const authStore = useAuthStore()
-const store = useStore()
-const route = useRoute()
-const emit = defineEmits(['openSignUpModal', 'openPreSignUpModal', 'openTwoFactorAuthModal', 'openResetPasswordModal'])
-const rememberMe=ref(false)
+const logInModal = ref<InstanceType<typeof UiKitModal>>(null);
+const authStore = useAuthStore();
+const store = useStore();
+const route = useRoute();
+const emit = defineEmits([
+  "openSignUpModal",
+  "openPreSignUpModal",
+  "openTwoFactorAuthModal",
+  "openResetPasswordModal",
+]);
+const remember_me = ref(false);
 const auth: LoginData = reactive({
-  login: '',
-  password: ''
-})
+  login: "",
+  password: "",
+  remember_me: remember_me.value,
+});
 
-let error = ref(false)
-let serverErrors = ref({})
-let success = ref(false)
+let error = ref(false);
+let serverErrors = ref({});
+let success = ref(false);
 
-const v$ = useVuelidate({
-  auth: {
-    login: { required, email },
-    password: { required },
-  }
-}, { auth })
+const v$ = useVuelidate(
+  {
+    auth: {
+      login: { required, email },
+      password: { required },
+    },
+  },
+  { auth }
+);
 
 async function logIn() {
-  v$.value.$touch()
+
+
+  v$.value.$touch();
 
   if (v$.value.$error) {
-    return
+    return;
   }
 
-  error.value = false
-  serverErrors.value = {}
+  error.value = false;
+  serverErrors.value = {};
 
   try {
-    await authStore.login(auth)
+    await authStore.login(auth);
 
-    success.value = true
+    success.value = true;
 
-    openTwoFactorAuthModal()
+    openTwoFactorAuthModal();
   } catch (e) {
     if (e.response && !e.response.data.errors) {
-      error.value = true
+      error.value = true;
 
-      return
+      return;
     }
 
-    serverErrors.value = e.response.data.errors
+    serverErrors.value = e.response.data.errors;
   }
 }
 
 function openSignUpModal() {
-  close()
-  emit('openSignUpModal')
+  close();
+  emit("openSignUpModal");
 }
 
 function openPreSignUpModal() {
-  close()
-  emit('openPreSignUpModal')
+  close();
+  emit("openPreSignUpModal");
 }
 
 function openResetPasswordModal() {
-  close()
-  emit('openResetPasswordModal')
+  close();
+  emit("openResetPasswordModal");
 }
 
 function openTwoFactorAuthModal() {
-  close()
-  emit('openTwoFactorAuthModal')
+  close();
+  emit("openTwoFactorAuthModal");
 }
 
 function open() {
-  auth.login = ''
-  auth.password = ''
+  auth.login = "";
+  auth.password = "";
+  auth.remember_me = false;
 
-  logInModal.value?.open()
+  logInModal.value?.open();
 }
 
 function close() {
-  logInModal.value?.close()
+  logInModal.value?.close();
 }
 
-defineExpose({ open, close })
+defineExpose({ open, close });
 </script>

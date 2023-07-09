@@ -17,7 +17,8 @@ export const useAuthStore = defineStore('auth', {
 
   state: (): AuthState => ({
     token: null,
-    emailForTwoFactorAuth: null
+    emailForTwoFactorAuth: null,
+    remember_me: false,
   }),
 
   getters: {
@@ -26,10 +27,26 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    async login(data: LoginData) {
-      await axios.post('/auth/login', data)
+    async rememberToken() {
+      const rememberToken = localStorage.getItem('artfora_remember_token');
+      if (rememberToken) {
+        try {
+          const response = await axios.get(`/auth/verify-remember-token/${rememberToken}`);
+          this.$state.emailForTwoFactorAuth = null
+          this.$state.token = response.data.token
+          navigateTo('/')
 
-      return this.$state.emailForTwoFactorAuth = data.login
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    async login(data: LoginData) {
+
+      await axios.post('/auth/login', data);
+
+      this.$state.remember_me = data.remember_me;
+      return this.$state.emailForTwoFactorAuth = data.login;
     },
 
     async checkEmailTwoFactorAuth(data: TwoFactorAuthData) {
@@ -37,6 +54,10 @@ export const useAuthStore = defineStore('auth', {
 
       this.$state.emailForTwoFactorAuth = null
       this.$state.token = response.data.token
+      if (response?.data?.remember_token) {
+        const rememberToken = response.data.remember_token;
+        localStorage.setItem('artfora_remember_token', rememberToken);
+      }
 
       navigateTo('/')
     },
@@ -74,6 +95,8 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       // @ts-ignore
       this.$state.token = null
+      localStorage.removeItem('artfora_remember_token');
+
 
       navigateTo('/')
     },
@@ -86,7 +109,7 @@ export const useAuthStore = defineStore('auth', {
 
       return response.data.token
     },
-    async connectStrip (id:number){
+    async connectStrip(id: number) {
       const response = await axios.get(`/stripe-connect/${id}`)
       return response.data
     }

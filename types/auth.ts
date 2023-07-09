@@ -1,11 +1,13 @@
 export interface LoginData {
   login: string
   password: string
+  remember_me:boolean
 }
 
 export interface TwoFactorAuthData {
   code: string,
-  email: string | null
+  email: string | null,
+  remember_me:boolean
 }
 
 export interface ResetPasswordData {

@@ -22,29 +22,18 @@
           name="code"
         />
 
-        <span
-          v-if="error && !successResend && !success"
-          class="form-errors-list"
-        >
+        <span v-if="error && !successResend && !success" class="form-errors-list">
           <span class="form-error error">
-            No no no nooo good!<br>Please try again or
-            <span
-              class="link"
-              @click="resendEmailCode"
-            >
+            No no no nooo good!<br />Please try again or
+            <span class="link" @click="resendEmailCode">
               resend authentication code.
             </span>
           </span>
         </span>
 
         <span>
-            Log in as different user 
-            <span
-              class="link"
-              @click="toLogin"
-            >
-              here!
-          </span>
+          Log in as different user
+          <span class="link" @click="toLogin"> here! </span>
         </span>
 
         <p v-if="successResend" class="ui-kit-box-content-small-text">
@@ -68,124 +57,131 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from '@vue/reactivity'
-import { required, email } from '@vuelidate/validators'
-import useVuelidate from '@vuelidate/core'
-import { useAuthStore } from '~/store/auth'
-import { useProductsStore } from '~/store/products'
-import { useStore } from '~/store'
-import { storeToRefs } from 'pinia'
-import { useRoute } from 'vue-router'
-import { useUserStore } from '~/store/user'
-import { ROLE_ADMIN } from '~/types/constants'
-import type { TwoFactorAuthData } from '~/types/auth'
-import UiKitModal from '~/components/UiKit/UiKitModal.vue'
-import UiKitInput from '~/components/UiKit/UiKitInput.vue'
+import { ref } from "@vue/reactivity";
+import { required, email } from "@vuelidate/validators";
+import useVuelidate from "@vuelidate/core";
+import { useAuthStore } from "~/store/auth";
+import { useProductsStore } from "~/store/products";
+import { useStore } from "~/store";
+import { storeToRefs } from "pinia";
+import { useRoute } from "vue-router";
+import { useUserStore } from "~/store/user";
+import { ROLE_ADMIN } from "~/types/constants";
+import type { TwoFactorAuthData } from "~/types/auth";
+import UiKitModal from "~/components/UiKit/UiKitModal.vue";
+import UiKitInput from "~/components/UiKit/UiKitInput.vue";
 
-const TwoFactorAuthModal = ref<InstanceType<typeof UiKitModal>>(null)
-const store = useStore()
-const authStore = useAuthStore()
-const userStore = useUserStore()
-const productsStore = useProductsStore()
-const route = useRoute()
-const { emailForTwoFactorAuth } = storeToRefs(authStore)
-const { getUserRole } = storeToRefs(userStore)
-const emit = defineEmits(['openLogInModal'])
+const TwoFactorAuthModal = ref<InstanceType<typeof UiKitModal>>(null);
+const store = useStore();
+const authStore = useAuthStore();
+const userStore = useUserStore();
+const productsStore = useProductsStore();
+const route = useRoute();
+const { emailForTwoFactorAuth, remember_me } = storeToRefs(authStore);
+const { getUserRole } = storeToRefs(userStore);
+const emit = defineEmits(["openLogInModal"]);
 
 const auth: TwoFactorAuthData = reactive({
-  code: '',
-  email: null
-})
+  code: "",
+  email: null,
+  remember_me: false,
+});
 
-let error = ref(false)
-let serverErrors = ref({})
-let success = ref(false)
-let successResend = ref(false)
+let error = ref(false);
+let serverErrors = ref({});
+let success = ref(false);
+let successResend = ref(false);
 
-const v$ = useVuelidate({
-  auth: {
-    code: { required },
-    email: { required, email }
-  }
-}, { auth })
+const v$ = useVuelidate(
+  {
+    auth: {
+      code: { required },
+      email: { required, email },
+    },
+  },
+  { auth }
+);
 
 async function confirmTwoFactorAuth() {
-  auth.email = emailForTwoFactorAuth.value
+  console.log(emailForTwoFactorAuth);
+  auth.email = emailForTwoFactorAuth.value;
+  auth.remember_me = remember_me.value;
 
-  v$.value.$touch()
+  v$.value.$touch();
 
   if (v$.value.$error) {
-    return
+    return;
   }
 
-  error.value = false
-  serverErrors.value = {}
-  successResend.value = false
+  error.value = false;
+  serverErrors.value = {};
+  successResend.value = false;
 
   try {
-    await authStore.checkEmailTwoFactorAuth(auth)
+    console.log(auth);
+    await authStore.checkEmailTwoFactorAuth(auth);
 
-    await userStore.fetch()
+    await userStore.fetch();
 
     if (getUserRole.value === ROLE_ADMIN) {
-      await productsStore.getPendingCount()
+      await productsStore.getPendingCount();
     }
 
-    success.value = true
-    auth.code = ''
+    success.value = true;
+    auth.code = "";
 
-    close()
+    close();
   } catch (e) {
     if (e.response && !e.response.data.errors) {
-      error.value = true
+      error.value = true;
 
-      return
+      return;
     }
 
-    serverErrors.value = e.response.data.errors
+    serverErrors.value = e.response.data.errors;
   }
 }
 
 async function toLogin() {
-  await authStore.removeEmailForTwoFactorAuth()
-  close()
-  emit('openLogInModal')
+  await authStore.removeEmailForTwoFactorAuth();
+  close();
+  emit("openLogInModal");
 }
 
 async function resendEmailCode() {
-  v$.value.$touch()
+  v$.value.$touch();
 
   if (v$.value.$error) {
-    return
+    return;
   }
 
-  error.value = false
-  serverErrors.value = {}
-  successResend.value = false
+  error.value = false;
+  serverErrors.value = {};
+  successResend.value = false;
 
   try {
-    await authStore.resendEmailTwoFactorAuthCode(auth)
+    await authStore.resendEmailTwoFactorAuthCode(auth);
 
-    successResend.value = true
+    successResend.value = true;
   } catch (e) {
     if (e.response && !e.response.data.errors) {
-      error.value = true
+      error.value = true;
 
-      return
+      return;
     }
 
-    serverErrors.value = e.response.data.errors
+    serverErrors.value = e.response.data.errors;
   }
 }
 
 function open() {
-  auth.code = ''
-  TwoFactorAuthModal.value?.open()
+  auth.code = "";
+  TwoFactorAuthModal.value?.open();
 }
 
 function close() {
-  TwoFactorAuthModal.value?.close()
+  TwoFactorAuthModal.value?.close();
 }
 
-defineExpose({ open, close })
+defineExpose({ open, close });
 </script>
