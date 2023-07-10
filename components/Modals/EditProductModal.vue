@@ -142,14 +142,40 @@
               :disabled="store.pendingRequestsCount"
             />
           </div>
-          <CurrencyInput
-            v-model.lazy="product.price_in_euro"
-            placeholder="PRODUCT PRICE IN EURO"
-            :errors="v$.product.price_in_euro"
-            :error-messages="{ required: 'Price in euro is required' }"
-            :server-errors="serverErrors"
-            :disabled="store.pendingRequestsCount"
-          />
+          <div class="is_sale_price_tag">
+            <div class="is_sale_switch">
+              <div
+                class="switch-body"
+                :class="
+                  product.is_sale_price === false ? 'to-switch-top' : 'to-switch-bottom'
+                "
+                @click="is_sale_mode"
+              ></div>
+              <div class="switch-top" @click="is_sale_mode"></div>
+              <div class="switch-bottom" @click="is_sale_mode"></div>
+            </div>
+            <div :style="{ width: '100%' }">
+              <CurrencyInput
+                v-model.lazy="product.price_in_euro"
+                placeholder="PRODUCT PRICE IN EURO"
+                :errors="v$.product.price_in_euro"
+                :error-messages="{ required: 'Price in euro is required' }"
+                :server-errors="serverErrors"
+                :disabled="store.pendingRequestsCount"
+              />
+               <CurrencyInput
+                v-model.lazy="product.sale_price_in_euro"
+                placeholder="PRODUCT SALES PRICE IN EURO"
+                :errors="v$.product.sale_price_in_euro"
+                :error-messages="{ required: 'Price in euro is required' }"
+                :server-errors="serverErrors"
+                :disabled="store.pendingRequestsCount"
+              />
+
+             
+            </div>
+          </div>
+
           <CurrencyInput
             v-model.lazy="product.shipping_in_euro"
             placeholder="SHIPPING IN EURO"
@@ -343,6 +369,8 @@ const product = reactive({
   price_in_euro: 0,
   shipping_in_euro: 0,
   quantity_for_sale: 1,
+  sale_price_in_euro: 0,
+  is_sale_price: true,
 });
 
 const v$ = useVuelidate(
@@ -356,6 +384,7 @@ const v$ = useVuelidate(
       width: { required },
       depth: { required },
       price_in_euro: { required },
+      sale_price_in_euro: { required },
       shipping_in_euro: { required },
       quantity_for_sale: { required },
       tags: { required },
@@ -416,7 +445,9 @@ async function addFiles(event: any) {
     await reader.readAsDataURL(item);
   }
 }
-
+function is_sale_mode() {
+  product.is_sale_price = !product.is_sale_price;
+}
 function openAiSafeDescriptionModal() {
   aiSafeDescriptionModalRef.value.open();
 }
@@ -467,6 +498,8 @@ function initializeProductFields() {
   product.tags = productStore.item.tags;
   product.visibility_level = productStore.item.visibility_level;
   product.is_ai_safe = productStore.item.is_ai_safe;
+  product.sale_price_in_euro = productStore.item.sale_price_in_euro;
+  product.is_sale_price = productStore.item.is_sale_price;
 }
 
 async function deleteProduct() {

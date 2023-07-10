@@ -37,8 +37,9 @@ onMounted(async () => {
     author: null,
   });
 
+  // await authStore.rememberToken();
+  await userStore.fetch();
   await products.fetchAll();
-  await authStore.rememberToken();
 });
 
 useHead({

@@ -52,10 +52,6 @@ export const useCartStore = defineStore({
             } catch (err) {
 
             }
-
-
-
-
         },
         async getTotalPrice() {
             let totalPrice = 0;

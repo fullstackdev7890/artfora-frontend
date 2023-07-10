@@ -37,7 +37,13 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Price:</h5>
-          <span>€{{ formattedNumber(props.product.price_in_euro) }}</span>
+          <span
+            >€{{
+              props.product.is_sale_price === false
+                ? formattedNumber(props.product.price_in_euro)
+                : formattedNumber(props.product.sale_price_in_euro)
+            }}</span
+          >
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size (L/W/D):</h5>
@@ -60,7 +66,15 @@
         Description:
         <p>{{ props.product.description }}</p>
       </div>
-      <div class="product-sidebar-buy-button">
+      <div class="product-sidebar-info-item">
+        <h5>Quantity:</h5>
+        <div class="order-quantity">
+          <div class="order-quantity-button minus-button" @click="removeQuantity">-</div>
+          {{ formattedNumber(order_quantity) }}
+          <div class="order-quantity-button plus-button" @click="addQuantity">+</div>
+        </div>
+      </div>
+      <div class="product-sidebar-buy-button" v-if="props.product?.user.id !== user.id">
         <button
           class="button full-width"
           v-if="!isShowGotoCartButton"
@@ -163,6 +177,7 @@ import CartModal from "~/components/Modals/CartModal.vue";
 import CheckoutModal from "../Modals/CheckoutModal.vue";
 import PaymentModal from "~/components/Modals/PaymentModal.vue";
 import SetUpAccountModal from "~/components/Modals/SetUpAccountModal.vue";
+import ProductInfo from "../Gallery/ProductInfo.vue";
 
 interface Props {
   product: Product;
@@ -194,10 +209,13 @@ const props = withDefaults(defineProps<Props>(), {
         name: "",
       },
     },
+    is_sale_price: true,
+    sale_price_in_euro: 0,
   },
 });
 const authStore = useAuthStore();
 const cartStore = useCartStore();
+
 const { isAwaitingTokenConfirmation } = storeToRefs(authStore);
 const { isAuthorized } = storeToRefs(authStore);
 const userStore = useUserStore();
@@ -218,11 +236,23 @@ const preSignUpModalRef = ref<InstanceType<typeof PreSignUpModal>>();
 const paymentModalRef = ref<InstanceType<typeof PaymentModal>>(null);
 
 const isShowGotoCartButton = ref(false);
+const order_quantity = ref(1);
 
 const { getUserAvatar, getImageUrl } = useMedia();
 const user = reactive({
   id: currentProfile?.id,
 });
+
+function addQuantity() {
+  if (props.product.quantity_for_sale > order_quantity.value) {
+    order_quantity.value += 1;
+  }
+}
+function removeQuantity() {
+  if (order_quantity.value > 1) {
+    order_quantity.value -= 1;
+  }
+}
 function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
   return formattedNumber;
@@ -243,7 +273,7 @@ async function saveProductToCart() {
     const newItem = {
       user_id: user?.id,
       product_id: props.product?.id,
-      quantity: 1,
+      quantity: order_quantity.value,
     };
     try {
       await cartStore.addCart((newItem as unknown) as CartType);

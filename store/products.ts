@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import {ProductStatus, ProductsState, Product} from '~/types/products'
+import { ProductStatus, ProductsState, Product } from '~/types/products'
 import { STATUS_APPROVED, STATUS_PENDING } from '~/types/constants'
 import axios from 'axios'
-import {Paginated} from "~/types/search";
+import { Paginated } from "~/types/search";
 import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from '~/store/categories'
 import { Category } from '~~/types/categories';
@@ -53,8 +53,10 @@ export const useProductsStore = defineStore('products', {
         },
         data: {},
         "2fa_type": 'email',
-        media: []
-      }
+        media: [],
+
+      }, sale_price_in_euro: 0,
+      is_sale_price: true
     },
     subCategories: [],
     filters: {
@@ -65,22 +67,23 @@ export const useProductsStore = defineStore('products', {
       author: null
     },
     loadingNextPage: false,
-    pendingCount: 0
+    pendingCount: 0,
+
   }),
 
   actions: {
     async fetchAll() {
       this.$state.filters.page = 1
-      const autoStore=useAuthStore()
+      const autoStore = useAuthStore()
       await autoStore.rememberToken()
       const response = await axios.get('/products', { params: this.$state.filters })
 
       this.$state.items = response.data
-      
+
       const categoriesStore = useCategoriesStore()
       const { items } = storeToRefs(categoriesStore)
       const categories = this.$state.filters.categories?.map((id) => Number(id))
-      
+
       const category = items.value.find((category) => categories?.includes(category.id))
       if (category) {
         const children = category.children
@@ -113,7 +116,7 @@ export const useProductsStore = defineStore('products', {
     },
 
     updateFilter(filter: any) {
-       this.filters = Object.assign({}, this.filters, filter)
+      this.filters = Object.assign({}, this.filters, filter)
     },
 
     async fetch(id: string) {
@@ -128,11 +131,11 @@ export const useProductsStore = defineStore('products', {
 
     update(id: number, filters: {}) {
       return axios.put(`/products/${id}`, { ...filters })
-   },
+    },
 
     delete(id: number) {
       return axios.delete(`/products/${id}`, {
-        params: {"force": 1}
+        params: { "force": 1 }
       })
     },
 

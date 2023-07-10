@@ -36,6 +36,8 @@ export declare interface Product extends Entity {
   shipping_in_euro: number
   quantity_for_sale: number
   price_in_euro: number
+  sale_price_in_euro:number
+  is_sale_price:boolean
   status: string
   deleted_at: string | null
   media: Media[]
