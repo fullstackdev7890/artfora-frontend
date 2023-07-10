@@ -74,8 +74,8 @@ export const useUserStore = defineStore('user', {
   actions: {
     async fetch() {
       const cartStore = useCartStore()
-      const autoStore=useAuthStore()
-     await autoStore.rememberToken()
+      const authStore=useAuthStore()
+      await authStore.rememberToken();
       const response = await axios.get('/profile')
       if (response.data.more_external_link == null) {
         response.data.more_external_link = [];

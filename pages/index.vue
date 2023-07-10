@@ -16,10 +16,12 @@ import { STATUS_APPROVED } from "~/types/constants";
 import { useSettingsGalleryStore } from "~/store/gallerySettings";
 import MainContainer from "~/components/Layout/MainContainer.vue";
 import { useAuthStore } from "~~/store/auth";
+import { useUserStore } from "~~/store/user";
 
 const title = ref("");
 const description = ref("");
 const products = useProductsStore();
+const userStore = useUserStore();
 const authStore = useAuthStore();
 const { items } = storeToRefs(products);
 const gallerySettings = useSettingsGalleryStore();
@@ -36,6 +38,7 @@ onMounted(async () => {
   });
 
   await products.fetchAll();
+  await authStore.rememberToken();
 });
 
 useHead({
