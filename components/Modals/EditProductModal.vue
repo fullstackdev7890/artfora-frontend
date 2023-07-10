@@ -165,7 +165,7 @@
               />
               <CurrencyInput
                 v-model.lazy="product.sale_price_in_euro"
-                placeholder="PRODUCT SALES PRICE IN EURO"
+                placeholder="PRODUCT SALE PRICE IN EURO"
                 :errors="v$.product.sale_price_in_euro"
                 :error-messages="{ required: 'Price in euro is required' }"
                 :server-errors="serverErrors"
