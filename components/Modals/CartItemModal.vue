@@ -59,7 +59,7 @@
               </div> -->
               <div class="cart-item-list">
                 Price:
-                <span>{{ formattedNumber(cart?.product?.price_in_euro) }} €</span>
+                <span>{{cart?.product.is_sale_price? formattedNumber(cart?.product?.sale_price_in_euro): formattedNumber(cart?.product?.price_in_euro) }} €</span>
               </div>
               <!-- <div class="cart-item-list">
                 Shipping:
