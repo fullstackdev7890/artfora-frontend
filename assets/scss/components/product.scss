@@ -157,27 +157,28 @@
   align-items: center;
   flex-direction: column;
   width: 40px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
   outline: solid 1px #C1C1C1;
-  height: 80px;
+  height: 110.04px;
   margin-right: 16px;
-  margin-top: 18.02px;
   position: relative;
-  
+
 }
 
 .switch-body {
-  width: 36px;
+  width: 32px;
   position: absolute;
-  height: 36px;
+  height: 32px;
+  bottom: 0px;
+
   border: solid 1px #C1C1C1;
   border-radius: 50%;
   background-color: #C1C1C1;
-  transition: all 0.3s;
-  
+  transition: all 0.5s;
+
   cursor: pointer;
 
 }
@@ -185,7 +186,7 @@
 .switch-top {
   width: 40px;
   border-radius: 50%;
-  height: 40px;
+  height: 55px;
   cursor: pointer;
 
 }
@@ -193,17 +194,22 @@
 .switch-bottom {
   width: 40px;
   border-radius: 50%;
-  height: 40px;
+  height: 55px;
   cursor: pointer;
-
-
 }
-.to-switch-bottom{
-  top: 40px;
-  transition: 0.3s all;
+
+.to-switch-bottom {
+  top: 74px;
+  left: 4px;
+  right: 4px;
+
+  bottom: 4px;
 }
-.to-switch-top{
-  bottom: 40px;
-  transition: all 0.3s;
-  
+
+.to-switch-top {
+  bottom: 74px;
+  top: 4px;
+  right: 4px;
+
+  left: 4px;
 }

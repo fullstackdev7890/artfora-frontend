@@ -161,18 +161,16 @@
                 :errors="v$.product.price_in_euro"
                 :error-messages="{ required: 'Price in euro is required' }"
                 :server-errors="serverErrors"
-                :disabled="store.pendingRequestsCount"
+                :disabled="product.is_sale_price"
               />
-               <CurrencyInput
+              <CurrencyInput
                 v-model.lazy="product.sale_price_in_euro"
                 placeholder="PRODUCT SALES PRICE IN EURO"
                 :errors="v$.product.sale_price_in_euro"
                 :error-messages="{ required: 'Price in euro is required' }"
                 :server-errors="serverErrors"
-                :disabled="store.pendingRequestsCount"
+                :disabled="!product.is_sale_price"
               />
-
-             
             </div>
           </div>
 

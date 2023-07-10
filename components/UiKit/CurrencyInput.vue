@@ -31,10 +31,11 @@
           ref="inputRef"
           :class="{
             'form-control-filled': model || model === 0 || type === 'date',
-            'form-control-prefix': model && prefix
+            'form-control-prefix': model && prefix,
           }"
           class="form-control"
           @blur="onBlur"
+          :disabled="props.disabled"
         />
 
         <span class="form-label">
@@ -42,7 +43,6 @@
             {{ placeholder }}
           </span>
         </span>
-        
       </div>
       <slot></slot>
 
@@ -53,7 +53,7 @@
           :key="key"
           class="form-attention"
         ></span>
-        <br>
+        <br />
       </span>
 
       <span v-if="errors.$error || serverErrors[props.name]" class="form-errors-list">
@@ -78,42 +78,42 @@
 </template>
 
 <script lang="ts" setup>
-import TheMask from 'vue-the-mask'
-import { defineEmits } from 'vue'
-import { CurrencyInputOptions, useCurrencyInput } from 'vue-currency-input'
+import TheMask from "vue-the-mask";
+import { defineEmits } from "vue";
+import { CurrencyInputOptions, useCurrencyInput } from "vue-currency-input";
 
 type Options = {
-  currency: string,
-  locale: string,
-  autoDecimalDigitsEnabled: boolean,
-  autoDecimalDigits: boolean,
-  precision: number,
-  currencyDisplay: string,
-  hideCurrencySymbolOnFocus: boolean,
-}
+  currency: string;
+  locale: string;
+  autoDecimalDigitsEnabled: boolean;
+  autoDecimalDigits: boolean;
+  precision: number;
+  currencyDisplay: string;
+  hideCurrencySymbolOnFocus: boolean;
+};
 
 interface Props {
-  modelValue: number,
-  placeholder: string,
-  mask?: string,
-  title?: string,
-  name?: string,
-  type?: string,
-  step?: number,
-  errors?: object,
-  errorMessages?: object,
-  serverErrors?: object,
-  attentionMessages?: object
-  disabled?: number
-  prefix: string
-  options: Options
+  modelValue: number;
+  placeholder: string;
+  mask?: string;
+  title?: string;
+  name?: string;
+  type?: string;
+  step?: number;
+  errors?: object;
+  errorMessages?: object;
+  serverErrors?: object;
+  attentionMessages?: object;
+  disabled?: boolean;
+  prefix: string;
+  options: Options;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
+  type: "text",
   options: {
-    currency: 'EUR',
-    locale: 'de-DE',
+    currency: "EUR",
+    locale: "de-DE",
     precision: 2,
     hideCurrencySymbolOnFocus: true,
     hideGroupingSeparatorOnFocus: true,
@@ -122,34 +122,40 @@ const props = withDefaults(defineProps<Props>(), {
     autoDecimalDigits: false,
     // valueScaling: 'precision',
     valueRangeEnabled: true,
-    valueRange: {min: 0, max: undefined},
+    valueRange: { min: 0, max: undefined },
     useGrouping: true,
-    currencyDisplay: 'symbol',
-    accountingSign: false
-    
+    currencyDisplay: "symbol",
+    accountingSign: false,
   },
   errors: () => ({ $error: false }),
   errorMessages: () => ({}),
-  serverErrors: () => ({})
-})
+  serverErrors: () => ({}),
+});
 
-const model = ref(props.modelValue)
+const model = ref(props.modelValue);
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(["update:modelValue"]);
 
-const { inputRef, setOptions, setValue,numberValue } = useCurrencyInput(props.options as CurrencyInputOptions)
+const { inputRef, setOptions, setValue, numberValue } = useCurrencyInput(
+  props.options as CurrencyInputOptions
+);
 
-let timeout: any = null
+let timeout: any = null;
 
-watch(() => props.options, (options) => {
-  setOptions(options as CurrencyInputOptions)
-})
+watch(
+  () => props.options,
+  (options) => {
+    setOptions(options as CurrencyInputOptions);
+  }
+);
 
-watch(() => props.modelValue, (modelValue) => {
-  setValue(modelValue)
-})
+watch(
+  () => props.modelValue,
+  (modelValue) => {
+    setValue(modelValue);
+  }
+);
 function onBlur() {
-  emit('update:modelValue', numberValue)
+  emit("update:modelValue", numberValue);
 }
-
 </script>
