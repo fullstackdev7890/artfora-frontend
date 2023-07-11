@@ -37,7 +37,13 @@ export const useTextsStore = defineStore('texts', {
       const row = this.$state.items?.data.filter((row) => row.text_name === 'ai_safe')
       const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
       return sortedArr
-    }
+    },
+    getSellerSupport() {
+      const row = this.$state.items?.data.filter((row) => row.text_name === 'seller_support')
+      const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
+      return sortedArr
+    },
+
 
   },
 })

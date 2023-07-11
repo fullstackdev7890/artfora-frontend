@@ -61,6 +61,8 @@ const initState = (): User => ({
   sel_phone: "",
   sel_email: "",
   sel_att: "",
+  seller_support: false,
+  buyer_support: true,
 })
 export const useUserStore = defineStore('user', {
   state: initState,
@@ -73,7 +75,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     async fetch() {
       const cartStore = useCartStore()
-     
+
       const response = await axios.get('/profile')
       if (response.data.more_external_link == null) {
         response.data.more_external_link = [];

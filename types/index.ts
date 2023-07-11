@@ -82,6 +82,8 @@ export interface User extends Entity {
   sel_phone: string
   sel_email: string
   sel_att: string
+  seller_support: boolean
+  buyer_support: boolean
 
 }
 

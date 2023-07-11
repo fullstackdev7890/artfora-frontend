@@ -352,6 +352,13 @@
             <span>Connect Stripe</span>
           </button>
         </div>
+        <div class="seller-read-more">
+          <ui-kit-big-check-box
+            title='Yes, I want to support ARTfora, keeping this gallery free for artist.  <span class="link seller-read-more-link" @click="checkSupport">Read more</span>'
+            :modelValue="user.seller_support"
+          ></ui-kit-big-check-box>
+        </div>
+
         <ui-kit-input
           :errors="v_s$.user.sel_name"
           :error-messages="{ required: 'Seller Name is required' }"
@@ -468,6 +475,7 @@
       </form>
     </template>
   </ui-kit-modal>
+  <seller-support-modal supportModalRef="'supportModalRef"></seller-support-modal>
 </template>
 
 <script setup lang="ts">
@@ -495,14 +503,19 @@ import UiKitInput from "~/components/UiKit/UiKitInput.vue";
 import useMedia from "~/composable/media";
 import axios from "axios";
 import UiKitSelector from "~/components/UiKit/UiKitSelector.vue";
+import UiKitBigCheckBox from "~/components/UiKit/UiKitBigCheckBox.vue";
+import SellerSupportModal from "~/components/Modals/SellerSupportModal.vue";
 import useVuelidate from "@vuelidate/core";
 import { useFiltersStore } from "~/store/filters";
+import { useTextsStore } from "~~/store/texts";
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>();
+const supportModalRef = ref<InstanceType<typeof SellerSupportModal>>();
 const seletedTab = ref("profile");
 const isDifferentDeliveryAddress = ref(false);
 const store = useStore();
 const userStore = useUserStore();
+const textsStore = useTextsStore();
 const filtersStore = useFiltersStore();
 const authStore = useAuthStore();
 const currentProfile = storeToRefs(userStore);
@@ -513,7 +526,7 @@ const countries = ref([{ title: currentProfile.country, key: currentProfile.coun
 const backgroundImage = ref(currentProfile.background_image);
 const avatar = ref(currentProfile.avatar_image);
 const error = ref("");
-
+const sellerSupportText = computed(() => textsStore?.getSellerSupport());
 const user = reactive({
   id: null,
   username: null,
@@ -556,6 +569,7 @@ const user = reactive({
   sel_country: null,
   sel_phone: null,
   sel_att: null,
+  seller_support: false,
 });
 const v$ = useVuelidate(
   {
@@ -652,6 +666,7 @@ function initializeSettingsFields() {
   user.sel_country = userStore?.sel_country;
   user.sel_phone = userStore?.sel_phone;
   user.sel_att = userStore?.sel_att;
+  user.seller_support = userStore?.seller_support;
 }
 
 async function addFile(event: any) {
@@ -678,6 +693,12 @@ async function addFile(event: any) {
 
 async function addField() {
   moreexternal_link.value.push("");
+}
+function checkSupport(e: any) {
+  e.stopPropagation();
+  supportModalRef.value && supportModalRef.value.open();
+
+  console.log("check");
 }
 
 async function removeField(index: any) {
@@ -807,6 +828,7 @@ async function updateSellerSettings() {
         sel_country: user?.sel_country,
         sel_phone: user?.sel_phone,
         sel_att: user?.sel_att,
+        seller_support: user?.seller_support,
       })
       .then(close);
   } catch (e: any) {

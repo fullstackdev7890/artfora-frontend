@@ -1,45 +1,90 @@
 @import "../variables";
 
 .form {
-  &-group { margin-bottom: 1rem; position: relative; }
+  &-group {
+    margin-bottom: 1rem;
+    position: relative;
+  }
 
-  &-field { position: relative; }
-  &-prefix { position: absolute; top: 0.8rem; left: 0.8rem; font-size: 1.2rem; color: $light-bg; opacity: 0;
+  &-field {
+    position: relative;
+  }
+
+  &-prefix {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.8rem;
+    font-size: 1.2rem;
+    color: $light-bg;
+    opacity: 0;
+
     &-filled {
       opacity: 1;
     }
   }
 
-  &-control { background: transparent; border: $input-border-color 1px solid; padding: 0.8rem 0.8rem 0.8rem 0.8rem; width: 100%; box-sizing: border-box; font-size: 1rem; color: $light-bg; border-radius: 10px; font-family: AtkinsonHyperlegible, sans-serif;
-    &-prefix { padding: 0.8rem 0.8rem 0.5rem 1.7rem; }
+  &-control {
+    background: transparent;
+    border: $input-border-color 1px solid;
+    padding: 0.8rem 0.8rem 0.8rem 0.8rem;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: $light-bg;
+    border-radius: 10px;
+    font-family: AtkinsonHyperlegible, sans-serif;
 
-    &-filled ~ .form-label { transform: translate(0, -0.4rem) scale(0.6); left: 0.8rem; }
-    &-filled ~ .form-label { height: auto; top: 0.6rem; }
-    &-filled ~ .form-textarea-label {
+    &-prefix {
+      padding: 0.8rem 0.8rem 0.5rem 1.7rem;
+    }
+
+    &-filled~.form-label {
       transform: translate(0, -0.4rem) scale(0.6);
       left: 0.8rem;
     }
-    &-filled ~ .form-textarea-label { height: auto; top: 0.6rem; }
-    &-textarea-container { display: flex; align-items: center; }
+
+    &-filled~.form-label {
+      height: auto;
+      top: 0.6rem;
+    }
+
+    &-filled~.form-textarea-label {
+      transform: translate(0, -0.4rem) scale(0.6);
+      left: 0.8rem;
+    }
+
+    &-filled~.form-textarea-label {
+      height: auto;
+      top: 0.6rem;
+    }
+
+    &-textarea-container {
+      display: flex;
+      align-items: center;
+    }
+
     &-textarea {
       min-height: 100px;
       align-items: center;
       outline: none !important;
       font-family: AtkinsonHyperlegible, sans-serif;
+
       &::placeholder {
         opacity: 0.4;
         color: $box-content-font-color;
         font-family: AtkinsonHyperlegible, sans-serif;
         font-style: italic;
       }
+
       vertical-align: text-top;
       display: flex;
     }
+
     &-textarea-label {
       position: absolute;
       top: 0;
       left: 0.8rem;
-  
+
       height: 100%;
       opacity: 0.4;
       pointer-events: none;
@@ -48,46 +93,171 @@
       transition: all $transition-delay;
       font-style: italic;
     }
-  
-    &:disabled { opacity: 0.2; cursor: not-allowed; }
+
+    &:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
   }
 
-  &-checkbox { margin: 0.3rem 0;
+  &-checkbox {
+    margin: 0.3rem 0;
+
     & input {
       margin-right: 0.5rem;
     }
   }
 
-  &-label { position: absolute; top: 0; left: 0.8rem; height: 100%; width: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
-  &-label-content { display: flex; align-items: center; height: 100%; }
-  &-textarea-label{ position: absolute; top: 0.75rem; left: 0.8rem; height: 100%; opacity: 0.4; pointer-events: none; transform: none; transform-origin: 0 0; transition: all $transition-delay; font-style: italic; }
- 
-  &-errors-list, &-attentions-list { width: 100%; }
-  &-attention { font-style: italic; }
-  &-error, &-attention { color: $light-bg; margin-top: .3rem; font-size: 15px; }
+  &-label {
+    position: absolute;
+    top: 0;
+    left: 0.8rem;
+    height: 100%;
+    width: 100%;
+    opacity: 0.4;
+    pointer-events: none;
+    transform: none;
+    transform-origin: 0 0;
+    transition: all $transition-delay;
+    font-style: italic;
+  }
 
-  &-arrow { position: absolute; right: .5rem; top: 1.5rem; cursor: pointer; }
+  &-label-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &-textarea-label {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.8rem;
+    height: 100%;
+    opacity: 0.4;
+    pointer-events: none;
+    transform: none;
+    transform-origin: 0 0;
+    transition: all $transition-delay;
+    font-style: italic;
+  }
+
+  &-errors-list,
+  &-attentions-list {
+    width: 100%;
+  }
+
+  &-attention {
+    font-style: italic;
+  }
+
+  &-error,
+  &-attention {
+    color: $light-bg;
+    margin-top: .3rem;
+    font-size: 15px;
+  }
+
+  &-arrow {
+    position: absolute;
+    right: .5rem;
+    top: 1.5rem;
+    cursor: pointer;
+  }
 
   &-dropdown {
-    transition: max-height $transition-delay; position: absolute; top: 2rem; max-height: 0; background-color: white;
-    z-index: 11; right: 0; left: 0; overflow: auto; padding-left: 0; margin-top: .5rem;
+    transition: max-height $transition-delay;
+    position: absolute;
+    top: 2rem;
+    max-height: 0;
+    background-color: white;
+    z-index: 11;
+    right: 0;
+    left: 0;
+    overflow: auto;
+    padding-left: 0;
+    margin-top: .5rem;
 
     &-item {
-      display: block; padding: .5rem; border-bottom: solid $box-border-color 1px; cursor: pointer; user-select: none;
+      display: block;
+      padding: .5rem;
+      border-bottom: solid $box-border-color 1px;
+      cursor: pointer;
+      user-select: none;
 
-      &:hover {background-color: $selector-item-hover-color;}
+      &:hover {
+        background-color: $selector-item-hover-color;
+      }
     }
 
     &-opened {
-      max-height: 40rem; box-shadow: 0 .5rem 2rem -.75rem $selector-dropdown-shadow-color;
+      max-height: 40rem;
+      box-shadow: 0 .5rem 2rem -.75rem $selector-dropdown-shadow-color;
     }
   }
 }
-.text-popover{
+
+.text-popover {
   font-size: 12px;
   position: absolute;
   bottom: -15px;
   left: 4px;
   left: 0px;
-  color:#d26655;
+  color: #d26655;
+}
+
+.seller-read-more {
+  padding-bottom: 1rem;
+  align-items: center;
+  display: flex;
+}
+
+.form-checkbox-big {
+
+
+  .check-box-big {
+    width: 1.8rem;
+    min-width: 1.8rem;
+    padding: none;
+    margin: none;
+    min-height: 1.8rem;
+    height: 1.8rem;
+    background: transparent;
+    outline: #C1C1C1;
+    border-radius: 8px;
+    appearance: none;
+  }
+
+  .checkbox-title {
+    padding-left: 0.2rem;
+    width: 100%;
+    word-break: break-all;
+  }
+
+}
+
+.input-checkbox-big {
+  display: flex;
+  align-items: center;
+}
+
+.check-box-big:not(:checked) {
+  background-color: #C1C1C1;
+}
+
+/* Styles for the checked state */
+.check-box-big:checked {
+  background-color: #C1C1C1;
+}
+
+/* Styles for the checkmark inside the checkbox */
+.check-box-big:checked::after {
+  content: '\2713';
+  /* Unicode character for tick symbol*/
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  color: #000;
+  line-height: 20px;
+  font-weight: bolder;
+  padding-top: 0.4rem;
 }

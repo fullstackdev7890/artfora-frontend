@@ -107,6 +107,7 @@
   &-form {
     margin-top: 35px;
   }
+
   &-form-profile {
     margin-top: 20px;
   }
@@ -180,7 +181,8 @@
   }
 
 }
-.differnt-address{
+
+.differnt-address {
   padding-bottom: 0.5rem;
 }
 
@@ -207,9 +209,16 @@
   justify-content: flex-end;
 
   padding-bottom: 1rem;
-.connect-stripe-button{
- 
-  span {
+
+  .connect-stripe-button {
+
+    span {}
   }
 }
+
+.seller-read-more {
+  display: flex;
+  position: relative;
+
+  &-link {}
 }
