@@ -10,21 +10,25 @@
         ref="checkbox"
         class="check-box-big"
       />
+
+      <div
+        class="checkbox-title"
+        :style="{
+          display: props.actionTitle ? null : 'flex',
+          alignItems: props.actionTitle ? 'center' : 'center',
+        }"
+      >
+        <span>
+          {{ props.title }}
+        </span>
+        <span
+          v-if="actionTitle"
+          class="link seller-read-more-link"
+          @click.self="onClick"
+          >{{ props.actionTitle }}</span
+        >
+      </div>
     </label>
-    <div
-      class="checkbox-title"
-      :style="{
-        display: props.actionTitle ? null : 'flex',
-        alignItems: props.actionTitle ? 'center' : 'center',
-      }"
-    >
-      <span>
-        {{ props.title }}
-      </span>
-      <span v-if="actionTitle" class="link seller-read-more-link" @click.stop="onClick">{{
-        props.actionTitle
-      }}</span>
-    </div>
   </div>
 </template>
 
@@ -48,7 +52,8 @@ const props = withDefaults(defineProps<Props>(), {
   title: "",
 });
 const emit = defineEmits(["update:modelValue", "action"]);
-function onClick() {
+function onClick(e: any) {
+  e.preventDefault();
   emit("action");
 }
 const model = computed({

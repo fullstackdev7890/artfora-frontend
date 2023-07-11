@@ -381,7 +381,7 @@
         </div>
         <div class="seller-read-more">
           <ui-kit-big-check-box
-            title="Yes, I want to support ARTfora, keeping this gallery free for artist. "
+            title="Yes, I want to support ARTfora, keeping this gallery free for artist.&nbsp;  &nbsp;"
             v-model="user.seller_support"
             actionTitle="Read more"
             @action="checkSupport"

@@ -190,15 +190,12 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
           />
-          <div class="ai-safe-mode">
-            <ui-kit-check-box
-              v-model="product.is_ai_safe"
-              class="add-product-ai-safe-checkboxes"
-            >
-              AI safe (the best we can do)
-            </ui-kit-check-box>
-            <span @click="openAiSafeDescriptionModal" class="link">read more</span>
-          </div>
+          <ui-kit-big-check-box
+            title="AI safe (the best we can do) &nbsp;  &nbsp;"
+            v-model="product.is_ai_safe"
+            actionTitle="Read more"
+            @action="readAiSafe"
+          ></ui-kit-big-check-box>
 
           <hr class="horizontal-separator" />
 
@@ -212,7 +209,7 @@
           />
 
           <div class="add-product-visibility-level">
-            <ui-kit-check-box
+            <ui-kit-big-check-box
               v-model="product.visibility_level"
               :value="COMMON_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount"
@@ -220,15 +217,14 @@
               type="radio"
             />
 
-            <ui-kit-check-box
+            <ui-kit-big-check-box
               v-model="product.visibility_level"
               :value="NUDITY_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount"
               :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
               type="radio"
             />
-
-            <ui-kit-check-box
+            <ui-kit-big-check-box
               v-model="product.visibility_level"
               :value="EROTIC_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount"
@@ -236,7 +232,7 @@
               type="radio"
             />
 
-            <ui-kit-check-box
+            <ui-kit-big-check-box
               v-model="product.visibility_level"
               :value="PORNO_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount"
@@ -304,6 +300,8 @@ import TrashIcon from "~/assets/svg/icon_trash.svg";
 import { useFiltersStore } from "~/store/filters";
 import DeleteProductModal from "~/components/Modals/DeleteProductModal.vue";
 import AiSafeDescriptionModal from "~/components/Modals/AiSafeDescriptionModal";
+import UiKitBigCheckBox from "~~/components/Uikit/UiKitBigCheckBox.vue";
+
 import randomWords from "random-words";
 
 const words = ref(randomWords({ exactly: 5 }));

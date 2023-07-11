@@ -172,14 +172,13 @@
             :server-errors="serverErrors"
             :disabled="store.pendingRequestsCount"
           />
-          <div class="ai-safe-mode">
-            <ui-kit-check-box
-              v-model="product.is_ai_safe"
-              class="add-product-ai-safe-checkboxes"
-            >
-              AI safe (the best we can do) </ui-kit-check-box
-            ><span @click="emit('openAiSafeDescription')" class="link">read more</span>
-          </div>
+
+          <ui-kit-big-check-box
+            title="AI safe (the best we can do) &nbsp;  &nbsp;"
+            v-model="product.is_ai_safe"
+            actionTitle="Read more"
+            @action="readAiSafe"
+          ></ui-kit-big-check-box>
 
           <hr class="horizontal-separator" />
 
@@ -193,7 +192,7 @@
           />
 
           <div class="add-product-visibility-level">
-            <ui-kit-check-box
+            <!-- <ui-kit-check-box
               v-model="product.visibility_level"
               :value="COMMON_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount"
@@ -218,6 +217,36 @@
             />
 
             <ui-kit-check-box
+              v-model="product.visibility_level"
+              :value="PORNO_VISIBILITY_LEVEL"
+              :disabled="store.pendingRequestsCount"
+              :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
+              type="radio"
+            /> -->
+            <ui-kit-big-check-box
+              v-model="product.visibility_level"
+              :value="COMMON_VISIBILITY_LEVEL"
+              :disabled="store.pendingRequestsCount"
+              :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
+              type="radio"
+            />
+
+            <ui-kit-big-check-box
+              v-model="product.visibility_level"
+              :value="NUDITY_VISIBILITY_LEVEL"
+              :disabled="store.pendingRequestsCount"
+              :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
+              type="radio"
+            />
+            <ui-kit-big-check-box
+              v-model="product.visibility_level"
+              :value="EROTIC_VISIBILITY_LEVEL"
+              :disabled="store.pendingRequestsCount"
+              :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
+              type="radio"
+            />
+
+            <ui-kit-big-check-box
               v-model="product.visibility_level"
               :value="PORNO_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount"
@@ -271,6 +300,7 @@ import { required } from "@vuelidate/validators";
 import { useFiltersStore } from "~/store/filters";
 import CurrencyInput from "~~/components/UiKit/CurrencyInput.vue";
 import MeasureInput from "~~/components/UiKit/MeasureInput.vue";
+import UiKitBigCheckBox from "~~/components/Uikit/UiKitBigCheckBox.vue";
 import randomWords from "random-words";
 
 const words = ref(randomWords({ exactly: 5 }));
@@ -402,6 +432,9 @@ async function addFiles(event: any) {
     };
     await reader.readAsDataURL(item);
   }
+}
+function readAiSafe() {
+  emit("openAiSafeDescription");
 }
 
 function removeFile(index: number) {
