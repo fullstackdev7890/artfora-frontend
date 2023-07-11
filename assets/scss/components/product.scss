@@ -168,9 +168,16 @@
   -webkit-border-bottom-left-radius: 40px;
   -webkit-border-bottom-right-radius: 40px;
   -webkit-border-radius: 40px;
-  -webkit-border-radius: 40px;
   -khtml-border-radius: 40px;
   -moz-border-radius: 40px;
+
+  /* For Firefox 4.0+ */
+  -moz-border-radius: 40px;
+
+  /* For Opera 40.5+ */
+  -o-border-radius: 40px;
+
+  /* Standard syntax */
   border-radius: 40px;
   outline: solid 1px #C1C1C1;
   height: 110.04px;
