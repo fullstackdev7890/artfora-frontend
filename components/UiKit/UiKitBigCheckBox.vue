@@ -10,10 +10,21 @@
         ref="checkbox"
         class="check-box-big"
       />
-      <div v-show="showCheckbox" class="input-checkbox-box-big"></div>
-      <div v-html="title" class="checkbox-title"></div>
-      <slot></slot>
     </label>
+    <div
+      class="checkbox-title"
+      :style="{
+        display: props.actionTitle ? null : 'flex',
+        alignItems: props.actionTitle ? 'center' : 'center',
+      }"
+    >
+      <span>
+        {{ props.title }}
+      </span>
+      <span v-if="actionTitle" class="link seller-read-more-link" @click.stop="onClick">{{
+        props.actionTitle
+      }}</span>
+    </div>
   </div>
 </template>
 
@@ -26,15 +37,20 @@ interface Props {
   title: string;
   value: number | string;
   type?: "checkbox" | "radio";
+  actionTitle: string;
+  action: () => void;
   showCheckbox: boolean;
 }
-
 const props = withDefaults(defineProps<Props>(), {
   type: "checkbox",
   showCheckbox: true,
+  actionTitle: "",
+  title: "",
 });
-const emit = defineEmits(["update:modelValue"]);
-
+const emit = defineEmits(["update:modelValue", "action"]);
+function onClick() {
+  emit("action");
+}
 const model = computed({
   get() {
     return props.modelValue;

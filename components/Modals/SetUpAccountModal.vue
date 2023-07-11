@@ -107,7 +107,7 @@
           :withSearch="true"
         />
         <div class="account-settings-visibility-level">
-          <ui-kit-check-box
+          <!-- <ui-kit-check-box
             v-model="user.product_visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
@@ -137,7 +137,34 @@
             :disabled="store.pendingRequestsCount"
             :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
             type="radio"
-          />
+          /> -->
+          <ui-kit-big-check-box
+            v-model="user.product_visibility_level"
+            :value="COMMON_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
+            type="radio"
+          ></ui-kit-big-check-box>
+          <ui-kit-big-check-box
+            v-model="user.product_visibility_level"
+            :value="NUDITY_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
+            type="radio"
+          ></ui-kit-big-check-box>
+          <ui-kit-big-check-box
+            v-model="user.product_visibility_level"
+            :value="EROTIC_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
+            type="radio"
+          ></ui-kit-big-check-box>
+          <ui-kit-big-check-box
+            v-model="user.product_visibility_level"
+            :value="PORNO_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount"
+            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
+          ></ui-kit-big-check-box>
         </div>
 
         <span v-if="error" class="form-error error">
@@ -354,8 +381,10 @@
         </div>
         <div class="seller-read-more">
           <ui-kit-big-check-box
-            title='Yes, I want to support ARTfora, keeping this gallery free for artist.  <span class="link seller-read-more-link" @click="checkSupport">Read more</span>'
-            :modelValue="user.seller_support"
+            title="Yes, I want to support ARTfora, keeping this gallery free for artist. "
+            v-model="user.seller_support"
+            actionTitle="Read more"
+            @action="checkSupport"
           ></ui-kit-big-check-box>
         </div>
 
@@ -475,7 +504,7 @@
       </form>
     </template>
   </ui-kit-modal>
-  <seller-support-modal supportModalRef="'supportModalRef"></seller-support-modal>
+  <seller-support-modal ref="supportModalRef"></seller-support-modal>
 </template>
 
 <script setup lang="ts">
@@ -695,7 +724,7 @@ async function addField() {
   moreexternal_link.value.push("");
 }
 function checkSupport(e: any) {
-  e.stopPropagation();
+  console.log("----");
   supportModalRef.value && supportModalRef.value.open();
 
   console.log("check");

@@ -1,6 +1,6 @@
 <template>
   <ui-kit-modal
-    :title="'About ARTfora'"
+    :title="'Seller Support'"
     :with-footer="false"
     class="artfora-modal"
     ref="sellerSupportForm"

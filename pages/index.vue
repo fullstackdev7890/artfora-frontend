@@ -41,7 +41,6 @@ onMounted(async () => {
   await autoStore.rememberToken();
   await products.fetchAll();
   await userStore.fetch();
-
 });
 
 useHead({
