@@ -74,8 +74,7 @@ export const useProductsStore = defineStore('products', {
   actions: {
     async fetchAll() {
       this.$state.filters.page = 1
-      const autoStore = useAuthStore()
-      await autoStore.rememberToken()
+      
       const response = await axios.get('/products', { params: this.$state.filters })
 
       this.$state.items = response.data

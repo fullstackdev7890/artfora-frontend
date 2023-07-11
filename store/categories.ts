@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { CategoriesState } from '~/types'
-import axios, {AxiosResponse} from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { Paginated } from '~/types/search'
 import { Category } from '~/types/categories'
 
@@ -23,8 +23,10 @@ export const useCategoriesStore = defineStore('categories', {
       /**
        * Get the categories include the current products
        */
+      const authStore = useAuthStore()
+      await authStore.rememberToken();
       const categories = response.data.data.map((category) => {
-        return {...category, has_products: !!category.children.find((sub) => sub.products?.length > 0)}
+        return { ...category, has_products: !!category.children.find((sub) => sub.products?.length > 0) }
       })
       this.items = categories
     },

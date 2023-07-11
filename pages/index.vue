@@ -26,7 +26,7 @@ const authStore = useAuthStore();
 const { items } = storeToRefs(products);
 const gallerySettings = useSettingsGalleryStore();
 const { order_by } = storeToRefs(gallerySettings);
-
+const autoStore = useAuthStore();
 onMounted(async () => {
   products.updateFilter({
     categories: null,
@@ -38,8 +38,10 @@ onMounted(async () => {
   });
 
   // await authStore.rememberToken();
-  await userStore.fetch();
+  await autoStore.rememberToken();
   await products.fetchAll();
+  await userStore.fetch();
+
 });
 
 useHead({
