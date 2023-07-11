@@ -368,7 +368,7 @@ const product = reactive({
   shipping_in_euro: 0,
   quantity_for_sale: 1,
   sale_price_in_euro: 0,
-  is_sale_price: true,
+  is_sale_price: false,
 });
 
 const v$ = useVuelidate(

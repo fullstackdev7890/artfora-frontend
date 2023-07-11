@@ -151,7 +151,6 @@
                 :error-messages="{ required: 'Price in euro is required' }"
                 :server-errors="serverErrors"
                 :disabled="!product.is_sale_price"
-
               />
             </div>
           </div>
@@ -454,7 +453,7 @@ function clearProductFields() {
   product.tags = "";
   product.visibility_level = null;
   product.is_ai_safe = true;
-  product.is_sale_price = true;
+  product.is_sale_price = false;
   product.sale_price_in_euro = 0;
 }
 
