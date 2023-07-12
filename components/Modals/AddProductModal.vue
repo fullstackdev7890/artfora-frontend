@@ -263,6 +263,7 @@
           </div>
 
           <div class="ui-kit-modal-content-buttons">
+          
             <button
               :disabled="store.pendingRequestsCount"
               class="button full-width"
