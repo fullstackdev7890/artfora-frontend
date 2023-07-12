@@ -263,7 +263,7 @@
           </div>
 
           <div class="ui-kit-modal-content-buttons">
-          
+
             <button
               :disabled="store.pendingRequestsCount"
               class="button full-width"
@@ -301,7 +301,8 @@ import { required } from "@vuelidate/validators";
 import { useFiltersStore } from "~/store/filters";
 import CurrencyInput from "~~/components/UiKit/CurrencyInput.vue";
 import MeasureInput from "~~/components/UiKit/MeasureInput.vue";
-import UiKitBigCheckBox from "~~/components/Uikit/UiKitBigCheckBox.vue";
+import UiKitBigCheckBox from "~/components/UiKit/UiKitBigCheckBox.vue";
+
 import randomWords from "random-words";
 
 const words = ref(randomWords({ exactly: 5 }));

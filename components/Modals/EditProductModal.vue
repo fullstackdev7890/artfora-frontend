@@ -300,7 +300,8 @@ import TrashIcon from "~/assets/svg/icon_trash.svg";
 import { useFiltersStore } from "~/store/filters";
 import DeleteProductModal from "~/components/Modals/DeleteProductModal.vue";
 import AiSafeDescriptionModal from "~/components/Modals/AiSafeDescriptionModal";
-import UiKitBigCheckBox from "~~/components/Uikit/UiKitBigCheckBox.vue";
+import UiKitBigCheckBox from "~/components/UiKit/UiKitBigCheckBox.vue";
+
 
 import randomWords from "random-words";
 
