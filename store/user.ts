@@ -91,7 +91,7 @@ export const useUserStore = defineStore('user', {
     },
     async addressValidate(data: {}) {
       const response = await axios.post("/validate-address", data)
-      return response.status
+      return response.data
     },
 
     clearProfile() {

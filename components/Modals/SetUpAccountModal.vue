@@ -212,7 +212,7 @@
           v-model="user.inv_address"
           id="user_inv_address"
         />
-
+        <div v-if="inv_address_error_msg">{{ "Address invalid" }}</div>
         <ui-kit-input
           :errors="v_i$.user.inv_address2"
           :error-messages="{ required: 'Invoice Address 2 is required' }"
@@ -302,7 +302,7 @@
             v-model="user.dev_address"
             id="user_dev_address"
           />
-
+          <div v-if="dev_address_error_msg">{{ "Address invalid" }}</div>
           <ui-kit-input
             :disabled="store.pendingRequestsCount"
             placeholder="DELIVER ADDRESS 2 (OPTIONAL)"
@@ -406,6 +406,7 @@
           v-model="user.sel_address"
           id="user_sel_address"
         />
+        <div v-if="sel_address_error_msg">{{ "Address invalid" }}</div>
 
         <ui-kit-input
           :disabled="store.pendingRequestsCount"
@@ -561,6 +562,9 @@ const avatar = ref(currentProfile.avatar_image);
 const error = ref("");
 const sellerSupportText = computed(() => textsStore?.getSellerSupport());
 const { user_inv_address, user_sel_address, user_dev_address } = storeToRefs(authStore);
+const sel_address_error_msg = ref(false);
+const dev_address_error_msg = ref(false);
+const inv_address_error_msg = ref(false);
 const user = reactive({
   id: null,
   username: null,
@@ -835,6 +839,35 @@ async function updateBuyerSettings() {
 
   try {
     user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
+
+    const res = await userStore.addressValidate({
+      address: user?.inv_address,
+      address2: user?.inv_address2,
+      city: user?.inv_city,
+      country: user?.inv_country,
+      postal_code: userStore?.inv_zip,
+    });
+    if (
+      res?.output.resolvedAddresses[0].customerMessages[0].message === "default.error"
+    ) {
+      inv_address_error_msg.value = true;
+      return;
+    }
+
+    const res1 = await userStore.addressValidate({
+      address: user?.dev_address,
+      address2: user?.dev_address2,
+      city: user?.dev_city,
+      country: user?.dev_country,
+      postal_code: userStore?.dev_zip,
+    });
+    if (
+      res1?.output.resolvedAddresses[0].customerMessages[0].message === "default.error"
+    ) {
+      dev_address_error_msg.value = true;
+      return;
+    }
+
     await userStore
       .updateProfile({
         id: user?.id,
@@ -893,6 +926,12 @@ async function updateSellerSettings() {
       country: user?.sel_country,
       postal_code: userStore?.sel_zip,
     });
+    if (
+      res?.output.resolvedAddresses[0].customerMessages[0].message === "default.error"
+    ) {
+      sel_address_error_msg.value = true;
+      return;
+    }
 
     await userStore
       .updateProfile({
@@ -943,6 +982,9 @@ async function open() {
   seletedTab.value = "profile";
   await filtersStore.fetchAll();
   initializeSettingsFields();
+  sel_address_error_msg.value = false;
+  inv_address_error_msg.value = false;
+  dev_address_error_msg.value = false;
 
   setUpAccountModal.value?.open();
   if (countries.value.length <= 1) {
