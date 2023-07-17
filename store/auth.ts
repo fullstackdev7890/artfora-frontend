@@ -19,6 +19,9 @@ export const useAuthStore = defineStore('auth', {
     token: null,
     emailForTwoFactorAuth: null,
     remember_me: false,
+    user_inv_address: { address: "", city: "", state: "", postal_code: "", country: "" },
+    user_sel_address: { address: "", city: "", state: "", postal_code: "", country: "" },
+    user_dev_address: { address: "", city: "", state: "", postal_code: "", country: "" }
   }),
 
   getters: {
@@ -27,6 +30,13 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
+    async addAddress(id: "user_inv_address" | "user_sel_address" | "user_dev_address", content: any) {
+      this.$state[id] = content;
+
+    },
+    async removeAddress(id: "user_inv_address" | "user_sel_address" | "user_dev_address") {
+      this.$state[id] = null;
+    },
     async rememberToken() {
       const rememberToken = localStorage.getItem('artfora_remember_token');
       if (rememberToken) {
@@ -54,6 +64,8 @@ export const useAuthStore = defineStore('auth', {
 
       this.$state.emailForTwoFactorAuth = null
       this.$state.token = response.data.token
+      localStorage.setItem('artfora_token', response.data.token);
+
       if (response?.data?.remember_token) {
         const rememberToken = response.data.remember_token;
         localStorage.setItem('artfora_remember_token', rememberToken);

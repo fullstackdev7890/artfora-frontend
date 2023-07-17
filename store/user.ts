@@ -89,6 +89,10 @@ export const useUserStore = defineStore('user', {
 
       await this.fetch()
     },
+    async addressValidate(data: {}) {
+      const response = await axios.post("/validate-address", data)
+      return response.status
+    },
 
     clearProfile() {
       this.$state = initState()

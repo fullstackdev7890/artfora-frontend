@@ -210,6 +210,7 @@
           :disabled="store.pendingRequestsCount"
           placeholder="INVOICE ADDRESS"
           v-model="user.inv_address"
+          id="user_inv_address"
         />
 
         <ui-kit-input
@@ -299,6 +300,7 @@
             :disabled="store.pendingRequestsCount"
             placeholder="DELIVER ADDRESS"
             v-model="user.dev_address"
+            id="user_dev_address"
           />
 
           <ui-kit-input
@@ -402,6 +404,7 @@
           :disabled="store.pendingRequestsCount"
           placeholder="SELLER ADDRESS"
           v-model="user.sel_address"
+          id="user_sel_address"
         />
 
         <ui-kit-input
@@ -510,6 +513,7 @@
 <script setup lang="ts">
 import { useAsyncData } from "#app";
 import { ref } from "@vue/reactivity";
+import { watchEffect } from "vue";
 import {
   COMMON_VISIBILITY_LEVEL,
   EROTIC_VISIBILITY_LEVEL,
@@ -556,6 +560,7 @@ const backgroundImage = ref(currentProfile.background_image);
 const avatar = ref(currentProfile.avatar_image);
 const error = ref("");
 const sellerSupportText = computed(() => textsStore?.getSellerSupport());
+const { user_inv_address, user_sel_address, user_dev_address } = storeToRefs(authStore);
 const user = reactive({
   id: null,
   username: null,
@@ -697,6 +702,53 @@ function initializeSettingsFields() {
   user.sel_att = userStore?.sel_att;
   user.seller_support = userStore?.seller_support;
 }
+console.log(authStore.user_inv_address);
+// watch((user_inv_address, value) => {
+//   user.inv_address = user_inv_address?.address;
+//   user.inv_zip = user_inv_address?.postal_code;
+//   user.inv_state = user_inv_address?.state;
+//   user.inv_city = user_inv_address?.city;
+//   user.inv_country = user_inv_address?.country;
+// });
+watch(
+  () => authStore.user_inv_address,
+  (newValue: any) => {
+    if (newValue) {
+      console.log(user_inv_address, "=====");
+      user.inv_address = newValue?.address;
+      user.inv_zip = newValue?.postal_code;
+      user.inv_state = newValue?.state;
+      user.inv_city = newValue?.city;
+      user.inv_country = newValue?.country;
+    }
+  }
+);
+watch(
+  () => authStore.user_dev_address,
+  (newValue: any) => {
+    if (newValue) {
+      console.log(user_dev_address, "=====");
+      user.dev_address = newValue?.address;
+      user.dev_zip = newValue?.postal_code;
+      user.dev_state = newValue?.state;
+      user.dev_city = newValue?.city;
+      user.dev_country = newValue?.country;
+    }
+  }
+);
+watch(
+  () => authStore.user_sel_address,
+  (newValue: any) => {
+    if (newValue) {
+      console.log(user_sel_address, "=====");
+      user.sel_address = newValue?.address;
+      user.sel_zip = newValue?.postal_code;
+      user.sel_state = newValue?.state;
+      user.sel_city = newValue?.city;
+      user.sel_country = newValue?.country;
+    }
+  }
+);
 
 async function addFile(event: any) {
   const media = event.target.files || event.dataTransfer.files;
@@ -834,6 +886,14 @@ async function updateSellerSettings() {
   }
   try {
     user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
+    const res = await userStore.addressValidate({
+      address: user?.sel_address,
+      address2: user?.sel_address2,
+      city: user?.sel_city,
+      country: user?.sel_country,
+      postal_code: userStore?.sel_zip,
+    });
+
     await userStore
       .updateProfile({
         id: user?.id,
@@ -883,6 +943,7 @@ async function open() {
   seletedTab.value = "profile";
   await filtersStore.fetchAll();
   initializeSettingsFields();
+
   setUpAccountModal.value?.open();
   if (countries.value.length <= 1) {
     const response = await axios.get("https://restcountries.com/v2/all");
@@ -903,6 +964,10 @@ async function openBuyer() {
       countries.value.push({ title: country.name, key: country.name })
     );
   }
+  var defaultBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-33.8902, 151.1759),
+    new google.maps.LatLng(-33.8474, 151.2631)
+  );
 }
 
 function close() {

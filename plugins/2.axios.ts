@@ -1,7 +1,7 @@
 import { defineNuxtPlugin, useRuntimeConfig } from '#app'
 import { AuthState } from '~/types'
 import { navigateTo } from '#imports'
-import axios, {AxiosRequestConfig} from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { useAuthStore } from '~/store/auth'
 import { useStore } from '~/store'
 // @ts-ignore
@@ -15,7 +15,7 @@ export default defineNuxtPlugin(() => {
   const authStore = useAuthStore()
   const rootStore = useStore()
 
-  addLoaderInterceptors(rootStore)
+  // addLoaderInterceptors(rootStore)
 
   refreshTokenInterceptor(authStore)
 
@@ -44,15 +44,15 @@ let refreshTokenPromise: Promise<any> | null = null;
 
 const refreshTokenInterceptor = (store: any) => {
   axios.interceptors.request.use(async (config) => {
-      const token = await getToken(config, store)
+    const token = await getToken(config, store)
 
-      config.headers = {
-        'Authorization': `Bearer ${token}`,
-        'Accept': 'application/json',
-      }
+    config.headers = {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+    }
 
-      return config
-    },
+    return config
+  },
     error => {
       Promise.reject(error)
     })
@@ -77,8 +77,8 @@ const redirectToLoginPage = (store: AuthState) => {
 }
 
 const getToken = async (config: AxiosRequestConfig, store: any): Promise<string | null> => {
+  store.token = localStorage.getItem("artfora_token")
   let token = store.token
-
   if (!token || !config) {
     return null
   }

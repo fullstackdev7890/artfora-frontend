@@ -1,19 +1,25 @@
 export interface LoginData {
   login: string
   password: string
-  remember_me:boolean
+  remember_me: boolean
 }
 
 export interface TwoFactorAuthData {
   code: string,
   email: string | null,
-  remember_me:boolean
+  remember_me: boolean
 }
 
 export interface ResetPasswordData {
   login: string
 }
-
+export interface Address {
+  country: string
+  city: string
+  address: string
+  state: string
+  postal_code: string
+}
 export interface RestorePasswordData {
   password: string
   confirm: string
