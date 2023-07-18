@@ -86,6 +86,9 @@ const getToken = async (config: AxiosRequestConfig, store: any): Promise<string 
   if (!isJwtExpired(token) || isRefreshTokenRequest(config)) {
     return token
   }
+  else {
+    store.token = null
+  }
 
   return null
 }

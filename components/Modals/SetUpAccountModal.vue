@@ -823,6 +823,8 @@ async function uploadProduct() {
   }
 }
 async function updateBuyerSettings() {
+  inv_address_error_msg.value = false;
+  dev_address_error_msg.value = false;
   v_i$.value.$touch();
 
   if (v_i$.value.$error) {
@@ -847,62 +849,60 @@ async function updateBuyerSettings() {
       country: user?.inv_country,
       postal_code: userStore?.inv_zip,
     });
-    if (
-      res?.output.resolvedAddresses[0].customerMessages[0].message === "default.error"
-    ) {
+
+    if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
       inv_address_error_msg.value = true;
       return;
     }
-
-    const res1 = await userStore.addressValidate({
-      address: user?.dev_address,
-      address2: user?.dev_address2,
-      city: user?.dev_city,
-      country: user?.dev_country,
-      postal_code: userStore?.dev_zip,
-    });
-    if (
-      res1?.output.resolvedAddresses[0].customerMessages[0].message === "default.error"
-    ) {
-      dev_address_error_msg.value = true;
-      return;
+    if (isDifferentDeliveryAddress.value === true) {
+      const res1 = await userStore.addressValidate({
+        address: user?.dev_address,
+        address2: user?.dev_address2,
+        city: user?.dev_city,
+        country: user?.dev_country,
+        postal_code: userStore?.dev_zip,
+      });
+      if (res1?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
+        dev_address_error_msg.value = true;
+      }
     }
-
-    await userStore
-      .updateProfile({
-        id: user?.id,
-        username: user.username,
-        email: user.email,
-        description: user.description,
-        external_link: user.external_link,
-        product_visibility_level: user.product_visibility_level,
-        background_image_id: user.background_image_id,
-        avatar_image_id: user.avatar_image_id,
-        country: user.country,
-        more_external_link: user.more_external_link,
-        can_add_product: user?.can_add_product,
-        inv_name: user?.inv_name,
-        inv_email: user?.inv_email,
-        inv_address: user?.inv_address,
-        inv_address2: user?.inv_address2,
-        inv_zip: user?.inv_zip,
-        inv_state: user?.inv_state,
-        inv_city: user?.inv_city,
-        inv_country: user?.inv_country,
-        inv_phone: user?.inv_phone,
-        inv_att: user?.inv_att,
-        dev_name: isDifferentDeliveryAddress.value ? user?.dev_name : "",
-        dev_email: isDifferentDeliveryAddress.value ? user?.dev_email : "",
-        dev_address: isDifferentDeliveryAddress.value ? user?.dev_address : "",
-        dev_address2: isDifferentDeliveryAddress.value ? user?.dev_address2 : "",
-        dev_zip: isDifferentDeliveryAddress.value ? user?.dev_zip : "",
-        dev_state: isDifferentDeliveryAddress.value ? user?.dev_state : "",
-        dev_city: isDifferentDeliveryAddress.value ? user?.dev_city : "",
-        dev_country: isDifferentDeliveryAddress.value ? user?.dev_country : "",
-        dev_phone: isDifferentDeliveryAddress.value ? user?.dev_phone : null,
-        dev_att: isDifferentDeliveryAddress.value ? user?.dev_att : "",
-      })
-      .then(close);
+    console.log(dev_address_error_msg.value);
+    dev_address_error_msg.value === false &&
+      (await userStore
+        .updateProfile({
+          id: user?.id,
+          username: user.username,
+          email: user.email,
+          description: user.description,
+          external_link: user.external_link,
+          product_visibility_level: user.product_visibility_level,
+          background_image_id: user.background_image_id,
+          avatar_image_id: user.avatar_image_id,
+          country: user.country,
+          more_external_link: user.more_external_link,
+          can_add_product: user?.can_add_product,
+          inv_name: user?.inv_name,
+          inv_email: user?.inv_email,
+          inv_address: user?.inv_address,
+          inv_address2: user?.inv_address2,
+          inv_zip: user?.inv_zip,
+          inv_state: user?.inv_state,
+          inv_city: user?.inv_city,
+          inv_country: user?.inv_country,
+          inv_phone: user?.inv_phone,
+          inv_att: user?.inv_att,
+          dev_name: isDifferentDeliveryAddress.value ? user?.dev_name : "",
+          dev_email: isDifferentDeliveryAddress.value ? user?.dev_email : "",
+          dev_address: isDifferentDeliveryAddress.value ? user?.dev_address : "",
+          dev_address2: isDifferentDeliveryAddress.value ? user?.dev_address2 : "",
+          dev_zip: isDifferentDeliveryAddress.value ? user?.dev_zip : "",
+          dev_state: isDifferentDeliveryAddress.value ? user?.dev_state : "",
+          dev_city: isDifferentDeliveryAddress.value ? user?.dev_city : "",
+          dev_country: isDifferentDeliveryAddress.value ? user?.dev_country : "",
+          dev_phone: isDifferentDeliveryAddress.value ? user?.dev_phone : null,
+          dev_att: isDifferentDeliveryAddress.value ? user?.dev_att : "",
+        })
+        .then(close));
   } catch (e: any) {
     if (e.response && !e.response.data.errors) {
       error.value = "Something went wrong! Please try again later.";
@@ -912,6 +912,8 @@ async function updateBuyerSettings() {
   }
 }
 async function updateSellerSettings() {
+  sel_address_error_msg.value = false;
+
   v_s$.value.$touch();
   if (v_s$.value.$error) {
     console.log(v_s$.value);
@@ -926,39 +928,36 @@ async function updateSellerSettings() {
       country: user?.sel_country,
       postal_code: userStore?.sel_zip,
     });
-    if (
-      res?.output.resolvedAddresses[0].customerMessages[0].message === "default.error"
-    ) {
+    if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
       sel_address_error_msg.value = true;
-      return;
+    } else {
+      await userStore
+        .updateProfile({
+          id: user?.id,
+          username: user.username,
+          email: user.email,
+          description: user.description,
+          external_link: user.external_link,
+          product_visibility_level: user.product_visibility_level,
+          background_image_id: user.background_image_id,
+          avatar_image_id: user.avatar_image_id,
+          country: user.country,
+          more_external_link: user.more_external_link,
+          can_add_product: user?.can_add_product,
+          sel_name: user?.sel_name,
+          sel_email: user?.sel_email,
+          sel_address: user?.sel_address,
+          sel_address2: user?.sel_address2,
+          sel_zip: user?.sel_zip,
+          sel_state: user?.sel_state,
+          sel_city: user?.sel_city,
+          sel_country: user?.sel_country,
+          sel_phone: user?.sel_phone,
+          sel_att: user?.sel_att,
+          seller_support: user?.seller_support,
+        })
+        .then(close);
     }
-
-    await userStore
-      .updateProfile({
-        id: user?.id,
-        username: user.username,
-        email: user.email,
-        description: user.description,
-        external_link: user.external_link,
-        product_visibility_level: user.product_visibility_level,
-        background_image_id: user.background_image_id,
-        avatar_image_id: user.avatar_image_id,
-        country: user.country,
-        more_external_link: user.more_external_link,
-        can_add_product: user?.can_add_product,
-        sel_name: user?.sel_name,
-        sel_email: user?.sel_email,
-        sel_address: user?.sel_address,
-        sel_address2: user?.sel_address2,
-        sel_zip: user?.sel_zip,
-        sel_state: user?.sel_state,
-        sel_city: user?.sel_city,
-        sel_country: user?.sel_country,
-        sel_phone: user?.sel_phone,
-        sel_att: user?.sel_att,
-        seller_support: user?.seller_support,
-      })
-      .then(close);
   } catch (e: any) {
     if (e.response && !e.response.data.errors) {
       error.value = "Something went wrong! Please try again later.";
