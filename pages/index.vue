@@ -19,6 +19,7 @@ import MainContainer from "~/components/Layout/MainContainer.vue";
 import { useAuthStore } from "~~/store/auth";
 import { useUserStore } from "~~/store/user";
 import { useCategoriesStore } from "~~/store/categories";
+import { useTextsStore } from "~~/store/texts";
 const title = ref("");
 const description = ref("");
 const products = useProductsStore();
@@ -28,6 +29,7 @@ const { items } = storeToRefs(products);
 const gallerySettings = useSettingsGalleryStore();
 const { order_by } = storeToRefs(gallerySettings);
 const autoStore = useAuthStore();
+const textsStore = useTextsStore();
 const config = useRuntimeConfig();
 const categoriesStore = useCategoriesStore();
 onMounted(async () => {
@@ -42,6 +44,7 @@ onMounted(async () => {
 
   await autoStore.rememberToken();
   await categoriesStore.fetch();
+  await textsStore.fetchAll();
   await products.fetchAll();
   await userStore.fetch();
 });
