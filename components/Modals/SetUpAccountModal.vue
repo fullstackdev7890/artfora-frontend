@@ -53,7 +53,6 @@
           <span
             class="account-settings-tabs-tab"
             :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
-            v-if="user.can_add_product"
             @click="openSellerSupportModal"
             >Support
           </span>
