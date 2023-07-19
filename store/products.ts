@@ -74,7 +74,7 @@ export const useProductsStore = defineStore('products', {
   actions: {
     async fetchAll() {
       this.$state.filters.page = 1
-      
+
       const response = await axios.get('/products', { params: this.$state.filters })
 
       this.$state.items = response.data
@@ -112,6 +112,11 @@ export const useProductsStore = defineStore('products', {
       this.$state.items.data = [...prevProducts, ...this.$state.items.data]
 
       this.$state.loadingNextPage = false
+    },
+    async getShippingRate(data: any) {
+      console.log(data)
+      const response = await axios.post('/ship_rate', data);
+      return response.data
     },
 
     updateFilter(filter: any) {

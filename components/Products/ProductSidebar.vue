@@ -265,7 +265,6 @@ function openCheckoutModal() {
 }
 
 function openCartModal() {
-  console.log(cartModalRef);
   cartModalRef.value && cartModalRef.value.open();
 }
 async function saveProductToCart() {
