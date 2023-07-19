@@ -18,6 +18,7 @@ import { useSettingsGalleryStore } from "~/store/gallerySettings";
 import MainContainer from "~/components/Layout/MainContainer.vue";
 import { useAuthStore } from "~~/store/auth";
 import { useUserStore } from "~~/store/user";
+import { useCategoriesStore } from "~~/store/categories";
 const title = ref("");
 const description = ref("");
 const products = useProductsStore();
@@ -28,6 +29,7 @@ const gallerySettings = useSettingsGalleryStore();
 const { order_by } = storeToRefs(gallerySettings);
 const autoStore = useAuthStore();
 const config = useRuntimeConfig();
+const categoriesStore = useCategoriesStore();
 onMounted(async () => {
   products.updateFilter({
     categories: null,
@@ -38,8 +40,8 @@ onMounted(async () => {
     author: null,
   });
 
-  // await authStore.rememberToken();
   await autoStore.rememberToken();
+  await categoriesStore.fetch();
   await products.fetchAll();
   await userStore.fetch();
 });

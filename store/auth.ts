@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
 
     },
     async removeAddress(id: "user_inv_address" | "user_sel_address" | "user_dev_address") {
-      this.$state[id] = null;
+      this.$state[id] = {address: "", city: "", state: "", postal_code: "", country: ""};
     },
     async rememberToken() {
       const rememberToken = localStorage.getItem('artfora_remember_token');

@@ -3,10 +3,9 @@
     :title="'Seller Support'"
     :with-footer="false"
     class="artfora-modal"
-    ref="sellerSupportForm"
+    ref="sellerSupportModalRef"
   >
     <template v-slot:content>
-      <about :items="sellerSupports"></about>
       <div class="ui-kit-modal-content-buttons">
         <button class="button button-grey full-width" @click="close">
           <span>Close</span>
@@ -19,19 +18,14 @@
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
 import UiKitModal from "~/components/UiKit/UiKitModal.vue";
-import { useTextsStore } from "~/store/texts";
-import About from "~/components/Users/About.vue";
-const sellerSupportForm = ref<InstanceType<typeof UiKitModal>>(null);
-const textsStore = useTextsStore();
-
-const sellerSupports = computed(() => textsStore?.getSellerSupport());
+const sellerSupportModalRef = ref<InstanceType<typeof UiKitModal>>();
 
 function open() {
-  sellerSupportForm.value?.open();
+  sellerSupportModalRef.value && sellerSupportModalRef.value?.open();
 }
 
 function close() {
-  sellerSupportForm.value?.close();
+  sellerSupportModalRef.value && sellerSupportModalRef.value?.close();
 }
 
 defineExpose({ open, close });

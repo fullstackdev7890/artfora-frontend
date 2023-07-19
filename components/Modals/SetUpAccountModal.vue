@@ -50,6 +50,13 @@
             v-if="user.can_add_product"
             >Seller
           </span>
+          <span
+            class="account-settings-tabs-tab"
+            :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
+            v-if="user.can_add_product"
+            @click="openSellerSupportModal"
+            >Support
+          </span>
         </div>
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
@@ -107,37 +114,6 @@
           :withSearch="true"
         />
         <div class="account-settings-visibility-level">
-          <!-- <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="COMMON_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
-
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="NUDITY_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
-
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="EROTIC_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
-            type="radio"
-          />
-
-          <ui-kit-check-box
-            v-model="user.product_visibility_level"
-            :value="PORNO_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
-            type="radio"
-          /> -->
           <ui-kit-big-check-box
             v-model="user.product_visibility_level"
             :value="COMMON_VISIBILITY_LEVEL"
@@ -508,13 +484,11 @@
       </form>
     </template>
   </ui-kit-modal>
-  <seller-support-modal ref="supportModalRef"></seller-support-modal>
+  <seller-support-modal ref="sellerSupportModalRef"></seller-support-modal>
 </template>
 
 <script setup lang="ts">
-import { useAsyncData } from "#app";
 import { ref } from "@vue/reactivity";
-import { watchEffect } from "vue";
 import {
   COMMON_VISIBILITY_LEVEL,
   EROTIC_VISIBILITY_LEVEL,
@@ -544,11 +518,11 @@ import { useFiltersStore } from "~/store/filters";
 import { useTextsStore } from "~~/store/texts";
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>();
-const supportModalRef = ref<InstanceType<typeof SellerSupportModal>>();
+const sellerSupportModalRef = ref<InstanceType<typeof SellerSupportModal>>();
 const seletedTab = ref("profile");
-const isDifferentDeliveryAddress = ref(false);
 const store = useStore();
 const userStore = useUserStore();
+const isDifferentDeliveryAddress = ref(userStore?.dev_email ? true : false);
 const textsStore = useTextsStore();
 const filtersStore = useFiltersStore();
 const authStore = useAuthStore();
@@ -706,14 +680,7 @@ function initializeSettingsFields() {
   user.sel_att = userStore?.sel_att;
   user.seller_support = userStore?.seller_support;
 }
-console.log(authStore.user_inv_address);
-// watch((user_inv_address, value) => {
-//   user.inv_address = user_inv_address?.address;
-//   user.inv_zip = user_inv_address?.postal_code;
-//   user.inv_state = user_inv_address?.state;
-//   user.inv_city = user_inv_address?.city;
-//   user.inv_country = user_inv_address?.country;
-// });
+
 watch(
   () => authStore.user_inv_address,
   (newValue: any) => {
@@ -866,7 +833,6 @@ async function updateBuyerSettings() {
         dev_address_error_msg.value = true;
       }
     }
-    console.log(dev_address_error_msg.value);
     dev_address_error_msg.value === false &&
       (await userStore
         .updateProfile({
@@ -1014,6 +980,10 @@ async function openBuyer() {
 function close() {
   setUpAccountModal.value?.close();
 }
+function openSellerSupportModal() {
+  sellerSupportModalRef?.value.open();
+}
+
 async function connectStripe({ redirect }: { redirect: string }) {
   try {
     const res = await authStore.connectStrip(user?.id);

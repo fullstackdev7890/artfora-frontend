@@ -192,37 +192,6 @@
           />
 
           <div class="add-product-visibility-level">
-            <!-- <ui-kit-check-box
-              v-model="product.visibility_level"
-              :value="COMMON_VISIBILITY_LEVEL"
-              :disabled="store.pendingRequestsCount"
-              :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
-              type="radio"
-            />
-
-            <ui-kit-check-box
-              v-model="product.visibility_level"
-              :value="NUDITY_VISIBILITY_LEVEL"
-              :disabled="store.pendingRequestsCount"
-              :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
-              type="radio"
-            />
-
-            <ui-kit-check-box
-              v-model="product.visibility_level"
-              :value="EROTIC_VISIBILITY_LEVEL"
-              :disabled="store.pendingRequestsCount"
-              :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
-              type="radio"
-            />
-
-            <ui-kit-check-box
-              v-model="product.visibility_level"
-              :value="PORNO_VISIBILITY_LEVEL"
-              :disabled="store.pendingRequestsCount"
-              :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
-              type="radio"
-            /> -->
             <ui-kit-big-check-box
               v-model="product.visibility_level"
               :value="COMMON_VISIBILITY_LEVEL"
@@ -351,7 +320,7 @@ const product = reactive({
   title: "",
   description: "",
   tags: "",
-  visibility_level: null,
+  visibility_level: 2,
   is_ai_safe: true,
   height: 0,
   width: 0,
@@ -486,7 +455,7 @@ function clearProductFields() {
   product.title = "";
   product.description = "";
   product.tags = "";
-  product.visibility_level = null;
+  product.visibility_level = 1;
   product.is_ai_safe = true;
   product.is_sale_price = false;
   product.sale_price_in_euro = 0;

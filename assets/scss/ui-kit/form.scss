@@ -253,23 +253,24 @@
   background-color: #949495;
 }
 
-/* Styles for the checked state */
 .check-box-big:checked {
   background-color: #C1C1C1;
-  // background-image: url('../../svg/check.svg');
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Styles for the checkmark inside the checkbox */
 .check-box-big:checked::after {
-  content: '\2713';
-
-  /* Unicode character for tick symbol*/
+  content: url("assets/svg/checkbox-checked.svg");
+  // background-image: url('assets/svg/checkbox-checked.svg');
+  height: 80%;
+  width: 80%;
+  background-size: cover;
   display: block;
   text-align: center;
   font-size: 2rem;
   color: #000;
   line-height: 20px;
   font-weight: 900;
-  padding-top: 0.3rem;
 }
