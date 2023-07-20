@@ -236,7 +236,7 @@
     user-select: none;
 
 
-    padding-left: 0.2rem;
+    padding-left: 0.5rem;
     width: 100%;
     word-break: break-all;
   }
@@ -247,6 +247,8 @@
   display: flex;
   font-size: 14px;
   align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .check-box-big:not(:checked) {
@@ -254,6 +256,7 @@
 }
 
 .check-box-big:checked {
+  position: relative;
   background-color: #C1C1C1;
   display: flex;
   justify-content: center;
@@ -264,9 +267,12 @@
 .check-box-big:checked::after {
   content: url("assets/svg/checkbox-checked.svg");
   // background-image: url('assets/svg/checkbox-checked.svg');
-  height: 80%;
-  width: 80%;
+  height: 60%;
+  width: 60%;
+  bottom: 0.65rem;
+  position: absolute;
   background-size: cover;
+  background-position: center;
   display: block;
   text-align: center;
   font-size: 2rem;

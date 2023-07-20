@@ -197,17 +197,25 @@
             @action="readAiSafe"
           ></ui-kit-big-check-box>
 
+          <div :style="{ paddingTop: '0.5rem' }">
+            <ui-kit-input
+              v-model="product.tags"
+              v-if="!product.is_ai_safe"
+              :errors="v$.product.tags"
+              :error-messages="{ required: 'Tags are required' }"
+              :disabled="product.is_ai_safe"
+              placeholder="ADD TAGS, SEPARATE BY COMMA"
+            />
+            <ui-kit-text-area
+              v-model="product.alt_text"
+              :error-messages="{ required: 'Please enter text.' }"
+              :disabled="store.pendingRequestsCount"
+              placeholder="Add ALT TEXT"
+              v-if="!product.is_ai_safe"
+            />
+          </div>
+
           <hr class="horizontal-separator" />
-
-          <ui-kit-input
-            v-model="product.tags"
-            v-if="!product.is_ai_safe"
-            :errors="v$.product.tags"
-            :error-messages="{ required: 'Tags are required' }"
-            :disabled="product.is_ai_safe"
-            placeholder="ADD TAGS, SEPARATE BY COMMA"
-          />
-
           <div class="add-product-visibility-level">
             <ui-kit-big-check-box
               v-model="product.visibility_level"
@@ -301,7 +309,7 @@ import { useFiltersStore } from "~/store/filters";
 import DeleteProductModal from "~/components/Modals/DeleteProductModal.vue";
 import AiSafeDescriptionModal from "~/components/Modals/AiSafeDescriptionModal";
 import UiKitBigCheckBox from "~/components/UiKit/UiKitBigCheckBox.vue";
-
+import UiKitTextArea from "../UiKit/UiKitTextArea.vue";
 
 import randomWords from "random-words";
 
@@ -368,6 +376,7 @@ const product = reactive({
   quantity_for_sale: 1,
   sale_price_in_euro: 0,
   is_sale_price: false,
+  alt_text:''
 });
 
 const v$ = useVuelidate(
@@ -497,6 +506,8 @@ function initializeProductFields() {
   product.is_ai_safe = productStore.item.is_ai_safe;
   product.sale_price_in_euro = productStore.item.sale_price_in_euro;
   product.is_sale_price = productStore.item.is_sale_price;
+  product.alt_text = productStore.item.alt_text;
+
 }
 
 async function deleteProduct() {

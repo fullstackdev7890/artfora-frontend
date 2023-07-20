@@ -28,6 +28,7 @@ export declare interface Product extends Entity {
   tags: string
   description: string
   is_ai_safe: boolean
+  alt_text: string
   visibility_level: number
   width: number
   height: number
@@ -36,8 +37,8 @@ export declare interface Product extends Entity {
   shipping_in_euro: number
   quantity_for_sale: number
   price_in_euro: number
-  sale_price_in_euro:number
-  is_sale_price:boolean
+  sale_price_in_euro: number
+  is_sale_price: boolean
   status: string
   deleted_at: string | null
   media: Media[]
@@ -78,7 +79,7 @@ export interface CartType {
   prod_colour?: number
   quantity: number
   price: number,
-  Product?:Product
+  Product?: Product
 }
 export interface CartsState {
   carts: CartType[],

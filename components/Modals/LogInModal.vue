@@ -42,7 +42,7 @@
             </span>
           </span>
         </span>
-        <ui-kit-check-box
+        <ui-kit-big-check-box
           v-model="auth.remember_me"
           :value="'Remember me'"
           :disabled="store.pendingRequestsCount"
@@ -79,9 +79,9 @@ import { useStore } from "~/store";
 import type { LoginData } from "~/types/auth";
 import UiKitModal from "~/components/UiKit/UiKitModal.vue";
 import UiKitInput from "~/components/UiKit/UiKitInput.vue";
-import UiKitCheckBox from "~/components/UiKit/UiKitCheckBox.vue";
+import UiKitBigCheckBox from "../UiKit/UiKitBigCheckBox.vue";
 
-const logInModal = ref<InstanceType<typeof UiKitModal>>(null);
+const logInModal = ref<InstanceType<typeof UiKitModal>>();
 const authStore = useAuthStore();
 const store = useStore();
 const route = useRoute();
@@ -113,8 +113,6 @@ const v$ = useVuelidate(
 );
 
 async function logIn() {
-
-
   v$.value.$touch();
 
   if (v$.value.$error) {

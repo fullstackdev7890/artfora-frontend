@@ -27,6 +27,7 @@ export const useProductsStore = defineStore('products', {
       tags: '',
       description: '',
       is_ai_safe: false,
+      alt_text: '',
       width: 0,
       height: 0,
       weight: 0,

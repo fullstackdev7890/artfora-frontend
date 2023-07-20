@@ -251,10 +251,9 @@
         />
         <hr class="divide" />
         <div class="differnt-address">
-          <ui-kit-check-box
+          <ui-kit-big-check-box
             v-model="isDifferentDeliveryAddress"
             :value="'DELIVER ADDRESS (If different)'"
-            :disabled="store.pendingRequestsCount"
             :title="'DELIVER ADDRESS (If different)'"
             type="checkbox"
           />
@@ -361,7 +360,7 @@
             title="Yes, I want to support ARTfora, keeping this gallery free for artist.&nbsp;  &nbsp;"
             v-model="user.seller_support"
             actionTitle="Read more"
-            @action="checkSupport"
+            @action="openSellerSupportModal"
           ></ui-kit-big-check-box>
         </div>
 
@@ -458,7 +457,7 @@
         />
 
         <div class="addmore" v-if="user.can_add_product">
-          <plus-icon @click="addField()" class="account-settings-plus-icon" />
+          <plus-icon @click="addField()" class="account-s ettings-plus-icon" />
           <ui-kit-input
             v-for="(link, k) in moreexternal_link"
             placeholder="EXTERNAL LINK"
@@ -745,12 +744,6 @@ async function addFile(event: any) {
 async function addField() {
   moreexternal_link.value.push("");
 }
-function checkSupport(e: any) {
-  console.log("----");
-  supportModalRef.value && supportModalRef.value.open();
-
-  console.log("check");
-}
 
 async function removeField(index: any) {
   moreexternal_link.value.splice(index, 1);
@@ -980,7 +973,7 @@ function close() {
   setUpAccountModal.value?.close();
 }
 function openSellerSupportModal() {
-  sellerSupportModalRef?.value.open();
+  sellerSupportModalRef?.value && sellerSupportModalRef?.value.open();
 }
 
 async function connectStripe({ redirect }: { redirect: string }) {

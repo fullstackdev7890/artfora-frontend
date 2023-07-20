@@ -179,18 +179,26 @@
             actionTitle="Read more"
             @action="readAiSafe"
           ></ui-kit-big-check-box>
+          <div :style="{ paddingTop: '0.5rem' }">
+            <ui-kit-input
+              v-model="product.tags"
+              :errors="v$.product.tags"
+              :error-messages="{ required: 'Tags are required' }"
+              :disabled="product.is_ai_safe"
+              placeholder="ADD TAGS, SEPARATE BY COMMA"
+              v-if="!product.is_ai_safe"
+            />
+            <!-- v-model="contactFormData.text" -->
+            <ui-kit-text-area
+              v-model="product.alt_text"
+              :error-messages="{ required: 'Please enter text.' }"
+              :disabled="store.pendingRequestsCount"
+              placeholder="Add ALT TEXT"
+              v-if="!product.is_ai_safe"
+            />
+          </div>
 
           <hr class="horizontal-separator" />
-
-          <ui-kit-input
-            v-model="product.tags"
-            :errors="v$.product.tags"
-            :error-messages="{ required: 'Tags are required' }"
-            :disabled="product.is_ai_safe"
-            placeholder="ADD TAGS, SEPARATE BY COMMA"
-            v-if="!product.is_ai_safe"
-          />
-
           <div class="add-product-visibility-level">
             <ui-kit-big-check-box
               v-model="product.visibility_level"
@@ -232,7 +240,6 @@
           </div>
 
           <div class="ui-kit-modal-content-buttons">
-
             <button
               :disabled="store.pendingRequestsCount"
               class="button full-width"
@@ -271,7 +278,7 @@ import { useFiltersStore } from "~/store/filters";
 import CurrencyInput from "~~/components/UiKit/CurrencyInput.vue";
 import MeasureInput from "~~/components/UiKit/MeasureInput.vue";
 import UiKitBigCheckBox from "~/components/UiKit/UiKitBigCheckBox.vue";
-
+import UiKitTextArea from "../UiKit/UiKitTextArea.vue";
 import randomWords from "random-words";
 
 const words = ref(randomWords({ exactly: 5 }));
@@ -330,6 +337,7 @@ const product = reactive({
   quantity_for_sale: 1,
   sale_price_in_euro: 0,
   is_sale_price: true,
+  alt_text: "",
 });
 
 const v$ = useVuelidate(
@@ -459,6 +467,7 @@ function clearProductFields() {
   product.is_ai_safe = true;
   product.is_sale_price = false;
   product.sale_price_in_euro = 0;
+  product.alt_text = "";
 }
 
 async function uploadProduct() {
