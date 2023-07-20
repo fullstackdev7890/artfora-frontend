@@ -207,7 +207,7 @@
           :errors="v_i$.user.inv_postal"
           :error-messages="{ required: 'Invoice Zip is required' }"
           :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE ZIP"
+          placeholder="INVOICE POSTSAL"
           v-model="user.inv_postal"
         />
         <!-- </div>
@@ -293,7 +293,7 @@
             :errors="v_d$.user.dev_postal"
             :error-messages="{ required: 'Deliver Zip is required' }"
             :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER ZIP"
+            placeholder="DELIVER POSTSAL"
             v-model="user.dev_postal"
           />
 
@@ -399,7 +399,7 @@
           :errors="v_s$.user.sel_postal"
           :error-messages="{ required: 'Seller Zip is required' }"
           :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ZIP"
+          placeholder="SELLER POSTSAL"
           v-model="user.sel_postal"
         />
 
@@ -799,27 +799,39 @@ async function updateBuyerSettings() {
   }
 
   try {
-    user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
+    user.more_external_link = moreexternal_link.value.filter(
+      (link) => link !== ""
+    ) as any;
+    const inv_country_code = ref(
+      countries.value.find((country: any) => country.name === user?.inv_country)
+    ) as any;
+    const dev_country_code = ref(
+      countries.value.find((country: any) => country.name === user?.dev_country)
+    ) as any;
 
     const res = await userStore.addressValidate({
       address: user?.inv_address,
-      address2: user?.inv_address2,
+      address2: user?.inv_address2 ?? "",
       city: user?.inv_city,
-      country: user?.inv_country,
-      postal_code: userStore?.inv_postal,
+      state: user?.inv_state,
+      country_code: inv_country_code.value?.code,
+      postal_code: user?.inv_postal,
     });
 
     if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
       inv_address_error_msg.value = true;
       return;
     }
+
     if (isDifferentDeliveryAddress.value === true) {
       const res1 = await userStore.addressValidate({
         address: user?.dev_address,
-        address2: user?.dev_address2,
+        address2: user?.dev_address2 ?? "",
         city: user?.dev_city,
-        country: user?.dev_country,
-        postal_code: userStore?.dev_postal,
+        state: user?.dev_state,
+
+        country_code: dev_country_code.value?.code,
+        postal_code: user?.dev_postal,
       });
       if (res1?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
         dev_address_error_msg.value = true;
@@ -879,12 +891,16 @@ async function updateSellerSettings() {
   }
   try {
     user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
+    const sel_country_code = ref(
+      countries.value.find((country: any) => country.name === user?.sel_country)
+    ) as any;
     const res = await userStore.addressValidate({
       address: user?.sel_address,
-      address2: user?.sel_address2,
+      address2: user?.sel_address2 ?? "",
+      state: user?.sel_state,
       city: user?.sel_city,
-      country: user?.sel_country,
-      postal_code: userStore?.sel_postal,
+      country: sel_country_code.value?.code,
+      postal_code: user?.sel_postal,
     });
     if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
       sel_address_error_msg.value = true;
@@ -947,9 +963,9 @@ async function open() {
   if (countries.value.length <= 1) {
     const response = await axios.get("/countries");
 
-    console.log(response);
-    response.data.forEach((country: any) =>
-      countries.value.push({ title: country?.countryName, key: country?.countryName })
+    console.log(response.data.output.countries);
+    response.data.output.countries.forEach((country: any) =>
+      countries.value.push({ title: country?.name, key: country?.name })
     );
   }
 }
@@ -962,8 +978,8 @@ async function openBuyer() {
   if (countries.value.length <= 1) {
     // const response = await axios.get("https://restcountries.com/v2/all");
     const response = await axios.get("/countries");
-    response.data.forEach((country: any) =>
-      countries.value.push({ title: country.countryName, key: country.countryName })
+    response.data.output.countries.forEach((country: any) =>
+      countries.value.push({ title: country.name, key: country.name })
     );
   }
   var defaultBounds = new google.maps.LatLngBounds(
