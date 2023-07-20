@@ -210,7 +210,7 @@
               v-model="product.alt_text"
               :error-messages="{ required: 'Please enter text.' }"
               :disabled="store.pendingRequestsCount"
-              placeholder="Add ALT TEXT"
+              placeholder="ADD ALT TEXT"
               v-if="!product.is_ai_safe"
             />
           </div>
