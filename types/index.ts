@@ -55,7 +55,7 @@ export interface User extends Entity {
   inv_name: string
   inv_address: string
   inv_address2: string
-  inv_zip: string
+  inv_postal: string
   inv_city: string
   inv_state: string
   inv_country: string
@@ -65,7 +65,7 @@ export interface User extends Entity {
   dev_address: string
   dev_name: string
   dev_address2: string
-  dev_zip: string
+  dev_postal: string
   dev_city: string
   dev_state: string
   dev_country: string
@@ -75,7 +75,7 @@ export interface User extends Entity {
   sel_address: string
   sel_name: string
   sel_address2: string
-  sel_zip: string
+  sel_postal: string
   sel_city: string
   sel_state: string
   sel_country: string

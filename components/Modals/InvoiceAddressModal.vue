@@ -25,7 +25,7 @@
           <div class="checkout-list">
             <div class="checkout-list-title">Zip/City:</div>
             <div class="checkout-list-content">
-              {{ user?.inv_zip }}{{ user?.inv_city }}
+              {{ user?.inv_postal }}{{ user?.inv_city }}
             </div>
           </div>
           <div class="checkout-list">
@@ -72,7 +72,7 @@ const user = reactive({
   inv_email: currentProfile?.inv_email,
   inv_address: currentProfile?.inv_address,
   inv_address2: currentProfile?.inv_address2,
-  inv_zip: currentProfile?.inv_zip,
+  inv_postal: currentProfile?.inv_postal,
   inv_state: currentProfile?.inv_state,
   inv_city: currentProfile?.inv_city,
   inv_country: currentProfile?.inv_country,

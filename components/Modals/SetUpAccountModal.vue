@@ -204,11 +204,11 @@
         <!-- <div class="account-settings-tabs-buyer">
           <div class="account-settings-tabs-buyer-zip"> -->
         <ui-kit-input
-          :errors="v_i$.user.inv_zip"
+          :errors="v_i$.user.inv_postal"
           :error-messages="{ required: 'Invoice Zip is required' }"
           :disabled="store.pendingRequestsCount"
           placeholder="INVOICE ZIP"
-          v-model="user.inv_zip"
+          v-model="user.inv_postal"
         />
         <!-- </div>
           <div class="account-settings-tabs-buyer-city"> -->
@@ -290,11 +290,11 @@
           />
 
           <ui-kit-input
-            :errors="v_d$.user.dev_zip"
+            :errors="v_d$.user.dev_postal"
             :error-messages="{ required: 'Deliver Zip is required' }"
             :disabled="store.pendingRequestsCount"
             placeholder="DELIVER ZIP"
-            v-model="user.dev_zip"
+            v-model="user.dev_postal"
           />
 
           <ui-kit-input
@@ -396,11 +396,11 @@
         />
 
         <ui-kit-input
-          :errors="v_s$.user.sel_zip"
+          :errors="v_s$.user.sel_postal"
           :error-messages="{ required: 'Seller Zip is required' }"
           :disabled="store.pendingRequestsCount"
           placeholder="SELLER ZIP"
-          v-model="user.sel_zip"
+          v-model="user.sel_postal"
         />
 
         <ui-kit-input
@@ -553,7 +553,7 @@ const user = reactive({
   inv_email: null,
   inv_address: null,
   inv_address2: null,
-  inv_zip: null,
+  inv_postal: null,
   inv_state: null,
   inv_city: null,
   inv_country: null,
@@ -563,7 +563,7 @@ const user = reactive({
   dev_email: null,
   dev_address: null,
   dev_address2: null,
-  dev_zip: null,
+  dev_postal: null,
   dev_state: null,
   dev_city: null,
   dev_country: null,
@@ -573,7 +573,7 @@ const user = reactive({
   sel_email: null,
   sel_address: null,
   sel_address2: null,
-  sel_zip: null,
+  sel_postal: null,
   sel_state: null,
   sel_city: null,
   sel_country: null,
@@ -595,7 +595,7 @@ const v_i$ = useVuelidate(
     user: {
       inv_name: { required },
       inv_address: { required },
-      inv_zip: { required },
+      inv_postal: { required },
       inv_city: { required },
       inv_country: { required },
       inv_phone: { required },
@@ -610,7 +610,7 @@ const v_d$ = useVuelidate(
     user: {
       dev_name: { required },
       dev_address: { required },
-      dev_zip: { required },
+      dev_postal: { required },
       dev_city: { required },
       dev_country: { required },
       // dev_phone: { required },
@@ -625,7 +625,7 @@ const v_s$ = useVuelidate(
     user: {
       sel_name: { required },
       sel_address: { required },
-      sel_zip: { required },
+      sel_postal: { required },
       sel_city: { required },
       sel_country: { required },
       sel_email: { email, required },
@@ -650,7 +650,7 @@ function initializeSettingsFields() {
   user.inv_email = userStore?.inv_email;
   user.inv_address = userStore?.inv_address;
   user.inv_address2 = userStore?.inv_address2;
-  user.inv_zip = userStore?.inv_zip;
+  user.inv_postal = userStore?.inv_postal;
   user.inv_state = userStore?.inv_state;
   user.inv_city = userStore?.inv_city;
   user.inv_country = userStore?.inv_country;
@@ -660,7 +660,7 @@ function initializeSettingsFields() {
   user.dev_email = userStore?.dev_email;
   user.dev_address = userStore?.dev_address;
   user.dev_address2 = userStore?.dev_address2;
-  user.dev_zip = userStore?.dev_zip;
+  user.dev_postal = userStore?.dev_postal;
   user.dev_state = userStore?.dev_state;
   user.dev_city = userStore?.dev_city;
   user.dev_country = userStore?.dev_country;
@@ -670,7 +670,7 @@ function initializeSettingsFields() {
   user.sel_email = userStore?.sel_email;
   user.sel_address = userStore?.sel_address;
   user.sel_address2 = userStore?.sel_address2;
-  user.sel_zip = userStore?.sel_zip;
+  user.sel_postal = userStore?.sel_postal;
   user.sel_state = userStore?.sel_state;
   user.sel_city = userStore?.sel_city;
   user.sel_country = userStore?.sel_country;
@@ -685,7 +685,7 @@ watch(
     if (newValue) {
       console.log(user_inv_address, "=====");
       user.inv_address = newValue?.address;
-      user.inv_zip = newValue?.postal_code;
+      user.inv_postal = newValue?.postal_code;
       user.inv_state = newValue?.state;
       user.inv_city = newValue?.city;
       user.inv_country = newValue?.country;
@@ -698,7 +698,7 @@ watch(
     if (newValue) {
       console.log(user_dev_address, "=====");
       user.dev_address = newValue?.address;
-      user.dev_zip = newValue?.postal_code;
+      user.dev_postal = newValue?.postal_code;
       user.dev_state = newValue?.state;
       user.dev_city = newValue?.city;
       user.dev_country = newValue?.country;
@@ -711,7 +711,7 @@ watch(
     if (newValue) {
       console.log(user_sel_address, "=====");
       user.sel_address = newValue?.address;
-      user.sel_zip = newValue?.postal_code;
+      user.sel_postal = newValue?.postal_code;
       user.sel_state = newValue?.state;
       user.sel_city = newValue?.city;
       user.sel_country = newValue?.country;
@@ -806,7 +806,7 @@ async function updateBuyerSettings() {
       address2: user?.inv_address2,
       city: user?.inv_city,
       country: user?.inv_country,
-      postal_code: userStore?.inv_zip,
+      postal_code: userStore?.inv_postal,
     });
 
     if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
@@ -819,7 +819,7 @@ async function updateBuyerSettings() {
         address2: user?.dev_address2,
         city: user?.dev_city,
         country: user?.dev_country,
-        postal_code: userStore?.dev_zip,
+        postal_code: userStore?.dev_postal,
       });
       if (res1?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
         dev_address_error_msg.value = true;
@@ -843,7 +843,7 @@ async function updateBuyerSettings() {
           inv_email: user?.inv_email,
           inv_address: user?.inv_address,
           inv_address2: user?.inv_address2,
-          inv_zip: user?.inv_zip,
+          inv_postal: user?.inv_postal,
           inv_state: user?.inv_state,
           inv_city: user?.inv_city,
           inv_country: user?.inv_country,
@@ -853,7 +853,7 @@ async function updateBuyerSettings() {
           dev_email: isDifferentDeliveryAddress.value ? user?.dev_email : "",
           dev_address: isDifferentDeliveryAddress.value ? user?.dev_address : "",
           dev_address2: isDifferentDeliveryAddress.value ? user?.dev_address2 : "",
-          dev_zip: isDifferentDeliveryAddress.value ? user?.dev_zip : "",
+          dev_postal: isDifferentDeliveryAddress.value ? user?.dev_postal : "",
           dev_state: isDifferentDeliveryAddress.value ? user?.dev_state : "",
           dev_city: isDifferentDeliveryAddress.value ? user?.dev_city : "",
           dev_country: isDifferentDeliveryAddress.value ? user?.dev_country : "",
@@ -884,7 +884,7 @@ async function updateSellerSettings() {
       address2: user?.sel_address2,
       city: user?.sel_city,
       country: user?.sel_country,
-      postal_code: userStore?.sel_zip,
+      postal_code: userStore?.sel_postal,
     });
     if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
       sel_address_error_msg.value = true;
@@ -906,7 +906,7 @@ async function updateSellerSettings() {
           sel_email: user?.sel_email,
           sel_address: user?.sel_address,
           sel_address2: user?.sel_address2,
-          sel_zip: user?.sel_zip,
+          sel_postal: user?.sel_postal,
           sel_state: user?.sel_state,
           sel_city: user?.sel_city,
           sel_country: user?.sel_country,
@@ -945,9 +945,11 @@ async function open() {
 
   setUpAccountModal.value?.open();
   if (countries.value.length <= 1) {
-    const response = await axios.get("https://restcountries.com/v2/all");
-    response.data.forEach((country: object) =>
-      countries.value.push({ title: country?.name, key: country?.name })
+    const response = await axios.get("/countries");
+
+    console.log(response);
+    response.data.forEach((country: any) =>
+      countries.value.push({ title: country?.countryName, key: country?.countryName })
     );
   }
 }
@@ -958,9 +960,10 @@ async function openBuyer() {
 
   setUpAccountModal.value?.open();
   if (countries.value.length <= 1) {
-    const response = await axios.get("https://restcountries.com/v2/all");
-    response.data.forEach((country: object) =>
-      countries.value.push({ title: country.name, key: country.name })
+    // const response = await axios.get("https://restcountries.com/v2/all");
+    const response = await axios.get("/countries");
+    response.data.forEach((country: any) =>
+      countries.value.push({ title: country.countryName, key: country.countryName })
     );
   }
   var defaultBounds = new google.maps.LatLngBounds(
