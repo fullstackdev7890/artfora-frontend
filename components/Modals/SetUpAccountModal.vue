@@ -2,144 +2,73 @@
   <ui-kit-modal :with-header="false" :with-footer="false" ref="setUpAccountModal">
     <template v-slot:customHeader>
       <header class="account-settings-header">
-        <close-icon
-          @click="close()"
-          class="close-icon ui-kit-box-tools-link account-settings-header-close"
-        />
+        <close-icon @click="close()" class="close-icon ui-kit-box-tools-link account-settings-header-close" />
 
-        <label
-          for="uploadBackground"
-          class="account-settings-header-upload-background flex-center"
-        >
+        <label for="uploadBackground" class="account-settings-header-upload-background flex-center">
           <span v-if="!backgroundImage">
             DROP YOUR HEADER AND PROFILE IMAGE <br />
             IN THE RESPECTIVE FIELDS <br />
             OR CLICK TO BROWSE <br />
             PROFILE HEADER 1050 x 300 PX <br />
           </span>
-          <img
-            :src="getImageUrl(backgroundImage, ImageTemplate.FullSize)"
-            alt="background Image"
-            v-if="backgroundImage"
-          />
-          <input
-            id="uploadBackground"
-            @change="addFile"
-            accept="image/bmp, image/png, image/jpeg"
-            type="file"
-            ref="file"
-          />
+          <img :src="getImageUrl(backgroundImage, ImageTemplate.FullSize)" alt="background Image"
+            v-if="backgroundImage" />
+          <input id="uploadBackground" @change="addFile" accept="image/bmp, image/png, image/jpeg" type="file"
+            ref="file" />
         </label>
         <div class="account-settings-tabs">
-          <span
-            class="account-settings-tabs-tab"
-            :style="{ color: seletedTab === 'profile' ? 'white' : undefined }"
-            @click="selectTab('profile')"
-            >Profile
+          <span class="account-settings-tabs-tab" :style="{ color: seletedTab === 'profile' ? 'white' : undefined }"
+            @click="selectTab('profile')">Profile
           </span>
-          <span
-            class="account-settings-tabs-tab"
-            :style="{ color: seletedTab === 'buyer' ? 'white' : undefined }"
-            @click="selectTab('buyer')"
-            >Buyer
+          <span class="account-settings-tabs-tab" :style="{ color: seletedTab === 'buyer' ? 'white' : undefined }"
+            @click="selectTab('buyer')">Buyer
           </span>
-          <span
-            class="account-settings-tabs-tab"
-            :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
-            @click="selectTab('seller')"
-            v-if="user.can_add_product"
-            >Seller
+          <span class="account-settings-tabs-tab" :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
+            @click="selectTab('seller')" v-if="user.can_add_product">Seller
           </span>
-          <span
-            class="account-settings-tabs-tab"
-            :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
-            @click="openSellerSupportModal"
-            >Support
+          <span class="account-settings-tabs-tab" :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
+            @click="openSellerSupportModal">Support
           </span>
         </div>
 
         <label for="uploadAvatar" class="account-settings-header-upload-avatar">
-          <img
-            :src="getUserAvatar(avatar, ImageTemplate.SmallThumbnail)"
-            alt="avatar Image"
-            v-if="avatar"
-          />
+          <img :src="getUserAvatar(avatar, ImageTemplate.SmallThumbnail)" alt="avatar Image" v-if="avatar" />
           <div class="account-settings-avatar-placeholder">
             <div class="account-settings-avatar-placeholder-body">
               <div class="account-settings-avatar-placeholder-content">800 X 800</div>
             </div>
           </div>
-          <input
-            id="uploadAvatar"
-            @change="addFile"
-            accept="image/bmp, image/png, image/jpeg"
-            type="file"
-            ref="file"
-          />
+          <input id="uploadAvatar" @change="addFile" accept="image/bmp, image/png, image/jpeg" type="file" ref="file" />
         </label>
       </header>
     </template>
 
     <template v-slot:content>
-      <form
-        @submit.prevent="uploadProduct"
-        class="account-settings-form"
-        v-if="seletedTab === 'profile'"
-      >
-        <ui-kit-input
-          v-model="user.username"
-          :errors="v$.user.username"
-          :error-messages="{ required: 'Username is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="USERNAME"
-        />
+      <form @submit.prevent="uploadProduct" class="account-settings-form" v-if="seletedTab === 'profile'">
+        <ui-kit-input v-model="user.username" :errors="v$.user.username"
+          :error-messages="{ required: 'Username is required' }" :disabled="store.pendingRequestsCount"
+          placeholder="USERNAME" />
 
-        <ui-kit-input
-          v-model="user.email"
-          :errors="v$.user.email"
-          :error-messages="{
-            required: 'email is required',
-            email: 'Please enter valid email address.',
-          }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="EMAIL ADDRESS"
-        />
+        <ui-kit-input v-model="user.email" :errors="v$.user.email" :error-messages="{
+          required: 'email is required',
+          email: 'Please enter valid email address.',
+        }" :disabled="store.pendingRequestsCount" placeholder="EMAIL ADDRESS" />
 
-        <ui-kit-selector
-          v-model="user.country"
-          :options="countries"
-          :title="'Country'"
-          :disabled="store.pendingRequestsCount"
-          :withSearch="true"
-        />
+        <ui-kit-selector v-model="user.country" :options="countries" :title="'Country'"
+          :disabled="store.pendingRequestsCount" :withSearch="true" />
         <div class="account-settings-visibility-level">
-          <ui-kit-big-check-box
-            v-model="user.product_visibility_level"
-            :value="COMMON_VISIBILITY_LEVEL"
+          <ui-kit-big-check-box v-model="user.product_visibility_level" :value="COMMON_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
+            type="radio"></ui-kit-big-check-box>
+          <ui-kit-big-check-box v-model="user.product_visibility_level" :value="NUDITY_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
+            type="radio"></ui-kit-big-check-box>
+          <ui-kit-big-check-box v-model="user.product_visibility_level" :value="EROTIC_VISIBILITY_LEVEL"
+            :disabled="store.pendingRequestsCount" :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
+            type="radio"></ui-kit-big-check-box>
+          <ui-kit-big-check-box v-model="user.product_visibility_level" :value="PORNO_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(COMMON_VISIBILITY_LEVEL).filter"
-            type="radio"
-          ></ui-kit-big-check-box>
-          <ui-kit-big-check-box
-            v-model="user.product_visibility_level"
-            :value="NUDITY_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(NUDITY_VISIBILITY_LEVEL).filter"
-            type="radio"
-          ></ui-kit-big-check-box>
-          <ui-kit-big-check-box
-            v-model="user.product_visibility_level"
-            :value="EROTIC_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
-            type="radio"
-          ></ui-kit-big-check-box>
-          <ui-kit-big-check-box
-            v-model="user.product_visibility_level"
-            :value="PORNO_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
-          ></ui-kit-big-check-box>
+            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"></ui-kit-big-check-box>
         </div>
 
         <span v-if="error" class="form-error error">
@@ -157,199 +86,86 @@
         </p>
 
         <div class="ui-kit-modal-content-buttons">
-          <button
-            :disabled="store.pendingRequestsCount"
-            class="button full-width"
-            type="submit"
-          >
+          <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit">
             <span>UPDATE SETTINGS</span>
           </button>
         </div>
       </form>
-      <form
-        @submit.prevent="updateBuyerSettings"
-        class="account-settings-form"
-        v-if="seletedTab === 'buyer'"
-      >
-        <ui-kit-input
-          :errors="v_i$.user.inv_name"
-          :error-messages="{ required: 'Invoice Name is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE NAME"
-          v-model="user.inv_name"
-        />
+      <form @submit.prevent="updateBuyerSettings" class="account-settings-form" v-if="seletedTab === 'buyer'">
+        <ui-kit-input :errors="v_i$.user.inv_name" :error-messages="{ required: 'Invoice Name is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE NAME" v-model="user.inv_name" />
 
-        <ui-kit-input
-          :errors="v_i$.user.inv_address"
-          :error-messages="{ required: 'Invoice Address is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE ADDRESS"
-          v-model="user.inv_address"
-          id="user_inv_address"
-        />
+        <ui-kit-input :errors="v_i$.user.inv_address" :error-messages="{ required: 'Invoice Address is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS" v-model="user.inv_address"
+          id="user_inv_address" />
         <div v-if="inv_address_error_msg">{{ "Address invalid" }}</div>
-        <ui-kit-input
-          :errors="v_i$.user.inv_address2"
-          :error-messages="{ required: 'Invoice Address 2 is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE ADDRESS 2 (OPTIONAL)"
-          v-model="user.inv_address2"
-        />
-        <ui-kit-input
-          :error-messages="{ required: 'Invoice State is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE STATE (OPTIONAL)"
-          v-model="user.inv_state"
-        />
+        <ui-kit-input :errors="v_i$.user.inv_address2" :error-messages="{ required: 'Invoice Address 2 is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS 2 (OPTIONAL)" v-model="user.inv_address2" />
+        <ui-kit-input :error-messages="{ required: 'Invoice State is required' }" :disabled="store.pendingRequestsCount"
+          placeholder="INVOICE STATE (OPTIONAL)" v-model="user.inv_state" />
         <!-- <div class="account-settings-tabs-buyer">
           <div class="account-settings-tabs-buyer-zip"> -->
-        <ui-kit-input
-          :errors="v_i$.user.inv_postal"
-          :error-messages="{ required: 'Invoice Zip is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE POSTSAL"
-          v-model="user.inv_postal"
-        />
+        <ui-kit-input :errors="v_i$.user.inv_postal" :error-messages="{ required: 'Invoice Zip is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE POSTSAL" v-model="user.inv_postal" />
         <!-- </div>
           <div class="account-settings-tabs-buyer-city"> -->
-        <ui-kit-input
-          :errors="v_i$.user.inv_city"
-          :error-messages="{ required: 'Invoice City is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE CITY"
-          v-model="user.inv_city"
-        />
+        <ui-kit-input :errors="v_i$.user.inv_city" :error-messages="{ required: 'Invoice City is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE CITY" v-model="user.inv_city" />
         <!-- </div>
         </div> -->
-        <ui-kit-selector
-          v-model="user.inv_country"
-          :options="countries"
-          :title="'INVOICE COUNTRY'"
-          :disabled="store.pendingRequestsCount"
-          :withSearch="true"
-        />
+        <ui-kit-selector v-model="user.inv_country" :options="countries" :title="'INVOICE COUNTRY'"
+          :disabled="store.pendingRequestsCount" :withSearch="true" />
 
-        <ui-kit-input
-          :errors="v_i$.user.inv_phone"
-          :error-messages="{ required: 'Invoice Phone is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE PHONE"
-          v-model="user.inv_phone"
-        />
+        <ui-kit-input :errors="v_i$.user.inv_phone" :error-messages="{ required: 'Invoice Phone is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE PHONE" v-model="user.inv_phone" />
 
-        <ui-kit-input
-          :errors="v_i$.user.inv_email"
-          :error-messages="{ required: 'Invoice Email is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE EMAIL"
-          v-model="user.inv_email"
-        />
-        <ui-kit-input
-          :disabled="store.pendingRequestsCount"
-          placeholder="INVOICE ATTENTION"
-          v-model="user.inv_att"
-        />
+        <ui-kit-input :errors="v_i$.user.inv_email" :error-messages="{ required: 'Invoice Email is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE EMAIL" v-model="user.inv_email" />
+        <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="INVOICE ATTENTION" v-model="user.inv_att" />
         <hr class="divide" />
         <div class="differnt-address">
-          <ui-kit-big-check-box
-            v-model="isDifferentDeliveryAddress"
-            :value="'DELIVER ADDRESS (If different)'"
-            :title="'DELIVER ADDRESS (If different)'"
-            type="checkbox"
-          />
+          <ui-kit-big-check-box v-model="isDifferentDeliveryAddress" :value="'DELIVER ADDRESS (If different)'"
+            :title="'DELIVER ADDRESS (If different)'" type="checkbox" />
         </div>
 
         <div v-if="isDifferentDeliveryAddress">
-          <ui-kit-input
-            :errors="v_d$.user.dev_name"
-            :error-messages="{ required: 'Deliver Name is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER NAME"
-            v-model="user.dev_name"
-          />
+          <ui-kit-input :errors="v_d$.user.dev_name" :error-messages="{ required: 'Deliver Name is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER NAME" v-model="user.dev_name" />
 
-          <ui-kit-input
-            :errors="v_d$.user.dev_address"
-            :error-messages="{ required: 'Deliver Address is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER ADDRESS"
-            v-model="user.dev_address"
-            id="user_dev_address"
-          />
+          <ui-kit-input :errors="v_d$.user.dev_address" :error-messages="{ required: 'Deliver Address is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER ADDRESS" v-model="user.dev_address"
+            id="user_dev_address" />
           <div v-if="dev_address_error_msg">{{ "Address invalid" }}</div>
-          <ui-kit-input
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER ADDRESS 2 (OPTIONAL)"
-            v-model="user.dev_address2"
-          />
-          <ui-kit-input
-            :error-messages="{ required: 'Deliver State is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER STATE (OPTIONAL)"
-            v-model="user.dev_state"
-          />
+          <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="DELIVER ADDRESS 2 (OPTIONAL)"
+            v-model="user.dev_address2" />
+          <ui-kit-input :error-messages="{ required: 'Deliver State is required' }" :disabled="store.pendingRequestsCount"
+            placeholder="DELIVER STATE (OPTIONAL)" v-model="user.dev_state" />
 
-          <ui-kit-input
-            :errors="v_d$.user.dev_postal"
-            :error-messages="{ required: 'Deliver Zip is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER POSTSAL"
-            v-model="user.dev_postal"
-          />
+          <ui-kit-input :errors="v_d$.user.dev_postal" :error-messages="{ required: 'Deliver Zip is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER POSTSAL" v-model="user.dev_postal" />
 
-          <ui-kit-input
-            :errors="v_d$.user.dev_city"
-            :error-messages="{ required: 'Deliver City is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER CITY"
-            v-model="user.dev_city"
-          />
+          <ui-kit-input :errors="v_d$.user.dev_city" :error-messages="{ required: 'Deliver City is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER CITY" v-model="user.dev_city" />
 
-          <ui-kit-selector
-            v-model="user.dev_country"
-            :options="countries"
-            :title="'DELIVER COUNTRY'"
-            :disabled="store.pendingRequestsCount"
-            :withSearch="true"
-          />
+          <ui-kit-selector v-model="user.dev_country" :options="countries" :title="'DELIVER COUNTRY'"
+            :disabled="store.pendingRequestsCount" :withSearch="true" />
 
-          <ui-kit-input
-            :errors="v_d$.user.dev_phone"
-            :error-messages="{ required: 'Deliver Phone is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER PHONE"
-            v-model="user.dev_phone"
-          />
+          <ui-kit-input :errors="v_d$.user.dev_phone" :error-messages="{ required: 'Deliver Phone is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER PHONE" v-model="user.dev_phone" />
 
-          <ui-kit-input
-            :errors="v_d$.user.dev_email"
-            :error-messages="{ required: 'Deliver Email is required' }"
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER EMAIL"
-            v-model="user.dev_email"
-          />
+          <ui-kit-input :errors="v_d$.user.dev_email" :error-messages="{ required: 'Deliver Email is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER EMAIL" v-model="user.dev_email" />
 
-          <ui-kit-input
-            :disabled="store.pendingRequestsCount"
-            placeholder="DELIVER ATTENTION"
-            v-model="user.dev_att"
-          />
+          <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="DELIVER ATTENTION" v-model="user.dev_att" />
         </div>
         <div class="ui-kit-modal-content-buttons">
-          <button
-            :disabled="store.pendingRequestsCount"
-            class="button full-width"
-            type="submit"
-          >
+          <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit">
             <span>UPDATE SETTINGS</span>
           </button>
         </div>
       </form>
-      <form
-        @submit.prevent="updateSellerSettings"
-        class="account-settings-form"
-        v-if="seletedTab === 'seller' && user.can_add_product"
-      >
+      <form @submit.prevent="updateSellerSettings" class="account-settings-form"
+        v-if="seletedTab === 'seller' && user.can_add_product">
         <div class="connet-stripe">
           <button class="button connect-stripe-button full-width" @click="connectStripe">
             <span>Connect Stripe</span>
@@ -358,124 +174,64 @@
         <div class="seller-read-more">
           <ui-kit-big-check-box
             title="Yes, I want to support ARTfora, keeping this gallery free for artist.&nbsp;  &nbsp;"
-            v-model="user.seller_support"
-            actionTitle="Read more"
-            @action="openSellerSupportModal"
-          ></ui-kit-big-check-box>
+            v-model="user.seller_support" actionTitle="Read more" @action="openSellerSupportModal"></ui-kit-big-check-box>
         </div>
 
-        <ui-kit-input
-          :errors="v_s$.user.sel_name"
-          :error-messages="{ required: 'Seller Name is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER NAME"
-          v-model="user.sel_name"
-        />
+        <ui-kit-input :errors="v_s$.user.sel_name" :error-messages="{ required: 'Seller Name is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="SELLER NAME" v-model="user.sel_name" />
 
-        <ui-kit-input
-          :errors="v_s$.user.sel_address"
-          :error-messages="{ required: 'Deliver Address is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ADDRESS"
-          v-model="user.sel_address"
-          id="user_sel_address"
-        />
+        <ui-kit-input :errors="v_s$.user.sel_address" :error-messages="{ required: 'Deliver Address is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS" v-model="user.sel_address"
+          id="user_sel_address" />
         <div v-if="sel_address_error_msg">{{ "Address invalid" }}</div>
 
-        <ui-kit-input
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ADDRESS 2 (OPTIONAL)"
-          v-model="user.sel_address2"
-        />
+        <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS 2 (OPTIONAL)"
+          v-model="user.sel_address2" />
 
-        <ui-kit-input
-          :error-messages="{ required: 'Seller State is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER STATE (OPTIONAL)"
-          v-model="user.sel_state"
-        />
+        <ui-kit-input :error-messages="{ required: 'Seller State is required' }" :disabled="store.pendingRequestsCount"
+          placeholder="SELLER STATE (OPTIONAL)" v-model="user.sel_state" />
 
-        <ui-kit-input
-          :errors="v_s$.user.sel_postal"
-          :error-messages="{ required: 'Seller Zip is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER POSTSAL"
-          v-model="user.sel_postal"
-        />
+        <ui-kit-input :errors="v_s$.user.sel_postal" :error-messages="{ required: 'Seller Zip is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="SELLER POSTSAL" v-model="user.sel_postal" />
 
-        <ui-kit-input
-          :errors="v_s$.user.sel_city"
-          :error-messages="{ required: 'Seller City is required' }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER CITY"
-          v-model="user.sel_city"
-        />
+        <ui-kit-input :errors="v_s$.user.sel_city" :error-messages="{ required: 'Seller City is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="SELLER CITY" v-model="user.sel_city" />
 
-        <ui-kit-selector
-          v-model="user.sel_country"
-          :options="countries"
-          :title="'SELLER COUNTRY'"
-          :disabled="store.pendingRequestsCount"
-          :withSearch="true"
-        />
+        <ui-kit-selector v-model="user.sel_country" :options="countries" :title="'SELLER COUNTRY'"
+          :disabled="store.pendingRequestsCount" :withSearch="true" />
 
-        <ui-kit-input
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER PHONE"
-          v-model="user.sel_phone"
-        />
+        <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="SELLER PHONE" v-model="user.sel_phone" />
 
-        <ui-kit-input
-          :errors="v_s$.user.sel_email"
-          :error-messages="{
-            required: 'Seller Email is required',
-            email: 'Must be a email type',
-          }"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER EMAIL"
-          v-model="user.sel_email"
-        />
+        <ui-kit-input :errors="v_s$.user.sel_email" :error-messages="{
+          required: 'Seller Email is required',
+          email: 'Must be a email type',
+        }" :disabled="store.pendingRequestsCount" placeholder="SELLER EMAIL" v-model="user.sel_email" />
 
-        <ui-kit-input
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER ATTENTION"
-          v-model="user.sel_att"
-        />
+        <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="SELLER ATTENTION" v-model="user.sel_att" />
 
-        <ui-kit-text-area
-          v-model="user.description"
-          :disabled="store.pendingRequestsCount"
-          placeholder="SELLER DESCRIPTION"
-          v-if="user.can_add_product"
-        />
+        <ui-kit-text-area v-model="user.description" :disabled="store.pendingRequestsCount"
+          placeholder="SELLER DESCRIPTION" v-if="user.can_add_product" />
+        <div class="account-settings-external-link">
 
-        <ui-kit-input
-          v-model="user.external_link"
-          :disabled="store.pendingRequestsCount"
-          placeholder="EXTERNAL LINK"
-          v-if="user.can_add_product"
-        />
+          <ui-kit-input v-model="user.external_link" :disabled="store.pendingRequestsCount" placeholder="EXTERNAL LINK"
+            v-if="user.can_add_product" :class="'full-width'" />
+          <div>
 
+            <plus-icon @click="addField()" class="account-settings-plus-icon" />
+          </div>
+        </div>
         <div class="addmore" v-if="user.can_add_product">
-          <plus-icon @click="addField()" class="account-s ettings-plus-icon" />
-          <ui-kit-input
-            v-for="(link, k) in moreexternal_link"
-            placeholder="EXTERNAL LINK"
-            :modelValue="link"
-            v-model="moreexternal_link[k]"
-          >
+          <div class="account-settings-external-link" v-for="(link, k) in moreexternal_link">
+            <ui-kit-input placeholder="EXTERNAL LINK" :modelValue="link" v-model="moreexternal_link[k]"
+              :class="'full-width'">
+            </ui-kit-input>
             <div class="account-settings-form-icons">
               <minus-icon class="account-settings-minus-icon" @click="removeField(k)" />
             </div>
-          </ui-kit-input>
-          <div></div>
+          </div>
         </div>
         <div class="ui-kit-modal-content-buttons">
-          <button
-            :disabled="store.pendingRequestsCount"
-            class="button full-width"
-            type="submit"
-          >
+          <button :disabled="store.pendingRequestsCount" class="button full-width" type="submit">
             <span>UPDATE SETTINGS</span>
           </button>
         </div>
@@ -528,7 +284,7 @@ const currentProfile = storeToRefs(userStore);
 const mediaStore = useMediaStore();
 const { getUserAvatar, getImageUrl } = useMedia();
 const moreexternal_link = reactive(currentProfile.more_external_link);
-const countries = ref([{ title: currentProfile.country, key: currentProfile.country }]);
+const countries = ref([{ title: currentProfile.country, key: currentProfile.country, code: '' }]);
 const backgroundImage = ref(currentProfile.background_image);
 const avatar = ref(currentProfile.avatar_image);
 const error = ref("");
@@ -814,7 +570,8 @@ async function updateBuyerSettings() {
       address2: user?.inv_address2 ?? "",
       city: user?.inv_city,
       state: user?.inv_state,
-      country_code: inv_country_code.value?.code,
+      code: getCountryCode(user?.inv_country ?? ""),
+
       postal_code: user?.inv_postal,
     });
 
@@ -829,8 +586,7 @@ async function updateBuyerSettings() {
         address2: user?.dev_address2 ?? "",
         city: user?.dev_city,
         state: user?.dev_state,
-
-        country_code: dev_country_code.value?.code,
+        code: getCountryCode(user?.dev_country ?? ""),
         postal_code: user?.dev_postal,
       });
       if (res1?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
@@ -881,6 +637,13 @@ async function updateBuyerSettings() {
     }
   }
 }
+
+function getCountryCode(countryName: string) {
+  const country_code = ref(countries.value.find(
+    (country: any) => country.title == countryName
+  ));
+  return country_code.value?.code
+}
 async function updateSellerSettings() {
   sel_address_error_msg.value = false;
 
@@ -891,15 +654,13 @@ async function updateSellerSettings() {
   }
   try {
     user.more_external_link = moreexternal_link.value.filter((link) => link !== "");
-    const sel_country_code = ref(
-      countries.value.find((country: any) => country.name === user?.sel_country)
-    ) as any;
+
     const res = await userStore.addressValidate({
       address: user?.sel_address,
       address2: user?.sel_address2 ?? "",
       state: user?.sel_state,
       city: user?.sel_city,
-      country: sel_country_code.value?.code,
+      code: getCountryCode(user?.sel_country ?? ""),
       postal_code: user?.sel_postal,
     });
     if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
@@ -963,11 +724,11 @@ async function open() {
   if (countries.value.length <= 1) {
     const response = await axios.get("/countries");
 
-    console.log(response.data.output.countries);
     response.data.output.countries.forEach((country: any) =>
-      countries.value.push({ title: country?.name, key: country?.name })
+      countries.value.push({ title: country?.name, key: country?.name, code: country?.code })
     );
   }
+
 }
 async function openBuyer() {
   seletedTab.value = "buyer";
@@ -979,7 +740,7 @@ async function openBuyer() {
     // const response = await axios.get("https://restcountries.com/v2/all");
     const response = await axios.get("/countries");
     response.data.output.countries.forEach((country: any) =>
-      countries.value.push({ title: country.name, key: country.name })
+      countries.value.push({ title: country.name, key: country.name, code: country?.code })
     );
   }
   var defaultBounds = new google.maps.LatLngBounds(
@@ -1001,7 +762,7 @@ async function connectStripe({ redirect }: { redirect: string }) {
     if (res.strip_account_link) {
       return window.open(res.strip_account_link, "_blank");
     }
-  } catch (error) {}
+  } catch (error) { }
 }
 
 defineExpose({ open, close, openBuyer });
