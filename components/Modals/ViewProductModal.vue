@@ -46,7 +46,7 @@
           </div>
         </div>
 
-        <product-sidebar v-show="isShown" :product="item" />
+        <product-sidebar v-show="isShown" :product="item" :shipping="shippingRate"/>
       </div>
     </template>
   </ui-kit-modal>

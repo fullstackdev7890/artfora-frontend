@@ -2,21 +2,13 @@
   <transition name="product-sidebar">
     <div class="product-sidebar">
       <div class="product-sidebar-background">
-        <img
-          v-if="props.product.user.background_image"
-          :src="getImageUrl(props.product.user.background_image, ImageTemplate.FullSize)"
-          alt="background-image"
-        />
+        <img v-if="props.product.user.background_image"
+          :src="getImageUrl(props.product.user.background_image, ImageTemplate.FullSize)" alt="background-image" />
       </div>
 
       <div class="product-sidebar-user">
-        <img
-          :src="
-            getUserAvatar($props.product?.user.avatar_image, ImageTemplate.SmallThumbnail)
-          "
-          class="product-sidebar-user-avatar"
-          alt="user-avatar"
-        />
+        <img :src="getUserAvatar($props.product?.user.avatar_image, ImageTemplate.SmallThumbnail)
+          " class="product-sidebar-user-avatar" alt="user-avatar" />
         <div class="product-sidebar-user-name">
           <h4>{{ props.product.user.username }}</h4>
           <p>{{ props.product.user.tagname }}</p>
@@ -37,21 +29,17 @@
         </div>
         <div class="product-sidebar-info-item">
           <h5>Price:</h5>
-          <span
-            >€{{
-              props.product.is_sale_price === false
-                ? formattedNumber(props.product.price_in_euro)
-                : formattedNumber(props.product.sale_price_in_euro)
-            }}</span
-          >
+          <span>€{{
+            props.product.is_sale_price === false
+            ? formattedNumber(props.product.price_in_euro)
+            : formattedNumber(props.product.sale_price_in_euro)
+          }}</span>
         </div>
         <div class="product-sidebar-info-item">
           <h5>Size (L/W/D):</h5>
-          <span
-            >{{ formattedNumber(props.product.height) }}/{{
-              formattedNumber(props.product.width)
-            }}/{{ formattedNumber(props.product.depth) }} cm</span
-          >
+          <span>{{ formattedNumber(props.product.height) }}/{{
+            formattedNumber(props.product.width)
+          }}/{{ formattedNumber(props.product.depth) }} cm</span>
         </div>
         <!-- <div class="product-sidebar-info-item">
           <h5>Weight:</h5>
@@ -60,7 +48,7 @@
       </div>
       <div class="product-sidebar-info-item">
         <h5>Shipping:</h5>
-        <span></span>
+        <span>{{ shipping }}&nbsp;€</span>
       </div>
       <div class="product-sidebar-info-item">
         Description:
@@ -75,20 +63,11 @@
         </div>
       </div>
       <div class="product-sidebar-buy-button" v-if="props.product?.user.id !== user.id">
-        <button
-          class="button full-width"
-          v-if="!isShowGotoCartButton"
-          @click="saveProductToCart"
-          :disabled="!isAuthorized"
-        >
+        <button class="button full-width" v-if="!isShowGotoCartButton" @click="saveProductToCart"
+          :disabled="!isAuthorized">
           <span>BUY</span>
         </button>
-        <button
-          v-if="isShowGotoCartButton"
-          class="button full-width"
-          @click="gotoCart"
-          :disabled="!isAuthorized"
-        >
+        <button v-if="isShowGotoCartButton" class="button full-width" @click="gotoCart" :disabled="!isAuthorized">
           <span>Go to cart</span>
         </button>
         <div class="product-sidebar-error-handler">
@@ -96,10 +75,9 @@
             error
           }}</span>
 
-          <span v-if="!isAuthorized" class="product-sidebar-buy-button-error-link"
-            ><span class="link" @click="openSignUpModal">Sign up</span> &nbsp; or
-            &nbsp;<span class="link" @click="openLogInModal">Log in</span></span
-          >
+          <span v-if="!isAuthorized" class="product-sidebar-buy-button-error-link"><span class="link"
+              @click="openSignUpModal">Sign up</span> &nbsp; or
+            &nbsp;<span class="link" @click="openLogInModal">Log in</span></span>
         </div>
       </div>
       <div class="product-sidebar-bottom-buttons-wrapper">
@@ -110,43 +88,23 @@
           <span>COMMISSION OPEN</span>
         </button>
       </div>
-      <links-modal
-        ref="linksModal"
-        :morelinks="props.product.user.more_external_link || []"
-        :links="props.product.user.external_link"
-      />
+      <links-modal ref="linksModal" :morelinks="props.product.user.more_external_link || []"
+        :links="props.product.user.external_link" />
 
       <commission-work-modal ref="commissionWorkModal" :user-id="props.product.user.id" />
       <checkout-modal ref="checkoutModalRef" @open-checkout-modal="openCheckoutModal" />
       <contact-modal ref="contactModal" />
-      <log-in-modal
-        ref="logInModalRef"
-        @open-pre-sign-up-modal="openPreSignUpModal"
+      <log-in-modal ref="logInModalRef" @open-pre-sign-up-modal="openPreSignUpModal"
         @open-two-factor-auth-modal="twoFactorAuthModalRef?.open()"
-        @open-reset-password-modal="resetPasswordModalRef?.open()"
-      />
-      <two-factor-auth-modal
-        ref="twoFactorAuthModalRef"
-        @open-log-in-modal="openLogInModal"
-      />
+        @open-reset-password-modal="resetPasswordModalRef?.open()" />
+      <two-factor-auth-modal ref="twoFactorAuthModalRef" @open-log-in-modal="openLogInModal" />
 
-      <reset-password-modal
-        ref="resetPasswordModalRef"
-        @open-sign-up-modal="openSignUpModal"
-      />
+      <reset-password-modal ref="resetPasswordModalRef" @open-sign-up-modal="openSignUpModal" />
       <pre-sign-up-modal ref="preSignUpModalRef" @open-sign-up-modal="openSignUpModal" />
       <sign-up-modal ref="signUpModalRef" @open-log-in-modal="openLogInModal" />
-      <cart-modal
-        ref="cartModalRef"
-        @open-cart-modal="openCartModal"
-        @open-checkout-modal="openCheckoutModal"
-      />
-      <checkout-modal
-        ref="checkoutModalRef"
-        @openSetUpAccountModal="openSetUpAccountModal"
-        @openSetUpAccountBuyerModal="openSetUpAccountBuyerModal"
-        @openPaymentModal="openPaymentModal"
-      />
+      <cart-modal ref="cartModalRef" @open-cart-modal="openCartModal" @open-checkout-modal="openCheckoutModal" />
+      <checkout-modal ref="checkoutModalRef" @openSetUpAccountModal="openSetUpAccountModal"
+        @openSetUpAccountBuyerModal="openSetUpAccountBuyerModal" @openPaymentModal="openPaymentModal" />
       <payment-modal ref="paymentModalRef" @openPaymentModal="openPaymentModal" />
       <set-up-account-modal ref="setUpAccountModalRef" />
     </div>
@@ -178,10 +136,11 @@ import CheckoutModal from "../Modals/CheckoutModal.vue";
 import PaymentModal from "~/components/Modals/PaymentModal.vue";
 import SetUpAccountModal from "~/components/Modals/SetUpAccountModal.vue";
 import ProductInfo from "../Gallery/ProductInfo.vue";
-
+import axios from "axios";
 interface Props {
   product: Product;
   newItem: CartType;
+  shipping: string
 }
 const props = withDefaults(defineProps<Props>(), {
   product: {
@@ -211,7 +170,9 @@ const props = withDefaults(defineProps<Props>(), {
     },
     is_sale_price: true,
     sale_price_in_euro: 0,
+
   },
+  shipping: 0
 });
 const authStore = useAuthStore();
 const cartStore = useCartStore();
@@ -237,20 +198,37 @@ const paymentModalRef = ref<InstanceType<typeof PaymentModal>>(null);
 
 const isShowGotoCartButton = ref(false);
 const order_quantity = ref(1);
+const shipping = ref(props.shipping ?? "not available")
 
 const { getUserAvatar, getImageUrl } = useMedia();
 const user = reactive({
   id: currentProfile?.id,
 });
 
-function addQuantity() {
+ async function addQuantity() {
   if (props.product.quantity_for_sale > order_quantity.value) {
     order_quantity.value += 1;
+    if (isAuthorized.value && props.product.user.id !== currentProfile.id.value) {
+      const res = await axios.post("/ship_rate", {
+        product_id: props.product.id,
+        count: 1,
+      });
+      res.status === 200 && (shipping.value = res.data);
+      console.log(shipping.value);
+    }
   }
 }
-function removeQuantity() {
+async function removeQuantity() {
   if (order_quantity.value > 1) {
     order_quantity.value -= 1;
+    if (isAuthorized.value && props.product.user.id !== currentProfile.id.value) {
+      const res = await axios.post("/ship_rate", {
+        product_id: props.product.id,
+        count: 1,
+      });
+      res.status === 200 && (shipping.value = res.data);
+      console.log(shipping.value);
+    }
   }
 }
 function formattedNumber(amount: number) {
@@ -273,11 +251,12 @@ async function saveProductToCart() {
       user_id: user?.id,
       product_id: props.product?.id,
       quantity: order_quantity.value,
+      shipping: shipping.value
     };
     try {
       await cartStore.addCart((newItem as unknown) as CartType);
       isShowGotoCartButton.value = true;
-    } catch (err) {}
+    } catch (err) { }
   }
 }
 function gotoCart() {
