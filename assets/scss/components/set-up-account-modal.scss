@@ -226,3 +226,10 @@
 
   &-link {}
 }
+
+.address-invalid {
+  color: #FFF333;
+  padding-left: 0.2rem;
+  /* padding-bottom: 1rem; */
+  transform: translateY(-10px);
+}

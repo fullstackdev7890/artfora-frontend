@@ -27,7 +27,7 @@
             @click="selectTab('seller')" v-if="user.can_add_product">Seller
           </span>
           <span class="account-settings-tabs-tab" :style="{ color: seletedTab === 'seller' ? 'white' : undefined }"
-            @click="openSellerSupportModal">Support
+            @click="openDonationMOdal">Donation
           </span>
         </div>
 
@@ -98,7 +98,7 @@
         <ui-kit-input :errors="v_i$.user.inv_address" :error-messages="{ required: 'Invoice Address is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS" v-model="user.inv_address"
           id="user_inv_address" />
-        <div v-if="inv_address_error_msg">{{ "Address invalid" }}</div>
+        <div v-if="inv_address_error_msg" class="address-invalid">{{ "Address invalid" }}</div>
         <ui-kit-input :errors="v_i$.user.inv_address2" :error-messages="{ required: 'Invoice Address 2 is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS 2 (OPTIONAL)" v-model="user.inv_address2" />
         <ui-kit-input :error-messages="{ required: 'Invoice State is required' }" :disabled="store.pendingRequestsCount"
@@ -135,7 +135,7 @@
           <ui-kit-input :errors="v_d$.user.dev_address" :error-messages="{ required: 'Deliver Address is required' }"
             :disabled="store.pendingRequestsCount" placeholder="DELIVER ADDRESS" v-model="user.dev_address"
             id="user_dev_address" />
-          <div v-if="dev_address_error_msg">{{ "Address invalid" }}</div>
+          <div v-if="dev_address_error_msg" class="address-invalid">{{ "Address invalid" }}</div>
           <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="DELIVER ADDRESS 2 (OPTIONAL)"
             v-model="user.dev_address2" />
           <ui-kit-input :error-messages="{ required: 'Deliver State is required' }" :disabled="store.pendingRequestsCount"
@@ -174,7 +174,7 @@
         <div class="seller-read-more">
           <ui-kit-big-check-box
             title="Yes, I want to support ARTfora, keeping this gallery free for artist.&nbsp;  &nbsp;"
-            v-model="user.seller_support" actionTitle="Read more" @action="openSellerSupportModal"></ui-kit-big-check-box>
+            v-model="user.seller_support" actionTitle="Read more" @action="checkSupport"></ui-kit-big-check-box>
         </div>
 
         <ui-kit-input :errors="v_s$.user.sel_name" :error-messages="{ required: 'Seller Name is required' }"
@@ -183,7 +183,7 @@
         <ui-kit-input :errors="v_s$.user.sel_address" :error-messages="{ required: 'Deliver Address is required' }"
           :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS" v-model="user.sel_address"
           id="user_sel_address" />
-        <div v-if="sel_address_error_msg">{{ "Address invalid" }}</div>
+        <div v-if="sel_address_error_msg" class="address-invalid">{{ "Address invalid" }}</div>
 
         <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="SELLER ADDRESS 2 (OPTIONAL)"
           v-model="user.sel_address2" />
@@ -239,6 +239,7 @@
     </template>
   </ui-kit-modal>
   <seller-support-modal ref="sellerSupportModalRef"></seller-support-modal>
+  <donation-modal ref="donationModalRef"></donation-modal>
 </template>
 
 <script setup lang="ts">
@@ -267,12 +268,14 @@ import axios from "axios";
 import UiKitSelector from "~/components/UiKit/UiKitSelector.vue";
 import UiKitBigCheckBox from "~/components/UiKit/UiKitBigCheckBox.vue";
 import SellerSupportModal from "~/components/Modals/SellerSupportModal.vue";
+import DonationModal from "~/components/Modals/DonationModal.vue";
 import useVuelidate from "@vuelidate/core";
 import { useFiltersStore } from "~/store/filters";
 import { useTextsStore } from "~~/store/texts";
 
 const setUpAccountModal = ref<InstanceType<typeof UiKitModal>>();
 const sellerSupportModalRef = ref<InstanceType<typeof SellerSupportModal>>();
+const donationModalRef = ref<InstanceType<typeof DonationModal>>();
 const seletedTab = ref("profile");
 const store = useStore();
 const userStore = useUserStore();
@@ -474,6 +477,11 @@ watch(
     }
   }
 );
+function checkSupport(e: any) {
+  console.log("----");
+  sellerSupportModalRef.value && sellerSupportModalRef.value.open();
+  console.log("check");
+}
 
 async function addFile(event: any) {
   const media = event.target.files || event.dataTransfer.files;
@@ -570,7 +578,7 @@ async function updateBuyerSettings() {
       postal_code: user?.inv_postal,
     });
 
-    if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
+    if (res.data == false) {
       inv_address_error_msg.value = true;
       return;
     }
@@ -584,7 +592,7 @@ async function updateBuyerSettings() {
         code: getCountryCode(user?.dev_country ?? ""),
         postal_code: user?.dev_postal,
       });
-      if (res1?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
+      if (res.data == false) {
         dev_address_error_msg.value = true;
       }
     }
@@ -626,6 +634,10 @@ async function updateBuyerSettings() {
         .then(close));
   } catch (e: any) {
     if (e.response && !e.response.data.errors) {
+      inv_address_error_msg.value = true;
+      if (isDifferentDeliveryAddress.value === true) {
+        dev_address_error_msg.value = true;
+      }
       error.value = "Something went wrong! Please try again later.";
 
       return;
@@ -658,7 +670,9 @@ async function updateSellerSettings() {
       code: getCountryCode(user?.sel_country ?? ""),
       postal_code: user?.sel_postal,
     });
-    if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
+    console.log(res)
+    // if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
+    if (res.data == false) {
       sel_address_error_msg.value = true;
     } else {
       await userStore
@@ -689,6 +703,7 @@ async function updateSellerSettings() {
         .then(close);
     }
   } catch (e: any) {
+    sel_address_error_msg.value = true;
     if (e.response && !e.response.data.errors) {
       error.value = "Something went wrong! Please try again later.";
 
@@ -750,7 +765,9 @@ function close() {
 function openSellerSupportModal() {
   sellerSupportModalRef?.value && sellerSupportModalRef?.value.open();
 }
-
+function openDonationMOdal() {
+  donationModalRef.value && donationModalRef?.value.open()
+}
 async function connectStripe({ redirect }: { redirect: string }) {
   try {
     const res = await authStore.connectStrip(user?.id);

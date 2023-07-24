@@ -93,3 +93,64 @@
 .login-error {
   color: #d66558
 }
+.popup--product {
+  .ui-kit-box {
+    > .ui-kit-box-title {
+      h5 {
+        margin-bottom: 0;
+      }
+    }
+
+    > .ui-kit-box-content {
+      padding: 15px;
+    }
+  }
+}
+
+.product--popup {
+  padding-top: 11px;
+}
+
+.input--field--product {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  div:nth-child(1) {
+    max-width: 104px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 10px;
+    justify-content: center;
+
+    input {
+      width: 45px;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      text-align: center;
+      color: #949495;
+      font-size: 18px;
+    }
+
+    span {
+      font-size: 18px;
+    }
+  }
+
+  div:nth-child(2) {
+    max-width: 197px;
+    width: 100%;
+  }
+}
+
+.product--list-div {
+  margin-bottom: 25px;
+
+  p {
+    margin-bottom: 13px;
+    padding-left: 5px;
+  }
+}
