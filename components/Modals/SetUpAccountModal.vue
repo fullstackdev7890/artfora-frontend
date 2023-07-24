@@ -558,12 +558,7 @@ async function updateBuyerSettings() {
     user.more_external_link = moreexternal_link.value.filter(
       (link) => link !== ""
     ) as any;
-    const inv_country_code = ref(
-      countries.value.find((country: any) => country.name === user?.inv_country)
-    ) as any;
-    const dev_country_code = ref(
-      countries.value.find((country: any) => country.name === user?.dev_country)
-    ) as any;
+
 
     const res = await userStore.addressValidate({
       address: user?.inv_address,
@@ -743,10 +738,10 @@ async function openBuyer() {
       countries.value.push({ title: country.name, key: country.name, code: country?.code })
     );
   }
-  var defaultBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-33.8902, 151.1759),
-    new google.maps.LatLng(-33.8474, 151.2631)
-  );
+  // var defaultBounds = new google.maps.LatLngBounds(
+  //   new google.maps.LatLng(-33.8902, 151.1759),
+  //   new google.maps.LatLng(-33.8474, 151.2631)
+  // );
 }
 
 function close() {

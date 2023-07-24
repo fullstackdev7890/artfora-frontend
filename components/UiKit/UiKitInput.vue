@@ -131,75 +131,75 @@ function input($event: any) {
 
   emit("update:modelValue", value);
 }
-onMounted(() => {
-  var input = document.getElementById(props.id);
+// onMounted(() => {
+//   var input = document.getElementById(props.id);
 
-  const autocomplete = new google.maps.places.Autocomplete(input, {
-    types: ["address"],
-  });
+//   const autocomplete = new google.maps.places.Autocomplete(input, {
+//     types: ["address"],
+//   });
 
-  autocomplete.addListener("place_changed", () => {
-    let place = autocomplete.getPlace();
+//   autocomplete.addListener("place_changed", () => {
+//     let place = autocomplete.getPlace();
 
-    let address1 = ref("");
-    let postcode = ref("");
-    let state = ref("");
-    let country = ref("");
-    let city = ref("");
-    for (const component of place.address_components as google.maps.GeocoderAddressComponent[]) {
-      // @ts-ignore remove once typings fixed
-      const componentType = component.types[0];
+//     let address1 = ref("");
+//     let postcode = ref("");
+//     let state = ref("");
+//     let country = ref("");
+//     let city = ref("");
+//     for (const component of place.address_components as google.maps.GeocoderAddressComponent[]) {
+//       // @ts-ignore remove once typings fixed
+//       const componentType = component.types[0];
 
-      switch (componentType) {
-        case "street_number": {
-          address1.value = `${component.long_name} ${address1.value}`;
-          break;
-        }
+//       switch (componentType) {
+//         case "street_number": {
+//           address1.value = `${component.long_name} ${address1.value}`;
+//           break;
+//         }
 
-        case "route": {
-          address1.value += component.short_name;
-          break;
-        }
+//         case "route": {
+//           address1.value += component.short_name;
+//           break;
+//         }
 
-        case "postal_code": {
-          postcode.value = `${component.long_name}${postcode.value}`;
-          break;
-        }
+//         case "postal_code": {
+//           postcode.value = `${component.long_name}${postcode.value}`;
+//           break;
+//         }
 
-        case "postal_code_suffix": {
-          postcode.value = `${postcode.value}-${component.long_name}`;
-          break;
-        }
+//         case "postal_code_suffix": {
+//           postcode.value = `${postcode.value}-${component.long_name}`;
+//           break;
+//         }
 
-        case "locality":
-          city.value = component.long_name;
-          break;
+//         case "locality":
+//           city.value = component.long_name;
+//           break;
 
-        case "administrative_area_level_1": {
-          state.value = component.short_name;
-          break;
-        }
+//         case "administrative_area_level_1": {
+//           state.value = component.short_name;
+//           break;
+//         }
 
-        case "country":
-          country.value = component.long_name;
-          break;
-      }
-    }
-    if (
-      props.id === "user_inv_address" ||
-      props.id === "user_sel_address" ||
-      props.id === "user_dev_address"
-    ) {
-      authStore.addAddress(props.id, {
-        address: address1.value,
-        city: city.value,
-        country: country.value,
-        state: state.value,
-        postal_code: postcode.value,
-      });
-    }
-  });
-});
+//         case "country":
+//           country.value = component.long_name;
+//           break;
+//       }
+//     }
+//     if (
+//       props.id === "user_inv_address" ||
+//       props.id === "user_sel_address" ||
+//       props.id === "user_dev_address"
+//     ) {
+//       authStore.addAddress(props.id, {
+//         address: address1.value,
+//         city: city.value,
+//         country: country.value,
+//         state: state.value,
+//         postal_code: postcode.value,
+//       });
+//     }
+//   });
+// });
 
 function onChanged(value: any) {
   if (props.timeout) {
