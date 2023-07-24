@@ -134,6 +134,8 @@
   &-plus-icon {
     cursor: pointer;
     height: 0.8rem;
+    width: 0.8rem;
+
     padding-left: 1rem;
     margin-bottom: 1rem;
 
@@ -143,11 +145,13 @@
   }
 
   &-minus-icon {
-    height: 15px;
     cursor: pointer;
     height: 0.8rem;
+    width: 0.8rem;
     padding-left: 1rem;
     margin-bottom: 1rem;
+
+    color: white;
 
     path {
       fill: white;
