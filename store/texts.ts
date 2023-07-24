@@ -43,7 +43,10 @@ export const useTextsStore = defineStore('texts', {
       const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
       return sortedArr
     },
-
-
+    getSupport(name: string) {
+      const row = this.$state.items?.data.filter((row) => row.text_name === name)
+      const sortedArr = row.sort((a, b) => a?.text_order - b?.text_order);
+      return sortedArr
+    },
   },
 })

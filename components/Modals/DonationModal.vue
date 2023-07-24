@@ -3,11 +3,11 @@
         <template v-slot:content>
             <div class="product--popup">
                 <div class="product--list-div">
-                    <p>Db > texts > support_1</p>
+                    <p>{{ support1 }}</p>
                 </div>
 
                 <div class="product--list-div">
-                    <p>Db > texts > support_2</p>
+                    <p>{{ support2 }}</p>
                     <div class="input--field--product">
                         <div>
                             <input type="number" v-model="donationAmount" /> <span>&euro;</span>
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="product--list-div">
-                    <p>Db > texts > support_3</p>
+                    <p>{{ support3 }}</p>
                     <div class="input--field--product">
                         <div>
                             <input type="number" v-model="subscriptionAmount" /> <span>&euro;</span>
@@ -54,8 +54,26 @@ const textsStore = useTextsStore();
 const donationModalRef = ref<InstanceType<typeof UiKitModal>>();
 const sellerSupportTexts = computed(() => textsStore?.getSellerSupport());
 
-const donationAmount = ref<number>(0);
-const subscriptionAmount = ref<number>(0);
+const donationSupportTexts1 = computed(() => textsStore?.getSupport('support_1'));
+
+const support1 = computed(() =>
+  donationSupportTexts1?.value ? donationSupportTexts1.value[0]?.text_content : ""
+);
+
+const donationSupportTexts2 = computed(() => textsStore?.getSupport('support_2'));
+
+const support2 = computed(() =>
+  donationSupportTexts2?.value ? donationSupportTexts2.value[0]?.text_content : ""
+);
+
+const donationSupportTexts3 = computed(() => textsStore?.getSupport('support_3'));
+
+const support3 = computed(() =>
+  donationSupportTexts3?.value ? donationSupportTexts3.value[0]?.text_content : ""
+);
+
+const donationAmount = ref<number>(5);
+const subscriptionAmount = ref<number>(5);
 
 function open() {
     donationModalRef.value && donationModalRef.value?.open();
