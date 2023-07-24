@@ -172,7 +172,7 @@ const props = withDefaults(defineProps<Props>(), {
     sale_price_in_euro: 0,
 
   },
-  shipping: 0
+  shipping: '0'
 });
 const authStore = useAuthStore();
 const cartStore = useCartStore();
@@ -205,7 +205,7 @@ const user = reactive({
   id: currentProfile?.id,
 });
 
- async function addQuantity() {
+async function addQuantity() {
   if (props.product.quantity_for_sale > order_quantity.value) {
     order_quantity.value += 1;
     if (isAuthorized.value && props.product.user.id !== currentProfile.id.value) {
@@ -213,7 +213,7 @@ const user = reactive({
         product_id: props.product.id,
         count: 1,
       });
-      res.status === 200 && (shipping.value = res.data);
+      res.status === 200 && (shipping.value = res.data.message);
       console.log(shipping.value);
     }
   }
@@ -226,7 +226,7 @@ async function removeQuantity() {
         product_id: props.product.id,
         count: 1,
       });
-      res.status === 200 && (shipping.value = res.data);
+      res.status === 200 && (shipping.value = res.data.message);
       console.log(shipping.value);
     }
   }

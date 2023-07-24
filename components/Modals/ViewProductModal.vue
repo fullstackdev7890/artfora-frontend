@@ -132,7 +132,7 @@ async function open(id: number) {
       product_id: id,
       count: 1,
     });
-    res.status === 200 && (shippingRate.value = res.data);
+    res.status === 200 && (shippingRate.value = res.data.message);
     console.log(shippingRate.value);
   }
   viewProductModal.value?.open();
