@@ -112,7 +112,7 @@
       >
         Total: &nbsp;
         <span
-          >{{ formattedNumber(carts.total_price + carts.total_shipping) || 0 }} €</span
+          >{{ formattedNumber(carts.total_price) || 0 }} €</span
         >
       </div>
     </template>
