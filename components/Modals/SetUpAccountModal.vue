@@ -576,7 +576,7 @@ async function updateBuyerSettings() {
       postal_code: user?.inv_postal,
     });
 
-    if (res.data?.status == false) {
+    if (res === false) {
       inv_address_error_msg.value = true;
       return;
     }
@@ -590,7 +590,7 @@ async function updateBuyerSettings() {
         code: getCountryCode(user?.dev_country ?? ""),
         postal_code: user?.dev_postal,
       });
-      if (res.data?.status == false) {
+      if (res === false) {
         dev_address_error_msg.value = true;
       }
     }
@@ -670,7 +670,7 @@ async function updateSellerSettings() {
     });
     console.log(res)
     // if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
-    if (res.data?.status == false) {
+    if (res === false) {
       sel_address_error_msg.value = true;
     } else {
       await userStore
