@@ -115,7 +115,6 @@ export const useProductsStore = defineStore('products', {
       this.$state.loadingNextPage = false
     },
     async getShippingRate(data: any) {
-      console.log(data)
       const response = await axios.post('/ship_rate', data);
       return response.data
     },

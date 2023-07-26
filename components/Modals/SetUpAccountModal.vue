@@ -442,7 +442,6 @@ watch(
   () => authStore.user_inv_address,
   (newValue: any) => {
     if (newValue) {
-      console.log(user_inv_address, "=====");
       user.inv_address = newValue?.address;
       user.inv_postal = newValue?.postal_code;
       user.inv_state = newValue?.state;
@@ -455,7 +454,6 @@ watch(
   () => authStore.user_dev_address,
   (newValue: any) => {
     if (newValue) {
-      console.log(user_dev_address, "=====");
       user.dev_address = newValue?.address;
       user.dev_postal = newValue?.postal_code;
       user.dev_state = newValue?.state;
@@ -468,7 +466,6 @@ watch(
   () => authStore.user_sel_address,
   (newValue: any) => {
     if (newValue) {
-      console.log(user_sel_address, "=====");
       user.sel_address = newValue?.address;
       user.sel_postal = newValue?.postal_code;
       user.sel_state = newValue?.state;

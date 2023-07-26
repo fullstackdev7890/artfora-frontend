@@ -61,7 +61,6 @@ function formattedNumber(amount: number) {
 }
 async function checkout() {
   try {
-    console.log(currentProfile.id);
     const res = await axios.get("/checkout");
     orderId.value = res?.data;
     const response = await axios.post(`/order_payment`, {
@@ -69,7 +68,6 @@ async function checkout() {
       amount: price.totalProductsPrice,
       user_id: user.id,
     });
-    console.log(response);
 
     if (response.data.stripe_payment_url) {
       // window.open(response.data.stripe_payment_url);

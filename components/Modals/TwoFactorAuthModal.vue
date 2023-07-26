@@ -103,7 +103,6 @@ const v$ = useVuelidate(
 );
 
 async function confirmTwoFactorAuth() {
-  console.log(emailForTwoFactorAuth);
   auth.email = emailForTwoFactorAuth.value;
   auth.remember_me = remember_me.value;
 
@@ -118,7 +117,6 @@ async function confirmTwoFactorAuth() {
   successResend.value = false;
 
   try {
-    console.log(auth);
     await authStore.checkEmailTwoFactorAuth(auth);
 
     await userStore.fetch();

@@ -214,7 +214,6 @@ async function addQuantity() {
         count: 1,
       });
       res.status === 200 && (shipping.value = res.data.message);
-      console.log(shipping.value);
     }
   }
 }
@@ -227,7 +226,6 @@ async function removeQuantity() {
         count: 1,
       });
       res.status === 200 && (shipping.value = res.data.message);
-      console.log(shipping.value);
     }
   }
 }
