@@ -44,6 +44,7 @@ export const useAuthStore = defineStore('auth', {
           const response = await axios.get(`/auth/verify-remember-token/${rememberToken}`);
           this.$state.emailForTwoFactorAuth = null
           this.$state.token = response.data.token
+          localStorage.setItem('artfora_token', response.data.token);
           navigateTo('/')
 
         } catch (error) {
