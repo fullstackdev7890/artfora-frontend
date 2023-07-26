@@ -53,7 +53,9 @@
 
   .space-between-inputs{
     display: flex;
-    gap: 5px;
     justify-content: space-between;
+    .add-custom-field {
+      margin-right: 5px;
+    }
   }
 }
