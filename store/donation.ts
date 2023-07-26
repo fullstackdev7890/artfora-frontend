@@ -6,14 +6,18 @@ export async function handleDonationClick(price: number) {
 
   if (typeof price === "number" && !isNaN(price)) {
     // Check if it is an integer
-    if (Number.isInteger(price) && price > 0) {
-      console.log(`${price} is an integer.`);
-    } else if (price <= 0) {
-      alert("Price must be greater than 0");
-      return;
-    } else {
+    if (Number.isInteger(price)) {
+       if(price <= 0){
+        alert("Price must be greater than 0");
+        return;
+       }
+      else if (price < 5) {
+        alert("Price must be at least 5");
+        return;
+      } 
+    } 
+    else {
       alert("Float value is not accepted");
-      return;
     }
   } else {
     alert("Invalid price value");
@@ -43,14 +47,18 @@ export async function handleSubscribeClick(price: number) {
 
   if (typeof price === "number" && !isNaN(price)) {
     // Check if it is an integer
-    if (Number.isInteger(price) && price > 0) {
-      console.log(`${price} is an integer.`);
-    } else if (price <= 0) {
-      alert("Price must be greater than 0");
-      return;
-    } else {
+    if (Number.isInteger(price)) {
+       if(price <= 0){
+        alert("Price must be greater than 0");
+        return;
+       }
+      else if (price < 5) {
+        alert("Price must be at least 5");
+        return;
+      } 
+    } 
+    else {
       alert("Float value is not accepted");
-      return;
     }
   } else {
     alert("Invalid price value");
