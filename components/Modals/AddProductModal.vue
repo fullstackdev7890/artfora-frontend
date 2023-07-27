@@ -69,11 +69,9 @@
               :server-errors="serverErrors" :disabled="store.pendingRequestsCount" />
           </div>
           <div class="is_sale_price_tag">
-            <div class="is_sale_switch">
+            <div class="is_sale_switch" @click="is_sale_mode">
               <div class="switch-body" :class="product.is_sale_price === false ? 'to-switch-top' : 'to-switch-bottom'
-                " @click="is_sale_mode"></div>
-              <div class="switch-top" @click="is_sale_mode"></div>
-              <div class="switch-bottom" @click="is_sale_mode"></div>
+                "></div>
             </div>
             <div class="price_group">
               <CurrencyInput v-model.lazy="product.price_in_euro" placeholder="PRODUCT PRICE IN EURO"
