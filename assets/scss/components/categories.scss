@@ -3,7 +3,7 @@
 .categories {
   display: flex; flex-direction: column; width: 100%; gap: 10px; padding: 1rem 0;
   &-body {
-    display: flex; gap: 5px;
+    display: flex;
     overflow-x: auto;
     @media (max-width: $tablet) {
       -ms-overflow-style: none;
@@ -12,7 +12,11 @@
         display: none;
       }
     }
+    &-item:last-child {
+      margin-right: 0px;
+    }
     &-item {
+      margin-right: 5px;
       text-decoration: none; background: $border-color; padding: 2px 10px; border-radius: 5px;
       color: $user-details-background-color; letter-spacing: 1px; white-space: nowrap;
 
