@@ -151,6 +151,14 @@
   margin-bottom: 1rem;
   .price_group {
     width: 100%;
+    .add-custom-field {
+      .form-group {
+        input.form-control {
+          margin-top: 0px;
+          margin-bottom: 0px;
+        }
+      }
+    }
     .add-custom-field:last-child {
       .form-group {
         margin-bottom: 0px;
@@ -207,13 +215,13 @@
 }
 
 .to-switch-bottom {
-  top: 74px;
+  top: 73px;
   left: 3px;
   bottom: 4px!important;
 }
 
 .to-switch-top {
-  bottom: 74px;
+  bottom: 73px;
   top: 4px!important;
   left: 3px;
 }
