@@ -75,7 +75,7 @@
               <div class="switch-top" @click="is_sale_mode"></div>
               <div class="switch-bottom" @click="is_sale_mode"></div>
             </div>
-            <div :style="{ width: '100%' }">
+            <div class="price_group">
               <CurrencyInput v-model.lazy="product.price_in_euro" placeholder="PRODUCT PRICE IN EURO"
                 :errors="v$.product.price_in_euro" :error-messages="{ required: 'Price in euro is required' }"
                 :server-errors="serverErrors" :disabled="product.is_sale_price" />
