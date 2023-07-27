@@ -384,7 +384,6 @@ function initializeProductFields() {
 
 function keyHandler(event) {
   var charCode = (event.which) ? event.which : event.keyCode
-  let value = props.mask ? $event : $event.target.value;
   if (charCode > 31 && (charCode < 48 || charCode > 57)) {
     product.quantity_for_sale = 1; 
   }
