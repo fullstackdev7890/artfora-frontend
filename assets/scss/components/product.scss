@@ -148,6 +148,15 @@
 
 .is_sale_price_tag {
   display: flex;
+  margin-bottom: 1rem;
+  .price_group {
+    width: 100%;
+    .add-custom-field:last-child {
+      .form-group {
+        margin-bottom: 0px;
+      }
+    }
+  }
   .is_sale_switch {
     display: flex;
     justify-content: center;
@@ -177,7 +186,6 @@
     /* Standard syntax */
     border-radius: 40px;
     border: solid 1px #C1C1C1;
-    height: 110.04px;
     margin-right: 16px;
     position: relative;
     overflow: hidden;
