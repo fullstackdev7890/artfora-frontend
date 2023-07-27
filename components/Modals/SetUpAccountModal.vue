@@ -103,23 +103,15 @@
           :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS 2 (OPTIONAL)" v-model="user.inv_address2" />
         <ui-kit-input :error-messages="{ required: 'Invoice State is required' }" :disabled="store.pendingRequestsCount"
           placeholder="INVOICE STATE (OPTIONAL)" v-model="user.inv_state" />
-        <!-- <div class="account-settings-tabs-buyer">
-          <div class="account-settings-tabs-buyer-zip"> -->
         <ui-kit-input :errors="v_i$.user.inv_postal" :error-messages="{ required: 'Invoice Zip is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE POSTSAL" v-model="user.inv_postal" />
-        <!-- </div>
-          <div class="account-settings-tabs-buyer-city"> -->
         <ui-kit-input :errors="v_i$.user.inv_city" :error-messages="{ required: 'Invoice City is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE CITY" v-model="user.inv_city" />
-        <!-- </div>
-        </div> -->
-        <ui-kit-selector v-model="user.inv_country" :options="countries" :title="'INVOICE COUNTRY'"
+        <ui-kit-selector :errors="v_i$.user.inv_country" :error-messages="{ required: 'Invoice country is required' }" v-model="user.inv_country" :options="countries" :title="'INVOICE COUNTRY'"
           :disabled="store.pendingRequestsCount" :withSearch="true" />
-
         <ui-kit-input :errors="v_i$.user.inv_phone" :error-messages="{ required: 'Invoice Phone is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE PHONE" v-model="user.inv_phone" />
-
-        <ui-kit-input :errors="v_i$.user.inv_email" :error-messages="{ required: 'Invoice Email is required' }"
+        <ui-kit-input :errors="v_i$.user.inv_email" :error-messages="{ required: 'Invoice Email is required', email: 'Email format is wrong' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE EMAIL" v-model="user.inv_email" />
         <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="INVOICE ATTENTION" v-model="user.inv_att" />
         <hr class="divide" />
@@ -147,7 +139,7 @@
           <ui-kit-input :errors="v_d$.user.dev_city" :error-messages="{ required: 'Deliver City is required' }"
             :disabled="store.pendingRequestsCount" placeholder="DELIVER CITY" v-model="user.dev_city" />
 
-          <ui-kit-selector v-model="user.dev_country" :options="countries" :title="'DELIVER COUNTRY'"
+          <ui-kit-selector :errors="v_d$.user.dev_country" v-model="user.dev_country" :options="countries" :title="'DELIVER COUNTRY'"
             :disabled="store.pendingRequestsCount" :withSearch="true" />
 
           <ui-kit-input :errors="v_d$.user.dev_phone" :error-messages="{ required: 'Deliver Phone is required' }"
