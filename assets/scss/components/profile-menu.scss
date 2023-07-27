@@ -5,7 +5,10 @@
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  gap: 10px;
+  
+  &>div {
+    margin-left: 10px;
+  }
 
   & .new-product {
     display: flex;
