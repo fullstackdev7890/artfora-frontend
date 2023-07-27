@@ -108,7 +108,8 @@ export const useAuthStore = defineStore('auth', {
     async logout() {
       // @ts-ignore
       this.$state.token = null
-      // localStorage.removeItem('artfora_remember_token');
+      localStorage.removeItem('artfora_remember_token');
+      localStorage.removeItem('artfora_token');
 
 
       navigateTo('/')
