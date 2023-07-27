@@ -148,42 +148,40 @@
 
 .is_sale_price_tag {
   display: flex;
-
-}
-
-.is_sale_switch {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 40px;
-  min-width: 40px;
-
-  border-top-left-radius: 40px;
-  border-top-right-radius: 40px;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
-  -webkit-border-top-left-radius: 40px;
-  -webkit-border-top-right-radius: 40px;
-  -webkit-border-bottom-left-radius: 40px;
-  -webkit-border-bottom-right-radius: 40px;
-  -webkit-border-radius: 40px;
-  -khtml-border-radius: 40px;
-  -moz-border-radius: 40px;
-
-  /* For Firefox 4.0+ */
-  -moz-border-radius: 40px;
-
-  /* For Opera 40.5+ */
-  -o-border-radius: 40px;
-
-  /* Standard syntax */
-  border-radius: 40px;
-  outline: solid 1px #C1C1C1;
-  height: 110.04px;
-  margin-right: 16px;
-  position: relative;
-  overflow: hidden;
+  .is_sale_switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 40px;
+    min-width: 40px;
+  
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    -webkit-border-top-left-radius: 40px;
+    -webkit-border-top-right-radius: 40px;
+    -webkit-border-bottom-left-radius: 40px;
+    -webkit-border-bottom-right-radius: 40px;
+    -webkit-border-radius: 40px;
+    -khtml-border-radius: 40px;
+    -moz-border-radius: 40px;
+  
+    /* For Firefox 4.0+ */
+    -moz-border-radius: 40px;
+  
+    /* For Opera 40.5+ */
+    -o-border-radius: 40px;
+  
+    /* Standard syntax */
+    border-radius: 40px;
+    border: solid 1px #C1C1C1;
+    height: 110.04px;
+    margin-right: 16px;
+    position: relative;
+    overflow: hidden;
+  }
 }
 
 .switch-body {
