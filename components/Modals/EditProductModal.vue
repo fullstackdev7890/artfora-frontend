@@ -106,7 +106,7 @@
             <ui-kit-input v-model="product.tags" v-if="!product.is_ai_safe" :errors="v$.product.tags"
               :error-messages="{ required: 'Tags are required' }" :disabled="product.is_ai_safe"
               placeholder="ADD TAGS, SEPARATE BY COMMA" />
-            <ui-kit-text-area v-model="product.alt_text" :error-messages="{ required: 'Please enter text.' }"
+            <ui-kit-text-area v-model="product.alt_text" :errors="v$.product.alt_text" :error-messages="{ required: 'Please enter alt text.' }"
               :disabled="store.pendingRequestsCount" placeholder="ADD ALT TEXT" v-if="!product.is_ai_safe" />
           </div>
 
@@ -171,7 +171,7 @@ import MeasureInput from "~~/components/UiKit/MeasureInput.vue";
 import MinusIcon from "~/assets/svg/minus.svg";
 import useMedia from "~/composable/media";
 import useVuelidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+import { required, requiredIf } from "@vuelidate/validators";
 import { Media } from "~~/types";
 import CloseIcon from "~/assets/svg/close.svg";
 import TrashIcon from "~/assets/svg/icon_trash.svg";
@@ -267,6 +267,11 @@ const v$ = useVuelidate(
       tags: { required },
       visibility_level: { required },
       is_ai_safe: {},
+      alt_text: {
+        required: requiredIf(function (){
+          return !product.is_ai_safe
+        })
+      },
       weight: { required }
     },
   },
