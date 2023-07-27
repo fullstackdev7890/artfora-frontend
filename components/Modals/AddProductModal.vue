@@ -88,7 +88,7 @@
 
           <ui-kit-input v-model.lazy="product.quantity_for_sale" :type="'number'" placeholder="QUANTITY FOR SALE"
             :errors="v$.product.quantity_for_sale" :error-messages="{ required: 'QUANTITY FOR SALE is required' }"
-            :server-errors="serverErrors" :disabled="store.pendingRequestsCount" />
+            :server-errors="serverErrors" :disabled="store.pendingRequestsCount" v-on:keyup="keyHandler($event)"/>
 
           <ui-kit-big-check-box title="AI safe (the best we can do) &nbsp;  &nbsp;" v-model="product.is_ai_safe"
             actionTitle="Read more" @action="readAiSafe"></ui-kit-big-check-box>
@@ -348,6 +348,14 @@ function clearProductFields() {
   product.sale_price_in_euro = 0;
   product.alt_text = "";
   product.weight = 0;
+}
+
+function keyHandler(event) {
+  var charCode = (event.which) ? event.which : event.keyCode
+  let value = props.mask ? $event : $event.target.value;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+    product.quantity_for_sale = 1; 
+  }
 }
 
 async function uploadProduct() {
