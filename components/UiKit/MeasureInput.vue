@@ -11,7 +11,7 @@
         </span>
 
         <input type="text" ref="inputRef" :class="{
-          'form-control-filled': model || model === 0 || type === 'date',
+          'form-control-filled': modelValue || modelValue === 0 || type === 'date',
           'form-control-prefix': modelValue && prefix
         }" class="form-control" @blur="onBlur" />
         <span v-if="isPopover" class="text-popover">{{ popoverText }}</span>
@@ -65,6 +65,7 @@ interface Props {
   name?: string,
   type?: string,
   step?: number,
+  timeout?: number,
   errors?: object,
   errorMessages?: object,
   serverErrors?: object,
@@ -94,6 +95,8 @@ const props = withDefaults(defineProps<Props>(), {
     accountingSign: false,
     onlyInteger: false
   },
+  timeout: 0,
+
   errors: () => ({ $error: false }),
   errorMessages: () => ({}),
   serverErrors: () => ({})
@@ -130,6 +133,24 @@ watch(() => numberValue.value, (newValue: number | null) => {
 })
 function onBlur() {
   emit('update:modelValue', numberValue)
+}
+function input($event: any) {
+  let value = props.mask ? $event : $event.target.value;
+
+  if (props.type === "number") {
+    value = parseFloat(value);
+  }
+
+  // emit("update:modelValue", value);
+}
+function onChanged(value: any) {
+  if (props.timeout) {
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => input(value), props.timeout);
+  } else {
+    input(value);
+  }
 }
 
 </script>
