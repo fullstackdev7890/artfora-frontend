@@ -100,8 +100,8 @@
           :disabled="store.pendingRequestsCount" placeholder="INVOICE ADDRESS 2 (OPTIONAL)" v-model="user.inv_address2" />
         <ui-kit-input :error-messages="{ required: 'Invoice State is required' }" :disabled="store.pendingRequestsCount"
           placeholder="INVOICE STATE (OPTIONAL)" v-model="user.inv_state" />
-        <ui-kit-input :errors="v_i$.user.inv_postal" :error-messages="{ required: 'Invoice Zip is required' }"
-          :disabled="store.pendingRequestsCount" placeholder="INVOICE POSTSAL" v-model="user.inv_postal" />
+        <ui-kit-input :errors="v_i$.user.inv_postal" :error-messages="{ required: 'Invoice Zip CODE is required' }"
+          :disabled="store.pendingRequestsCount" placeholder="INVOICE ZIP CODE" v-model="user.inv_postal" />
         <ui-kit-input :errors="v_i$.user.inv_city" :error-messages="{ required: 'Invoice City is required' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE CITY" v-model="user.inv_city" />
         <ui-kit-selector :errors="v_i$.user.inv_country" :error-messages="{ required: 'Invoice country is required' }" v-model="user.inv_country" :options="countries" :title="'INVOICE COUNTRY'"
@@ -110,7 +110,7 @@
           :disabled="store.pendingRequestsCount" placeholder="INVOICE PHONE" v-model="user.inv_phone" />
         <ui-kit-input :errors="v_i$.user.inv_email" :error-messages="{ required: 'Invoice Email is required', email: 'Email format is wrong' }"
           :disabled="store.pendingRequestsCount" placeholder="INVOICE EMAIL" v-model="user.inv_email" />
-        <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="INVOICE ATTENTION" v-model="user.inv_att" />
+        <ui-kit-input :disabled="store.pendingRequestsCount" placeholder="INVOICE ATTENTION (OPTIONAL)" v-model="user.inv_att" />
         <hr class="divide" />
         <div class="differnt-address">
           <ui-kit-big-check-box v-model="isDifferentDeliveryAddress" :value="'DELIVER ADDRESS (If different)'"
