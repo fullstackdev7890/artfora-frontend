@@ -66,9 +66,6 @@
           <ui-kit-big-check-box v-model="user.product_visibility_level" :value="EROTIC_VISIBILITY_LEVEL"
             :disabled="store.pendingRequestsCount" :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
             type="radio"></ui-kit-big-check-box>
-          <ui-kit-big-check-box v-model="user.product_visibility_level" :value="PORNO_VISIBILITY_LEVEL"
-            :disabled="store.pendingRequestsCount"
-            :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"></ui-kit-big-check-box>
         </div>
 
         <span v-if="error" class="form-error error">
@@ -240,7 +237,6 @@ import {
   COMMON_VISIBILITY_LEVEL,
   EROTIC_VISIBILITY_LEVEL,
   NUDITY_VISIBILITY_LEVEL,
-  PORNO_VISIBILITY_LEVEL,
   ImageTemplate,
 } from "~/types/constants";
 import { useStore } from "~/store";

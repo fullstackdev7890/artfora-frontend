@@ -91,6 +91,7 @@ export const useAuthStore = defineStore('auth', {
       const response = await axios.post('/auth/register/email/verify', data)
 
       this.$state.token = response.data.token
+      localStorage.setItem('artfora_token', response.data.token);
     },
 
     async resetPassword(data: ResetPasswordData) {

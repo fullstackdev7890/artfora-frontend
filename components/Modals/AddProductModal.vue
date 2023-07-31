@@ -113,10 +113,6 @@
             <ui-kit-big-check-box v-model="product.visibility_level" :value="EROTIC_VISIBILITY_LEVEL"
               :disabled="store.pendingRequestsCount" :title="filtersStore.getById(EROTIC_VISIBILITY_LEVEL).filter"
               type="radio" />
-
-            <ui-kit-big-check-box v-model="product.visibility_level" :value="PORNO_VISIBILITY_LEVEL"
-              :disabled="store.pendingRequestsCount" :title="filtersStore.getById(PORNO_VISIBILITY_LEVEL).filter"
-              type="radio" />
             <span v-for="(message, key) in { required: 'Visibility is required. ' }"
               v-show="v$.product.visibility_level.$error" v-html="message" :key="key" class="form-error error"></span>
           </div>
@@ -145,7 +141,6 @@ import {
   EROTIC_VISIBILITY_LEVEL,
   ImageTemplate,
   NUDITY_VISIBILITY_LEVEL,
-  PORNO_VISIBILITY_LEVEL,
 } from "~/types/constants";
 import UiKitModal from "~/components/UiKit/UiKitModal.vue";
 import MinusIcon from "~/assets/svg/minus.svg";
