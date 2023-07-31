@@ -394,13 +394,13 @@ function initializeSettingsFields() {
   user.more_external_link = userStore?.more_external_link;
   user.can_add_product = userStore?.can_add_product;
   user.inv_name = userStore?.inv_name;
-  user.inv_email = userStore?.inv_email;
+  user.inv_email = userStore?.inv_email === null ? userStore?.email : userStore?.inv_email;
   user.inv_address = userStore?.inv_address;
   user.inv_address2 = userStore?.inv_address2;
   user.inv_postal = userStore?.inv_postal;
   user.inv_state = userStore?.inv_state;
   user.inv_city = userStore?.inv_city;
-  user.inv_country = userStore?.inv_country;
+  user.inv_country = userStore?.inv_country === null ? userStore?.country : userStore?.inv_country;
   user.inv_phone = userStore?.inv_phone;
   user.inv_att = userStore?.inv_att;
   user.dev_name = userStore?.dev_name;
