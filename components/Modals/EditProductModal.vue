@@ -405,12 +405,10 @@ async function deleteProduct() {
 async function updateProduct() {
   if (product.media.length < 1) {
     fileError.value = "Media is required. ";
-    return;
   }
 
   if (product.categories.length < 1) {
     subCategoryError.value = "Must select at least one sub category. ";
-    return;
   }
 
   // this is a temporary solution to add tags if ai_safe = true, until the backend is ready, should be removed in the future
@@ -421,7 +419,7 @@ async function updateProduct() {
 
   v$.value.$touch();
 
-  if (v$.value.$error) {
+  if (v$.value.$error || !fileError.value || product.categories.length < 1) {
     return;
   }
 
