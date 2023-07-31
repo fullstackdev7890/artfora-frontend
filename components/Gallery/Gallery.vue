@@ -43,6 +43,7 @@
             :product="image"
             @open-edit-product-modal="editProductModalRef.open()"
             @open-view-product-modal="(id) => openViewProductModal(id)"
+            @open-set-up-account-modal="() => openSetUpAccountModal()"
           />
 
           <user-details
@@ -68,6 +69,7 @@
 
     <edit-product-modal ref="editProductModalRef" />
     <view-product-modal ref="viewProductModalRef" />
+    <set-up-account-modal ref="setUpAccountModalRef" />
   </div>
 </template>
 
@@ -99,6 +101,7 @@ import ProductInfo from "~/components/Gallery/ProductInfo.vue";
 import randomWords from "random-words";
 import EditProductModal from "~/components/Modals/EditProductModal.vue";
 import ViewProductModal from "~/components/Modals/ViewProductModal.vue";
+import SetUpAccountModal from "~/components/Modals/SetUpAccountModal.vue";
 
 const { getImageUrl } = useMedia();
 const authStore = useAuthStore();
@@ -119,6 +122,7 @@ const galleryViewType = ref(viewType);
 const router = useRouter();
 const editProductModalRef = ref<InstanceType<typeof EditProductModal>>(null);
 const viewProductModalRef = ref<InstanceType<typeof ViewProductModal>>(null);
+const setUpAccountModalRef = ref<InstanceType<typeof SetUpAccountModal>>(null);
 
 interface Props {
   items: ProductsState;
@@ -206,6 +210,10 @@ function getColumnsCount() {
     (result, [size, columns]) => (window.innerWidth > size ? columns : result),
     mobileColumnCount
   );
+}
+
+function openSetUpAccountModal() {
+  setUpAccountModalRef.value.open();
 }
 
 function openViewProductModal(id: number) {

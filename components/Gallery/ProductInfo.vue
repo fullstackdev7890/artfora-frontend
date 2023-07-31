@@ -91,7 +91,7 @@
       <p></p>
     </span>
     <div class="no-product-description" v-if="isAuthorized && product.visibility_level > product_visibility_level">
-      Change your filter setting<br> to see this image
+      Change your filter setting<br> to see this image <a href="#" class="link" @click.prevent="emit('openSetUpAccountModal')">here</a>
     </div>
     <div class="no-product-description" v-if="!isAuthorized && product.visibility_level > 1">
       Login to see images<br> with sensitive content
@@ -110,7 +110,7 @@ import { useRoute } from 'vue-router'
 import { useCategoriesStore } from '~/store/categories'
 import EditIcon from '~/assets/svg/icon_edit_pencil.svg'
 import { useAuthStore } from '~/store/auth'
-const emit = defineEmits(['openEditProductModal', 'openAddProductModal', 'openViewProductModal'])
+const emit = defineEmits(['openEditProductModal', 'openAddProductModal', 'openViewProductModal', 'openSetUpAccountModal'])
 
 interface Props {
   product: Product
