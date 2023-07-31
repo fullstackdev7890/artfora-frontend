@@ -7,7 +7,7 @@
   >
     <template v-slot:content>
       <div class="sub-modal" v-for="(cart, index) in carts" :key="index">
-        <CartItemModal :carts="cart"></CartItemModal>
+        <cart-item-modal :carts="cart" @close-cart-modal="close"></cart-item-modal>
       </div>
       <div class="sub-modal">
         <continue-to-checkout-modal

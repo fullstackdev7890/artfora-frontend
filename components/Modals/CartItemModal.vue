@@ -129,6 +129,11 @@ import { useCategoriesStore } from "~/store/categories";
 interface Props {
   carts: any;
 }
+
+const emit = defineEmits([
+  "closeCartModal"
+]);
+
 const cartStore = useCartStore();
 const categoriesStore = useCategoriesStore();
 const productsStore = useProductsStore();
@@ -142,13 +147,14 @@ function formattedNumber(amount: number) {
   const formattedNumber = amount?.toLocaleString("de-DE", {});
   return formattedNumber;
 }
-async function deleteCart(deletedCart: number) {
-  await cartStore.deleteCart(deletedCart);
+async function deleteCartItem(id: number) {
+  if (cartStore.carts.length === 1) {
+    emit('closeCartModal');
+  }
+  await cartStore.deleteCart(id);
   await cartStore.getCarts();
 }
-function deleteCartItem(id: number) {
-  deleteCart(id);
-}
+
 async function byUsername(username: string) {
   await categoriesStore.updateFilter({ username: username, author: null });
   await productsStore.updateFilter({ username: username, author: null });

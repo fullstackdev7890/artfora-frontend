@@ -657,8 +657,6 @@ async function updateSellerSettings() {
       code: getCountryCode(user?.sel_country ?? ""),
       postal_code: user?.sel_postal,
     });
-    console.log(res)
-    // if (res?.output.resolvedAddresses[0].customerMessages[0]?.message !== undefined) {
     if (res === false) {
       sel_address_error_msg.value = true;
     } else {

@@ -4,7 +4,7 @@
       @open-ai-safe-description="openAiSafeDescriptionModal"
       ref="addProductModalRef"
     />
-    <CartModal
+    <cart-modal
       @open-cart-modal="openCartModal"
       @open-checkout-modal="openCheckoutModal"
       ref="cartModalRef"

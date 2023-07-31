@@ -1,13 +1,13 @@
 <template>
   <div class="profile-menu">
     <div
-      v-if="isAuthorized && (can_add_product || userStore.role_id === 1)"
+      v-if="isAuthorized && (can_add_product || userStore.role_id === 1) && carts?.length > 0"
       @click="openCartModal"
       @openCheckoutModal="openCheckoutModal"
       class="artfora-cart"
     >
       <cart-icon class="cart-icon" />
-      <div class="cart-badge" v-if="carts?.length > 0">{{ carts?.length }}</div>
+      <div class="cart-badge">{{ carts?.length }}</div>
     </div>
 
     <div
