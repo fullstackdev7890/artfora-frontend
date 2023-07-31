@@ -57,9 +57,9 @@
       <div class="product-sidebar-info-item">
         <h5>Quantity:</h5>
         <div class="order-quantity">
-          <div class="order-quantity-button minus-button" @click="removeQuantity">-</div>
+          <div class="order-quantity-button minus-button" @click="removeQuantity" v-if="props.product.quantity_for_sale > 1">-</div>
           {{ formattedNumber(order_quantity) }}
-          <div class="order-quantity-button plus-button" @click="addQuantity">+</div>
+          <div class="order-quantity-button plus-button" @click="addQuantity" v-if="props.product.quantity_for_sale > 1">+</div>
         </div>
       </div>
       <div class="product-sidebar-buy-button" v-if="props.product?.user.id !== user.id">
