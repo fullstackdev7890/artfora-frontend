@@ -130,8 +130,8 @@
           <ui-kit-input :error-messages="{ required: 'Deliver State is required' }" :disabled="store.pendingRequestsCount"
             placeholder="DELIVER STATE (OPTIONAL)" v-model="user.dev_state" />
 
-          <ui-kit-input :errors="v_d$.user.dev_postal" :error-messages="{ required: 'Deliver Zip is required' }"
-            :disabled="store.pendingRequestsCount" placeholder="DELIVER POSTSAL" v-model="user.dev_postal" />
+          <ui-kit-input :errors="v_d$.user.dev_postal" :error-messages="{ required: 'Deliver Zip code is required' }"
+            :disabled="store.pendingRequestsCount" placeholder="DELIVER ZIP CODE" v-model="user.dev_postal" />
 
           <ui-kit-input :errors="v_d$.user.dev_city" :error-messages="{ required: 'Deliver City is required' }"
             :disabled="store.pendingRequestsCount" placeholder="DELIVER CITY" v-model="user.dev_city" />
